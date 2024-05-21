@@ -8,3 +8,10 @@ export const locales = ["en", "de"];
 
 // Set the default language locale for the application.
 export const defaultLocale = "en";
+
+export const ICONS = {
+  copyBlueIcon: "/icons/CopyBlue.svg",
+  copyBlueThinIcon: "/icons/CopyBlueThin.svg",
+  copyWhiteIcon: "/icons/CopyWhite.svg",
+  copyIcon: "/icons/Copy.svg",
+};
