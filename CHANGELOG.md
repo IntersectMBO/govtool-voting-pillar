@@ -1,4 +1,4 @@
-# xxxx Changelog
+# @intersect.mbo/govtool-voting-pillar Changelog
 
 All notable changes to this project will be documented in this file.
 
@@ -12,7 +12,7 @@ changes.
 
 ### Added
 
--
+- add initial project configuration
 
 ### Fixed
 
