@@ -129,5 +129,6 @@ infra/terraform/.terraform*
 
 # package manager
 .pnp.cjs
+.pnp.loader.mjs
 .yarn
 node_modules/
