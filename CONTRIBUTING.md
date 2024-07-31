@@ -14,9 +14,9 @@ This document contains guidelines to help you get started and how to make sure y
   - [Ask for Help](#ask-for-help)
   - [Roles and Responsibilities](#roles-and-responsibilities)
   - [I Want To Contribute](#i-want-to-contribute)
-      - [Before Submitting a Bug Report](#before-submitting-a-bug-report)
-      - [How Do I Submit a Good Bug Report?](#how-do-i-submit-a-good-bug-report)
-      - [Your First Code Contribution](#your-first-code-contribution)
+    - [Before Submitting a Bug Report](#before-submitting-a-bug-report)
+    - [How Do I Submit a Good Bug Report?](#how-do-i-submit-a-good-bug-report)
+    - [Your First Code Contribution](#your-first-code-contribution)
   - [Working Conventions](#working-conventions)
     - [Pull Requests](#pull-requests)
     - [Branch Naming](#branch-naming)
@@ -77,11 +77,11 @@ Please complete the following steps in advance to help us fix any potential bug 
 
 We use GitHub issues to track bugs and errors. If you run into an issue with the project:
 
-- Open an [Issue](https://github.com/IntersectMBO/xxxx/issues/new).
+- Open an [Issue](https://github.com/IntersectMBO/govtool-voting-pillar/issues/new).
   (Since we can't be sure at this point whether it is a bug or not, we ask you not to talk about a bug yet and not to label the issue.)
 - Explain the behavior you would expect and the actual behavior.
 - Please provide as much context as possible.
-  Describe the *reproduction steps* that someone else can follow to recreate the issue on their own.
+  Describe the _reproduction steps_ that someone else can follow to recreate the issue on their own.
   This usually includes your code.
   For good bug reports you should isolate the problem and create a reduced test case.
 - Provide the information you collected in the previous section.
@@ -108,6 +108,7 @@ TODO
 Thank you for contributing your changes by opening a pull requests!
 
 To get something merged we usually require:
+
 - Follow the Pull Request template
 - Description of the changes - if your commit messages are great, this is less important
 - Quality of changes is ensured - through new or updated automated tests
@@ -124,6 +125,7 @@ Please reuse the branch naming for the pull request naming.
 - Using the related issue number after the prefix is required.
 
 Examples:
+
 - `feat/123-added-ability-for-dreps-to-change-drep-id`
 - `fix/312-fixed-drep-ids-being-reversed`
 - `chore/567-bumped-cardano-node-version-to-9`
@@ -131,7 +133,7 @@ Examples:
 
 ### Commit Messages
 
-Please make informative commit messages! 
+Please make informative commit messages!
 It makes it much easier to work out why things are the way they are when you’re debugging things later.
 
 A commit message is communication, so as usual, put yourself in the position of the reader: what does a reviewer, or someone reading the commit message later need to do their job?
@@ -142,6 +144,7 @@ Also, include any relevant meta-information, such as issue numbers.
 If a commit completely addresses a issue, you can put that in the headline if you want, but it’s fine to just put it in the body.
 
 Here are seven rules for great git commit messages:
+
 1. Separate subject from body with a blank line
 2. Limit the subject line to 50 characters (soft limit)
 3. Capitalize the subject line
@@ -172,7 +175,7 @@ If a branch is outdated, use the rebase button in PRs to rebase feature branches
 Keeping branches ahead of main not only make the git history a lot nicer to process, it also makes conflict resolutions easier.
 Merging main into a branch repeatedly is a good recipe to introduce invalid conflict resolutions and loose track of the actual changes brought by a the branch.
 
-### Versioning 
+### Versioning
 
 Not all releases are declared stable.
 Releases that aren't stable will be released as pre-releases and will append a -pre tag indicating it is not ready for running on production networks.
@@ -180,6 +183,7 @@ Releases that aren't stable will be released as pre-releases and will append a -
 ### Changelog
 
 During development, on every PR;
+
 - Make sure `CHANGELOG.md` is kept up-to-date with high-level, technical, but user-focused list of changes according to [keepachangelog](https://keepachangelog.com/en/1.0.0/).
 - Bump `UNRELEASED` version in `CHANGELOG.md` according to [semver](https://semver.org/).
 
@@ -203,7 +207,7 @@ TODO
 
 ## Development Processes
 
-### Developer workflow 
+### Developer workflow
 
 <!-- CHANGE TO HOW THE PROJECT NEEDS -->
 
@@ -224,7 +228,7 @@ TODO
 - If QA agrees that the code is good, they can make a PR from `test` branch to `staging` branch where end-to-end and performance tests are run.
 - If tests pass, then QA or tech lead can merge and deploy to staging environment (manually for now).
 - Moving ticket to `staging` status this ready for PO check.
-  
+
 ### PO Workflow
 
 - Choose ticket from `staging` status.
