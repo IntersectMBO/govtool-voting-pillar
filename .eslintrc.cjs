@@ -87,8 +87,6 @@ module.exports = {
     'react/require-default-props': 'off',
 
     'react-hooks/exhaustive-deps': 'error',
-
-    'prettier/prettier': 'error',
   },
   ignorePatterns: [
     'setupTests.ts',
