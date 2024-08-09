@@ -1,4 +1,4 @@
-# xxxx Changelog
+# @intersect.mbo/govtool-voting-pillar Changelog
 
 All notable changes to this project will be documented in this file.
 
@@ -8,17 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 As a minor extension, we also keep a semantic version for the `UNRELEASED`
 changes.
 
-## [tag-xxxx](https://github.com/IntersectMBO/xxxx/releases/tag/xxxx) 2024-xx-xx
+## [tag-xxxx](https://github.com/IntersectMBO/govtool-voting-pillar/releases/tag/xxxx) 2024-xx-xx
 
 ### Added
--
+
+- add initial project configuration
 
 ### Fixed
+
 -
 
 ### Changed
-- 
 
-### Removed
 -
 
+### Removed
+
+-
