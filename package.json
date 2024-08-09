@@ -11,7 +11,8 @@
     "start": "react-scripts start",
     "test": "react-scripts test",
     "lint": "eslint src/**/*.ts src/**/*.tsx --report-unused-disable-directives --max-warnings 0",
-    "tsc": "npx tsc --noEmit --skipLibCheck"
+    "tsc": "npx tsc --noEmit --skipLibCheck",
+    "format": "prettier --write src/**/*.ts src/**/*.tsx"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -33,12 +34,15 @@
     "@typescript-eslint/eslint-plugin": "^8.0.1",
     "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jest": "^28.8.0",
     "eslint-plugin-jsx-a11y": "^6.9.0",
+    "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-storybook": "^0.8.0",
+    "prettier": "^3.3.3",
     "rollup": "^4.19.1",
     "typescript": "^4.4.2"
   },
