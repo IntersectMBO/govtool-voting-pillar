@@ -91,11 +91,11 @@ module.exports = {
     'prettier/prettier': 'error',
   },
   ignorePatterns: [
+    'setupTests.ts',
     '.eslintrc.cjs',
+    'jest.config.cjs',
     '.storybook/',
-    '.vite/',
     'dist/',
     'node_modules/',
-    'vite.config.ts',
   ],
 };

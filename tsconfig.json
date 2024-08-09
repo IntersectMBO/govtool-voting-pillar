@@ -20,5 +20,5 @@
     "noUnusedParameters": true,
     "noUnusedLocals": true
   },
-  "include": ["src"]
+  "include": ["src", "setupTests.ts"]
 }
