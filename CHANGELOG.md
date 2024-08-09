@@ -13,6 +13,7 @@ changes.
 ### Added
 
 - add initial project configuration
+- add eslint configuration
 
 ### Fixed
 
