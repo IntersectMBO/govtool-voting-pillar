@@ -27,6 +27,9 @@
     "@storybook/react-webpack5": "^8.2.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^5.16.7",
     "react-scripts": "5.0.1"
   },
   "devDependencies": {
@@ -72,6 +75,9 @@
     "ts-jest": "^29.2.4",
     "typescript": "^4.4.2",
     "webpack": "^5.93.0"
+  },
+  "peerDependencies": {
+    "@fontsource/roboto": "^5.0.14"
   },
   "peerDependencies": {
     "@fontsource/roboto": "^5.0.14"
