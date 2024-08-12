@@ -4202,9 +4202,7 @@ if (process.env.NODE_ENV === 'production') {
 
 var jsxRuntimeExports = jsxRuntime.exports;
 
-function App() {
-    return (jsxRuntimeExports.jsx("div", { children: jsxRuntimeExports.jsxs("header", { children: [jsxRuntimeExports.jsxs("p", { children: ["Edit ", jsxRuntimeExports.jsx("code", { children: "src/App.tsx" }), " and save to reload."] }), jsxRuntimeExports.jsx("a", __assign({ href: "https://reactjs.org", target: "_blank", rel: "noopener noreferrer" }, { children: "Learn React" }))] }) }));
-}
+var App = function () { return (jsxRuntimeExports.jsx("div", { children: jsxRuntimeExports.jsxs("header", { children: [jsxRuntimeExports.jsxs("p", { children: ["Edit ", jsxRuntimeExports.jsx("code", { children: "src/App.tsx" }), " and save to reload."] }), jsxRuntimeExports.jsx("a", __assign({ href: "https://reactjs.org", target: "_blank", rel: "noopener noreferrer" }, { children: "Learn React" }))] }) })); };
 
 export { App as default };
 //# sourceMappingURL=index.esm.js.map
