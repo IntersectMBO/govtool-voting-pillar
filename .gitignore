@@ -131,3 +131,4 @@ infra/terraform/.terraform*
 .pnp.loader.mjs
 .yarn
 node_modules/
+*storybook.log
