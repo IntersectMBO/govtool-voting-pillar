@@ -19,6 +19,9 @@
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^5.16.7",
     "react-scripts": "5.0.1"
   },
   "devDependencies": {
@@ -53,6 +56,9 @@
     "rollup": "^4.19.1",
     "ts-jest": "^29.2.4",
     "typescript": "^4.4.2"
+  },
+  "peerDependencies": {
+    "@fontsource/roboto": "^5.0.14"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
