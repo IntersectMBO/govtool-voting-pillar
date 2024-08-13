@@ -77,16 +77,17 @@ const voltaireTheme = createTheme({
       main: '#e76309',
       contrastText: '#ffffff',
     },
+    lightBlue: '#d6e2ff',
     background: {
-      default: '#121721',
-      paper: '#212a3d',
+      default: '#ffffff',
+      paper: '#ffffff',
     },
     text: {
-      primary: '#f2f4f8',
-      secondary: '#e6e9f0',
-      disabled: '#bfc8d960',
+      primary: '#212a3d',
+      secondary: '#8e908e',
+      disabled: '#212a3d',
     },
-    divider: '#506288',
+    divider: '#212a3d',
   },
   typography: {
     h1: { fontSize: 33 },
@@ -95,9 +96,26 @@ const voltaireTheme = createTheme({
     h4: { fontSize: 16 },
     h5: { fontSize: 14 },
     h6: { fontSize: 14 },
+    title: {
+      fontSize: '18px',
+      lineHeight: '24px',
+      fontWeight: 600,
+    },
     subtitle1: { fontSize: 16 },
     subtitle2: { fontSize: 14 },
     body1: { fontSize: 16 },
+    bodySmall: {
+      fontSize: '12px',
+      lineHeight: '16px',
+      fontWeight: 500,
+      color: '#8e908e',
+    },
+    bodyMedium: {
+      fontSize: '14px',
+      lineHeight: '20px',
+      fontWeight: 400,
+      color: '#242232',
+    },
     body2: { fontSize: 14 },
     caption: { fontSize: 12 },
     overline: { fontSize: 10 },
@@ -112,10 +130,31 @@ const voltaireTheme = createTheme({
       styleOverrides: {
         root: {
           textTransform: 'none',
+          borderRadius: '100px',
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 20,
+          boxShadow: '0px 4px 15px 0px rgba(0, 51, 173, 0.1)',
         },
       },
     },
   },
 });
+voltaireTheme.shadows[1] =
+  '0px 1px 2px 0px rgba(0, 51, 173, 0.08), 0px 1px 6px 1px rgba(0, 51, 173, 0.15)';
+voltaireTheme.shadows[2] =
+  '0px 1px 2px 0px rgba(0, 51, 173, 0.08), 0px 2px 10px 2px rgba(0, 51, 173, 0.15)';
+voltaireTheme.shadows[3] =
+  '0px 1px 3px 0px rgba(0, 51, 173, 0.08), 0px 4px 12px 3px rgba(0, 51, 173, 0.15)';
+voltaireTheme.shadows[4] =
+  '0px 2px 3px 0px rgba(0, 51, 173, 0.08), 0px 6px 14px 4px rgba(0, 51, 173, 0.15)';
+voltaireTheme.shadows[5] =
+  '0px 4px 4px 0px rgba(0, 51, 173, 0.08), 0px 8px 20px 6px rgba(0, 51, 173, 0.15)';
+voltaireTheme.shadows[6] =
+  '0px 4px 15px 0px rgba(0, 51, 173, 0.08), 0px 10px 24px 7px rgba(0, 51, 173, 0.15)';
 
 export default voltaireTheme;
