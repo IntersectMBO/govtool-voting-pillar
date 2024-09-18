@@ -4,7 +4,7 @@
 
 ## Checklist
 
-- [related issue](https://github.com/IntersectMBO/govtool-voting-pillar/issues/)
+- [related issue](https://github.com/IntersectMBO/govtool/issues/)
 - [ ] My changes generate no new warnings
 - [ ] My code follows the [style guidelines](https://github.com/IntersectMBO/govtool/tree/main/docs/style-guides) of this project
 - [ ] I have commented my code, particularly in hard-to-understand areas
