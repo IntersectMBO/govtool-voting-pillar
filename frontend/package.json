@@ -7,15 +7,16 @@
   "scripts": {
     "build": "react-scripts build",
     "eject": "react-scripts eject",
+    "format": "prettier --write src/**/*.ts src/**/*.tsx",
+    "lint": "eslint src/**/*.ts src/**/*.tsx --report-unused-disable-directives --max-warnings 0",
+    "prepare": "husky",
+    "prepublish": "rollup -c --bundleConfigAsCjs",
     "start": "react-scripts start",
+    "storybook:build": "storybook build",
+    "storybook:preview": "storybook dev -p 6006",
     "test": "jest",
     "test:watch": "jest --watch",
-    "lint": "eslint src/**/*.ts src/**/*.tsx --report-unused-disable-directives --max-warnings 0",
-    "tsc": "npx tsc --noEmit --skipLibCheck",
-    "format": "prettier --write src/**/*.ts src/**/*.tsx",
-    "prepare": "husky",
-    "storybook:preview": "storybook dev -p 6006",
-    "storybook:build": "storybook build"
+    "tsc": "npx tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
     "@emotion/react": "^11.13.0",
@@ -75,6 +76,11 @@
   },
   "peerDependencies": {
     "@fontsource/roboto": "^5.0.14"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

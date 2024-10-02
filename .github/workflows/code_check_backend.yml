@@ -1,7 +1,14 @@
-name: Test, Lint & Type Check
+name: Backend
 
 on:
   push:
+    paths:
+      - "backend/**"
+      - ".github/workflows/code_check_backend.yml"
+
+defaults:
+  run:
+    working-directory: backend
 
 jobs:
   test:
