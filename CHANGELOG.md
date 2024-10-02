@@ -15,6 +15,7 @@ changes.
 - add initial project configuration
 - add eslint configuration
 - integrate mui and design system
+- add proposal API routes
 
 ### Fixed
 
