@@ -2,7 +2,7 @@ import { Controller, Get, Param } from '@nestjs/common';
 
 import { ApiOperation, ApiResponse, ApiTags, ApiParam } from '@nestjs/swagger';
 
-import { ProposalService, proposalList } from './proposal.service';
+import { ProposalService, exampleProposalList } from './proposal.service';
 import { GetProposalListParams } from '../types/proposal';
 
 @ApiTags('proposal')
@@ -45,8 +45,8 @@ export class ProposalController {
     example: {
       page: 0,
       pageSize: 10,
-      total: proposalList.length,
-      elements: proposalList,
+      total: exampleProposalList.length,
+      elements: exampleProposalList,
     },
   })
   async getProposalList(@Param() params: GetProposalListParams) {
@@ -70,7 +70,7 @@ export class ProposalController {
   @ApiResponse({
     status: 200,
     description: 'Proposal',
-    example: proposalList[0],
+    example: exampleProposalList[0],
   })
   async getProposal(
     @Param('proposalId') proposalId: string,

@@ -16,6 +16,8 @@ changes.
 - add eslint configuration
 - integrate mui and design system
 - add proposal API routes
+- connect to the cardan-db-sync postgresql database
+- add proposal list query
 
 ### Fixed
 
