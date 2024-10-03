@@ -1,9 +1,8 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags, ApiQuery } from '@nestjs/swagger';
 
-import { ApiOperation, ApiResponse, ApiTags, ApiParam } from '@nestjs/swagger';
-
-import { ProposalService, exampleProposalList } from './proposal.service';
-import { GetProposalListParams } from '../types/proposal';
+import { ProposalService } from './proposal.service';
+import { ProposalListDto } from './proposal.dto';
 
 @ApiTags('proposal')
 @Controller('proposal')
@@ -12,7 +11,7 @@ export class ProposalController {
 
   @Get('list')
   @ApiOperation({ summary: 'Get a list of proposals' })
-  @ApiParam({
+  @ApiQuery({
     name: 'type',
     enum: [
       'ParameterChange',
@@ -25,57 +24,108 @@ export class ProposalController {
     ],
     required: false,
   })
-  @ApiParam({
+  @ApiQuery({
     name: 'sort',
     enum: ['SoonestToExpire', 'NewestCreated', 'MostYesVotes'],
     required: false,
   })
-  @ApiParam({ name: 'page', type: 'number', required: false })
-  @ApiParam({ name: 'pageSize', type: 'number', required: false })
-  @ApiParam({
+  @ApiQuery({ name: 'page', type: 'number', required: false })
+  @ApiQuery({ name: 'pageSize', type: 'number', required: false })
+  @ApiQuery({
     name: 'drepId',
     type: 'string',
-    format: 'hex',
     required: false,
   })
-  @ApiParam({ name: 'search', required: false })
+  @ApiQuery({ name: 'search', required: false })
   @ApiResponse({
     status: 200,
     description: 'List of proposals',
     example: {
       page: 0,
       pageSize: 10,
-      total: exampleProposalList.length,
-      elements: exampleProposalList,
+      total: 100,
+      elements: [
+        {
+          id: 123,
+          txHash:
+            '7c8c6c4720c5e83b00f065d62b366f20c8c309f376a55a202b1fc5f114c2fba1',
+          index: 123,
+          type: 'TreasuryWithdrawals',
+          details: {
+            'Reward Address':
+              '7c8c6c4720c5e83b00f065d62b366f20c8c309f376a55a202b1fc5f114c2fba1',
+            Amount: 100,
+          },
+          expiryDate: '2021-01-01',
+          expiryEpochNo: 1000,
+          createdDate: '2021-01-01',
+          createdEpochNo: 1,
+          url: 'https://example.com',
+          metadataHash:
+            '7c8c6c4720c5e83b00f065d62b366f20c8c309f376a55a202b1fc5f114c2fba1',
+          protocolParams: null,
+          title: 'Proposal Title',
+          abstract: 'Proposal Abstract',
+          motivation: 'Proposal Motivation',
+          rationale: 'Proposal Rationale',
+          dRepYesVotes: 100,
+          dRepNoVotes: 100,
+          dRepAbstainVotes: 100,
+          poolYesVotes: 100,
+          poolNoVotes: 100,
+          poolAbstainVotes: 100,
+          ccYesVotes: 100,
+          ccNoVotes: 100,
+          ccAbstainVotes: 100,
+        },
+      ],
     },
   })
-  async getProposalList(@Param() params: GetProposalListParams) {
-    return this.proposalService.getProposalList(params);
+  async getProposalList(@Query() query: ProposalListDto) {
+    return this.proposalService.listProposals(query);
   }
 
   @Get('get/:proposalId')
-  @ApiOperation({ summary: 'Get a proposal by ID' })
-  @ApiParam({
-    name: 'proposalId',
-    type: 'string',
-    format: 'hash#index',
-    required: true,
-  })
-  @ApiParam({
-    name: 'drepId',
-    type: 'string',
-    format: 'hex',
-    required: false,
-  })
+  @ApiOperation({ summary: 'Get a proposal by id' })
+  @ApiQuery({ name: 'proposalId', type: 'string' })
   @ApiResponse({
     status: 200,
-    description: 'Proposal',
-    example: exampleProposalList[0],
+    description: 'Proposal details',
+    example: {
+      id: 123,
+      txHash:
+        '7c8c6c4720c5e83b00f065d62b366f20c8c309f376a55a202b1fc5f114c2fba1',
+      index: 123,
+      type: 'TreasuryWithdrawals',
+      details: {
+        'Reward Address':
+          '7c8c6c4720c5e83b00f065d62b366f20c8c309f376a55a202b1fc5f114c2fba1',
+        Amount: 100,
+      },
+      expiryDate: '2021-01-01',
+      expiryEpochNo: 1000,
+      createdDate: '2021-01-01',
+      createdEpochNo: 1,
+      url: 'https://example.com',
+      metadataHash:
+        '7c8c6c4720c5e83b00f065d62b366f20c8c309f376a55a202b1fc5f114c2fba1',
+      protocolParams: null,
+      title: 'Proposal Title',
+      abstract: 'Proposal Abstract',
+      motivation: 'Proposal Motivation',
+      rationale: 'Proposal Rationale',
+      dRepYesVotes: 100,
+      dRepNoVotes: 100,
+      dRepAbstainVotes: 100,
+      poolYesVotes: 100,
+      poolNoVotes: 100,
+      poolAbstainVotes: 100,
+      ccYesVotes: 100,
+      ccNoVotes: 100,
+      ccAbstainVotes: 100,
+    },
   })
-  async getProposal(
-    @Param('proposalId') proposalId: string,
-    @Param('drepId') drepId?: string,
-  ) {
-    return this.proposalService.getProposal(proposalId, drepId);
+  async getProposalById(@Query('proposalId') proposalId: string) {
+    return this.proposalService.getProposalById(proposalId);
   }
 }
