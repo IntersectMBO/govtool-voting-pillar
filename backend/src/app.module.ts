@@ -23,7 +23,7 @@ import { ProposalModule } from './proposal/proposal.module';
         database: configService.get('DB_DATABASE'),
         autoLoadEntities: true,
         synchronize: false,
-        logging: true,
+        logging: false,
         extra: {
           max: 10,
         },

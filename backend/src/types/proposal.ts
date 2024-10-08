@@ -24,19 +24,28 @@ export type GetProposalListParams = {
 };
 
 export type RawQueryGovernanceActionProposalType = {
-  gov_action_proposal_id: string;
-  gov_action_proposal_index: string;
-  gov_action_proposal_type: ProposalType;
-  gov_action_proposal_expiration: number;
+  id: string;
   tx_hash: string;
-  details: any;
-  expiry_date: string;
-  expiry_epoch_no: number;
-  created_date: string;
-  created_epoch_no: number;
+  index: string;
+  type: ProposalType;
+  description:
+    | {
+        'Reward Address': string;
+        Amount: number;
+      }
+    | {
+        major: number;
+        minor: number;
+      }
+    | null;
+  expiration_time: string;
+  expiration: number;
+  time: string;
+  epoch_no: number;
   url: string;
+  encode: string;
+  row_to_json: any;
   metadata_hash: string;
-  protocol_params: any;
   title: string | null;
   abstract: string | null;
   motivation: string | null;
@@ -55,7 +64,7 @@ export type RawQueryGovernanceActionProposalType = {
 };
 
 export type GovernanceActionProposalType = {
-  id: string;
+  id: number;
   txHash: string;
   index: number;
   type: ProposalType;
