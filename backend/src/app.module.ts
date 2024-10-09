@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ProposalModule } from './proposal/proposal.module';
+import { AdaHolderModule } from './ada-holder/ada-holder.module';
+import { DrepModule } from './drep/drep.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { ProposalModule } from './proposal/proposal.module';
       }),
     }),
     ProposalModule,
+    AdaHolderModule,
+    DrepModule,
   ],
   controllers: [],
   providers: [],
