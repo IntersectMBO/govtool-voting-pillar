@@ -20,5 +20,5 @@
     "noUnusedParameters": true,
     "noUnusedLocals": true
   },
-  "include": ["src", "setupTests.ts"]
+  "include": ["src", "setupTests.ts", "rollup.config.mjs"]
 }

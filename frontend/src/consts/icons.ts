@@ -1,0 +1,18 @@
+export const ICONS = {
+  arrowRightIcon: '/icons/ArrowRight.svg',
+  closeIcon: '/icons/Close.svg',
+  copyBlueIcon: '/icons/CopyBlue.svg',
+  copyBlueThinIcon: '/icons/CopyBlueThin.svg',
+  copyIcon: '/icons/Copy.svg',
+  copyWhiteIcon: '/icons/CopyWhite.svg',
+  download: '/icons/Download.svg',
+  externalLinkIcon: '/icons/ExternalLink.svg',
+  filterIcon: '/icons/Filter.svg',
+  filterWhiteIcon: '/icons/FilterWhite.svg',
+  link: '/icons/Link.svg',
+  loaderIcon: '/icons/Loader.svg',
+  share: '/icons/Share.svg',
+  sortIcon: '/icons/Sort.svg',
+  sortWhiteIcon: '/icons/SortWhite.svg',
+  timerIcon: '/icons/Timer.svg',
+};
