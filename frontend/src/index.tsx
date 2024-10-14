@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider } from '@mui/material/styles';
+import { BrowserRouter } from 'react-router-dom';
 
-import { voltaireTheme } from './theme';
-import App from './App';
+import VotingPillar from './VotingPillar';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -12,9 +11,13 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={voltaireTheme}>
+    <BrowserRouter>
       <CssBaseline />
-      <App />
-    </ThemeProvider>
+      <VotingPillar
+        walletApi={null}
+        apiUrl={process.env.API_URL || ''}
+        validationApiUrl={process.env.VALIDATION_API_URL || ''}
+      />
+    </BrowserRouter>
   </React.StrictMode>
 );

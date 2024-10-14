@@ -36,6 +36,7 @@ module.exports = {
     'no-undef': 'off',
     'no-prototype-builtins': 'off',
     'nonblock-statement-body-position': 'off',
+    'no-param-reassign': 'off',
     'no-unused-vars': 'off',
     'no-use-before-define': 'off',
     'comma-dangle': 'off',
@@ -46,6 +47,7 @@ module.exports = {
     'no-shadow': 'off',
     'function-paren-newline': 'off',
     'object-curly-newline': 'off',
+    'no-nested-ternary': 'off',
 
     '@typescript-eslint/no-shadow': ['error'],
     '@typescript-eslint/no-redeclare': ['error'],

@@ -11,7 +11,7 @@
     "lint": "eslint src/**/*.ts src/**/*.tsx --report-unused-disable-directives --max-warnings 0",
     "prepare": "husky",
     "prepublish": "rollup -c --bundleConfigAsCjs",
-    "start": "react-scripts start",
+    "start": "GENERATE_SOURCEMAP=false react-scripts start",
     "storybook:build": "storybook build",
     "storybook:preview": "storybook dev -p 6006",
     "test": "jest",
@@ -21,18 +21,31 @@
   "dependencies": {
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
+    "@hookform/resolvers": "^3.9.0",
+    "@mui/icons-material": "^5.14.3",
     "@mui/material": "^5.16.7",
     "@storybook/addon-actions": "^8.2.8",
     "@storybook/addon-essentials": "^8.2.8",
     "@storybook/addon-links": "^8.2.8",
     "@storybook/react-webpack5": "^8.2.8",
+    "axios": "^1.7.7",
+    "date-fns": "^4.1.0",
+    "keen-slider": "^6.8.5",
     "react": "^18.3.1",
+    "react-diff-view": "^3.2.1",
     "react-dom": "^18.3.1",
-    "react-scripts": "5.0.1"
+    "react-hook-form": "^7.53.0",
+    "react-markdown": "^9.0.1",
+    "react-query": "^3.39.3",
+    "react-router-dom": "^6.13.0",
+    "react-scripts": "5.0.1",
+    "unidiff": "^1.0.4",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.6.1",
     "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
     "@storybook/addon-interactions": "^8.2.8",
@@ -66,9 +79,11 @@
     "jest-environment-jsdom": "^29.7.0",
     "jsdom": "^24.1.1",
     "lint-staged": "^15.2.8",
+    "postcss": "^8.4.47",
     "prettier": "^3.3.3",
     "prop-types": "^15.8.1",
     "rollup": "^4.19.1",
+    "rollup-plugin-postcss": "^4.0.2",
     "storybook": "^8.2.8",
     "ts-jest": "^29.2.4",
     "typescript": "^4.4.2",
@@ -102,6 +117,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "packageManager": "yarn@4.4.0+sha512.91d93b445d9284e7ed52931369bc89a663414e5582d00eea45c67ddc459a2582919eece27c412d6ffd1bd0793ff35399381cb229326b961798ce4f4cc60ddfdb"
+  }
 }
