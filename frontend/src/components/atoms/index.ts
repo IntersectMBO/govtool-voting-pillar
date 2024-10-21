@@ -8,6 +8,7 @@ export * from './Input';
 export * from './Loader';
 export * from './Radio';
 export * from './Spacer';
+export * from './Tab';
 export * from './TextArea';
 export * from './Tooltip';
 export * from './Typography';

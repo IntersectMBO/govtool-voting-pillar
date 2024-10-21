@@ -1,9 +1,9 @@
 import { useQuery } from 'react-query';
 
-import { QUERY_KEYS } from '../consts';
-import { ProposalData } from '../models';
-import { getProposals, GetProposalsArguments } from '../services';
-import { usePillarContext } from '../context';
+import { QUERY_KEYS } from '../../consts';
+import { ProposalData } from '../../models';
+import { getProposals, GetProposalsArguments } from '../../services';
+import { usePillarContext } from '../../context';
 
 export const useGetProposalsQuery = ({
   filters = [],

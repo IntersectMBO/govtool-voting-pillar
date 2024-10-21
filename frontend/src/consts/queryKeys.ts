@@ -3,4 +3,5 @@ export const QUERY_KEYS = {
   useGetProposalsInfiniteKey: 'useGetProposalsInfiniteKey',
   useGetProposalsKey: 'useGetProposalsKey',
   useGetProposalKey: 'useGetProposalKey',
+  useGetDRepVotesKey: 'useGetDRepVotesKey',
 };

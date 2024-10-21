@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 
-import { getVoteContextTextFromFile } from '../services';
-import { QUERY_KEYS } from '../consts';
+import { getVoteContextTextFromFile } from '../../services';
+import { QUERY_KEYS } from '../../consts';
 
 export const useGetVoteContextTextFromFile = (
   url: string | undefined,

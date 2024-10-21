@@ -3,7 +3,11 @@ import { ThemeProvider } from '@mui/material/styles';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { voltaireTheme } from './theme';
-import { DataActionsBarProvider, PillarProvider } from './context';
+import {
+  DataActionsBarProvider,
+  PillarProvider,
+  PillarProviderProps,
+} from './context';
 import {
   GovernanceActionsPage,
   GovernanceActionDetails,
@@ -11,18 +15,14 @@ import {
 } from './components/pages';
 import { PATHS } from './consts';
 
-type VotingPillarProps = {
-  walletApi: WalletApi | null;
-  apiUrl: string;
-  validationApiUrl: string;
-};
-
 const VotingPillar = ({
   walletApi,
   apiUrl,
   validationApiUrl,
-}: VotingPillarProps) => (
+  ...props
+}: PillarProviderProps) => (
   <PillarProvider
+    {...props}
     walletApi={walletApi}
     apiUrl={apiUrl}
     validationApiUrl={validationApiUrl}
@@ -49,5 +49,8 @@ const VotingPillar = ({
     </QueryClientProvider>
   </PillarProvider>
 );
+
+// That exports pages of the VotingPillar component
+export * from './components';
 
 export default VotingPillar;

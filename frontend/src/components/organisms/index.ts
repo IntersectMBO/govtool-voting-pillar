@@ -6,3 +6,4 @@ export * from './Share';
 export * from './Slider';
 export * from './VoteActionForm';
 export * from './VoteContext';
+export * from './GovernanceActionVotedOnCard';
