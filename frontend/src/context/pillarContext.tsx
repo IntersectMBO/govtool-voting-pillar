@@ -8,7 +8,13 @@
 // const { epochParams } = useAppContext();
 // const { addSuccessAlert } = useSnackbar();
 
-import { createContext, FC, useMemo, useContext } from 'react';
+import {
+  createContext,
+  FC,
+  useMemo,
+  useContext,
+  PropsWithChildren,
+} from 'react';
 
 type BuildSignSubmitConwayCertTxArgs = {
   certBuilder?: unknown;
@@ -24,6 +30,7 @@ type WalletApi = {
   pendingTransaction: {
     vote?: {
       transactionHash: string;
+      resourceId?: string;
     };
   };
   buildSignSubmitConwayCertTx: ({
@@ -47,6 +54,7 @@ type WalletApi = {
 type PillarContextType = {
   apiUrl: string;
   validationApiUrl: string;
+  cExplorerBaseUrl: string;
   isEnabled: boolean;
   openFeedbackWindow: () => void;
   isVotingOnGovernanceActionEnabled: (proposalType: string) => boolean;
@@ -61,37 +69,68 @@ type PillarContextType = {
 
 const PillarContext = createContext<PillarContextType | undefined>(undefined);
 
-type PillarProps = {
-  children: React.ReactNode;
+export type PillarProviderProps = {
   walletApi: WalletApi | null;
   apiUrl?: string;
   validationApiUrl?: string;
+  cExplorerBaseUrl?: string;
+  openFeedbackWindow: () => void;
+  isVotingOnGovernanceActionEnabled: (proposalType: string) => boolean;
+  epochParams: unknown;
+  addSuccessAlert: (message: string) => void;
+  validateMetadata: (url: string, hash: string) => void;
+  generateMetadata: () => void;
+  createJsonLD: (data: unknown) => void;
+  createHash: (json: unknown) => string;
 };
 
-export const PillarProvider: FC<PillarProps> = ({
+export const PillarProvider: FC<PillarProviderProps & PropsWithChildren> = ({
   children,
   apiUrl,
   walletApi,
   validationApiUrl,
+  cExplorerBaseUrl,
+  openFeedbackWindow,
+  isVotingOnGovernanceActionEnabled,
+  epochParams,
+  addSuccessAlert,
+  validateMetadata,
+  generateMetadata,
+  createJsonLD,
+  createHash,
 }) => {
   const { voter } = useGetVoterInfo();
   const contextValue = useMemo(
     () => ({
       apiUrl: apiUrl || process.env.API_URL,
       validationApiUrl: validationApiUrl || process.env.VALIDATION_API_URL,
-      isEnabled: true,
-      openFeedbackWindow: () => {},
-      isVotingOnGovernanceActionEnabled: (proposalType) => !!proposalType,
-      epochParams: null,
-      addSuccessAlert: () => {},
-      validateMetadata: (url: string, hash: string) => {},
-      generateMetadata: () => {},
-      createJsonLD: (data: unknown) => {},
-      createHash: (json: unknown) => '',
+      openFeedbackWindow,
+      isVotingOnGovernanceActionEnabled,
+      epochParams,
+      addSuccessAlert,
+      validateMetadata,
+      generateMetadata,
+      createJsonLD,
+      createHash,
       voter,
       ...(walletApi || {}),
+      cExplorerBaseUrl: cExplorerBaseUrl || process.env.C_EXPLORER_BASE_URL,
     }),
-    [apiUrl, voter, walletApi, validationApiUrl]
+    [
+      apiUrl,
+      validationApiUrl,
+      openFeedbackWindow,
+      isVotingOnGovernanceActionEnabled,
+      epochParams,
+      addSuccessAlert,
+      validateMetadata,
+      generateMetadata,
+      createJsonLD,
+      createHash,
+      voter,
+      walletApi,
+      cExplorerBaseUrl,
+    ]
   );
 
   return (

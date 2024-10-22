@@ -13,7 +13,7 @@ export type GetProposalsArguments = {
 };
 
 export const getProposals = async (
-  url: string,
+  apiUrl: string,
   validationApiUrl: string,
   {
     dRepID = '',
@@ -25,11 +25,11 @@ export const getProposals = async (
     sorting = '',
   }: GetProposalsArguments
 ): Promise<Infinite<ProposalData>> => {
-  if (!url) {
+  if (!apiUrl) {
     throw new Error('URL is undefined');
   }
   const response = await axios.get<Infinite<ProposalDataDTO>>(
-    `${url}/proposal/list`,
+    `${apiUrl}/proposal/list`,
     {
       params: {
         page,

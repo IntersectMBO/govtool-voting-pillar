@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { VotedProposal, VotedProposalDTO } from '../../models';
 import { mapDtoToProposal } from '../../utils';
 
