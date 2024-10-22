@@ -44,7 +44,7 @@ export type RawQueryGovernanceActionProposalType = {
   epoch_no: number;
   url: string;
   encode: string;
-  row_to_json: any;
+  proposal_params: any;
   metadata_hash: string;
   title: string | null;
   abstract: string | null;
