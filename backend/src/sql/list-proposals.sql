@@ -5,13 +5,12 @@ WITH LatestDrepDistr AS (
     FROM
         drep_distr
 ),
-EpochUtils AS (
+LatestEpoch AS (
     SELECT
-        (Max(end_time) - Min(end_time)) / (Max(NO) - Min(NO)) AS epoch_duration,
-        Max(NO) AS last_epoch_no,
-        Max(end_time) AS last_epoch_end_time
+        start_time,
+        no
     FROM
-        epoch
+        epoch ORDER BY no DESC LIMIT 1
 ),
 always_no_confidence_voting_power AS (
     SELECT
@@ -53,7 +52,12 @@ SELECT
         ELSE
             NULL
     END AS description,
-    epoch_utils.last_epoch_end_time + epoch_utils.epoch_duration * (gov_action_proposal.expiration - epoch_utils.last_epoch_no) AS expiration_time,
+    CASE
+        WHEN meta.network_name::text = 'mainnet' THEN
+            latest_epoch.start_time + (gov_action_proposal.expiration - latest_epoch.no)::bigint * INTERVAL '5 days' 
+        ELSE
+            latest_epoch.start_time + (gov_action_proposal.expiration - latest_epoch.no)::bigint * INTERVAL '1 day' 
+    END AS expiration_time,
     gov_action_proposal.expiration,
     creator_block.time,
     creator_block.epoch_no,
@@ -79,9 +83,9 @@ SELECT
         END
     ) AS no_votes,
     COALESCE(SUM(ldd_drep.amount) FILTER (WHERE voting_procedure.vote::text = 'Abstain'), 0) + always_abstain_voting_power.amount AS abstain_votes,
-    COALESCE(vp_by_pool.poolYesVotes, 0) AS pool_yes_votes,
-    COALESCE(vp_by_pool.poolNoVotes, 0) AS pool_no_votes,
-    COALESCE(vp_by_pool.poolAbstainVotes, 0) AS pool_abstain_votes,
+    COALESCE(SUM(ldd_pool.amount) FILTER (WHERE voting_procedure.vote::text = 'Yes'), 0) as pool_yes_votes,
+    COALESCE(SUM(ldd_pool.amount) FILTER (WHERE voting_procedure.vote::text = 'No'), 0) as pool_no_votes,
+    COALESCE(SUM(ldd_pool.amount) FILTER (WHERE voting_procedure.vote::text = 'Abstain'), 0) as pool_abstain_votes,
     COALESCE(vp_by_cc.ccYesVotes, 0) AS cc_yes_votes,
     COALESCE(vp_by_cc.ccNoVotes, 0) AS cc_no_votes,
     COALESCE(vp_by_cc.ccAbstainVotes, 0) AS cc_abstain_votes,
@@ -91,9 +95,10 @@ FROM
     gov_action_proposal
     LEFT JOIN treasury_withdrawal ON gov_action_proposal.id = treasury_withdrawal.gov_action_proposal_id
     LEFT JOIN stake_address ON stake_address.id = treasury_withdrawal.stake_address_id
-    CROSS JOIN EpochUtils AS epoch_utils
+    CROSS JOIN LatestEpoch AS latest_epoch
     CROSS JOIN always_no_confidence_voting_power
     CROSS JOIN always_abstain_voting_power
+    CROSS JOIN meta
     JOIN tx AS creator_tx ON creator_tx.id = gov_action_proposal.tx_id
     JOIN block AS creator_block ON creator_block.id = creator_tx.block_id
     LEFT JOIN voting_anchor ON voting_anchor.id = gov_action_proposal.voting_anchor_id
@@ -102,19 +107,8 @@ FROM
     LEFT JOIN off_chain_vote_gov_action_data ON off_chain_vote_gov_action_data.off_chain_vote_data_id = off_chain_vote_data.id
     LEFT JOIN voting_procedure ON voting_procedure.gov_action_proposal_id = gov_action_proposal.id
     LEFT JOIN LatestDrepDistr ldd_drep ON ldd_drep.hash_id = voting_procedure.drep_voter AND ldd_drep.rn = 1
-    LEFT JOIN (
-        SELECT 
-            gov_action_proposal_id,
-            SUM(CASE WHEN vote = 'Yes' THEN 1 ELSE 0 END) AS poolYesVotes,
-            SUM(CASE WHEN vote = 'No' THEN 1 ELSE 0 END) AS poolNoVotes,
-            SUM(CASE WHEN vote = 'Abstain' THEN 1 ELSE 0 END) AS poolAbstainVotes
-        FROM 
-            voting_procedure
-        WHERE 
-            pool_voter IS NOT NULL
-        GROUP BY 
-            gov_action_proposal_id
-    ) vp_by_pool ON gov_action_proposal.id = vp_by_pool.gov_action_proposal_id
+    LEFT JOIN LatestDrepDistr ldd_pool ON ldd_pool.hash_id = voting_procedure.pool_voter
+        AND ldd_pool.rn = 1
     LEFT JOIN (
         SELECT 
             gov_action_proposal_id,
@@ -162,25 +156,22 @@ GROUP BY
     off_chain_vote_gov_action_data.abstract,
     off_chain_vote_gov_action_data.motivation,
     off_chain_vote_gov_action_data.rationale,
-    vp_by_pool.poolYesVotes,
-    vp_by_pool.poolNoVotes,
-    vp_by_pool.poolAbstainVotes,
     vp_by_cc.ccYesVotes,
     vp_by_cc.ccNoVotes,
     vp_by_cc.ccAbstainVotes,
     gov_action_proposal.index,
     creator_tx.hash,
     creator_block.time,
-    epoch_utils.epoch_duration,
-    epoch_utils.last_epoch_no,
-    epoch_utils.last_epoch_end_time,
+    latest_epoch.start_time,
+    latest_epoch.no,
     proposal_params,
     voting_anchor.url,
     voting_anchor.data_hash,
     always_no_confidence_voting_power.amount,
     always_abstain_voting_power.amount,
     prev_gov_action.index,
-    prev_gov_action_tx.hash
+    prev_gov_action_tx.hash,
+    meta.network_name
 -- Use the full expression for yes_votes in ORDER BY
 ORDER BY
     CASE WHEN $3 = 'SoonestToExpire' THEN gov_action_proposal.expiration END ASC,
