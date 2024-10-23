@@ -82,7 +82,7 @@ SELECT
     ) AS yes_votes,
     COALESCE(SUM(ldd_drep.amount) FILTER (WHERE voting_procedure.vote::text = 'No'), 0) + (
         CASE WHEN gov_action_proposal.type = 'NoConfidence' THEN
-            0`
+            0
         ELSE
             always_no_confidence_voting_power.amount
         END
