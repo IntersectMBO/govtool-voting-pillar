@@ -88,7 +88,7 @@ export class ProposalService {
       createdEpochNo: govActionProposal.epoch_no,
       url: govActionProposal.url,
       metadataHash: govActionProposal.metadata_hash,
-      protocolParams: govActionProposal.row_to_json,
+      protocolParams: govActionProposal.proposal_params,
       title: govActionProposal.title,
       abstract: govActionProposal.abstract,
       motivation: govActionProposal.motivation,
