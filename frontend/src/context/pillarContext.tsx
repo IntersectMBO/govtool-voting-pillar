@@ -1,13 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
-// TODO: Implement the following functions
-// {openFeedbackWindow} = useUsersnapApi();
-// const { isVotingOnGovernanceActionEnabled } = useFeatureFlag();
-// const { epochParams } = useAppContext();
-// const { addSuccessAlert } = useSnackbar();
-
 import {
   createContext,
   FC,
@@ -16,17 +6,39 @@ import {
   PropsWithChildren,
 } from 'react';
 
+export type VoterInfo = {
+  dRepRegisterTxHash: string | null;
+  dRepRetireTxHash: string | null;
+  deposit: number;
+  givenName: string | null;
+  imageHash: string | null;
+  imageUrl: string | null;
+  isRegisteredAsDRep: boolean;
+  isRegisteredAsSoleVoter: boolean;
+  motivations: string | null;
+  objectives: string | null;
+  paymentAddress: string | null;
+  qualifications: string | null;
+  soleVoterRegisterTxHash: string | null;
+  soleVoterRetireTxHash: string | null;
+  url: string | null;
+  votingPower: number | null;
+  wasRegisteredAsDRep: boolean;
+  wasRegisteredAsSoleVoter: boolean;
+};
+
 type BuildSignSubmitConwayCertTxArgs = {
   certBuilder?: unknown;
   govActionBuilder?: unknown;
   votingBuilder?: unknown;
-  voter?: ReturnType<typeof useGetVoterInfo>['voter'];
+  voter?: VoterInfo;
   type: string;
   resourceId: string;
 };
 
 type WalletApi = {
-  dRepID: string;
+  isEnabled?: boolean;
+  dRepID?: string;
   pendingTransaction: {
     vote?: {
       transactionHash: string;
@@ -55,7 +67,6 @@ type PillarContextType = {
   apiUrl: string;
   validationApiUrl: string;
   cExplorerBaseUrl: string;
-  isEnabled: boolean;
   openFeedbackWindow: () => void;
   isVotingOnGovernanceActionEnabled: (proposalType: string) => boolean;
   epochParams: unknown;
@@ -64,16 +75,16 @@ type PillarContextType = {
   generateMetadata: () => void;
   createJsonLD: (data: unknown) => void;
   createHash: (json: unknown) => string;
-  voter: ReturnType<typeof useGetVoterInfo>['voter'];
-} & WalletApi;
+  voter?: VoterInfo;
+} & Partial<WalletApi>;
 
 const PillarContext = createContext<PillarContextType | undefined>(undefined);
 
 export type PillarProviderProps = {
   walletApi: WalletApi | null;
-  apiUrl?: string;
-  validationApiUrl?: string;
-  cExplorerBaseUrl?: string;
+  apiUrl: string;
+  validationApiUrl: string;
+  cExplorerBaseUrl: string;
   openFeedbackWindow: () => void;
   isVotingOnGovernanceActionEnabled: (proposalType: string) => boolean;
   epochParams: unknown;
@@ -82,6 +93,7 @@ export type PillarProviderProps = {
   generateMetadata: () => void;
   createJsonLD: (data: unknown) => void;
   createHash: (json: unknown) => string;
+  voter?: VoterInfo;
 };
 
 export const PillarProvider: FC<PillarProviderProps & PropsWithChildren> = ({
@@ -98,12 +110,13 @@ export const PillarProvider: FC<PillarProviderProps & PropsWithChildren> = ({
   generateMetadata,
   createJsonLD,
   createHash,
+  voter,
 }) => {
-  const { voter } = useGetVoterInfo();
   const contextValue = useMemo(
     () => ({
-      apiUrl: apiUrl || process.env.API_URL,
-      validationApiUrl: validationApiUrl || process.env.VALIDATION_API_URL,
+      apiUrl,
+      validationApiUrl,
+      cExplorerBaseUrl,
       openFeedbackWindow,
       isVotingOnGovernanceActionEnabled,
       epochParams,
@@ -114,7 +127,6 @@ export const PillarProvider: FC<PillarProviderProps & PropsWithChildren> = ({
       createHash,
       voter,
       ...(walletApi || {}),
-      cExplorerBaseUrl: cExplorerBaseUrl || process.env.C_EXPLORER_BASE_URL,
     }),
     [
       apiUrl,
@@ -146,30 +158,4 @@ export const usePillarContext = (): PillarContextType => {
     throw new Error('usePillarContext must be used within a PillarProvider');
   }
   return context;
-};
-
-// Mocked hook
-const useGetVoterInfo = () => {
-  return {
-    voter: {
-      dRepRegisterTxHash: null,
-      dRepRetireTxHash: null,
-      deposit: 0,
-      givenName: null,
-      imageHash: null,
-      imageUrl: null,
-      isRegisteredAsDRep: false,
-      isRegisteredAsSoleVoter: false,
-      motivations: null,
-      objectives: null,
-      paymentAddress: null,
-      qualifications: null,
-      soleVoterRegisterTxHash: null,
-      soleVoterRetireTxHash: null,
-      url: null,
-      votingPower: 0,
-      wasRegisteredAsDRep: false,
-      wasRegisteredAsSoleVoter: false,
-    },
-  };
 };

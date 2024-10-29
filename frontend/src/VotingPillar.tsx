@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import { QueryClient, QueryClientProvider } from 'react-query';
