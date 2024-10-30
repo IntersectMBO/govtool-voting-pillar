@@ -16,14 +16,14 @@ export const useGetDRepVotesQuery = (
   const { data, isLoading, refetch, isRefetching } = useQuery({
     queryKey: [
       QUERY_KEYS.useGetDRepVotesKey,
-      pendingTransaction.vote?.transactionHash,
+      pendingTransaction?.vote?.transactionHash,
       type,
       sort,
       search,
     ],
     queryFn: () =>
       getDRepVotes(apiUrl, validationApiUrl, {
-        dRepID,
+        dRepID: dRepID ?? '',
         params: {
           ...(search && { search }),
           ...(sort && { sort }),

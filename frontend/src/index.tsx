@@ -15,8 +15,9 @@ root.render(
       <CssBaseline />
       <VotingPillar
         walletApi={null}
-        apiUrl={process.env.API_URL || ''}
-        validationApiUrl={process.env.VALIDATION_API_URL || ''}
+        apiUrl={process.env.REACT_APP_API_URL || ''}
+        validationApiUrl={process.env.REACT_APP_VALIDATION_API_URL || ''}
+        cExplorerBaseUrl={process.env.REACT_APP_C_EXPLORER_BASE_URL || ''}
         openFeedbackWindow={() => {
           throw new Error('Function not implemented.');
         }}

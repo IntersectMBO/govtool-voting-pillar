@@ -94,7 +94,4 @@ function useDataActionsBar() {
   }
   return context;
 }
-// eslint-disable-next-line no-console
-console.log({ DataActionsBarProvider });
-
 export { DataActionsBarProvider, useDataActionsBar };

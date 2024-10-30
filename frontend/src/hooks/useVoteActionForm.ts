@@ -85,16 +85,16 @@ export const useVoteActionForm = ({
       const hashSubmitValue = voteContextHash ?? '';
 
       try {
-        const isPendingTx = isPendingTransaction();
+        const isPendingTx = isPendingTransaction?.();
         if (isPendingTx) return;
-        const votingBuilder = await buildVote(
+        const votingBuilder = await buildVote?.(
           values.vote,
           txHash,
           index,
           urlSubmitValue,
           hashSubmitValue
         );
-        const result = await buildSignSubmitConwayCertTx({
+        const result = await buildSignSubmitConwayCertTx?.({
           votingBuilder,
           type: 'vote',
           resourceId: txHash + index,

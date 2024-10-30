@@ -1,5 +1,7 @@
 'use strict';
 
+Object.defineProperty(exports, '__esModule', { value: true });
+
 var require$$1$2 = require('util');
 var stream = require('stream');
 var require$$1$3 = require('path');
@@ -49104,37 +49106,16 @@ var ICONS = {
     copyBlueThinIcon: '/icons/CopyBlueThin.svg',
     copyIcon: '/icons/Copy.svg',
     copyWhiteIcon: '/icons/CopyWhite.svg',
+    download: '/icons/Download.svg',
     externalLinkIcon: '/icons/ExternalLink.svg',
     filterIcon: '/icons/Filter.svg',
     filterWhiteIcon: '/icons/FilterWhite.svg',
     link: '/icons/Link.svg',
     loaderIcon: '/icons/Loader.svg',
+    share: '/icons/Share.svg',
     sortIcon: '/icons/Sort.svg',
     sortWhiteIcon: '/icons/SortWhite.svg',
     timerIcon: '/icons/Timer.svg',
-    share: '/icons/Share.svg',
-    download: '/icons/Download.svg',
-    // appLogoIcon: '/icons/AppLogo.svg',
-    // arrowDownIcon: '/icons/ArrowDown.svg',
-    // arrowLeftThinIcon: '/icons/ArrowLeftThin.svg',
-    // checkCircleIcon: '/icons/CheckCircle.svg',
-    // closeDrawerIcon: '/icons/CloseIcon.svg',
-    // closeWhiteIcon: '/icons/CloseWhite.svg',
-    // dashboardActiveIcon: '/icons/DashboardActive.svg',
-    // dashboardIcon: '/icons/Dashboard.svg',
-    // drawerIcon: '/icons/DrawerIcon.svg',
-    // dRepDirectoryActiveIcon: '/icons/DRepDirectoryActive.svg',
-    // dRepDirectoryIcon: '/icons/DRepDirectory.svg',
-    // editIcon: '/icons/Edit.svg',
-    // faqsActiveIcon: '/icons/FaqsActive.svg',
-    // faqsIcon: '/icons/Faqs.svg',
-    // governanceActionsActiveIcon: '/icons/GovernanceActionsActive.svg',
-    // governanceActionsIcon: '/icons/GovernanceActions.svg',
-    // guidesActiveIcon: '/icons/GuidesActive.svg',
-    // guidesIcon: '/icons/Guides.svg',
-    // helpIcon: '/icons/Help.svg',
-    // sortActiveIcon: '/icons/SortActive.svg',
-    // warningIcon: '/icons/Warning.svg',
 };
 
 var PATHS = {
@@ -49159,17 +49140,6 @@ var GOVERNANCE_ACTIONS_SORTING = [
 ];
 
 var IMAGES = {
-    // appLogo: '/images/CardanoLogo.svg',
-    // appLogoWithoutText: '/images/AppLogoWithoutText.png',
-    // bgBlue: '/images/BGBlue.png',
-    // bgOrange: '/images/BGOrange.png',
-    // errorPageImage: '/images/ErrorPageImage.png',
-    // govActionDefaultImage: '/images/GovActionDefault.png',
-    // govActionDelegateImage: '/images/GovActionDelegate.png',
-    // govActionRegisterImage: '/images/GovActionRegister.png',
-    // heroImage: '/images/HeroImage.png',
-    // proposeGovActionImage: '/images/ProposeGovAction.png',
-    // directVoterImage: '/images/GovActionsDirectVoter.png',
     govActionListImage: '/imwages/GovActionList.png',
     successImage: '/images/Success.png',
     warningImage: '/images/Warning.png',
@@ -49181,6 +49151,7 @@ var QUERY_KEYS = {
     useGetProposalsInfiniteKey: 'useGetProposalsInfiniteKey',
     useGetProposalsKey: 'useGetProposalsKey',
     useGetProposalKey: 'useGetProposalKey',
+    useGetDRepVotesKey: 'useGetDRepVotesKey',
 };
 
 var URL_REGEX = /^(?:(?:https?:\/\/)?(?:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,})(?:\/[^\s]*)?)|(?:ipfs:\/\/[a-f0-9]+(?:\/[a-zA-Z0-9_]+)*)$|^$/;
@@ -49337,5347 +49308,6 @@ voltaire.shadows[4] =
 voltaire.shadows[5] =
     '0px 4px 4px 0px rgba(0, 51, 173, 0.08), 0px 8px 20px 6px rgba(0, 51, 173, 0.15)';
 
-function useDebounce(value, delay) {
-    var _a = reactExports.useState(value), debouncedValue = _a[0], setDebouncedValue = _a[1];
-    reactExports.useEffect(function () {
-        var timerID = setTimeout(function () {
-            setDebouncedValue(value);
-        }, delay);
-        return function () {
-            clearTimeout(timerID);
-        };
-    }, [value, delay]);
-    return debouncedValue;
-}
-
-function useOnClickOutside(ref, handler) {
-    reactExports.useEffect(function () {
-        var listener = function (event) {
-            var target = event.target;
-            if (!ref.current || ref.current.contains(target)) {
-                return;
-            }
-            handler(event);
-        };
-        document.addEventListener('mousedown', listener);
-        document.addEventListener('touchstart', listener);
-        return function () {
-            document.removeEventListener('mousedown', listener);
-            document.removeEventListener('touchstart', listener);
-        };
-    }, [ref, handler]);
-}
-
-var scrollPositionKey = 'governanceActionsCategoryScrollPosition';
-var useSaveScrollPosition = function (isLoading, isFetching) {
-    var saveScrollPosition = function () {
-        sessionStorage.setItem(scrollPositionKey, window.scrollY.toString());
-    };
-    reactExports.useEffect(function () {
-        if (!isLoading && !isFetching) {
-            var savedPosition = sessionStorage.getItem(scrollPositionKey);
-            if (savedPosition !== null) {
-                window.scrollTo(0, parseInt(savedPosition, 10));
-                sessionStorage.removeItem(scrollPositionKey);
-            }
-        }
-    }, [isLoading, isFetching]);
-    return saveScrollPosition;
-};
-
-var useScreenDimension = function () {
-    var _a = reactExports.useState(window.innerWidth), screenWidth = _a[0], setScreenWidth = _a[1];
-    var _b = reactExports.useState(window.innerWidth < 768), isMobile = _b[0], setIsMobile = _b[1];
-    var pagePadding;
-    if (screenWidth < 768) {
-        pagePadding = 2;
-    }
-    else if (screenWidth < 1024) {
-        pagePadding = 6;
-    }
-    else if (screenWidth < 1440) {
-        pagePadding = 8;
-    }
-    else if (screenWidth < 1920) {
-        pagePadding = 10;
-    }
-    else {
-        pagePadding = 37;
-    }
-    function handleWindowSizeChange() {
-        setScreenWidth(window.innerWidth);
-        setIsMobile(window.innerWidth < 768);
-    }
-    reactExports.useEffect(function () {
-        window.addEventListener('resize', handleWindowSizeChange);
-        return function () {
-            window.removeEventListener('resize', handleWindowSizeChange);
-        };
-    }, []);
-    return {
-        screenWidth: screenWidth,
-        isMobile: isMobile,
-        pagePadding: pagePadding,
-    };
-};
-
-var react = {};
-
-Object.defineProperty(react,"__esModule",{value:!0});var n=reactExports;function t(n){return Array.prototype.slice.call(n)}function e(n,t){var e=Math.floor(n);return e===t||e+1===t?n:t}function i$1(){return Date.now()}function r$1(n,t,e){if(t="data-keen-slider-"+t,null===e)return n.removeAttribute(t);n.setAttribute(t,e||"");}function a(n,e){return e=e||document,"function"==typeof n&&(n=n(e)),Array.isArray(n)?n:"string"==typeof n?t(e.querySelectorAll(n)):n instanceof HTMLElement?[n]:n instanceof NodeList?t(n):[]}function o$2(n){n.raw&&(n=n.raw),n.cancelable&&!n.defaultPrevented&&n.preventDefault();}function u(n){n.raw&&(n=n.raw),n.stopPropagation&&n.stopPropagation();}function c(){var n=[];return {add:function(t,e,i,r){t.addListener?t.addListener(i):t.addEventListener(e,i,r),n.push([t,e,i,r]);},input:function(n,t,e,i){this.add(n,t,function(n){return function(t){t.nativeEvent&&(t=t.nativeEvent);var e=t.changedTouches||[],i=t.targetTouches||[],r=t.detail&&t.detail.x?t.detail:null;return n({id:r?r.identifier?r.identifier:"i":i[0]?i[0]?i[0].identifier:"e":"d",idChanged:r?r.identifier?r.identifier:"i":e[0]?e[0]?e[0].identifier:"e":"d",raw:t,x:r&&r.x?r.x:i[0]?i[0].screenX:r?r.x:t.pageX,y:r&&r.y?r.y:i[0]?i[0].screenY:r?r.y:t.pageY})}}(e),i);},purge:function(){n.forEach((function(n){n[0].removeListener?n[0].removeListener(n[2]):n[0].removeEventListener(n[1],n[2],n[3]);})),n=[];}}}function s$1(n,t,e){return Math.min(Math.max(n,t),e)}function d(n){return (n>0?1:0)-(n<0?1:0)||+n}function l(n){var t=n.getBoundingClientRect();return {height:e(t.height,n.offsetHeight),width:e(t.width,n.offsetWidth)}}function f(n,t,e,i){var r=n&&n[t];return null==r?e:i&&"function"==typeof r?r():r}function p(n){return Math.round(1e6*n)/1e6}function v(n,t){if(n===t)return !0;var e=typeof n;if(e!==typeof t)return !1;if("object"!==e||null===n||null===t)return "function"===e&&n.toString()===t.toString();if(n.length!==t.length||Object.getOwnPropertyNames(n).length!==Object.getOwnPropertyNames(t).length)return !1;for(var i in n)if(!v(n[i],t[i]))return !1;return !0}var h=function(){return h=Object.assign||function(n){for(var t,e=1,i=arguments.length;e<i;e++)for(var r in t=arguments[e])Object.prototype.hasOwnProperty.call(t,r)&&(n[r]=t[r]);return n},h.apply(this,arguments)};function m(n,t,e){for(var i,r=0,a=t.length;r<a;r++)!i&&r in t||(i||(i=Array.prototype.slice.call(t,0,r)),i[r]=t[r]);return n.concat(i||Array.prototype.slice.call(t))}function g(n){var t,e,i,r,a,o;function u(t){o||(o=t),c(!0);var a=t-o;a>i&&(a=i);var l=r[e];if(l[3]<a)return e++,u(t);var f=l[2],p=l[4],v=l[0],h=l[1]*(0, l[5])(0===p?1:(a-f)/p);if(h&&n.track.to(v+h),a<i)return d();o=null,c(!1),s(null),n.emit("animationEnded");}function c(n){t.active=n;}function s(n){t.targetIdx=n;}function d(){var n;n=u,a=window.requestAnimationFrame(n);}function l(){var t;t=a,window.cancelAnimationFrame(t),c(!1),s(null),o&&n.emit("animationStopped"),o=null;}return t={active:!1,start:function(t){if(l(),n.track.details){var a=0,o=n.track.details.position;e=0,i=0,r=t.map((function(n){var t,e=Number(o),r=null!==(t=n.earlyExit)&&void 0!==t?t:n.duration,u=n.easing,c=n.distance*u(r/n.duration)||0;o+=c;var s=i;return i+=r,a+=c,[e,n.distance,s,i,n.duration,u]})),s(n.track.distToIdx(a)),d(),n.emit("animationStarted");}},stop:l,targetIdx:null}}function b(n){var t,e,r,a,o,u,c,l,v,h,g,b,y,x,k=1/0,w=[],M=null,T=0;function C(n){P(T+n);}function E(n){var t=z(T+n).abs;return O(t)?t:null}function z(n){var t=Math.floor(Math.abs(p(n/e))),i=p((n%e+e)%e);i===e&&(i=0);var r=d(n),a=c.indexOf(m([],c).reduce((function(n,t){return Math.abs(t-i)<Math.abs(n-i)?t:n}))),o=a;return r<0&&t++,a===u&&(o=0,t+=r>0?1:-1),{abs:o+t*u*r,origin:a,rel:o}}function I(n,t,e){var i;if(t||!S())return A(n,e);if(!O(n))return null;var r=z(null!=e?e:T),a=r.abs,o=n-r.rel,c=a+o;i=A(c);var s=A(c-u*d(o));return (null!==s&&Math.abs(s)<Math.abs(i)||null===i)&&(i=s),p(i)}function A(n,t){if(null==t&&(t=p(T)),!O(n)||null===n)return null;n=Math.round(n);var i=z(t),r=i.abs,a=i.rel,o=i.origin,s=L(n),d=(t%e+e)%e,l=c[o],f=Math.floor((n-(r-a))/u)*e;return p(l-d-l+c[s]+f+(o===u?e:0))}function O(n){return D(n)===n}function D(n){return s$1(n,v,h)}function S(){return a.loop}function L(n){return (n%u+u)%u}function P(t){var e;e=t-T,w.push({distance:e,timestamp:i$1()}),w.length>6&&(w=w.slice(-6)),T=p(t);var r=_().abs;if(r!==M){var a=null!==M;M=r,a&&n.emit("slideChanged");}}function _(i){var c=i?null:function(){if(u){var n=S(),t=n?(T%e+e)%e:T,i=(n?T%e:T)-o[0][2],c=0-(i<0&&n?e-Math.abs(i):i),s=0,l=z(T),f=l.abs,p=l.rel,m=o[p][2],k=o.map((function(t,i){var r=c+s;(r<0-t[0]||r>1)&&(r+=(Math.abs(r)>e-1&&n?e:0)*d(-r));var o=i-p,l=d(o),v=o+f;n&&(-1===l&&r>m&&(v+=u),1===l&&r<m&&(v-=u),null!==g&&v<g&&(r+=e),null!==b&&v>b&&(r-=e));var h=r+t[0]+t[1],y=Math.max(r>=0&&h<=1?1:h<0||r>1?0:r<0?Math.min(1,(t[0]+r)/t[0]):(1-r)/t[0],0);return s+=t[0]+t[1],{abs:v,distance:a.rtl?-1*r+1-t[0]:r,portion:y,size:t[0]}}));return f=D(f),p=L(f),{abs:D(f),length:r,max:x,maxIdx:h,min:y,minIdx:v,position:T,progress:n?t/e:T/r,rel:p,slides:k,slidesLength:e}}}();return t.details=c,n.emit("detailsChanged"),c}return t={absToRel:L,add:C,details:null,distToIdx:E,idxToDist:I,init:function(t){if(function(){if(a=n.options,o=(a.trackConfig||[]).map((function(n){return [f(n,"size",1),f(n,"spacing",0),f(n,"origin",0)]})),u=o.length){e=p(o.reduce((function(n,t){return n+t[0]+t[1]}),0));var t,i=u-1;r=p(e+o[0][2]-o[i][0]-o[i][2]-o[i][1]),c=o.reduce((function(n,e){if(!n)return [0];var i=o[n.length-1],r=n[n.length-1]+(i[0]+i[2])+i[1];return r-=e[2],n[n.length-1]>r&&(r=n[n.length-1]),r=p(r),n.push(r),(!t||t<r)&&(l=n.length-1),t=r,n}),null),0===r&&(l=0),c.push(p(e));}}(),!u)return _(!0);var i;!function(){var t=n.options.range,e=n.options.loop;g=v=e?f(e,"min",-1/0):0,b=h=e?f(e,"max",k):l;var i=f(t,"min",null),r=f(t,"max",null);null!==i&&(v=i),null!==r&&(h=r),y=v===-1/0?v:n.track.idxToDist(v||0,!0,0),x=h===k?h:I(h,!0,0),null===r&&(b=h),f(t,"align",!1)&&h!==k&&0===o[L(h)][2]&&(x-=1-o[L(h)][0],h=E(x-T)),y=p(y),x=p(x);}(),i=t,Number(i)===i?C(A(D(t))):_();},to:P,velocity:function(){var n=i$1(),t=w.reduce((function(t,e){var i=e.distance,r=e.timestamp;return n-r>200||(d(i)!==d(t.distance)&&t.distance&&(t={distance:0,lastTimestamp:0,time:0}),t.time&&(t.distance+=i),t.lastTimestamp&&(t.time+=r-t.lastTimestamp),t.lastTimestamp=r),t}),{distance:0,lastTimestamp:0,time:0});return t.distance/t.time||0}}}function y(n){var t,e,i,r,a,o,u,c;function l(n){return 2*n}function f(n){return s$1(n,u,c)}function p(n){return 1-Math.pow(1-n,3)}function v(){return i?n.track.velocity():0}function h(){b();var t="free-snap"===n.options.mode,e=n.track,i=v();r=d(i);var u=n.track.details,c=[];if(i||!t){var s=m(i),h=s.dist,g=s.dur;if(g=l(g),h*=r,t){var y=e.idxToDist(e.distToIdx(h),!0);y&&(h=y);}c.push({distance:h,duration:g,easing:p});var x=u.position,k=x+h;if(k<a||k>o){var w=k<a?a-x:o-x,M=0,T=i;if(d(w)===r){var C=Math.min(Math.abs(w)/Math.abs(h),1),E=function(n){return 1-Math.pow(1-n,1/3)}(C)*g;c[0].earlyExit=E,T=i*(1-C);}else c[0].earlyExit=0,M+=w;var z=m(T,100),I=z.dist*r;n.options.rubberband&&(c.push({distance:I,duration:l(z.dur),easing:p}),c.push({distance:-I+M,duration:500,easing:p}));}n.animator.start(c);}else n.moveToIdx(f(u.abs),!0,{duration:500,easing:function(n){return 1+--n*n*n*n*n}});}function m(n,t){void 0===t&&(t=1e3);var e=147e-9+(n=Math.abs(n))/t;return {dist:Math.pow(n,2)/e,dur:n/e}}function g(){var t=n.track.details;t&&(a=t.min,o=t.max,u=t.minIdx,c=t.maxIdx);}function b(){n.animator.stop();}n.on("updated",g),n.on("optionsChanged",g),n.on("created",g),n.on("dragStarted",(function(){i=!1,b(),t=e=n.track.details.abs;})),n.on("dragChecked",(function(){i=!0;})),n.on("dragEnded",(function(){var i=n.options.mode;"snap"===i&&function(){var i=n.track,r=n.track.details,u=r.position,c=d(v());(u>o||u<a)&&(c=0);var s=t+c;0===r.slides[i.absToRel(s)].portion&&(s-=c),t!==e&&(s=e),d(i.idxToDist(s,!0))!==c&&(s+=c),s=f(s);var l=i.idxToDist(s,!0);n.animator.start([{distance:l,duration:500,easing:function(n){return 1+--n*n*n*n*n}}]);}(),"free"!==i&&"free-snap"!==i||h();})),n.on("dragged",(function(){e=n.track.details.abs;}));}function x(n){var t,e,i,r,l,f,p,v,h,m,g,b,y,x,k,w,M,T,C=c();function E(t){if(f&&v===t.id){var a=O(t);if(h){if(!A(t))return I(t);m=a,h=!1,n.emit("dragChecked");}if(w)return m=a;o$2(t);var c=function(t){if(M===-1/0&&T===1/0)return t;var i=n.track.details,a=i.length,o=i.position,u=s$1(t,M-o,T-o);if(0===a)return 0;if(!n.options.rubberband)return u;if(o<=T&&o>=M)return t;if(o<M&&e>0||o>T&&e<0)return t;var c=(o<M?o-M:o-T)/a,d=r*a,f=Math.abs(c*d),p=Math.max(0,1-f/l*2);return p*p*t}(p(m-a)/r*i);e=d(c);var y=n.track.details.position;(y>M&&y<T||y===M&&e>0||y===T&&e<0)&&u(t),g+=c,!b&&Math.abs(g*r)>5&&(b=!0),n.track.add(c),m=a,n.emit("dragged");}}function z(t){!f&&n.track.details&&n.track.details.length&&(g=0,f=!0,b=!1,h=!0,v=t.id,A(t),m=O(t),n.emit("dragStarted"));}function I(t){f&&v===t.idChanged&&(f=!1,n.emit("dragEnded"));}function A(n){var t=D(),e=t?n.y:n.x,i=t?n.x:n.y,r=void 0!==y&&void 0!==x&&Math.abs(x-i)<=Math.abs(y-e);return y=e,x=i,r}function O(n){return D()?n.y:n.x}function D(){return n.options.vertical}function S(){r=n.size,l=D()?window.innerHeight:window.innerWidth;var t=n.track.details;t&&(M=t.min,T=t.max);}function L(n){b&&(u(n),o$2(n));}function P(){if(C.purge(),n.options.drag&&!n.options.disabled){var e;e=n.options.dragSpeed||1,p="function"==typeof e?e:function(n){return n*e},i=n.options.rtl?-1:1,S(),t=n.container,function(){var n="data-keen-slider-clickable";a("[".concat(n,"]:not([").concat(n,"=false])"),t).map((function(n){C.add(n,"dragstart",u),C.add(n,"mousedown",u),C.add(n,"touchstart",u);}));}(),C.add(t,"dragstart",(function(n){o$2(n);})),C.add(t,"click",L,{capture:!0}),C.input(t,"ksDragStart",z),C.input(t,"ksDrag",E),C.input(t,"ksDragEnd",I),C.input(t,"mousedown",z),C.input(t,"mousemove",E),C.input(t,"mouseleave",I),C.input(t,"mouseup",I),C.input(t,"touchstart",z,{passive:!0}),C.input(t,"touchmove",E,{passive:!1}),C.input(t,"touchend",I),C.input(t,"touchcancel",I),C.add(window,"wheel",(function(n){f&&o$2(n);}));var r="data-keen-slider-scrollable";a("[".concat(r,"]:not([").concat(r,"=false])"),n.container).map((function(n){return function(n){var t;C.input(n,"touchstart",(function(n){t=O(n),w=!0,k=!0;}),{passive:!0}),C.input(n,"touchmove",(function(e){var i=D(),r=i?n.scrollHeight-n.clientHeight:n.scrollWidth-n.clientWidth,a=t-O(e),u=i?n.scrollTop:n.scrollLeft,c=i&&"scroll"===n.style.overflowY||!i&&"scroll"===n.style.overflowX;if(t=O(e),(a<0&&u>0||a>0&&u<r)&&k&&c)return w=!0;k=!1,o$2(e),w=!1;})),C.input(n,"touchend",(function(){w=!1;}));}(n)}));}}n.on("updated",S),n.on("optionsChanged",P),n.on("created",P),n.on("destroyed",C.purge);}function k(n){var t,e,i=null;function r(t,e,i){n.animator.active?o(t,e,i):requestAnimationFrame((function(){return o(t,e,i)}));}function a(){r(!1,!1,e);}function o(e,r,a){var o=0,u=n.size,d=n.track.details;if(d&&t){var l=d.slides;t.forEach((function(n,t){if(e)!i&&r&&c(n,null,a),s(n,null,a);else {if(!l[t])return;var d=l[t].size*u;!i&&r&&c(n,d,a),s(n,l[t].distance*u-o,a),o+=d;}}));}}function u(t){return "performance"===n.options.renderMode?Math.round(t):t}function c(n,t,e){var i=e?"height":"width";null!==t&&(t=u(t)+"px"),n.style["min-"+i]=t,n.style["max-"+i]=t;}function s(n,t,e){if(null!==t){t=u(t);var i=e?t:0;t="translate3d(".concat(e?0:t,"px, ").concat(i,"px, 0)");}n.style.transform=t,n.style["-webkit-transform"]=t;}function d(){t&&(o(!0,!0,e),t=null),n.on("detailsChanged",a,!0);}function l(){r(!1,!0,e);}function p(){d(),e=n.options.vertical,n.options.disabled||"custom"===n.options.renderMode||(i="auto"===f(n.options.slides,"perView",null),n.on("detailsChanged",a),(t=n.slides).length&&l());}n.on("created",p),n.on("optionsChanged",p),n.on("beforeOptionsChanged",(function(){d();})),n.on("updated",l),n.on("destroyed",d);}function w(n,t){return function(e){var i,o,u,s,p,v=c();function m(n){var t;r$1(e.container,"reverse","rtl"!==(t=e.container,window.getComputedStyle(t,null).getPropertyValue("direction"))||n?null:""),r$1(e.container,"v",e.options.vertical&&!n?"":null),r$1(e.container,"disabled",e.options.disabled&&!n?"":null);}function g(){b()&&M();}function b(){var n=null;if(s.forEach((function(t){t.matches&&(n=t.__media);})),n===i)return !1;i||e.emit("beforeOptionsChanged"),i=n;var t=n?u.breakpoints[n]:u;return e.options=h(h({},u),t),m(),I(),A(),C(),!0}function y(n){var t=l(n);return (e.options.vertical?t.height:t.width)/e.size||1}function x(){return e.options.trackConfig.length}function k(n){for(var r in i=!1,u=h(h({},t),n),v.purge(),o=e.size,s=[],u.breakpoints||[]){var a=window.matchMedia(r);a.__media=r,s.push(a),v.add(a,"change",g);}v.add(window,"orientationchange",z),v.add(window,"resize",E),b();}function w(n){e.animator.stop();var t=e.track.details;e.track.init(null!=n?n:t?t.abs:0);}function M(n){w(n),e.emit("optionsChanged");}function T(n,t){if(n)return k(n),void M(t);I(),A();var i=x();C(),x()!==i?M(t):w(t),e.emit("updated");}function C(){var n=e.options.slides;if("function"==typeof n)return e.options.trackConfig=n(e.size,e.slides);for(var t=e.slides,i=t.length,r="number"==typeof n?n:f(n,"number",i,!0),a=[],o=f(n,"perView",1,!0),u=f(n,"spacing",0,!0)/e.size||0,c="auto"===o?u:u/o,s=f(n,"origin","auto"),d=0,l=0;l<r;l++){var p="auto"===o?y(t[l]):1/o-u+c,v="center"===s?.5-p/2:"auto"===s?0:s;a.push({origin:v,size:p,spacing:u}),d+=p;}if(d+=u*(r-1),"auto"===s&&!e.options.loop&&1!==o){var h=0;a.map((function(n){var t=d-h;return h+=n.size+u,t>=1||(n.origin=1-t-(d>1?0:1-d)),n}));}e.options.trackConfig=a;}function E(){I();var n=e.size;e.options.disabled||n===o||(o=n,T());}function z(){E(),setTimeout(E,500),setTimeout(E,2e3);}function I(){var n=l(e.container);e.size=(e.options.vertical?n.height:n.width)||1;}function A(){e.slides=a(e.options.selector,e.container);}e.container=(p=a(n,document)).length?p[0]:null,e.destroy=function(){v.purge(),e.emit("destroyed"),m(!0);},e.prev=function(){e.moveToIdx(e.track.details.abs-1,!0);},e.next=function(){e.moveToIdx(e.track.details.abs+1,!0);},e.update=T,k(e.options);}}var M=function(n,t,e){try{return function(n,t){var e,i={};return e={emit:function(n){i[n]&&i[n].forEach((function(n){n(e);}));var t=e.options&&e.options[n];t&&t(e);},moveToIdx:function(n,t,i){var r=e.track.idxToDist(n,t);if(r){var a=e.options.defaultAnimation;e.animator.start([{distance:r,duration:f(i||a,"duration",500),easing:f(i||a,"easing",(function(n){return 1+--n*n*n*n*n}))}]);}},on:function(n,t,e){void 0===e&&(e=!1),i[n]||(i[n]=[]);var r=i[n].indexOf(t);r>-1?e&&delete i[n][r]:e||i[n].push(t);},options:n},function(){if(e.track=b(e),e.animator=g(e),t)for(var n=0,i=t;n<i.length;n++)(0,i[n])(e);e.track.init(e.options.initial||0),e.emit("created");}(),e}(t,m([w(n,{drag:!0,mode:"snap",renderMode:"precision",rubberband:!0,selector:".keen-slider__slide"}),k,x,y],e||[],!0))}catch(n){console.error(n);}};var useKeenSlider = react.useKeenSlider=function(t,e){var i=n.useRef(null),r=n.useRef(!1),a=n.useRef(t),o=n.useCallback((function(n){n?(a.current=t,i.current=new M(n,t,e),r.current=!1):(i.current&&i.current.destroy&&i.current.destroy(),i.current=null);}),[]);return n.useEffect((function(){v(a.current,t)||(a.current=t,i.current&&i.current.update(a.current));}),[t]),[o,i]};
-
-var WheelControls = function (slider) {
-    var touchTimeout;
-    var position;
-    var wheelActive = false;
-    function dispatch(e, name) {
-        position.x -= e.deltaX;
-        position.y -= e.deltaY;
-        slider.container.dispatchEvent(new CustomEvent(name, {
-            detail: {
-                x: position.x,
-                y: position.y,
-            },
-        }));
-    }
-    function eventWheel(e) {
-        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-            e.preventDefault();
-            if (!wheelActive) {
-                position = {
-                    x: e.pageX,
-                    y: e.pageY,
-                };
-                dispatch(e, 'ksDragStart');
-                wheelActive = true;
-            }
-            dispatch(e, 'ksDrag');
-            clearTimeout(touchTimeout);
-            touchTimeout = setTimeout(function () {
-                wheelActive = false;
-                dispatch(e, 'ksDragEnd');
-            }, 50);
-        }
-    }
-    slider.on('created', function () {
-        slider.container.addEventListener('wheel', eventWheel, {
-            passive: false,
-        });
-    });
-};
-var useSlider = function (_a) {
-    var _b, _c, _d, _e, _f, _g, _h;
-    var config = _a.config;
-    var _j = reactExports.useState(0), currentSlide = _j[0], setCurrentSlide = _j[1];
-    var _k = useKeenSlider(__assign(__assign({}, config), { rubberband: false, detailsChanged: function (slider) {
-            setCurrentSlide(slider.track.details.rel);
-        } }), [WheelControls]), sliderRef = _k[0], instanceRef = _k[1];
-    var dataLength = (_d = (_c = (_b = instanceRef === null || instanceRef === void 0 ? void 0 : instanceRef.current) === null || _b === void 0 ? void 0 : _b.slides) === null || _c === void 0 ? void 0 : _c.length) !== null && _d !== void 0 ? _d : 10;
-    var itemsPerView = dataLength - ((_h = (_g = (_f = (_e = instanceRef === null || instanceRef === void 0 ? void 0 : instanceRef.current) === null || _e === void 0 ? void 0 : _e.track) === null || _f === void 0 ? void 0 : _f.details) === null || _g === void 0 ? void 0 : _g.maxIdx) !== null && _h !== void 0 ? _h : 2);
-    return {
-        sliderRef: sliderRef,
-        instanceRef: instanceRef,
-        currentSlide: currentSlide,
-        itemsPerView: itemsPerView,
-    };
-};
-
-var windowHeightFetchThreshold = 0.85;
-var useFetchNextPageDetector = function (fetchNextPage, isLoading, hasNextPage) {
-    reactExports.useEffect(function () {
-        var onScroll = function () {
-            var scrollTop = document.documentElement.scrollTop;
-            var windowHeight = window.innerHeight;
-            var fullHeight = document.documentElement.offsetHeight;
-            if (scrollTop + windowHeight > fullHeight * windowHeightFetchThreshold &&
-                hasNextPage &&
-                !isLoading) {
-                fetchNextPage();
-            }
-        };
-        window.addEventListener('scroll', onScroll);
-        return function () {
-            window.removeEventListener('scroll', onScroll);
-        };
-    }, [fetchNextPage, isLoading, hasNextPage]);
-};
-
-var isCheckBoxInput = (element) => element.type === 'checkbox';
-
-var isDateObject = (value) => value instanceof Date;
-
-var isNullOrUndefined = (value) => value == null;
-
-const isObjectType = (value) => typeof value === 'object';
-var isObject$2 = (value) => !isNullOrUndefined(value) &&
-    !Array.isArray(value) &&
-    isObjectType(value) &&
-    !isDateObject(value);
-
-var getEventValue = (event) => isObject$2(event) && event.target
-    ? isCheckBoxInput(event.target)
-        ? event.target.checked
-        : event.target.value
-    : event;
-
-var getNodeParentName = (name) => name.substring(0, name.search(/\.\d+(\.|$)/)) || name;
-
-var isNameInFieldArray = (names, name) => names.has(getNodeParentName(name));
-
-var isPlainObject$3 = (tempObject) => {
-    const prototypeCopy = tempObject.constructor && tempObject.constructor.prototype;
-    return (isObject$2(prototypeCopy) && prototypeCopy.hasOwnProperty('isPrototypeOf'));
-};
-
-var isWeb = typeof window !== 'undefined' &&
-    typeof window.HTMLElement !== 'undefined' &&
-    typeof document !== 'undefined';
-
-function cloneObject(data) {
-    let copy;
-    const isArray = Array.isArray(data);
-    if (data instanceof Date) {
-        copy = new Date(data);
-    }
-    else if (data instanceof Set) {
-        copy = new Set(data);
-    }
-    else if (!(isWeb && (data instanceof Blob || data instanceof FileList)) &&
-        (isArray || isObject$2(data))) {
-        copy = isArray ? [] : {};
-        if (!isArray && !isPlainObject$3(data)) {
-            copy = data;
-        }
-        else {
-            for (const key in data) {
-                if (data.hasOwnProperty(key)) {
-                    copy[key] = cloneObject(data[key]);
-                }
-            }
-        }
-    }
-    else {
-        return data;
-    }
-    return copy;
-}
-
-var compact = (value) => Array.isArray(value) ? value.filter(Boolean) : [];
-
-var isUndefined$1 = (val) => val === undefined;
-
-var get = (object, path, defaultValue) => {
-    if (!path || !isObject$2(object)) {
-        return defaultValue;
-    }
-    const result = compact(path.split(/[,[\].]+?/)).reduce((result, key) => isNullOrUndefined(result) ? result : result[key], object);
-    return isUndefined$1(result) || result === object
-        ? isUndefined$1(object[path])
-            ? defaultValue
-            : object[path]
-        : result;
-};
-
-var isBoolean$1 = (value) => typeof value === 'boolean';
-
-var isKey = (value) => /^\w*$/.test(value);
-
-var stringToPath = (input) => compact(input.replace(/["|']|\]/g, '').split(/\.|\[/));
-
-var set = (object, path, value) => {
-    let index = -1;
-    const tempPath = isKey(path) ? [path] : stringToPath(path);
-    const length = tempPath.length;
-    const lastIndex = length - 1;
-    while (++index < length) {
-        const key = tempPath[index];
-        let newValue = value;
-        if (index !== lastIndex) {
-            const objValue = object[key];
-            newValue =
-                isObject$2(objValue) || Array.isArray(objValue)
-                    ? objValue
-                    : !isNaN(+tempPath[index + 1])
-                        ? []
-                        : {};
-        }
-        if (key === '__proto__') {
-            return;
-        }
-        object[key] = newValue;
-        object = object[key];
-    }
-    return object;
-};
-
-const EVENTS = {
-    BLUR: 'blur',
-    FOCUS_OUT: 'focusout',
-    CHANGE: 'change',
-};
-const VALIDATION_MODE = {
-    onBlur: 'onBlur',
-    onChange: 'onChange',
-    onSubmit: 'onSubmit',
-    onTouched: 'onTouched',
-    all: 'all',
-};
-const INPUT_VALIDATION_RULES = {
-    max: 'max',
-    min: 'min',
-    maxLength: 'maxLength',
-    minLength: 'minLength',
-    pattern: 'pattern',
-    required: 'required',
-    validate: 'validate',
-};
-
-const HookFormContext = React$1.createContext(null);
-/**
- * This custom hook allows you to access the form context. useFormContext is intended to be used in deeply nested structures, where it would become inconvenient to pass the context as a prop. To be used with {@link FormProvider}.
- *
- * @remarks
- * [API](https://react-hook-form.com/docs/useformcontext) • [Demo](https://codesandbox.io/s/react-hook-form-v7-form-context-ytudi)
- *
- * @returns return all useForm methods
- *
- * @example
- * ```tsx
- * function App() {
- *   const methods = useForm();
- *   const onSubmit = data => console.log(data);
- *
- *   return (
- *     <FormProvider {...methods} >
- *       <form onSubmit={methods.handleSubmit(onSubmit)}>
- *         <NestedInput />
- *         <input type="submit" />
- *       </form>
- *     </FormProvider>
- *   );
- * }
- *
- *  function NestedInput() {
- *   const { register } = useFormContext(); // retrieve all hook methods
- *   return <input {...register("test")} />;
- * }
- * ```
- */
-const useFormContext = () => React$1.useContext(HookFormContext);
-/**
- * A provider component that propagates the `useForm` methods to all children components via [React Context](https://reactjs.org/docs/context.html) API. To be used with {@link useFormContext}.
- *
- * @remarks
- * [API](https://react-hook-form.com/docs/useformcontext) • [Demo](https://codesandbox.io/s/react-hook-form-v7-form-context-ytudi)
- *
- * @param props - all useForm methods
- *
- * @example
- * ```tsx
- * function App() {
- *   const methods = useForm();
- *   const onSubmit = data => console.log(data);
- *
- *   return (
- *     <FormProvider {...methods} >
- *       <form onSubmit={methods.handleSubmit(onSubmit)}>
- *         <NestedInput />
- *         <input type="submit" />
- *       </form>
- *     </FormProvider>
- *   );
- * }
- *
- *  function NestedInput() {
- *   const { register } = useFormContext(); // retrieve all hook methods
- *   return <input {...register("test")} />;
- * }
- * ```
- */
-const FormProvider = (props) => {
-    const { children, ...data } = props;
-    return (React$1.createElement(HookFormContext.Provider, { value: data }, children));
-};
-
-var getProxyFormState = (formState, control, localProxyFormState, isRoot = true) => {
-    const result = {
-        defaultValues: control._defaultValues,
-    };
-    for (const key in formState) {
-        Object.defineProperty(result, key, {
-            get: () => {
-                const _key = key;
-                if (control._proxyFormState[_key] !== VALIDATION_MODE.all) {
-                    control._proxyFormState[_key] = !isRoot || VALIDATION_MODE.all;
-                }
-                localProxyFormState && (localProxyFormState[_key] = true);
-                return formState[_key];
-            },
-        });
-    }
-    return result;
-};
-
-var isEmptyObject = (value) => isObject$2(value) && !Object.keys(value).length;
-
-var shouldRenderFormState = (formStateData, _proxyFormState, updateFormState, isRoot) => {
-    updateFormState(formStateData);
-    const { name, ...formState } = formStateData;
-    return (isEmptyObject(formState) ||
-        Object.keys(formState).length >= Object.keys(_proxyFormState).length ||
-        Object.keys(formState).find((key) => _proxyFormState[key] ===
-            (!isRoot || VALIDATION_MODE.all)));
-};
-
-var convertToArrayPayload = (value) => (Array.isArray(value) ? value : [value]);
-
-var shouldSubscribeByName = (name, signalName, exact) => !name ||
-    !signalName ||
-    name === signalName ||
-    convertToArrayPayload(name).some((currentName) => currentName &&
-        (exact
-            ? currentName === signalName
-            : currentName.startsWith(signalName) ||
-                signalName.startsWith(currentName)));
-
-function useSubscribe(props) {
-    const _props = React$1.useRef(props);
-    _props.current = props;
-    React$1.useEffect(() => {
-        const subscription = !props.disabled &&
-            _props.current.subject &&
-            _props.current.subject.subscribe({
-                next: _props.current.next,
-            });
-        return () => {
-            subscription && subscription.unsubscribe();
-        };
-    }, [props.disabled]);
-}
-
-/**
- * This custom hook allows you to subscribe to each form state, and isolate the re-render at the custom hook level. It has its scope in terms of form state subscription, so it would not affect other useFormState and useForm. Using this hook can reduce the re-render impact on large and complex form application.
- *
- * @remarks
- * [API](https://react-hook-form.com/docs/useformstate) • [Demo](https://codesandbox.io/s/useformstate-75xly)
- *
- * @param props - include options on specify fields to subscribe. {@link UseFormStateReturn}
- *
- * @example
- * ```tsx
- * function App() {
- *   const { register, handleSubmit, control } = useForm({
- *     defaultValues: {
- *     firstName: "firstName"
- *   }});
- *   const { dirtyFields } = useFormState({
- *     control
- *   });
- *   const onSubmit = (data) => console.log(data);
- *
- *   return (
- *     <form onSubmit={handleSubmit(onSubmit)}>
- *       <input {...register("firstName")} placeholder="First Name" />
- *       {dirtyFields.firstName && <p>Field is dirty.</p>}
- *       <input type="submit" />
- *     </form>
- *   );
- * }
- * ```
- */
-function useFormState(props) {
-    const methods = useFormContext();
-    const { control = methods.control, disabled, name, exact } = props || {};
-    const [formState, updateFormState] = React$1.useState(control._formState);
-    const _mounted = React$1.useRef(true);
-    const _localProxyFormState = React$1.useRef({
-        isDirty: false,
-        isLoading: false,
-        dirtyFields: false,
-        touchedFields: false,
-        validatingFields: false,
-        isValidating: false,
-        isValid: false,
-        errors: false,
-    });
-    const _name = React$1.useRef(name);
-    _name.current = name;
-    useSubscribe({
-        disabled,
-        next: (value) => _mounted.current &&
-            shouldSubscribeByName(_name.current, value.name, exact) &&
-            shouldRenderFormState(value, _localProxyFormState.current, control._updateFormState) &&
-            updateFormState({
-                ...control._formState,
-                ...value,
-            }),
-        subject: control._subjects.state,
-    });
-    React$1.useEffect(() => {
-        _mounted.current = true;
-        _localProxyFormState.current.isValid && control._updateValid(true);
-        return () => {
-            _mounted.current = false;
-        };
-    }, [control]);
-    return getProxyFormState(formState, control, _localProxyFormState.current, false);
-}
-
-var isString$2 = (value) => typeof value === 'string';
-
-var generateWatchOutput = (names, _names, formValues, isGlobal, defaultValue) => {
-    if (isString$2(names)) {
-        isGlobal && _names.watch.add(names);
-        return get(formValues, names, defaultValue);
-    }
-    if (Array.isArray(names)) {
-        return names.map((fieldName) => (isGlobal && _names.watch.add(fieldName), get(formValues, fieldName)));
-    }
-    isGlobal && (_names.watchAll = true);
-    return formValues;
-};
-
-/**
- * Custom hook to subscribe to field change and isolate re-rendering at the component level.
- *
- * @remarks
- *
- * [API](https://react-hook-form.com/docs/usewatch) • [Demo](https://codesandbox.io/s/react-hook-form-v7-ts-usewatch-h9i5e)
- *
- * @example
- * ```tsx
- * const { control } = useForm();
- * const values = useWatch({
- *   name: "fieldName"
- *   control,
- * })
- * ```
- */
-function useWatch(props) {
-    const methods = useFormContext();
-    const { control = methods.control, name, defaultValue, disabled, exact, } = props || {};
-    const _name = React$1.useRef(name);
-    _name.current = name;
-    useSubscribe({
-        disabled,
-        subject: control._subjects.values,
-        next: (formState) => {
-            if (shouldSubscribeByName(_name.current, formState.name, exact)) {
-                updateValue(cloneObject(generateWatchOutput(_name.current, control._names, formState.values || control._formValues, false, defaultValue)));
-            }
-        },
-    });
-    const [value, updateValue] = React$1.useState(control._getWatch(name, defaultValue));
-    React$1.useEffect(() => control._removeUnmounted());
-    return value;
-}
-
-/**
- * Custom hook to work with controlled component, this function provide you with both form and field level state. Re-render is isolated at the hook level.
- *
- * @remarks
- * [API](https://react-hook-form.com/docs/usecontroller) • [Demo](https://codesandbox.io/s/usecontroller-0o8px)
- *
- * @param props - the path name to the form field value, and validation rules.
- *
- * @returns field properties, field and form state. {@link UseControllerReturn}
- *
- * @example
- * ```tsx
- * function Input(props) {
- *   const { field, fieldState, formState } = useController(props);
- *   return (
- *     <div>
- *       <input {...field} placeholder={props.name} />
- *       <p>{fieldState.isTouched && "Touched"}</p>
- *       <p>{formState.isSubmitted ? "submitted" : ""}</p>
- *     </div>
- *   );
- * }
- * ```
- */
-function useController(props) {
-    const methods = useFormContext();
-    const { name, disabled, control = methods.control, shouldUnregister } = props;
-    const isArrayField = isNameInFieldArray(control._names.array, name);
-    const value = useWatch({
-        control,
-        name,
-        defaultValue: get(control._formValues, name, get(control._defaultValues, name, props.defaultValue)),
-        exact: true,
-    });
-    const formState = useFormState({
-        control,
-        name,
-        exact: true,
-    });
-    const _registerProps = React$1.useRef(control.register(name, {
-        ...props.rules,
-        value,
-        ...(isBoolean$1(props.disabled) ? { disabled: props.disabled } : {}),
-    }));
-    React$1.useEffect(() => {
-        const _shouldUnregisterField = control._options.shouldUnregister || shouldUnregister;
-        const updateMounted = (name, value) => {
-            const field = get(control._fields, name);
-            if (field && field._f) {
-                field._f.mount = value;
-            }
-        };
-        updateMounted(name, true);
-        if (_shouldUnregisterField) {
-            const value = cloneObject(get(control._options.defaultValues, name));
-            set(control._defaultValues, name, value);
-            if (isUndefined$1(get(control._formValues, name))) {
-                set(control._formValues, name, value);
-            }
-        }
-        return () => {
-            (isArrayField
-                ? _shouldUnregisterField && !control._state.action
-                : _shouldUnregisterField)
-                ? control.unregister(name)
-                : updateMounted(name, false);
-        };
-    }, [name, control, isArrayField, shouldUnregister]);
-    React$1.useEffect(() => {
-        if (get(control._fields, name)) {
-            control._updateDisabledField({
-                disabled,
-                fields: control._fields,
-                name,
-                value: get(control._fields, name)._f.value,
-            });
-        }
-    }, [disabled, name, control]);
-    return {
-        field: {
-            name,
-            value,
-            ...(isBoolean$1(disabled) || formState.disabled
-                ? { disabled: formState.disabled || disabled }
-                : {}),
-            onChange: React$1.useCallback((event) => _registerProps.current.onChange({
-                target: {
-                    value: getEventValue(event),
-                    name: name,
-                },
-                type: EVENTS.CHANGE,
-            }), [name]),
-            onBlur: React$1.useCallback(() => _registerProps.current.onBlur({
-                target: {
-                    value: get(control._formValues, name),
-                    name: name,
-                },
-                type: EVENTS.BLUR,
-            }), [name, control]),
-            ref: React$1.useCallback((elm) => {
-                const field = get(control._fields, name);
-                if (field && elm) {
-                    field._f.ref = {
-                        focus: () => elm.focus(),
-                        select: () => elm.select(),
-                        setCustomValidity: (message) => elm.setCustomValidity(message),
-                        reportValidity: () => elm.reportValidity(),
-                    };
-                }
-            }, [control._fields, name]),
-        },
-        formState,
-        fieldState: Object.defineProperties({}, {
-            invalid: {
-                enumerable: true,
-                get: () => !!get(formState.errors, name),
-            },
-            isDirty: {
-                enumerable: true,
-                get: () => !!get(formState.dirtyFields, name),
-            },
-            isTouched: {
-                enumerable: true,
-                get: () => !!get(formState.touchedFields, name),
-            },
-            isValidating: {
-                enumerable: true,
-                get: () => !!get(formState.validatingFields, name),
-            },
-            error: {
-                enumerable: true,
-                get: () => get(formState.errors, name),
-            },
-        }),
-    };
-}
-
-/**
- * Component based on `useController` hook to work with controlled component.
- *
- * @remarks
- * [API](https://react-hook-form.com/docs/usecontroller/controller) • [Demo](https://codesandbox.io/s/react-hook-form-v6-controller-ts-jwyzw) • [Video](https://www.youtube.com/watch?v=N2UNk_UCVyA)
- *
- * @param props - the path name to the form field value, and validation rules.
- *
- * @returns provide field handler functions, field and form state.
- *
- * @example
- * ```tsx
- * function App() {
- *   const { control } = useForm<FormValues>({
- *     defaultValues: {
- *       test: ""
- *     }
- *   });
- *
- *   return (
- *     <form>
- *       <Controller
- *         control={control}
- *         name="test"
- *         render={({ field: { onChange, onBlur, value, ref }, formState, fieldState }) => (
- *           <>
- *             <input
- *               onChange={onChange} // send value to hook form
- *               onBlur={onBlur} // notify when input is touched
- *               value={value} // return updated value
- *               ref={ref} // set ref for focus management
- *             />
- *             <p>{formState.isSubmitted ? "submitted" : ""}</p>
- *             <p>{fieldState.isTouched ? "touched" : ""}</p>
- *           </>
- *         )}
- *       />
- *     </form>
- *   );
- * }
- * ```
- */
-const Controller = (props) => props.render(useController(props));
-
-var appendErrors = (name, validateAllFieldCriteria, errors, type, message) => validateAllFieldCriteria
-    ? {
-        ...errors[name],
-        types: {
-            ...(errors[name] && errors[name].types ? errors[name].types : {}),
-            [type]: message || true,
-        },
-    }
-    : {};
-
-var getValidationModes = (mode) => ({
-    isOnSubmit: !mode || mode === VALIDATION_MODE.onSubmit,
-    isOnBlur: mode === VALIDATION_MODE.onBlur,
-    isOnChange: mode === VALIDATION_MODE.onChange,
-    isOnAll: mode === VALIDATION_MODE.all,
-    isOnTouch: mode === VALIDATION_MODE.onTouched,
-});
-
-var isWatched = (name, _names, isBlurEvent) => !isBlurEvent &&
-    (_names.watchAll ||
-        _names.watch.has(name) ||
-        [..._names.watch].some((watchName) => name.startsWith(watchName) &&
-            /^\.\w+/.test(name.slice(watchName.length))));
-
-const iterateFieldsByAction = (fields, action, fieldsNames, abortEarly) => {
-    for (const key of fieldsNames || Object.keys(fields)) {
-        const field = get(fields, key);
-        if (field) {
-            const { _f, ...currentField } = field;
-            if (_f) {
-                if (_f.refs && _f.refs[0] && action(_f.refs[0], key) && !abortEarly) {
-                    return true;
-                }
-                else if (_f.ref && action(_f.ref, _f.name) && !abortEarly) {
-                    return true;
-                }
-                else {
-                    if (iterateFieldsByAction(currentField, action)) {
-                        break;
-                    }
-                }
-            }
-            else if (isObject$2(currentField)) {
-                if (iterateFieldsByAction(currentField, action)) {
-                    break;
-                }
-            }
-        }
-    }
-    return;
-};
-
-var updateFieldArrayRootError = (errors, error, name) => {
-    const fieldArrayErrors = convertToArrayPayload(get(errors, name));
-    set(fieldArrayErrors, 'root', error[name]);
-    set(errors, name, fieldArrayErrors);
-    return errors;
-};
-
-var isFileInput = (element) => element.type === 'file';
-
-var isFunction$2 = (value) => typeof value === 'function';
-
-var isHTMLElement$2 = (value) => {
-    if (!isWeb) {
-        return false;
-    }
-    const owner = value ? value.ownerDocument : 0;
-    return (value instanceof
-        (owner && owner.defaultView ? owner.defaultView.HTMLElement : HTMLElement));
-};
-
-var isMessage = (value) => isString$2(value);
-
-var isRadioInput = (element) => element.type === 'radio';
-
-var isRegex = (value) => value instanceof RegExp;
-
-const defaultResult = {
-    value: false,
-    isValid: false,
-};
-const validResult = { value: true, isValid: true };
-var getCheckboxValue = (options) => {
-    if (Array.isArray(options)) {
-        if (options.length > 1) {
-            const values = options
-                .filter((option) => option && option.checked && !option.disabled)
-                .map((option) => option.value);
-            return { value: values, isValid: !!values.length };
-        }
-        return options[0].checked && !options[0].disabled
-            ? // @ts-expect-error expected to work in the browser
-                options[0].attributes && !isUndefined$1(options[0].attributes.value)
-                    ? isUndefined$1(options[0].value) || options[0].value === ''
-                        ? validResult
-                        : { value: options[0].value, isValid: true }
-                    : validResult
-            : defaultResult;
-    }
-    return defaultResult;
-};
-
-const defaultReturn = {
-    isValid: false,
-    value: null,
-};
-var getRadioValue = (options) => Array.isArray(options)
-    ? options.reduce((previous, option) => option && option.checked && !option.disabled
-        ? {
-            isValid: true,
-            value: option.value,
-        }
-        : previous, defaultReturn)
-    : defaultReturn;
-
-function getValidateError(result, ref, type = 'validate') {
-    if (isMessage(result) ||
-        (Array.isArray(result) && result.every(isMessage)) ||
-        (isBoolean$1(result) && !result)) {
-        return {
-            type,
-            message: isMessage(result) ? result : '',
-            ref,
-        };
-    }
-}
-
-var getValueAndMessage = (validationData) => isObject$2(validationData) && !isRegex(validationData)
-    ? validationData
-    : {
-        value: validationData,
-        message: '',
-    };
-
-var validateField = async (field, formValues, validateAllFieldCriteria, shouldUseNativeValidation, isFieldArray) => {
-    const { ref, refs, required, maxLength, minLength, min, max, pattern, validate, name, valueAsNumber, mount, disabled, } = field._f;
-    const inputValue = get(formValues, name);
-    if (!mount || disabled) {
-        return {};
-    }
-    const inputRef = refs ? refs[0] : ref;
-    const setCustomValidity = (message) => {
-        if (shouldUseNativeValidation && inputRef.reportValidity) {
-            inputRef.setCustomValidity(isBoolean$1(message) ? '' : message || '');
-            inputRef.reportValidity();
-        }
-    };
-    const error = {};
-    const isRadio = isRadioInput(ref);
-    const isCheckBox = isCheckBoxInput(ref);
-    const isRadioOrCheckbox = isRadio || isCheckBox;
-    const isEmpty = ((valueAsNumber || isFileInput(ref)) &&
-        isUndefined$1(ref.value) &&
-        isUndefined$1(inputValue)) ||
-        (isHTMLElement$2(ref) && ref.value === '') ||
-        inputValue === '' ||
-        (Array.isArray(inputValue) && !inputValue.length);
-    const appendErrorsCurry = appendErrors.bind(null, name, validateAllFieldCriteria, error);
-    const getMinMaxMessage = (exceedMax, maxLengthMessage, minLengthMessage, maxType = INPUT_VALIDATION_RULES.maxLength, minType = INPUT_VALIDATION_RULES.minLength) => {
-        const message = exceedMax ? maxLengthMessage : minLengthMessage;
-        error[name] = {
-            type: exceedMax ? maxType : minType,
-            message,
-            ref,
-            ...appendErrorsCurry(exceedMax ? maxType : minType, message),
-        };
-    };
-    if (isFieldArray
-        ? !Array.isArray(inputValue) || !inputValue.length
-        : required &&
-            ((!isRadioOrCheckbox && (isEmpty || isNullOrUndefined(inputValue))) ||
-                (isBoolean$1(inputValue) && !inputValue) ||
-                (isCheckBox && !getCheckboxValue(refs).isValid) ||
-                (isRadio && !getRadioValue(refs).isValid))) {
-        const { value, message } = isMessage(required)
-            ? { value: !!required, message: required }
-            : getValueAndMessage(required);
-        if (value) {
-            error[name] = {
-                type: INPUT_VALIDATION_RULES.required,
-                message,
-                ref: inputRef,
-                ...appendErrorsCurry(INPUT_VALIDATION_RULES.required, message),
-            };
-            if (!validateAllFieldCriteria) {
-                setCustomValidity(message);
-                return error;
-            }
-        }
-    }
-    if (!isEmpty && (!isNullOrUndefined(min) || !isNullOrUndefined(max))) {
-        let exceedMax;
-        let exceedMin;
-        const maxOutput = getValueAndMessage(max);
-        const minOutput = getValueAndMessage(min);
-        if (!isNullOrUndefined(inputValue) && !isNaN(inputValue)) {
-            const valueNumber = ref.valueAsNumber ||
-                (inputValue ? +inputValue : inputValue);
-            if (!isNullOrUndefined(maxOutput.value)) {
-                exceedMax = valueNumber > maxOutput.value;
-            }
-            if (!isNullOrUndefined(minOutput.value)) {
-                exceedMin = valueNumber < minOutput.value;
-            }
-        }
-        else {
-            const valueDate = ref.valueAsDate || new Date(inputValue);
-            const convertTimeToDate = (time) => new Date(new Date().toDateString() + ' ' + time);
-            const isTime = ref.type == 'time';
-            const isWeek = ref.type == 'week';
-            if (isString$2(maxOutput.value) && inputValue) {
-                exceedMax = isTime
-                    ? convertTimeToDate(inputValue) > convertTimeToDate(maxOutput.value)
-                    : isWeek
-                        ? inputValue > maxOutput.value
-                        : valueDate > new Date(maxOutput.value);
-            }
-            if (isString$2(minOutput.value) && inputValue) {
-                exceedMin = isTime
-                    ? convertTimeToDate(inputValue) < convertTimeToDate(minOutput.value)
-                    : isWeek
-                        ? inputValue < minOutput.value
-                        : valueDate < new Date(minOutput.value);
-            }
-        }
-        if (exceedMax || exceedMin) {
-            getMinMaxMessage(!!exceedMax, maxOutput.message, minOutput.message, INPUT_VALIDATION_RULES.max, INPUT_VALIDATION_RULES.min);
-            if (!validateAllFieldCriteria) {
-                setCustomValidity(error[name].message);
-                return error;
-            }
-        }
-    }
-    if ((maxLength || minLength) &&
-        !isEmpty &&
-        (isString$2(inputValue) || (isFieldArray && Array.isArray(inputValue)))) {
-        const maxLengthOutput = getValueAndMessage(maxLength);
-        const minLengthOutput = getValueAndMessage(minLength);
-        const exceedMax = !isNullOrUndefined(maxLengthOutput.value) &&
-            inputValue.length > +maxLengthOutput.value;
-        const exceedMin = !isNullOrUndefined(minLengthOutput.value) &&
-            inputValue.length < +minLengthOutput.value;
-        if (exceedMax || exceedMin) {
-            getMinMaxMessage(exceedMax, maxLengthOutput.message, minLengthOutput.message);
-            if (!validateAllFieldCriteria) {
-                setCustomValidity(error[name].message);
-                return error;
-            }
-        }
-    }
-    if (pattern && !isEmpty && isString$2(inputValue)) {
-        const { value: patternValue, message } = getValueAndMessage(pattern);
-        if (isRegex(patternValue) && !inputValue.match(patternValue)) {
-            error[name] = {
-                type: INPUT_VALIDATION_RULES.pattern,
-                message,
-                ref,
-                ...appendErrorsCurry(INPUT_VALIDATION_RULES.pattern, message),
-            };
-            if (!validateAllFieldCriteria) {
-                setCustomValidity(message);
-                return error;
-            }
-        }
-    }
-    if (validate) {
-        if (isFunction$2(validate)) {
-            const result = await validate(inputValue, formValues);
-            const validateError = getValidateError(result, inputRef);
-            if (validateError) {
-                error[name] = {
-                    ...validateError,
-                    ...appendErrorsCurry(INPUT_VALIDATION_RULES.validate, validateError.message),
-                };
-                if (!validateAllFieldCriteria) {
-                    setCustomValidity(validateError.message);
-                    return error;
-                }
-            }
-        }
-        else if (isObject$2(validate)) {
-            let validationResult = {};
-            for (const key in validate) {
-                if (!isEmptyObject(validationResult) && !validateAllFieldCriteria) {
-                    break;
-                }
-                const validateError = getValidateError(await validate[key](inputValue, formValues), inputRef, key);
-                if (validateError) {
-                    validationResult = {
-                        ...validateError,
-                        ...appendErrorsCurry(key, validateError.message),
-                    };
-                    setCustomValidity(validateError.message);
-                    if (validateAllFieldCriteria) {
-                        error[name] = validationResult;
-                    }
-                }
-            }
-            if (!isEmptyObject(validationResult)) {
-                error[name] = {
-                    ref: inputRef,
-                    ...validationResult,
-                };
-                if (!validateAllFieldCriteria) {
-                    return error;
-                }
-            }
-        }
-    }
-    setCustomValidity(true);
-    return error;
-};
-
-function baseGet(object, updatePath) {
-    const length = updatePath.slice(0, -1).length;
-    let index = 0;
-    while (index < length) {
-        object = isUndefined$1(object) ? index++ : object[updatePath[index++]];
-    }
-    return object;
-}
-function isEmptyArray(obj) {
-    for (const key in obj) {
-        if (obj.hasOwnProperty(key) && !isUndefined$1(obj[key])) {
-            return false;
-        }
-    }
-    return true;
-}
-function unset(object, path) {
-    const paths = Array.isArray(path)
-        ? path
-        : isKey(path)
-            ? [path]
-            : stringToPath(path);
-    const childObject = paths.length === 1 ? object : baseGet(object, paths);
-    const index = paths.length - 1;
-    const key = paths[index];
-    if (childObject) {
-        delete childObject[key];
-    }
-    if (index !== 0 &&
-        ((isObject$2(childObject) && isEmptyObject(childObject)) ||
-            (Array.isArray(childObject) && isEmptyArray(childObject)))) {
-        unset(object, paths.slice(0, -1));
-    }
-    return object;
-}
-
-var createSubject = () => {
-    let _observers = [];
-    const next = (value) => {
-        for (const observer of _observers) {
-            observer.next && observer.next(value);
-        }
-    };
-    const subscribe = (observer) => {
-        _observers.push(observer);
-        return {
-            unsubscribe: () => {
-                _observers = _observers.filter((o) => o !== observer);
-            },
-        };
-    };
-    const unsubscribe = () => {
-        _observers = [];
-    };
-    return {
-        get observers() {
-            return _observers;
-        },
-        next,
-        subscribe,
-        unsubscribe,
-    };
-};
-
-var isPrimitive = (value) => isNullOrUndefined(value) || !isObjectType(value);
-
-function deepEqual(object1, object2) {
-    if (isPrimitive(object1) || isPrimitive(object2)) {
-        return object1 === object2;
-    }
-    if (isDateObject(object1) && isDateObject(object2)) {
-        return object1.getTime() === object2.getTime();
-    }
-    const keys1 = Object.keys(object1);
-    const keys2 = Object.keys(object2);
-    if (keys1.length !== keys2.length) {
-        return false;
-    }
-    for (const key of keys1) {
-        const val1 = object1[key];
-        if (!keys2.includes(key)) {
-            return false;
-        }
-        if (key !== 'ref') {
-            const val2 = object2[key];
-            if ((isDateObject(val1) && isDateObject(val2)) ||
-                (isObject$2(val1) && isObject$2(val2)) ||
-                (Array.isArray(val1) && Array.isArray(val2))
-                ? !deepEqual(val1, val2)
-                : val1 !== val2) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-var isMultipleSelect = (element) => element.type === `select-multiple`;
-
-var isRadioOrCheckbox = (ref) => isRadioInput(ref) || isCheckBoxInput(ref);
-
-var live = (ref) => isHTMLElement$2(ref) && ref.isConnected;
-
-var objectHasFunction = (data) => {
-    for (const key in data) {
-        if (isFunction$2(data[key])) {
-            return true;
-        }
-    }
-    return false;
-};
-
-function markFieldsDirty(data, fields = {}) {
-    const isParentNodeArray = Array.isArray(data);
-    if (isObject$2(data) || isParentNodeArray) {
-        for (const key in data) {
-            if (Array.isArray(data[key]) ||
-                (isObject$2(data[key]) && !objectHasFunction(data[key]))) {
-                fields[key] = Array.isArray(data[key]) ? [] : {};
-                markFieldsDirty(data[key], fields[key]);
-            }
-            else if (!isNullOrUndefined(data[key])) {
-                fields[key] = true;
-            }
-        }
-    }
-    return fields;
-}
-function getDirtyFieldsFromDefaultValues(data, formValues, dirtyFieldsFromValues) {
-    const isParentNodeArray = Array.isArray(data);
-    if (isObject$2(data) || isParentNodeArray) {
-        for (const key in data) {
-            if (Array.isArray(data[key]) ||
-                (isObject$2(data[key]) && !objectHasFunction(data[key]))) {
-                if (isUndefined$1(formValues) ||
-                    isPrimitive(dirtyFieldsFromValues[key])) {
-                    dirtyFieldsFromValues[key] = Array.isArray(data[key])
-                        ? markFieldsDirty(data[key], [])
-                        : { ...markFieldsDirty(data[key]) };
-                }
-                else {
-                    getDirtyFieldsFromDefaultValues(data[key], isNullOrUndefined(formValues) ? {} : formValues[key], dirtyFieldsFromValues[key]);
-                }
-            }
-            else {
-                dirtyFieldsFromValues[key] = !deepEqual(data[key], formValues[key]);
-            }
-        }
-    }
-    return dirtyFieldsFromValues;
-}
-var getDirtyFields = (defaultValues, formValues) => getDirtyFieldsFromDefaultValues(defaultValues, formValues, markFieldsDirty(formValues));
-
-var getFieldValueAs = (value, { valueAsNumber, valueAsDate, setValueAs }) => isUndefined$1(value)
-    ? value
-    : valueAsNumber
-        ? value === ''
-            ? NaN
-            : value
-                ? +value
-                : value
-        : valueAsDate && isString$2(value)
-            ? new Date(value)
-            : setValueAs
-                ? setValueAs(value)
-                : value;
-
-function getFieldValue(_f) {
-    const ref = _f.ref;
-    if (_f.refs ? _f.refs.every((ref) => ref.disabled) : ref.disabled) {
-        return;
-    }
-    if (isFileInput(ref)) {
-        return ref.files;
-    }
-    if (isRadioInput(ref)) {
-        return getRadioValue(_f.refs).value;
-    }
-    if (isMultipleSelect(ref)) {
-        return [...ref.selectedOptions].map(({ value }) => value);
-    }
-    if (isCheckBoxInput(ref)) {
-        return getCheckboxValue(_f.refs).value;
-    }
-    return getFieldValueAs(isUndefined$1(ref.value) ? _f.ref.value : ref.value, _f);
-}
-
-var getResolverOptions = (fieldsNames, _fields, criteriaMode, shouldUseNativeValidation) => {
-    const fields = {};
-    for (const name of fieldsNames) {
-        const field = get(_fields, name);
-        field && set(fields, name, field._f);
-    }
-    return {
-        criteriaMode,
-        names: [...fieldsNames],
-        fields,
-        shouldUseNativeValidation,
-    };
-};
-
-var getRuleValue = (rule) => isUndefined$1(rule)
-    ? rule
-    : isRegex(rule)
-        ? rule.source
-        : isObject$2(rule)
-            ? isRegex(rule.value)
-                ? rule.value.source
-                : rule.value
-            : rule;
-
-const ASYNC_FUNCTION = 'AsyncFunction';
-var hasPromiseValidation = (fieldReference) => (!fieldReference || !fieldReference.validate) &&
-    !!((isFunction$2(fieldReference.validate) &&
-        fieldReference.validate.constructor.name === ASYNC_FUNCTION) ||
-        (isObject$2(fieldReference.validate) &&
-            Object.values(fieldReference.validate).find((validateFunction) => validateFunction.constructor.name === ASYNC_FUNCTION)));
-
-var hasValidation = (options) => options.mount &&
-    (options.required ||
-        options.min ||
-        options.max ||
-        options.maxLength ||
-        options.minLength ||
-        options.pattern ||
-        options.validate);
-
-function schemaErrorLookup(errors, _fields, name) {
-    const error = get(errors, name);
-    if (error || isKey(name)) {
-        return {
-            error,
-            name,
-        };
-    }
-    const names = name.split('.');
-    while (names.length) {
-        const fieldName = names.join('.');
-        const field = get(_fields, fieldName);
-        const foundError = get(errors, fieldName);
-        if (field && !Array.isArray(field) && name !== fieldName) {
-            return { name };
-        }
-        if (foundError && foundError.type) {
-            return {
-                name: fieldName,
-                error: foundError,
-            };
-        }
-        names.pop();
-    }
-    return {
-        name,
-    };
-}
-
-var skipValidation = (isBlurEvent, isTouched, isSubmitted, reValidateMode, mode) => {
-    if (mode.isOnAll) {
-        return false;
-    }
-    else if (!isSubmitted && mode.isOnTouch) {
-        return !(isTouched || isBlurEvent);
-    }
-    else if (isSubmitted ? reValidateMode.isOnBlur : mode.isOnBlur) {
-        return !isBlurEvent;
-    }
-    else if (isSubmitted ? reValidateMode.isOnChange : mode.isOnChange) {
-        return isBlurEvent;
-    }
-    return true;
-};
-
-var unsetEmptyArray = (ref, name) => !compact(get(ref, name)).length && unset(ref, name);
-
-const defaultOptions$1 = {
-    mode: VALIDATION_MODE.onSubmit,
-    reValidateMode: VALIDATION_MODE.onChange,
-    shouldFocusError: true,
-};
-function createFormControl(props = {}) {
-    let _options = {
-        ...defaultOptions$1,
-        ...props,
-    };
-    let _formState = {
-        submitCount: 0,
-        isDirty: false,
-        isLoading: isFunction$2(_options.defaultValues),
-        isValidating: false,
-        isSubmitted: false,
-        isSubmitting: false,
-        isSubmitSuccessful: false,
-        isValid: false,
-        touchedFields: {},
-        dirtyFields: {},
-        validatingFields: {},
-        errors: _options.errors || {},
-        disabled: _options.disabled || false,
-    };
-    let _fields = {};
-    let _defaultValues = isObject$2(_options.defaultValues) || isObject$2(_options.values)
-        ? cloneObject(_options.defaultValues || _options.values) || {}
-        : {};
-    let _formValues = _options.shouldUnregister
-        ? {}
-        : cloneObject(_defaultValues);
-    let _state = {
-        action: false,
-        mount: false,
-        watch: false,
-    };
-    let _names = {
-        mount: new Set(),
-        unMount: new Set(),
-        array: new Set(),
-        watch: new Set(),
-    };
-    let delayErrorCallback;
-    let timer = 0;
-    const _proxyFormState = {
-        isDirty: false,
-        dirtyFields: false,
-        validatingFields: false,
-        touchedFields: false,
-        isValidating: false,
-        isValid: false,
-        errors: false,
-    };
-    const _subjects = {
-        values: createSubject(),
-        array: createSubject(),
-        state: createSubject(),
-    };
-    const validationModeBeforeSubmit = getValidationModes(_options.mode);
-    const validationModeAfterSubmit = getValidationModes(_options.reValidateMode);
-    const shouldDisplayAllAssociatedErrors = _options.criteriaMode === VALIDATION_MODE.all;
-    const debounce = (callback) => (wait) => {
-        clearTimeout(timer);
-        timer = setTimeout(callback, wait);
-    };
-    const _updateValid = async (shouldUpdateValid) => {
-        if (_proxyFormState.isValid || shouldUpdateValid) {
-            const isValid = _options.resolver
-                ? isEmptyObject((await _executeSchema()).errors)
-                : await executeBuiltInValidation(_fields, true);
-            if (isValid !== _formState.isValid) {
-                _subjects.state.next({
-                    isValid,
-                });
-            }
-        }
-    };
-    const _updateIsValidating = (names, isValidating) => {
-        if (_proxyFormState.isValidating || _proxyFormState.validatingFields) {
-            (names || Array.from(_names.mount)).forEach((name) => {
-                if (name) {
-                    isValidating
-                        ? set(_formState.validatingFields, name, isValidating)
-                        : unset(_formState.validatingFields, name);
-                }
-            });
-            _subjects.state.next({
-                validatingFields: _formState.validatingFields,
-                isValidating: !isEmptyObject(_formState.validatingFields),
-            });
-        }
-    };
-    const _updateFieldArray = (name, values = [], method, args, shouldSetValues = true, shouldUpdateFieldsAndState = true) => {
-        if (args && method) {
-            _state.action = true;
-            if (shouldUpdateFieldsAndState && Array.isArray(get(_fields, name))) {
-                const fieldValues = method(get(_fields, name), args.argA, args.argB);
-                shouldSetValues && set(_fields, name, fieldValues);
-            }
-            if (shouldUpdateFieldsAndState &&
-                Array.isArray(get(_formState.errors, name))) {
-                const errors = method(get(_formState.errors, name), args.argA, args.argB);
-                shouldSetValues && set(_formState.errors, name, errors);
-                unsetEmptyArray(_formState.errors, name);
-            }
-            if (_proxyFormState.touchedFields &&
-                shouldUpdateFieldsAndState &&
-                Array.isArray(get(_formState.touchedFields, name))) {
-                const touchedFields = method(get(_formState.touchedFields, name), args.argA, args.argB);
-                shouldSetValues && set(_formState.touchedFields, name, touchedFields);
-            }
-            if (_proxyFormState.dirtyFields) {
-                _formState.dirtyFields = getDirtyFields(_defaultValues, _formValues);
-            }
-            _subjects.state.next({
-                name,
-                isDirty: _getDirty(name, values),
-                dirtyFields: _formState.dirtyFields,
-                errors: _formState.errors,
-                isValid: _formState.isValid,
-            });
-        }
-        else {
-            set(_formValues, name, values);
-        }
-    };
-    const updateErrors = (name, error) => {
-        set(_formState.errors, name, error);
-        _subjects.state.next({
-            errors: _formState.errors,
-        });
-    };
-    const _setErrors = (errors) => {
-        _formState.errors = errors;
-        _subjects.state.next({
-            errors: _formState.errors,
-            isValid: false,
-        });
-    };
-    const updateValidAndValue = (name, shouldSkipSetValueAs, value, ref) => {
-        const field = get(_fields, name);
-        if (field) {
-            const defaultValue = get(_formValues, name, isUndefined$1(value) ? get(_defaultValues, name) : value);
-            isUndefined$1(defaultValue) ||
-                (ref && ref.defaultChecked) ||
-                shouldSkipSetValueAs
-                ? set(_formValues, name, shouldSkipSetValueAs ? defaultValue : getFieldValue(field._f))
-                : setFieldValue(name, defaultValue);
-            _state.mount && _updateValid();
-        }
-    };
-    const updateTouchAndDirty = (name, fieldValue, isBlurEvent, shouldDirty, shouldRender) => {
-        let shouldUpdateField = false;
-        let isPreviousDirty = false;
-        const output = {
-            name,
-        };
-        const disabledField = !!(get(_fields, name) &&
-            get(_fields, name)._f &&
-            get(_fields, name)._f.disabled);
-        if (!isBlurEvent || shouldDirty) {
-            if (_proxyFormState.isDirty) {
-                isPreviousDirty = _formState.isDirty;
-                _formState.isDirty = output.isDirty = _getDirty();
-                shouldUpdateField = isPreviousDirty !== output.isDirty;
-            }
-            const isCurrentFieldPristine = disabledField || deepEqual(get(_defaultValues, name), fieldValue);
-            isPreviousDirty = !!(!disabledField && get(_formState.dirtyFields, name));
-            isCurrentFieldPristine || disabledField
-                ? unset(_formState.dirtyFields, name)
-                : set(_formState.dirtyFields, name, true);
-            output.dirtyFields = _formState.dirtyFields;
-            shouldUpdateField =
-                shouldUpdateField ||
-                    (_proxyFormState.dirtyFields &&
-                        isPreviousDirty !== !isCurrentFieldPristine);
-        }
-        if (isBlurEvent) {
-            const isPreviousFieldTouched = get(_formState.touchedFields, name);
-            if (!isPreviousFieldTouched) {
-                set(_formState.touchedFields, name, isBlurEvent);
-                output.touchedFields = _formState.touchedFields;
-                shouldUpdateField =
-                    shouldUpdateField ||
-                        (_proxyFormState.touchedFields &&
-                            isPreviousFieldTouched !== isBlurEvent);
-            }
-        }
-        shouldUpdateField && shouldRender && _subjects.state.next(output);
-        return shouldUpdateField ? output : {};
-    };
-    const shouldRenderByError = (name, isValid, error, fieldState) => {
-        const previousFieldError = get(_formState.errors, name);
-        const shouldUpdateValid = _proxyFormState.isValid &&
-            isBoolean$1(isValid) &&
-            _formState.isValid !== isValid;
-        if (props.delayError && error) {
-            delayErrorCallback = debounce(() => updateErrors(name, error));
-            delayErrorCallback(props.delayError);
-        }
-        else {
-            clearTimeout(timer);
-            delayErrorCallback = null;
-            error
-                ? set(_formState.errors, name, error)
-                : unset(_formState.errors, name);
-        }
-        if ((error ? !deepEqual(previousFieldError, error) : previousFieldError) ||
-            !isEmptyObject(fieldState) ||
-            shouldUpdateValid) {
-            const updatedFormState = {
-                ...fieldState,
-                ...(shouldUpdateValid && isBoolean$1(isValid) ? { isValid } : {}),
-                errors: _formState.errors,
-                name,
-            };
-            _formState = {
-                ..._formState,
-                ...updatedFormState,
-            };
-            _subjects.state.next(updatedFormState);
-        }
-    };
-    const _executeSchema = async (name) => {
-        _updateIsValidating(name, true);
-        const result = await _options.resolver(_formValues, _options.context, getResolverOptions(name || _names.mount, _fields, _options.criteriaMode, _options.shouldUseNativeValidation));
-        _updateIsValidating(name);
-        return result;
-    };
-    const executeSchemaAndUpdateState = async (names) => {
-        const { errors } = await _executeSchema(names);
-        if (names) {
-            for (const name of names) {
-                const error = get(errors, name);
-                error
-                    ? set(_formState.errors, name, error)
-                    : unset(_formState.errors, name);
-            }
-        }
-        else {
-            _formState.errors = errors;
-        }
-        return errors;
-    };
-    const executeBuiltInValidation = async (fields, shouldOnlyCheckValid, context = {
-        valid: true,
-    }) => {
-        for (const name in fields) {
-            const field = fields[name];
-            if (field) {
-                const { _f, ...fieldValue } = field;
-                if (_f) {
-                    const isFieldArrayRoot = _names.array.has(_f.name);
-                    const isPromiseFunction = field._f && hasPromiseValidation(field._f);
-                    if (isPromiseFunction && _proxyFormState.validatingFields) {
-                        _updateIsValidating([name], true);
-                    }
-                    const fieldError = await validateField(field, _formValues, shouldDisplayAllAssociatedErrors, _options.shouldUseNativeValidation && !shouldOnlyCheckValid, isFieldArrayRoot);
-                    if (isPromiseFunction && _proxyFormState.validatingFields) {
-                        _updateIsValidating([name]);
-                    }
-                    if (fieldError[_f.name]) {
-                        context.valid = false;
-                        if (shouldOnlyCheckValid) {
-                            break;
-                        }
-                    }
-                    !shouldOnlyCheckValid &&
-                        (get(fieldError, _f.name)
-                            ? isFieldArrayRoot
-                                ? updateFieldArrayRootError(_formState.errors, fieldError, _f.name)
-                                : set(_formState.errors, _f.name, fieldError[_f.name])
-                            : unset(_formState.errors, _f.name));
-                }
-                !isEmptyObject(fieldValue) &&
-                    (await executeBuiltInValidation(fieldValue, shouldOnlyCheckValid, context));
-            }
-        }
-        return context.valid;
-    };
-    const _removeUnmounted = () => {
-        for (const name of _names.unMount) {
-            const field = get(_fields, name);
-            field &&
-                (field._f.refs
-                    ? field._f.refs.every((ref) => !live(ref))
-                    : !live(field._f.ref)) &&
-                unregister(name);
-        }
-        _names.unMount = new Set();
-    };
-    const _getDirty = (name, data) => (name && data && set(_formValues, name, data),
-        !deepEqual(getValues(), _defaultValues));
-    const _getWatch = (names, defaultValue, isGlobal) => generateWatchOutput(names, _names, {
-        ...(_state.mount
-            ? _formValues
-            : isUndefined$1(defaultValue)
-                ? _defaultValues
-                : isString$2(names)
-                    ? { [names]: defaultValue }
-                    : defaultValue),
-    }, isGlobal, defaultValue);
-    const _getFieldArray = (name) => compact(get(_state.mount ? _formValues : _defaultValues, name, props.shouldUnregister ? get(_defaultValues, name, []) : []));
-    const setFieldValue = (name, value, options = {}) => {
-        const field = get(_fields, name);
-        let fieldValue = value;
-        if (field) {
-            const fieldReference = field._f;
-            if (fieldReference) {
-                !fieldReference.disabled &&
-                    set(_formValues, name, getFieldValueAs(value, fieldReference));
-                fieldValue =
-                    isHTMLElement$2(fieldReference.ref) && isNullOrUndefined(value)
-                        ? ''
-                        : value;
-                if (isMultipleSelect(fieldReference.ref)) {
-                    [...fieldReference.ref.options].forEach((optionRef) => (optionRef.selected = fieldValue.includes(optionRef.value)));
-                }
-                else if (fieldReference.refs) {
-                    if (isCheckBoxInput(fieldReference.ref)) {
-                        fieldReference.refs.length > 1
-                            ? fieldReference.refs.forEach((checkboxRef) => (!checkboxRef.defaultChecked || !checkboxRef.disabled) &&
-                                (checkboxRef.checked = Array.isArray(fieldValue)
-                                    ? !!fieldValue.find((data) => data === checkboxRef.value)
-                                    : fieldValue === checkboxRef.value))
-                            : fieldReference.refs[0] &&
-                                (fieldReference.refs[0].checked = !!fieldValue);
-                    }
-                    else {
-                        fieldReference.refs.forEach((radioRef) => (radioRef.checked = radioRef.value === fieldValue));
-                    }
-                }
-                else if (isFileInput(fieldReference.ref)) {
-                    fieldReference.ref.value = '';
-                }
-                else {
-                    fieldReference.ref.value = fieldValue;
-                    if (!fieldReference.ref.type) {
-                        _subjects.values.next({
-                            name,
-                            values: { ..._formValues },
-                        });
-                    }
-                }
-            }
-        }
-        (options.shouldDirty || options.shouldTouch) &&
-            updateTouchAndDirty(name, fieldValue, options.shouldTouch, options.shouldDirty, true);
-        options.shouldValidate && trigger(name);
-    };
-    const setValues = (name, value, options) => {
-        for (const fieldKey in value) {
-            const fieldValue = value[fieldKey];
-            const fieldName = `${name}.${fieldKey}`;
-            const field = get(_fields, fieldName);
-            (_names.array.has(name) ||
-                !isPrimitive(fieldValue) ||
-                (field && !field._f)) &&
-                !isDateObject(fieldValue)
-                ? setValues(fieldName, fieldValue, options)
-                : setFieldValue(fieldName, fieldValue, options);
-        }
-    };
-    const setValue = (name, value, options = {}) => {
-        const field = get(_fields, name);
-        const isFieldArray = _names.array.has(name);
-        const cloneValue = cloneObject(value);
-        set(_formValues, name, cloneValue);
-        if (isFieldArray) {
-            _subjects.array.next({
-                name,
-                values: { ..._formValues },
-            });
-            if ((_proxyFormState.isDirty || _proxyFormState.dirtyFields) &&
-                options.shouldDirty) {
-                _subjects.state.next({
-                    name,
-                    dirtyFields: getDirtyFields(_defaultValues, _formValues),
-                    isDirty: _getDirty(name, cloneValue),
-                });
-            }
-        }
-        else {
-            field && !field._f && !isNullOrUndefined(cloneValue)
-                ? setValues(name, cloneValue, options)
-                : setFieldValue(name, cloneValue, options);
-        }
-        isWatched(name, _names) && _subjects.state.next({ ..._formState });
-        _subjects.values.next({
-            name: _state.mount ? name : undefined,
-            values: { ..._formValues },
-        });
-    };
-    const onChange = async (event) => {
-        _state.mount = true;
-        const target = event.target;
-        let name = target.name;
-        let isFieldValueUpdated = true;
-        const field = get(_fields, name);
-        const getCurrentFieldValue = () => target.type ? getFieldValue(field._f) : getEventValue(event);
-        const _updateIsFieldValueUpdated = (fieldValue) => {
-            isFieldValueUpdated =
-                Number.isNaN(fieldValue) ||
-                    deepEqual(fieldValue, get(_formValues, name, fieldValue));
-        };
-        if (field) {
-            let error;
-            let isValid;
-            const fieldValue = getCurrentFieldValue();
-            const isBlurEvent = event.type === EVENTS.BLUR || event.type === EVENTS.FOCUS_OUT;
-            const shouldSkipValidation = (!hasValidation(field._f) &&
-                !_options.resolver &&
-                !get(_formState.errors, name) &&
-                !field._f.deps) ||
-                skipValidation(isBlurEvent, get(_formState.touchedFields, name), _formState.isSubmitted, validationModeAfterSubmit, validationModeBeforeSubmit);
-            const watched = isWatched(name, _names, isBlurEvent);
-            set(_formValues, name, fieldValue);
-            if (isBlurEvent) {
-                field._f.onBlur && field._f.onBlur(event);
-                delayErrorCallback && delayErrorCallback(0);
-            }
-            else if (field._f.onChange) {
-                field._f.onChange(event);
-            }
-            const fieldState = updateTouchAndDirty(name, fieldValue, isBlurEvent, false);
-            const shouldRender = !isEmptyObject(fieldState) || watched;
-            !isBlurEvent &&
-                _subjects.values.next({
-                    name,
-                    type: event.type,
-                    values: { ..._formValues },
-                });
-            if (shouldSkipValidation) {
-                if (_proxyFormState.isValid) {
-                    if (props.mode === 'onBlur') {
-                        if (isBlurEvent) {
-                            _updateValid();
-                        }
-                    }
-                    else {
-                        _updateValid();
-                    }
-                }
-                return (shouldRender &&
-                    _subjects.state.next({ name, ...(watched ? {} : fieldState) }));
-            }
-            !isBlurEvent && watched && _subjects.state.next({ ..._formState });
-            if (_options.resolver) {
-                const { errors } = await _executeSchema([name]);
-                _updateIsFieldValueUpdated(fieldValue);
-                if (isFieldValueUpdated) {
-                    const previousErrorLookupResult = schemaErrorLookup(_formState.errors, _fields, name);
-                    const errorLookupResult = schemaErrorLookup(errors, _fields, previousErrorLookupResult.name || name);
-                    error = errorLookupResult.error;
-                    name = errorLookupResult.name;
-                    isValid = isEmptyObject(errors);
-                }
-            }
-            else {
-                _updateIsValidating([name], true);
-                error = (await validateField(field, _formValues, shouldDisplayAllAssociatedErrors, _options.shouldUseNativeValidation))[name];
-                _updateIsValidating([name]);
-                _updateIsFieldValueUpdated(fieldValue);
-                if (isFieldValueUpdated) {
-                    if (error) {
-                        isValid = false;
-                    }
-                    else if (_proxyFormState.isValid) {
-                        isValid = await executeBuiltInValidation(_fields, true);
-                    }
-                }
-            }
-            if (isFieldValueUpdated) {
-                field._f.deps &&
-                    trigger(field._f.deps);
-                shouldRenderByError(name, isValid, error, fieldState);
-            }
-        }
-    };
-    const _focusInput = (ref, key) => {
-        if (get(_formState.errors, key) && ref.focus) {
-            ref.focus();
-            return 1;
-        }
-        return;
-    };
-    const trigger = async (name, options = {}) => {
-        let isValid;
-        let validationResult;
-        const fieldNames = convertToArrayPayload(name);
-        if (_options.resolver) {
-            const errors = await executeSchemaAndUpdateState(isUndefined$1(name) ? name : fieldNames);
-            isValid = isEmptyObject(errors);
-            validationResult = name
-                ? !fieldNames.some((name) => get(errors, name))
-                : isValid;
-        }
-        else if (name) {
-            validationResult = (await Promise.all(fieldNames.map(async (fieldName) => {
-                const field = get(_fields, fieldName);
-                return await executeBuiltInValidation(field && field._f ? { [fieldName]: field } : field);
-            }))).every(Boolean);
-            !(!validationResult && !_formState.isValid) && _updateValid();
-        }
-        else {
-            validationResult = isValid = await executeBuiltInValidation(_fields);
-        }
-        _subjects.state.next({
-            ...(!isString$2(name) ||
-                (_proxyFormState.isValid && isValid !== _formState.isValid)
-                ? {}
-                : { name }),
-            ...(_options.resolver || !name ? { isValid } : {}),
-            errors: _formState.errors,
-        });
-        options.shouldFocus &&
-            !validationResult &&
-            iterateFieldsByAction(_fields, _focusInput, name ? fieldNames : _names.mount);
-        return validationResult;
-    };
-    const getValues = (fieldNames) => {
-        const values = {
-            ...(_state.mount ? _formValues : _defaultValues),
-        };
-        return isUndefined$1(fieldNames)
-            ? values
-            : isString$2(fieldNames)
-                ? get(values, fieldNames)
-                : fieldNames.map((name) => get(values, name));
-    };
-    const getFieldState = (name, formState) => ({
-        invalid: !!get((formState || _formState).errors, name),
-        isDirty: !!get((formState || _formState).dirtyFields, name),
-        error: get((formState || _formState).errors, name),
-        isValidating: !!get(_formState.validatingFields, name),
-        isTouched: !!get((formState || _formState).touchedFields, name),
-    });
-    const clearErrors = (name) => {
-        name &&
-            convertToArrayPayload(name).forEach((inputName) => unset(_formState.errors, inputName));
-        _subjects.state.next({
-            errors: name ? _formState.errors : {},
-        });
-    };
-    const setError = (name, error, options) => {
-        const ref = (get(_fields, name, { _f: {} })._f || {}).ref;
-        const currentError = get(_formState.errors, name) || {};
-        // Don't override existing error messages elsewhere in the object tree.
-        const { ref: currentRef, message, type, ...restOfErrorTree } = currentError;
-        set(_formState.errors, name, {
-            ...restOfErrorTree,
-            ...error,
-            ref,
-        });
-        _subjects.state.next({
-            name,
-            errors: _formState.errors,
-            isValid: false,
-        });
-        options && options.shouldFocus && ref && ref.focus && ref.focus();
-    };
-    const watch = (name, defaultValue) => isFunction$2(name)
-        ? _subjects.values.subscribe({
-            next: (payload) => name(_getWatch(undefined, defaultValue), payload),
-        })
-        : _getWatch(name, defaultValue, true);
-    const unregister = (name, options = {}) => {
-        for (const fieldName of name ? convertToArrayPayload(name) : _names.mount) {
-            _names.mount.delete(fieldName);
-            _names.array.delete(fieldName);
-            if (!options.keepValue) {
-                unset(_fields, fieldName);
-                unset(_formValues, fieldName);
-            }
-            !options.keepError && unset(_formState.errors, fieldName);
-            !options.keepDirty && unset(_formState.dirtyFields, fieldName);
-            !options.keepTouched && unset(_formState.touchedFields, fieldName);
-            !options.keepIsValidating &&
-                unset(_formState.validatingFields, fieldName);
-            !_options.shouldUnregister &&
-                !options.keepDefaultValue &&
-                unset(_defaultValues, fieldName);
-        }
-        _subjects.values.next({
-            values: { ..._formValues },
-        });
-        _subjects.state.next({
-            ..._formState,
-            ...(!options.keepDirty ? {} : { isDirty: _getDirty() }),
-        });
-        !options.keepIsValid && _updateValid();
-    };
-    const _updateDisabledField = ({ disabled, name, field, fields, value, }) => {
-        if ((isBoolean$1(disabled) && _state.mount) || !!disabled) {
-            const inputValue = disabled
-                ? undefined
-                : isUndefined$1(value)
-                    ? getFieldValue(field ? field._f : get(fields, name)._f)
-                    : value;
-            set(_formValues, name, inputValue);
-            updateTouchAndDirty(name, inputValue, false, false, true);
-        }
-    };
-    const register = (name, options = {}) => {
-        let field = get(_fields, name);
-        const disabledIsDefined = isBoolean$1(options.disabled) || isBoolean$1(props.disabled);
-        set(_fields, name, {
-            ...(field || {}),
-            _f: {
-                ...(field && field._f ? field._f : { ref: { name } }),
-                name,
-                mount: true,
-                ...options,
-            },
-        });
-        _names.mount.add(name);
-        if (field) {
-            _updateDisabledField({
-                field,
-                disabled: isBoolean$1(options.disabled)
-                    ? options.disabled
-                    : props.disabled,
-                name,
-                value: options.value,
-            });
-        }
-        else {
-            updateValidAndValue(name, true, options.value);
-        }
-        return {
-            ...(disabledIsDefined
-                ? { disabled: options.disabled || props.disabled }
-                : {}),
-            ...(_options.progressive
-                ? {
-                    required: !!options.required,
-                    min: getRuleValue(options.min),
-                    max: getRuleValue(options.max),
-                    minLength: getRuleValue(options.minLength),
-                    maxLength: getRuleValue(options.maxLength),
-                    pattern: getRuleValue(options.pattern),
-                }
-                : {}),
-            name,
-            onChange,
-            onBlur: onChange,
-            ref: (ref) => {
-                if (ref) {
-                    register(name, options);
-                    field = get(_fields, name);
-                    const fieldRef = isUndefined$1(ref.value)
-                        ? ref.querySelectorAll
-                            ? ref.querySelectorAll('input,select,textarea')[0] || ref
-                            : ref
-                        : ref;
-                    const radioOrCheckbox = isRadioOrCheckbox(fieldRef);
-                    const refs = field._f.refs || [];
-                    if (radioOrCheckbox
-                        ? refs.find((option) => option === fieldRef)
-                        : fieldRef === field._f.ref) {
-                        return;
-                    }
-                    set(_fields, name, {
-                        _f: {
-                            ...field._f,
-                            ...(radioOrCheckbox
-                                ? {
-                                    refs: [
-                                        ...refs.filter(live),
-                                        fieldRef,
-                                        ...(Array.isArray(get(_defaultValues, name)) ? [{}] : []),
-                                    ],
-                                    ref: { type: fieldRef.type, name },
-                                }
-                                : { ref: fieldRef }),
-                        },
-                    });
-                    updateValidAndValue(name, false, undefined, fieldRef);
-                }
-                else {
-                    field = get(_fields, name, {});
-                    if (field._f) {
-                        field._f.mount = false;
-                    }
-                    (_options.shouldUnregister || options.shouldUnregister) &&
-                        !(isNameInFieldArray(_names.array, name) && _state.action) &&
-                        _names.unMount.add(name);
-                }
-            },
-        };
-    };
-    const _focusError = () => _options.shouldFocusError &&
-        iterateFieldsByAction(_fields, _focusInput, _names.mount);
-    const _disableForm = (disabled) => {
-        if (isBoolean$1(disabled)) {
-            _subjects.state.next({ disabled });
-            iterateFieldsByAction(_fields, (ref, name) => {
-                const currentField = get(_fields, name);
-                if (currentField) {
-                    ref.disabled = currentField._f.disabled || disabled;
-                    if (Array.isArray(currentField._f.refs)) {
-                        currentField._f.refs.forEach((inputRef) => {
-                            inputRef.disabled = currentField._f.disabled || disabled;
-                        });
-                    }
-                }
-            }, 0, false);
-        }
-    };
-    const handleSubmit = (onValid, onInvalid) => async (e) => {
-        let onValidError = undefined;
-        if (e) {
-            e.preventDefault && e.preventDefault();
-            e.persist && e.persist();
-        }
-        let fieldValues = cloneObject(_formValues);
-        _subjects.state.next({
-            isSubmitting: true,
-        });
-        if (_options.resolver) {
-            const { errors, values } = await _executeSchema();
-            _formState.errors = errors;
-            fieldValues = values;
-        }
-        else {
-            await executeBuiltInValidation(_fields);
-        }
-        unset(_formState.errors, 'root');
-        if (isEmptyObject(_formState.errors)) {
-            _subjects.state.next({
-                errors: {},
-            });
-            try {
-                await onValid(fieldValues, e);
-            }
-            catch (error) {
-                onValidError = error;
-            }
-        }
-        else {
-            if (onInvalid) {
-                await onInvalid({ ..._formState.errors }, e);
-            }
-            _focusError();
-            setTimeout(_focusError);
-        }
-        _subjects.state.next({
-            isSubmitted: true,
-            isSubmitting: false,
-            isSubmitSuccessful: isEmptyObject(_formState.errors) && !onValidError,
-            submitCount: _formState.submitCount + 1,
-            errors: _formState.errors,
-        });
-        if (onValidError) {
-            throw onValidError;
-        }
-    };
-    const resetField = (name, options = {}) => {
-        if (get(_fields, name)) {
-            if (isUndefined$1(options.defaultValue)) {
-                setValue(name, cloneObject(get(_defaultValues, name)));
-            }
-            else {
-                setValue(name, options.defaultValue);
-                set(_defaultValues, name, cloneObject(options.defaultValue));
-            }
-            if (!options.keepTouched) {
-                unset(_formState.touchedFields, name);
-            }
-            if (!options.keepDirty) {
-                unset(_formState.dirtyFields, name);
-                _formState.isDirty = options.defaultValue
-                    ? _getDirty(name, cloneObject(get(_defaultValues, name)))
-                    : _getDirty();
-            }
-            if (!options.keepError) {
-                unset(_formState.errors, name);
-                _proxyFormState.isValid && _updateValid();
-            }
-            _subjects.state.next({ ..._formState });
-        }
-    };
-    const _reset = (formValues, keepStateOptions = {}) => {
-        const updatedValues = formValues ? cloneObject(formValues) : _defaultValues;
-        const cloneUpdatedValues = cloneObject(updatedValues);
-        const isEmptyResetValues = isEmptyObject(formValues);
-        const values = isEmptyResetValues ? _defaultValues : cloneUpdatedValues;
-        if (!keepStateOptions.keepDefaultValues) {
-            _defaultValues = updatedValues;
-        }
-        if (!keepStateOptions.keepValues) {
-            if (keepStateOptions.keepDirtyValues) {
-                for (const fieldName of _names.mount) {
-                    get(_formState.dirtyFields, fieldName)
-                        ? set(values, fieldName, get(_formValues, fieldName))
-                        : setValue(fieldName, get(values, fieldName));
-                }
-            }
-            else {
-                if (isWeb && isUndefined$1(formValues)) {
-                    for (const name of _names.mount) {
-                        const field = get(_fields, name);
-                        if (field && field._f) {
-                            const fieldReference = Array.isArray(field._f.refs)
-                                ? field._f.refs[0]
-                                : field._f.ref;
-                            if (isHTMLElement$2(fieldReference)) {
-                                const form = fieldReference.closest('form');
-                                if (form) {
-                                    form.reset();
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                _fields = {};
-            }
-            _formValues = props.shouldUnregister
-                ? keepStateOptions.keepDefaultValues
-                    ? cloneObject(_defaultValues)
-                    : {}
-                : cloneObject(values);
-            _subjects.array.next({
-                values: { ...values },
-            });
-            _subjects.values.next({
-                values: { ...values },
-            });
-        }
-        _names = {
-            mount: keepStateOptions.keepDirtyValues ? _names.mount : new Set(),
-            unMount: new Set(),
-            array: new Set(),
-            watch: new Set(),
-            watchAll: false,
-            focus: '',
-        };
-        _state.mount =
-            !_proxyFormState.isValid ||
-                !!keepStateOptions.keepIsValid ||
-                !!keepStateOptions.keepDirtyValues;
-        _state.watch = !!props.shouldUnregister;
-        _subjects.state.next({
-            submitCount: keepStateOptions.keepSubmitCount
-                ? _formState.submitCount
-                : 0,
-            isDirty: isEmptyResetValues
-                ? false
-                : keepStateOptions.keepDirty
-                    ? _formState.isDirty
-                    : !!(keepStateOptions.keepDefaultValues &&
-                        !deepEqual(formValues, _defaultValues)),
-            isSubmitted: keepStateOptions.keepIsSubmitted
-                ? _formState.isSubmitted
-                : false,
-            dirtyFields: isEmptyResetValues
-                ? {}
-                : keepStateOptions.keepDirtyValues
-                    ? keepStateOptions.keepDefaultValues && _formValues
-                        ? getDirtyFields(_defaultValues, _formValues)
-                        : _formState.dirtyFields
-                    : keepStateOptions.keepDefaultValues && formValues
-                        ? getDirtyFields(_defaultValues, formValues)
-                        : keepStateOptions.keepDirty
-                            ? _formState.dirtyFields
-                            : {},
-            touchedFields: keepStateOptions.keepTouched
-                ? _formState.touchedFields
-                : {},
-            errors: keepStateOptions.keepErrors ? _formState.errors : {},
-            isSubmitSuccessful: keepStateOptions.keepIsSubmitSuccessful
-                ? _formState.isSubmitSuccessful
-                : false,
-            isSubmitting: false,
-        });
-    };
-    const reset = (formValues, keepStateOptions) => _reset(isFunction$2(formValues)
-        ? formValues(_formValues)
-        : formValues, keepStateOptions);
-    const setFocus = (name, options = {}) => {
-        const field = get(_fields, name);
-        const fieldReference = field && field._f;
-        if (fieldReference) {
-            const fieldRef = fieldReference.refs
-                ? fieldReference.refs[0]
-                : fieldReference.ref;
-            if (fieldRef.focus) {
-                fieldRef.focus();
-                options.shouldSelect && fieldRef.select();
-            }
-        }
-    };
-    const _updateFormState = (updatedFormState) => {
-        _formState = {
-            ..._formState,
-            ...updatedFormState,
-        };
-    };
-    const _resetDefaultValues = () => isFunction$2(_options.defaultValues) &&
-        _options.defaultValues().then((values) => {
-            reset(values, _options.resetOptions);
-            _subjects.state.next({
-                isLoading: false,
-            });
-        });
-    return {
-        control: {
-            register,
-            unregister,
-            getFieldState,
-            handleSubmit,
-            setError,
-            _executeSchema,
-            _getWatch,
-            _getDirty,
-            _updateValid,
-            _removeUnmounted,
-            _updateFieldArray,
-            _updateDisabledField,
-            _getFieldArray,
-            _reset,
-            _resetDefaultValues,
-            _updateFormState,
-            _disableForm,
-            _subjects,
-            _proxyFormState,
-            _setErrors,
-            get _fields() {
-                return _fields;
-            },
-            get _formValues() {
-                return _formValues;
-            },
-            get _state() {
-                return _state;
-            },
-            set _state(value) {
-                _state = value;
-            },
-            get _defaultValues() {
-                return _defaultValues;
-            },
-            get _names() {
-                return _names;
-            },
-            set _names(value) {
-                _names = value;
-            },
-            get _formState() {
-                return _formState;
-            },
-            set _formState(value) {
-                _formState = value;
-            },
-            get _options() {
-                return _options;
-            },
-            set _options(value) {
-                _options = {
-                    ..._options,
-                    ...value,
-                };
-            },
-        },
-        trigger,
-        register,
-        handleSubmit,
-        watch,
-        setValue,
-        getValues,
-        reset,
-        resetField,
-        clearErrors,
-        unregister,
-        setError,
-        setFocus,
-        getFieldState,
-    };
-}
-
-/**
- * Custom hook to manage the entire form.
- *
- * @remarks
- * [API](https://react-hook-form.com/docs/useform) • [Demo](https://codesandbox.io/s/react-hook-form-get-started-ts-5ksmm) • [Video](https://www.youtube.com/watch?v=RkXv4AXXC_4)
- *
- * @param props - form configuration and validation parameters.
- *
- * @returns methods - individual functions to manage the form state. {@link UseFormReturn}
- *
- * @example
- * ```tsx
- * function App() {
- *   const { register, handleSubmit, watch, formState: { errors } } = useForm();
- *   const onSubmit = data => console.log(data);
- *
- *   console.log(watch("example"));
- *
- *   return (
- *     <form onSubmit={handleSubmit(onSubmit)}>
- *       <input defaultValue="test" {...register("example")} />
- *       <input {...register("exampleRequired", { required: true })} />
- *       {errors.exampleRequired && <span>This field is required</span>}
- *       <button>Submit</button>
- *     </form>
- *   );
- * }
- * ```
- */
-function useForm(props = {}) {
-    const _formControl = React$1.useRef();
-    const _values = React$1.useRef();
-    const [formState, updateFormState] = React$1.useState({
-        isDirty: false,
-        isValidating: false,
-        isLoading: isFunction$2(props.defaultValues),
-        isSubmitted: false,
-        isSubmitting: false,
-        isSubmitSuccessful: false,
-        isValid: false,
-        submitCount: 0,
-        dirtyFields: {},
-        touchedFields: {},
-        validatingFields: {},
-        errors: props.errors || {},
-        disabled: props.disabled || false,
-        defaultValues: isFunction$2(props.defaultValues)
-            ? undefined
-            : props.defaultValues,
-    });
-    if (!_formControl.current) {
-        _formControl.current = {
-            ...createFormControl(props),
-            formState,
-        };
-    }
-    const control = _formControl.current.control;
-    control._options = props;
-    useSubscribe({
-        subject: control._subjects.state,
-        next: (value) => {
-            if (shouldRenderFormState(value, control._proxyFormState, control._updateFormState, true)) {
-                updateFormState({ ...control._formState });
-            }
-        },
-    });
-    React$1.useEffect(() => control._disableForm(props.disabled), [control, props.disabled]);
-    React$1.useEffect(() => {
-        if (control._proxyFormState.isDirty) {
-            const isDirty = control._getDirty();
-            if (isDirty !== formState.isDirty) {
-                control._subjects.state.next({
-                    isDirty,
-                });
-            }
-        }
-    }, [control, formState.isDirty]);
-    React$1.useEffect(() => {
-        if (props.values && !deepEqual(props.values, _values.current)) {
-            control._reset(props.values, control._options.resetOptions);
-            _values.current = props.values;
-            updateFormState((state) => ({ ...state }));
-        }
-        else {
-            control._resetDefaultValues();
-        }
-    }, [props.values, control]);
-    React$1.useEffect(() => {
-        if (props.errors) {
-            control._setErrors(props.errors);
-        }
-    }, [props.errors, control]);
-    React$1.useEffect(() => {
-        if (!control._state.mount) {
-            control._updateValid();
-            control._state.mount = true;
-        }
-        if (control._state.watch) {
-            control._state.watch = false;
-            control._subjects.state.next({ ...control._formState });
-        }
-        control._removeUnmounted();
-    });
-    React$1.useEffect(() => {
-        props.shouldUnregister &&
-            control._subjects.values.next({
-                values: control._getWatch(),
-            });
-    }, [props.shouldUnregister, control]);
-    _formControl.current.formState = getProxyFormState(formState, control);
-    return _formControl.current;
-}
-
-var LOVELACE = 1000000;
-var DECIMALS = 6;
-var correctAdaFormat = function (lovelace) {
-    if (lovelace) {
-        return Number.parseFloat((lovelace / LOVELACE).toFixed(DECIMALS));
-    }
-    return 0;
-};
-
-var callAll = function () {
-    var fns = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        fns[_i] = arguments[_i];
-    }
-    return function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
-        return fns.forEach(function (fn) { return fn && fn.apply(void 0, args); });
-    };
-};
-
-/**
- * Downloads a JSON object as a file.
- * @param json - The JSON object to be downloaded.
- * @param fileName - The name of the file to be downloaded.
- * If not provided, the default name will be "data.jsonld".
- */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-var downloadJson = function (json, fileName) {
-    var blob = new Blob([JSON.stringify(json, null, 2)], {
-        type: 'application/json',
-    });
-    var url = URL.createObjectURL(blob);
-    var link = document.createElement('a');
-    link.href = url;
-    link.download = "".concat(fileName, ".jsonld");
-    // Fallback: If iOS/Safari doesn't support `download`, open the data in a new tab
-    if (navigator.userAgent.includes('Safari') &&
-        !navigator.userAgent.includes('Chrome')) {
-        window.open(url, '_blank');
-    }
-    else {
-        link.click();
-    }
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-};
-
-/**
- * Filters out null parameters from the original object and returns a new object.
- *
- * @param originalObject - The original object to filter.
- * @param filterOutKeys - An optional array of keys to exclude from the filtering process.
- * @returns The filtered object without null parameters.
- */
-var filterOutNullParams = function (originalObject, filterOutKeys) {
-    if (!originalObject) {
-        return null;
-    }
-    var finalObject = Object.entries(originalObject).reduce(function (acc, _a) {
-        var key = _a[0], value = _a[1];
-        if (value !== null &&
-            value !== undefined &&
-            !(filterOutKeys === null || filterOutKeys === void 0 ? void 0 : filterOutKeys.includes(key))) {
-            acc[key] = value;
-        }
-        return acc;
-    }, {});
-    return finalObject;
-};
-
-/**
- * Filters the updatable protocol parameters based on the original object,
- * reference object, and optional filter-out keys.
- *
- * @param originalObject - The original object containing the protocol parameters.
- * @param referenceObject - The reference object containing the updated protocol parameters.
- * @param filterOutKeys - An optional array of keys to be excluded from the final object.
- * @returns The filtered object containing the updatable protocol parameters or null.
- */
-var filterUpdatableProtocolParams = function (originalObject, referenceObject, filterOutKeys) {
-    if (!originalObject || !referenceObject) {
-        return null;
-    }
-    var finalObject = Object.entries(referenceObject).reduce(function (acc, _a) {
-        var key = _a[0], referenceValue = _a[1];
-        var isValid = !(filterOutKeys === null || filterOutKeys === void 0 ? void 0 : filterOutKeys.includes(key)) &&
-            originalObject.hasOwnProperty(key) &&
-            referenceValue !== undefined &&
-            referenceValue !== null;
-        if (isValid)
-            acc[key] = originalObject[key];
-        return acc;
-    }, {});
-    return finalObject;
-};
-
-/**
- * @module constants
- * @summary Useful constants
- * @description
- * Collection of useful date constants.
- *
- * The constants could be imported from `date-fns/constants`:
- *
- * ```ts
- * import { maxTime, minTime } from "./constants/date-fns/constants";
- *
- * function isAllowedTime(time) {
- *   return time <= maxTime && time >= minTime;
- * }
- * ```
- */
-
-
-/**
- * @constant
- * @name millisecondsInWeek
- * @summary Milliseconds in 1 week.
- */
-const millisecondsInWeek = 604800000;
-
-/**
- * @constant
- * @name millisecondsInDay
- * @summary Milliseconds in 1 day.
- */
-const millisecondsInDay = 86400000;
-
-/**
- * @constant
- * @name constructFromSymbol
- * @summary Symbol enabling Date extensions to inherit properties from the reference date.
- *
- * The symbol is used to enable the `constructFrom` function to construct a date
- * using a reference date and a value. It allows to transfer extra properties
- * from the reference date to the new date. It's useful for extensions like
- * [`TZDate`](https://github.com/date-fns/tz) that accept a time zone as
- * a constructor argument.
- */
-const constructFromSymbol = Symbol.for("constructDateFrom");
-
-/**
- * @name constructFrom
- * @category Generic Helpers
- * @summary Constructs a date using the reference date and the value
- *
- * @description
- * The function constructs a new date using the constructor from the reference
- * date and the given value. It helps to build generic functions that accept
- * date extensions.
- *
- * It defaults to `Date` if the passed reference date is a number or a string.
- *
- * Starting from v3.7.0, it allows to construct a date using `[Symbol.for("constructDateFrom")]`
- * enabling to transfer extra properties from the reference date to the new date.
- * It's useful for extensions like [`TZDate`](https://github.com/date-fns/tz)
- * that accept a time zone as a constructor argument.
- *
- * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
- *
- * @param date - The reference date to take constructor from
- * @param value - The value to create the date
- *
- * @returns Date initialized using the given date and value
- *
- * @example
- * import { constructFrom } from "./constructFrom/date-fns";
- *
- * // A function that clones a date preserving the original type
- * function cloneDate<DateType extends Date>(date: DateType): DateType {
- *   return constructFrom(
- *     date, // Use constructor from the given date
- *     date.getTime() // Use the date value to create a new date
- *   );
- * }
- */
-function constructFrom(date, value) {
-  if (typeof date === "function") return date(value);
-
-  if (date && typeof date === "object" && constructFromSymbol in date)
-    return date[constructFromSymbol](value);
-
-  if (date instanceof Date) return new date.constructor(value);
-
-  return new Date(value);
-}
-
-/**
- * @name toDate
- * @category Common Helpers
- * @summary Convert the given argument to an instance of Date.
- *
- * @description
- * Convert the given argument to an instance of Date.
- *
- * If the argument is an instance of Date, the function returns its clone.
- *
- * If the argument is a number, it is treated as a timestamp.
- *
- * If the argument is none of the above, the function returns Invalid Date.
- *
- * Starting from v3.7.0, it clones a date using `[Symbol.for("constructDateFrom")]`
- * enabling to transfer extra properties from the reference date to the new date.
- * It's useful for extensions like [`TZDate`](https://github.com/date-fns/tz)
- * that accept a time zone as a constructor argument.
- *
- * **Note**: *all* Date arguments passed to any *date-fns* function is processed by `toDate`.
- *
- * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
- * @typeParam ResultDate - The result `Date` type, it is the type returned from the context function if it is passed, or inferred from the arguments.
- *
- * @param argument - The value to convert
- *
- * @returns The parsed date in the local time zone
- *
- * @example
- * // Clone the date:
- * const result = toDate(new Date(2014, 1, 11, 11, 30, 30))
- * //=> Tue Feb 11 2014 11:30:30
- *
- * @example
- * // Convert the timestamp to date:
- * const result = toDate(1392098430000)
- * //=> Tue Feb 11 2014 11:30:30
- */
-function toDate(argument, context) {
-  // [TODO] Get rid of `toDate` or `constructFrom`?
-  return constructFrom(context || argument, argument);
-}
-
-let defaultOptions = {};
-
-function getDefaultOptions() {
-  return defaultOptions;
-}
-
-/**
- * The {@link startOfWeek} function options.
- */
-
-/**
- * @name startOfWeek
- * @category Week Helpers
- * @summary Return the start of a week for the given date.
- *
- * @description
- * Return the start of a week for the given date.
- * The result will be in the local timezone.
- *
- * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
- * @typeParam ResultDate - The result `Date` type, it is the type returned from the context function if it is passed, or inferred from the arguments.
- *
- * @param date - The original date
- * @param options - An object with options
- *
- * @returns The start of a week
- *
- * @example
- * // The start of a week for 2 September 2014 11:55:00:
- * const result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0))
- * //=> Sun Aug 31 2014 00:00:00
- *
- * @example
- * // If the week starts on Monday, the start of the week for 2 September 2014 11:55:00:
- * const result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0), { weekStartsOn: 1 })
- * //=> Mon Sep 01 2014 00:00:00
- */
-function startOfWeek(date, options) {
-  const defaultOptions = getDefaultOptions();
-  const weekStartsOn =
-    options?.weekStartsOn ??
-    options?.locale?.options?.weekStartsOn ??
-    defaultOptions.weekStartsOn ??
-    defaultOptions.locale?.options?.weekStartsOn ??
-    0;
-
-  const _date = toDate(date, options?.in);
-  const day = _date.getDay();
-  const diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
-
-  _date.setDate(_date.getDate() - diff);
-  _date.setHours(0, 0, 0, 0);
-  return _date;
-}
-
-/**
- * The {@link startOfISOWeek} function options.
- */
-
-/**
- * @name startOfISOWeek
- * @category ISO Week Helpers
- * @summary Return the start of an ISO week for the given date.
- *
- * @description
- * Return the start of an ISO week for the given date.
- * The result will be in the local timezone.
- *
- * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
- *
- * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
- * @typeParam ResultDate - The result `Date` type, it is the type returned from the context function if it is passed, or inferred from the arguments.
- *
- * @param date - The original date
- * @param options - An object with options
- *
- * @returns The start of an ISO week
- *
- * @example
- * // The start of an ISO week for 2 September 2014 11:55:00:
- * const result = startOfISOWeek(new Date(2014, 8, 2, 11, 55, 0))
- * //=> Mon Sep 01 2014 00:00:00
- */
-function startOfISOWeek(date, options) {
-  return startOfWeek(date, { ...options, weekStartsOn: 1 });
-}
-
-/**
- * The {@link getISOWeekYear} function options.
- */
-
-/**
- * @name getISOWeekYear
- * @category ISO Week-Numbering Year Helpers
- * @summary Get the ISO week-numbering year of the given date.
- *
- * @description
- * Get the ISO week-numbering year of the given date,
- * which always starts 3 days before the year's first Thursday.
- *
- * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
- *
- * @param date - The given date
- *
- * @returns The ISO week-numbering year
- *
- * @example
- * // Which ISO-week numbering year is 2 January 2005?
- * const result = getISOWeekYear(new Date(2005, 0, 2))
- * //=> 2004
- */
-function getISOWeekYear(date, options) {
-  const _date = toDate(date, options?.in);
-  const year = _date.getFullYear();
-
-  const fourthOfJanuaryOfNextYear = constructFrom(_date, 0);
-  fourthOfJanuaryOfNextYear.setFullYear(year + 1, 0, 4);
-  fourthOfJanuaryOfNextYear.setHours(0, 0, 0, 0);
-  const startOfNextYear = startOfISOWeek(fourthOfJanuaryOfNextYear);
-
-  const fourthOfJanuaryOfThisYear = constructFrom(_date, 0);
-  fourthOfJanuaryOfThisYear.setFullYear(year, 0, 4);
-  fourthOfJanuaryOfThisYear.setHours(0, 0, 0, 0);
-  const startOfThisYear = startOfISOWeek(fourthOfJanuaryOfThisYear);
-
-  if (_date.getTime() >= startOfNextYear.getTime()) {
-    return year + 1;
-  } else if (_date.getTime() >= startOfThisYear.getTime()) {
-    return year;
-  } else {
-    return year - 1;
-  }
-}
-
-/**
- * Google Chrome as of 67.0.3396.87 introduced timezones with offset that includes seconds.
- * They usually appear for dates that denote time before the timezones were introduced
- * (e.g. for 'Europe/Prague' timezone the offset is GMT+00:57:44 before 1 October 1891
- * and GMT+01:00:00 after that date)
- *
- * Date#getTimezoneOffset returns the offset in minutes and would return 57 for the example above,
- * which would lead to incorrect calculations.
- *
- * This function returns the timezone offset in milliseconds that takes seconds in account.
- */
-function getTimezoneOffsetInMilliseconds(date) {
-  const _date = toDate(date);
-  const utcDate = new Date(
-    Date.UTC(
-      _date.getFullYear(),
-      _date.getMonth(),
-      _date.getDate(),
-      _date.getHours(),
-      _date.getMinutes(),
-      _date.getSeconds(),
-      _date.getMilliseconds(),
-    ),
-  );
-  utcDate.setUTCFullYear(_date.getFullYear());
-  return +date - +utcDate;
-}
-
-function normalizeDates(context, ...dates) {
-  const normalize = constructFrom.bind(
-    null,
-    dates.find((date) => typeof date === "object"),
-  );
-  return dates.map(normalize);
-}
-
-/**
- * The {@link startOfDay} function options.
- */
-
-/**
- * @name startOfDay
- * @category Day Helpers
- * @summary Return the start of a day for the given date.
- *
- * @description
- * Return the start of a day for the given date.
- * The result will be in the local timezone.
- *
- * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
- * @typeParam ResultDate - The result `Date` type, it is the type returned from the context function if it is passed, or inferred from the arguments.
- *
- * @param date - The original date
- * @param options - The options
- *
- * @returns The start of a day
- *
- * @example
- * // The start of a day for 2 September 2014 11:55:00:
- * const result = startOfDay(new Date(2014, 8, 2, 11, 55, 0))
- * //=> Tue Sep 02 2014 00:00:00
- */
-function startOfDay(date, options) {
-  const _date = toDate(date, options?.in);
-  _date.setHours(0, 0, 0, 0);
-  return _date;
-}
-
-/**
- * The {@link differenceInCalendarDays} function options.
- */
-
-/**
- * @name differenceInCalendarDays
- * @category Day Helpers
- * @summary Get the number of calendar days between the given dates.
- *
- * @description
- * Get the number of calendar days between the given dates. This means that the times are removed
- * from the dates and then the difference in days is calculated.
- *
- * @param laterDate - The later date
- * @param earlierDate - The earlier date
- * @param options - The options object
- *
- * @returns The number of calendar days
- *
- * @example
- * // How many calendar days are between
- * // 2 July 2011 23:00:00 and 2 July 2012 00:00:00?
- * const result = differenceInCalendarDays(
- *   new Date(2012, 6, 2, 0, 0),
- *   new Date(2011, 6, 2, 23, 0)
- * )
- * //=> 366
- * // How many calendar days are between
- * // 2 July 2011 23:59:00 and 3 July 2011 00:01:00?
- * const result = differenceInCalendarDays(
- *   new Date(2011, 6, 3, 0, 1),
- *   new Date(2011, 6, 2, 23, 59)
- * )
- * //=> 1
- */
-function differenceInCalendarDays(laterDate, earlierDate, options) {
-  const [laterDate_, earlierDate_] = normalizeDates(
-    options?.in,
-    laterDate,
-    earlierDate,
-  );
-
-  const laterStartOfDay = startOfDay(laterDate_);
-  const earlierStartOfDay = startOfDay(earlierDate_);
-
-  const laterTimestamp =
-    +laterStartOfDay - getTimezoneOffsetInMilliseconds(laterStartOfDay);
-  const earlierTimestamp =
-    +earlierStartOfDay - getTimezoneOffsetInMilliseconds(earlierStartOfDay);
-
-  // Round the number of days to the nearest integer because the number of
-  // milliseconds in a day is not constant (e.g. it's different in the week of
-  // the daylight saving time clock shift).
-  return Math.round((laterTimestamp - earlierTimestamp) / millisecondsInDay);
-}
-
-/**
- * The {@link startOfISOWeekYear} function options.
- */
-
-/**
- * @name startOfISOWeekYear
- * @category ISO Week-Numbering Year Helpers
- * @summary Return the start of an ISO week-numbering year for the given date.
- *
- * @description
- * Return the start of an ISO week-numbering year,
- * which always starts 3 days before the year's first Thursday.
- * The result will be in the local timezone.
- *
- * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
- *
- * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
- * @typeParam ResultDate - The result `Date` type, it is the type returned from the context function if it is passed, or inferred from the arguments.
- *
- * @param date - The original date
- * @param options - An object with options
- *
- * @returns The start of an ISO week-numbering year
- *
- * @example
- * // The start of an ISO week-numbering year for 2 July 2005:
- * const result = startOfISOWeekYear(new Date(2005, 6, 2))
- * //=> Mon Jan 03 2005 00:00:00
- */
-function startOfISOWeekYear(date, options) {
-  const year = getISOWeekYear(date, options);
-  const fourthOfJanuary = constructFrom(date, 0);
-  fourthOfJanuary.setFullYear(year, 0, 4);
-  fourthOfJanuary.setHours(0, 0, 0, 0);
-  return startOfISOWeek(fourthOfJanuary);
-}
-
-/**
- * @name isDate
- * @category Common Helpers
- * @summary Is the given value a date?
- *
- * @description
- * Returns true if the given value is an instance of Date. The function works for dates transferred across iframes.
- *
- * @param value - The value to check
- *
- * @returns True if the given value is a date
- *
- * @example
- * // For a valid date:
- * const result = isDate(new Date())
- * //=> true
- *
- * @example
- * // For an invalid date:
- * const result = isDate(new Date(NaN))
- * //=> true
- *
- * @example
- * // For some value:
- * const result = isDate('2014-02-31')
- * //=> false
- *
- * @example
- * // For an object:
- * const result = isDate({})
- * //=> false
- */
-function isDate$2(value) {
-  return (
-    value instanceof Date ||
-    (typeof value === "object" &&
-      Object.prototype.toString.call(value) === "[object Date]")
-  );
-}
-
-/**
- * @name isValid
- * @category Common Helpers
- * @summary Is the given date valid?
- *
- * @description
- * Returns false if argument is Invalid Date and true otherwise.
- * Argument is converted to Date using `toDate`. See [toDate](https://date-fns.org/docs/toDate)
- * Invalid Date is a Date, whose time value is NaN.
- *
- * Time value of Date: http://es5.github.io/#x15.9.1.1
- *
- * @param date - The date to check
- *
- * @returns The date is valid
- *
- * @example
- * // For the valid date:
- * const result = isValid(new Date(2014, 1, 31))
- * //=> true
- *
- * @example
- * // For the value, convertible into a date:
- * const result = isValid(1393804800000)
- * //=> true
- *
- * @example
- * // For the invalid date:
- * const result = isValid(new Date(''))
- * //=> false
- */
-function isValid(date) {
-  return !((!isDate$2(date) && typeof date !== "number") || isNaN(+toDate(date)));
-}
-
-/**
- * The {@link startOfYear} function options.
- */
-
-/**
- * @name startOfYear
- * @category Year Helpers
- * @summary Return the start of a year for the given date.
- *
- * @description
- * Return the start of a year for the given date.
- * The result will be in the local timezone.
- *
- * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
- * @typeParam ResultDate - The result `Date` type, it is the type returned from the context function if it is passed, or inferred from the arguments.
- *
- * @param date - The original date
- * @param options - The options
- *
- * @returns The start of a year
- *
- * @example
- * // The start of a year for 2 September 2014 11:55:00:
- * const result = startOfYear(new Date(2014, 8, 2, 11, 55, 00))
- * //=> Wed Jan 01 2014 00:00:00
- */
-function startOfYear(date, options) {
-  const date_ = toDate(date, options?.in);
-  date_.setFullYear(date_.getFullYear(), 0, 1);
-  date_.setHours(0, 0, 0, 0);
-  return date_;
-}
-
-const formatDistanceLocale = {
-  lessThanXSeconds: {
-    one: "less than a second",
-    other: "less than {{count}} seconds",
-  },
-
-  xSeconds: {
-    one: "1 second",
-    other: "{{count}} seconds",
-  },
-
-  halfAMinute: "half a minute",
-
-  lessThanXMinutes: {
-    one: "less than a minute",
-    other: "less than {{count}} minutes",
-  },
-
-  xMinutes: {
-    one: "1 minute",
-    other: "{{count}} minutes",
-  },
-
-  aboutXHours: {
-    one: "about 1 hour",
-    other: "about {{count}} hours",
-  },
-
-  xHours: {
-    one: "1 hour",
-    other: "{{count}} hours",
-  },
-
-  xDays: {
-    one: "1 day",
-    other: "{{count}} days",
-  },
-
-  aboutXWeeks: {
-    one: "about 1 week",
-    other: "about {{count}} weeks",
-  },
-
-  xWeeks: {
-    one: "1 week",
-    other: "{{count}} weeks",
-  },
-
-  aboutXMonths: {
-    one: "about 1 month",
-    other: "about {{count}} months",
-  },
-
-  xMonths: {
-    one: "1 month",
-    other: "{{count}} months",
-  },
-
-  aboutXYears: {
-    one: "about 1 year",
-    other: "about {{count}} years",
-  },
-
-  xYears: {
-    one: "1 year",
-    other: "{{count}} years",
-  },
-
-  overXYears: {
-    one: "over 1 year",
-    other: "over {{count}} years",
-  },
-
-  almostXYears: {
-    one: "almost 1 year",
-    other: "almost {{count}} years",
-  },
-};
-
-const formatDistance = (token, count, options) => {
-  let result;
-
-  const tokenValue = formatDistanceLocale[token];
-  if (typeof tokenValue === "string") {
-    result = tokenValue;
-  } else if (count === 1) {
-    result = tokenValue.one;
-  } else {
-    result = tokenValue.other.replace("{{count}}", count.toString());
-  }
-
-  if (options?.addSuffix) {
-    if (options.comparison && options.comparison > 0) {
-      return "in " + result;
-    } else {
-      return result + " ago";
-    }
-  }
-
-  return result;
-};
-
-function buildFormatLongFn(args) {
-  return (options = {}) => {
-    // TODO: Remove String()
-    const width = options.width ? String(options.width) : args.defaultWidth;
-    const format = args.formats[width] || args.formats[args.defaultWidth];
-    return format;
-  };
-}
-
-const dateFormats = {
-  full: "EEEE, MMMM do, y",
-  long: "MMMM do, y",
-  medium: "MMM d, y",
-  short: "MM/dd/yyyy",
-};
-
-const timeFormats = {
-  full: "h:mm:ss a zzzz",
-  long: "h:mm:ss a z",
-  medium: "h:mm:ss a",
-  short: "h:mm a",
-};
-
-const dateTimeFormats = {
-  full: "{{date}} 'at' {{time}}",
-  long: "{{date}} 'at' {{time}}",
-  medium: "{{date}}, {{time}}",
-  short: "{{date}}, {{time}}",
-};
-
-const formatLong = {
-  date: buildFormatLongFn({
-    formats: dateFormats,
-    defaultWidth: "full",
-  }),
-
-  time: buildFormatLongFn({
-    formats: timeFormats,
-    defaultWidth: "full",
-  }),
-
-  dateTime: buildFormatLongFn({
-    formats: dateTimeFormats,
-    defaultWidth: "full",
-  }),
-};
-
-const formatRelativeLocale = {
-  lastWeek: "'last' eeee 'at' p",
-  yesterday: "'yesterday at' p",
-  today: "'today at' p",
-  tomorrow: "'tomorrow at' p",
-  nextWeek: "eeee 'at' p",
-  other: "P",
-};
-
-const formatRelative = (token, _date, _baseDate, _options) =>
-  formatRelativeLocale[token];
-
-/**
- * The localize function argument callback which allows to convert raw value to
- * the actual type.
- *
- * @param value - The value to convert
- *
- * @returns The converted value
- */
-
-/**
- * The map of localized values for each width.
- */
-
-/**
- * The index type of the locale unit value. It types conversion of units of
- * values that don't start at 0 (i.e. quarters).
- */
-
-/**
- * Converts the unit value to the tuple of values.
- */
-
-/**
- * The tuple of localized era values. The first element represents BC,
- * the second element represents AD.
- */
-
-/**
- * The tuple of localized quarter values. The first element represents Q1.
- */
-
-/**
- * The tuple of localized day values. The first element represents Sunday.
- */
-
-/**
- * The tuple of localized month values. The first element represents January.
- */
-
-function buildLocalizeFn(args) {
-  return (value, options) => {
-    const context = options?.context ? String(options.context) : "standalone";
-
-    let valuesArray;
-    if (context === "formatting" && args.formattingValues) {
-      const defaultWidth = args.defaultFormattingWidth || args.defaultWidth;
-      const width = options?.width ? String(options.width) : defaultWidth;
-
-      valuesArray =
-        args.formattingValues[width] || args.formattingValues[defaultWidth];
-    } else {
-      const defaultWidth = args.defaultWidth;
-      const width = options?.width ? String(options.width) : args.defaultWidth;
-
-      valuesArray = args.values[width] || args.values[defaultWidth];
-    }
-    const index = args.argumentCallback ? args.argumentCallback(value) : value;
-
-    // @ts-expect-error - For some reason TypeScript just don't want to match it, no matter how hard we try. I challenge you to try to remove it!
-    return valuesArray[index];
-  };
-}
-
-const eraValues = {
-  narrow: ["B", "A"],
-  abbreviated: ["BC", "AD"],
-  wide: ["Before Christ", "Anno Domini"],
-};
-
-const quarterValues = {
-  narrow: ["1", "2", "3", "4"],
-  abbreviated: ["Q1", "Q2", "Q3", "Q4"],
-  wide: ["1st quarter", "2nd quarter", "3rd quarter", "4th quarter"],
-};
-
-// Note: in English, the names of days of the week and months are capitalized.
-// If you are making a new locale based on this one, check if the same is true for the language you're working on.
-// Generally, formatted dates should look like they are in the middle of a sentence,
-// e.g. in Spanish language the weekdays and months should be in the lowercase.
-const monthValues = {
-  narrow: ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
-  abbreviated: [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ],
-
-  wide: [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ],
-};
-
-const dayValues = {
-  narrow: ["S", "M", "T", "W", "T", "F", "S"],
-  short: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-  abbreviated: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-  wide: [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ],
-};
-
-const dayPeriodValues = {
-  narrow: {
-    am: "a",
-    pm: "p",
-    midnight: "mi",
-    noon: "n",
-    morning: "morning",
-    afternoon: "afternoon",
-    evening: "evening",
-    night: "night",
-  },
-  abbreviated: {
-    am: "AM",
-    pm: "PM",
-    midnight: "midnight",
-    noon: "noon",
-    morning: "morning",
-    afternoon: "afternoon",
-    evening: "evening",
-    night: "night",
-  },
-  wide: {
-    am: "a.m.",
-    pm: "p.m.",
-    midnight: "midnight",
-    noon: "noon",
-    morning: "morning",
-    afternoon: "afternoon",
-    evening: "evening",
-    night: "night",
-  },
-};
-
-const formattingDayPeriodValues = {
-  narrow: {
-    am: "a",
-    pm: "p",
-    midnight: "mi",
-    noon: "n",
-    morning: "in the morning",
-    afternoon: "in the afternoon",
-    evening: "in the evening",
-    night: "at night",
-  },
-  abbreviated: {
-    am: "AM",
-    pm: "PM",
-    midnight: "midnight",
-    noon: "noon",
-    morning: "in the morning",
-    afternoon: "in the afternoon",
-    evening: "in the evening",
-    night: "at night",
-  },
-  wide: {
-    am: "a.m.",
-    pm: "p.m.",
-    midnight: "midnight",
-    noon: "noon",
-    morning: "in the morning",
-    afternoon: "in the afternoon",
-    evening: "in the evening",
-    night: "at night",
-  },
-};
-
-const ordinalNumber = (dirtyNumber, _options) => {
-  const number = Number(dirtyNumber);
-
-  // If ordinal numbers depend on context, for example,
-  // if they are different for different grammatical genders,
-  // use `options.unit`.
-  //
-  // `unit` can be 'year', 'quarter', 'month', 'week', 'date', 'dayOfYear',
-  // 'day', 'hour', 'minute', 'second'.
-
-  const rem100 = number % 100;
-  if (rem100 > 20 || rem100 < 10) {
-    switch (rem100 % 10) {
-      case 1:
-        return number + "st";
-      case 2:
-        return number + "nd";
-      case 3:
-        return number + "rd";
-    }
-  }
-  return number + "th";
-};
-
-const localize = {
-  ordinalNumber,
-
-  era: buildLocalizeFn({
-    values: eraValues,
-    defaultWidth: "wide",
-  }),
-
-  quarter: buildLocalizeFn({
-    values: quarterValues,
-    defaultWidth: "wide",
-    argumentCallback: (quarter) => quarter - 1,
-  }),
-
-  month: buildLocalizeFn({
-    values: monthValues,
-    defaultWidth: "wide",
-  }),
-
-  day: buildLocalizeFn({
-    values: dayValues,
-    defaultWidth: "wide",
-  }),
-
-  dayPeriod: buildLocalizeFn({
-    values: dayPeriodValues,
-    defaultWidth: "wide",
-    formattingValues: formattingDayPeriodValues,
-    defaultFormattingWidth: "wide",
-  }),
-};
-
-function buildMatchFn(args) {
-  return (string, options = {}) => {
-    const width = options.width;
-
-    const matchPattern =
-      (width && args.matchPatterns[width]) ||
-      args.matchPatterns[args.defaultMatchWidth];
-    const matchResult = string.match(matchPattern);
-
-    if (!matchResult) {
-      return null;
-    }
-    const matchedString = matchResult[0];
-
-    const parsePatterns =
-      (width && args.parsePatterns[width]) ||
-      args.parsePatterns[args.defaultParseWidth];
-
-    const key = Array.isArray(parsePatterns)
-      ? findIndex$1(parsePatterns, (pattern) => pattern.test(matchedString))
-      : // [TODO] -- I challenge you to fix the type
-        findKey$1(parsePatterns, (pattern) => pattern.test(matchedString));
-
-    let value;
-
-    value = args.valueCallback ? args.valueCallback(key) : key;
-    value = options.valueCallback
-      ? // [TODO] -- I challenge you to fix the type
-        options.valueCallback(value)
-      : value;
-
-    const rest = string.slice(matchedString.length);
-
-    return { value, rest };
-  };
-}
-
-function findKey$1(object, predicate) {
-  for (const key in object) {
-    if (
-      Object.prototype.hasOwnProperty.call(object, key) &&
-      predicate(object[key])
-    ) {
-      return key;
-    }
-  }
-  return undefined;
-}
-
-function findIndex$1(array, predicate) {
-  for (let key = 0; key < array.length; key++) {
-    if (predicate(array[key])) {
-      return key;
-    }
-  }
-  return undefined;
-}
-
-function buildMatchPatternFn(args) {
-  return (string, options = {}) => {
-    const matchResult = string.match(args.matchPattern);
-    if (!matchResult) return null;
-    const matchedString = matchResult[0];
-
-    const parseResult = string.match(args.parsePattern);
-    if (!parseResult) return null;
-    let value = args.valueCallback
-      ? args.valueCallback(parseResult[0])
-      : parseResult[0];
-
-    // [TODO] I challenge you to fix the type
-    value = options.valueCallback ? options.valueCallback(value) : value;
-
-    const rest = string.slice(matchedString.length);
-
-    return { value, rest };
-  };
-}
-
-const matchOrdinalNumberPattern = /^(\d+)(th|st|nd|rd)?/i;
-const parseOrdinalNumberPattern = /\d+/i;
-
-const matchEraPatterns = {
-  narrow: /^(b|a)/i,
-  abbreviated: /^(b\.?\s?c\.?|b\.?\s?c\.?\s?e\.?|a\.?\s?d\.?|c\.?\s?e\.?)/i,
-  wide: /^(before christ|before common era|anno domini|common era)/i,
-};
-const parseEraPatterns = {
-  any: [/^b/i, /^(a|c)/i],
-};
-
-const matchQuarterPatterns = {
-  narrow: /^[1234]/i,
-  abbreviated: /^q[1234]/i,
-  wide: /^[1234](th|st|nd|rd)? quarter/i,
-};
-const parseQuarterPatterns = {
-  any: [/1/i, /2/i, /3/i, /4/i],
-};
-
-const matchMonthPatterns = {
-  narrow: /^[jfmasond]/i,
-  abbreviated: /^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i,
-  wide: /^(january|february|march|april|may|june|july|august|september|october|november|december)/i,
-};
-const parseMonthPatterns = {
-  narrow: [
-    /^j/i,
-    /^f/i,
-    /^m/i,
-    /^a/i,
-    /^m/i,
-    /^j/i,
-    /^j/i,
-    /^a/i,
-    /^s/i,
-    /^o/i,
-    /^n/i,
-    /^d/i,
-  ],
-
-  any: [
-    /^ja/i,
-    /^f/i,
-    /^mar/i,
-    /^ap/i,
-    /^may/i,
-    /^jun/i,
-    /^jul/i,
-    /^au/i,
-    /^s/i,
-    /^o/i,
-    /^n/i,
-    /^d/i,
-  ],
-};
-
-const matchDayPatterns = {
-  narrow: /^[smtwf]/i,
-  short: /^(su|mo|tu|we|th|fr|sa)/i,
-  abbreviated: /^(sun|mon|tue|wed|thu|fri|sat)/i,
-  wide: /^(sunday|monday|tuesday|wednesday|thursday|friday|saturday)/i,
-};
-const parseDayPatterns = {
-  narrow: [/^s/i, /^m/i, /^t/i, /^w/i, /^t/i, /^f/i, /^s/i],
-  any: [/^su/i, /^m/i, /^tu/i, /^w/i, /^th/i, /^f/i, /^sa/i],
-};
-
-const matchDayPeriodPatterns = {
-  narrow: /^(a|p|mi|n|(in the|at) (morning|afternoon|evening|night))/i,
-  any: /^([ap]\.?\s?m\.?|midnight|noon|(in the|at) (morning|afternoon|evening|night))/i,
-};
-const parseDayPeriodPatterns = {
-  any: {
-    am: /^a/i,
-    pm: /^p/i,
-    midnight: /^mi/i,
-    noon: /^no/i,
-    morning: /morning/i,
-    afternoon: /afternoon/i,
-    evening: /evening/i,
-    night: /night/i,
-  },
-};
-
-const match = {
-  ordinalNumber: buildMatchPatternFn({
-    matchPattern: matchOrdinalNumberPattern,
-    parsePattern: parseOrdinalNumberPattern,
-    valueCallback: (value) => parseInt(value, 10),
-  }),
-
-  era: buildMatchFn({
-    matchPatterns: matchEraPatterns,
-    defaultMatchWidth: "wide",
-    parsePatterns: parseEraPatterns,
-    defaultParseWidth: "any",
-  }),
-
-  quarter: buildMatchFn({
-    matchPatterns: matchQuarterPatterns,
-    defaultMatchWidth: "wide",
-    parsePatterns: parseQuarterPatterns,
-    defaultParseWidth: "any",
-    valueCallback: (index) => index + 1,
-  }),
-
-  month: buildMatchFn({
-    matchPatterns: matchMonthPatterns,
-    defaultMatchWidth: "wide",
-    parsePatterns: parseMonthPatterns,
-    defaultParseWidth: "any",
-  }),
-
-  day: buildMatchFn({
-    matchPatterns: matchDayPatterns,
-    defaultMatchWidth: "wide",
-    parsePatterns: parseDayPatterns,
-    defaultParseWidth: "any",
-  }),
-
-  dayPeriod: buildMatchFn({
-    matchPatterns: matchDayPeriodPatterns,
-    defaultMatchWidth: "any",
-    parsePatterns: parseDayPeriodPatterns,
-    defaultParseWidth: "any",
-  }),
-};
-
-/**
- * @category Locales
- * @summary English locale (United States).
- * @language English
- * @iso-639-2 eng
- * @author Sasha Koss [@kossnocorp](https://github.com/kossnocorp)
- * @author Lesha Koss [@leshakoss](https://github.com/leshakoss)
- */
-const enUS = {
-  code: "en-US",
-  formatDistance: formatDistance,
-  formatLong: formatLong,
-  formatRelative: formatRelative,
-  localize: localize,
-  match: match,
-  options: {
-    weekStartsOn: 0 /* Sunday */,
-    firstWeekContainsDate: 1,
-  },
-};
-
-/**
- * The {@link getDayOfYear} function options.
- */
-
-/**
- * @name getDayOfYear
- * @category Day Helpers
- * @summary Get the day of the year of the given date.
- *
- * @description
- * Get the day of the year of the given date.
- *
- * @param date - The given date
- * @param options - The options
- *
- * @returns The day of year
- *
- * @example
- * // Which day of the year is 2 July 2014?
- * const result = getDayOfYear(new Date(2014, 6, 2))
- * //=> 183
- */
-function getDayOfYear(date, options) {
-  const _date = toDate(date, options?.in);
-  const diff = differenceInCalendarDays(_date, startOfYear(_date));
-  const dayOfYear = diff + 1;
-  return dayOfYear;
-}
-
-/**
- * The {@link getISOWeek} function options.
- */
-
-/**
- * @name getISOWeek
- * @category ISO Week Helpers
- * @summary Get the ISO week of the given date.
- *
- * @description
- * Get the ISO week of the given date.
- *
- * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
- *
- * @param date - The given date
- * @param options - The options
- *
- * @returns The ISO week
- *
- * @example
- * // Which week of the ISO-week numbering year is 2 January 2005?
- * const result = getISOWeek(new Date(2005, 0, 2))
- * //=> 53
- */
-function getISOWeek(date, options) {
-  const _date = toDate(date, options?.in);
-  const diff = +startOfISOWeek(_date) - +startOfISOWeekYear(_date);
-
-  // Round the number of weeks to the nearest integer because the number of
-  // milliseconds in a week is not constant (e.g. it's different in the week of
-  // the daylight saving time clock shift).
-  return Math.round(diff / millisecondsInWeek) + 1;
-}
-
-/**
- * The {@link getWeekYear} function options.
- */
-
-/**
- * @name getWeekYear
- * @category Week-Numbering Year Helpers
- * @summary Get the local week-numbering year of the given date.
- *
- * @description
- * Get the local week-numbering year of the given date.
- * The exact calculation depends on the values of
- * `options.weekStartsOn` (which is the index of the first day of the week)
- * and `options.firstWeekContainsDate` (which is the day of January, which is always in
- * the first week of the week-numbering year)
- *
- * Week numbering: https://en.wikipedia.org/wiki/Week#The_ISO_week_date_system
- *
- * @param date - The given date
- * @param options - An object with options.
- *
- * @returns The local week-numbering year
- *
- * @example
- * // Which week numbering year is 26 December 2004 with the default settings?
- * const result = getWeekYear(new Date(2004, 11, 26))
- * //=> 2005
- *
- * @example
- * // Which week numbering year is 26 December 2004 if week starts on Saturday?
- * const result = getWeekYear(new Date(2004, 11, 26), { weekStartsOn: 6 })
- * //=> 2004
- *
- * @example
- * // Which week numbering year is 26 December 2004 if the first week contains 4 January?
- * const result = getWeekYear(new Date(2004, 11, 26), { firstWeekContainsDate: 4 })
- * //=> 2004
- */
-function getWeekYear(date, options) {
-  const _date = toDate(date, options?.in);
-  const year = _date.getFullYear();
-
-  const defaultOptions = getDefaultOptions();
-  const firstWeekContainsDate =
-    options?.firstWeekContainsDate ??
-    options?.locale?.options?.firstWeekContainsDate ??
-    defaultOptions.firstWeekContainsDate ??
-    defaultOptions.locale?.options?.firstWeekContainsDate ??
-    1;
-
-  const firstWeekOfNextYear = constructFrom(options?.in || date, 0);
-  firstWeekOfNextYear.setFullYear(year + 1, 0, firstWeekContainsDate);
-  firstWeekOfNextYear.setHours(0, 0, 0, 0);
-  const startOfNextYear = startOfWeek(firstWeekOfNextYear, options);
-
-  const firstWeekOfThisYear = constructFrom(options?.in || date, 0);
-  firstWeekOfThisYear.setFullYear(year, 0, firstWeekContainsDate);
-  firstWeekOfThisYear.setHours(0, 0, 0, 0);
-  const startOfThisYear = startOfWeek(firstWeekOfThisYear, options);
-
-  if (+_date >= +startOfNextYear) {
-    return year + 1;
-  } else if (+_date >= +startOfThisYear) {
-    return year;
-  } else {
-    return year - 1;
-  }
-}
-
-/**
- * The {@link startOfWeekYear} function options.
- */
-
-/**
- * @name startOfWeekYear
- * @category Week-Numbering Year Helpers
- * @summary Return the start of a local week-numbering year for the given date.
- *
- * @description
- * Return the start of a local week-numbering year.
- * The exact calculation depends on the values of
- * `options.weekStartsOn` (which is the index of the first day of the week)
- * and `options.firstWeekContainsDate` (which is the day of January, which is always in
- * the first week of the week-numbering year)
- *
- * Week numbering: https://en.wikipedia.org/wiki/Week#The_ISO_week_date_system
- *
- * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
- * @typeParam ResultDate - The result `Date` type.
- *
- * @param date - The original date
- * @param options - An object with options
- *
- * @returns The start of a week-numbering year
- *
- * @example
- * // The start of an a week-numbering year for 2 July 2005 with default settings:
- * const result = startOfWeekYear(new Date(2005, 6, 2))
- * //=> Sun Dec 26 2004 00:00:00
- *
- * @example
- * // The start of a week-numbering year for 2 July 2005
- * // if Monday is the first day of week
- * // and 4 January is always in the first week of the year:
- * const result = startOfWeekYear(new Date(2005, 6, 2), {
- *   weekStartsOn: 1,
- *   firstWeekContainsDate: 4
- * })
- * //=> Mon Jan 03 2005 00:00:00
- */
-function startOfWeekYear(date, options) {
-  const defaultOptions = getDefaultOptions();
-  const firstWeekContainsDate =
-    options?.firstWeekContainsDate ??
-    options?.locale?.options?.firstWeekContainsDate ??
-    defaultOptions.firstWeekContainsDate ??
-    defaultOptions.locale?.options?.firstWeekContainsDate ??
-    1;
-
-  const year = getWeekYear(date, options);
-  const firstWeek = constructFrom(options?.in || date, 0);
-  firstWeek.setFullYear(year, 0, firstWeekContainsDate);
-  firstWeek.setHours(0, 0, 0, 0);
-  const _date = startOfWeek(firstWeek, options);
-  return _date;
-}
-
-/**
- * The {@link getWeek} function options.
- */
-
-/**
- * @name getWeek
- * @category Week Helpers
- * @summary Get the local week index of the given date.
- *
- * @description
- * Get the local week index of the given date.
- * The exact calculation depends on the values of
- * `options.weekStartsOn` (which is the index of the first day of the week)
- * and `options.firstWeekContainsDate` (which is the day of January, which is always in
- * the first week of the week-numbering year)
- *
- * Week numbering: https://en.wikipedia.org/wiki/Week#The_ISO_week_date_system
- *
- * @param date - The given date
- * @param options - An object with options
- *
- * @returns The week
- *
- * @example
- * // Which week of the local week numbering year is 2 January 2005 with default options?
- * const result = getWeek(new Date(2005, 0, 2))
- * //=> 2
- *
- * @example
- * // Which week of the local week numbering year is 2 January 2005,
- * // if Monday is the first day of the week,
- * // and the first week of the year always contains 4 January?
- * const result = getWeek(new Date(2005, 0, 2), {
- *   weekStartsOn: 1,
- *   firstWeekContainsDate: 4
- * })
- * //=> 53
- */
-function getWeek(date, options) {
-  const _date = toDate(date, options?.in);
-  const diff = +startOfWeek(_date, options) - +startOfWeekYear(_date, options);
-
-  // Round the number of weeks to the nearest integer because the number of
-  // milliseconds in a week is not constant (e.g. it's different in the week of
-  // the daylight saving time clock shift).
-  return Math.round(diff / millisecondsInWeek) + 1;
-}
-
-function addLeadingZeros(number, targetLength) {
-  const sign = number < 0 ? "-" : "";
-  const output = Math.abs(number).toString().padStart(targetLength, "0");
-  return sign + output;
-}
-
-/*
- * |     | Unit                           |     | Unit                           |
- * |-----|--------------------------------|-----|--------------------------------|
- * |  a  | AM, PM                         |  A* |                                |
- * |  d  | Day of month                   |  D  |                                |
- * |  h  | Hour [1-12]                    |  H  | Hour [0-23]                    |
- * |  m  | Minute                         |  M  | Month                          |
- * |  s  | Second                         |  S  | Fraction of second             |
- * |  y  | Year (abs)                     |  Y  |                                |
- *
- * Letters marked by * are not implemented but reserved by Unicode standard.
- */
-
-const lightFormatters = {
-  // Year
-  y(date, token) {
-    // From http://www.unicode.org/reports/tr35/tr35-31/tr35-dates.html#Date_Format_tokens
-    // | Year     |     y | yy |   yyy |  yyyy | yyyyy |
-    // |----------|-------|----|-------|-------|-------|
-    // | AD 1     |     1 | 01 |   001 |  0001 | 00001 |
-    // | AD 12    |    12 | 12 |   012 |  0012 | 00012 |
-    // | AD 123   |   123 | 23 |   123 |  0123 | 00123 |
-    // | AD 1234  |  1234 | 34 |  1234 |  1234 | 01234 |
-    // | AD 12345 | 12345 | 45 | 12345 | 12345 | 12345 |
-
-    const signedYear = date.getFullYear();
-    // Returns 1 for 1 BC (which is year 0 in JavaScript)
-    const year = signedYear > 0 ? signedYear : 1 - signedYear;
-    return addLeadingZeros(token === "yy" ? year % 100 : year, token.length);
-  },
-
-  // Month
-  M(date, token) {
-    const month = date.getMonth();
-    return token === "M" ? String(month + 1) : addLeadingZeros(month + 1, 2);
-  },
-
-  // Day of the month
-  d(date, token) {
-    return addLeadingZeros(date.getDate(), token.length);
-  },
-
-  // AM or PM
-  a(date, token) {
-    const dayPeriodEnumValue = date.getHours() / 12 >= 1 ? "pm" : "am";
-
-    switch (token) {
-      case "a":
-      case "aa":
-        return dayPeriodEnumValue.toUpperCase();
-      case "aaa":
-        return dayPeriodEnumValue;
-      case "aaaaa":
-        return dayPeriodEnumValue[0];
-      case "aaaa":
-      default:
-        return dayPeriodEnumValue === "am" ? "a.m." : "p.m.";
-    }
-  },
-
-  // Hour [1-12]
-  h(date, token) {
-    return addLeadingZeros(date.getHours() % 12 || 12, token.length);
-  },
-
-  // Hour [0-23]
-  H(date, token) {
-    return addLeadingZeros(date.getHours(), token.length);
-  },
-
-  // Minute
-  m(date, token) {
-    return addLeadingZeros(date.getMinutes(), token.length);
-  },
-
-  // Second
-  s(date, token) {
-    return addLeadingZeros(date.getSeconds(), token.length);
-  },
-
-  // Fraction of second
-  S(date, token) {
-    const numberOfDigits = token.length;
-    const milliseconds = date.getMilliseconds();
-    const fractionalSeconds = Math.trunc(
-      milliseconds * Math.pow(10, numberOfDigits - 3),
-    );
-    return addLeadingZeros(fractionalSeconds, token.length);
-  },
-};
-
-const dayPeriodEnum = {
-  am: "am",
-  pm: "pm",
-  midnight: "midnight",
-  noon: "noon",
-  morning: "morning",
-  afternoon: "afternoon",
-  evening: "evening",
-  night: "night",
-};
-
-/*
- * |     | Unit                           |     | Unit                           |
- * |-----|--------------------------------|-----|--------------------------------|
- * |  a  | AM, PM                         |  A* | Milliseconds in day            |
- * |  b  | AM, PM, noon, midnight         |  B  | Flexible day period            |
- * |  c  | Stand-alone local day of week  |  C* | Localized hour w/ day period   |
- * |  d  | Day of month                   |  D  | Day of year                    |
- * |  e  | Local day of week              |  E  | Day of week                    |
- * |  f  |                                |  F* | Day of week in month           |
- * |  g* | Modified Julian day            |  G  | Era                            |
- * |  h  | Hour [1-12]                    |  H  | Hour [0-23]                    |
- * |  i! | ISO day of week                |  I! | ISO week of year               |
- * |  j* | Localized hour w/ day period   |  J* | Localized hour w/o day period  |
- * |  k  | Hour [1-24]                    |  K  | Hour [0-11]                    |
- * |  l* | (deprecated)                   |  L  | Stand-alone month              |
- * |  m  | Minute                         |  M  | Month                          |
- * |  n  |                                |  N  |                                |
- * |  o! | Ordinal number modifier        |  O  | Timezone (GMT)                 |
- * |  p! | Long localized time            |  P! | Long localized date            |
- * |  q  | Stand-alone quarter            |  Q  | Quarter                        |
- * |  r* | Related Gregorian year         |  R! | ISO week-numbering year        |
- * |  s  | Second                         |  S  | Fraction of second             |
- * |  t! | Seconds timestamp              |  T! | Milliseconds timestamp         |
- * |  u  | Extended year                  |  U* | Cyclic year                    |
- * |  v* | Timezone (generic non-locat.)  |  V* | Timezone (location)            |
- * |  w  | Local week of year             |  W* | Week of month                  |
- * |  x  | Timezone (ISO-8601 w/o Z)      |  X  | Timezone (ISO-8601)            |
- * |  y  | Year (abs)                     |  Y  | Local week-numbering year      |
- * |  z  | Timezone (specific non-locat.) |  Z* | Timezone (aliases)             |
- *
- * Letters marked by * are not implemented but reserved by Unicode standard.
- *
- * Letters marked by ! are non-standard, but implemented by date-fns:
- * - `o` modifies the previous token to turn it into an ordinal (see `format` docs)
- * - `i` is ISO day of week. For `i` and `ii` is returns numeric ISO week days,
- *   i.e. 7 for Sunday, 1 for Monday, etc.
- * - `I` is ISO week of year, as opposed to `w` which is local week of year.
- * - `R` is ISO week-numbering year, as opposed to `Y` which is local week-numbering year.
- *   `R` is supposed to be used in conjunction with `I` and `i`
- *   for universal ISO week-numbering date, whereas
- *   `Y` is supposed to be used in conjunction with `w` and `e`
- *   for week-numbering date specific to the locale.
- * - `P` is long localized date format
- * - `p` is long localized time format
- */
-
-const formatters = {
-  // Era
-  G: function (date, token, localize) {
-    const era = date.getFullYear() > 0 ? 1 : 0;
-    switch (token) {
-      // AD, BC
-      case "G":
-      case "GG":
-      case "GGG":
-        return localize.era(era, { width: "abbreviated" });
-      // A, B
-      case "GGGGG":
-        return localize.era(era, { width: "narrow" });
-      // Anno Domini, Before Christ
-      case "GGGG":
-      default:
-        return localize.era(era, { width: "wide" });
-    }
-  },
-
-  // Year
-  y: function (date, token, localize) {
-    // Ordinal number
-    if (token === "yo") {
-      const signedYear = date.getFullYear();
-      // Returns 1 for 1 BC (which is year 0 in JavaScript)
-      const year = signedYear > 0 ? signedYear : 1 - signedYear;
-      return localize.ordinalNumber(year, { unit: "year" });
-    }
-
-    return lightFormatters.y(date, token);
-  },
-
-  // Local week-numbering year
-  Y: function (date, token, localize, options) {
-    const signedWeekYear = getWeekYear(date, options);
-    // Returns 1 for 1 BC (which is year 0 in JavaScript)
-    const weekYear = signedWeekYear > 0 ? signedWeekYear : 1 - signedWeekYear;
-
-    // Two digit year
-    if (token === "YY") {
-      const twoDigitYear = weekYear % 100;
-      return addLeadingZeros(twoDigitYear, 2);
-    }
-
-    // Ordinal number
-    if (token === "Yo") {
-      return localize.ordinalNumber(weekYear, { unit: "year" });
-    }
-
-    // Padding
-    return addLeadingZeros(weekYear, token.length);
-  },
-
-  // ISO week-numbering year
-  R: function (date, token) {
-    const isoWeekYear = getISOWeekYear(date);
-
-    // Padding
-    return addLeadingZeros(isoWeekYear, token.length);
-  },
-
-  // Extended year. This is a single number designating the year of this calendar system.
-  // The main difference between `y` and `u` localizers are B.C. years:
-  // | Year | `y` | `u` |
-  // |------|-----|-----|
-  // | AC 1 |   1 |   1 |
-  // | BC 1 |   1 |   0 |
-  // | BC 2 |   2 |  -1 |
-  // Also `yy` always returns the last two digits of a year,
-  // while `uu` pads single digit years to 2 characters and returns other years unchanged.
-  u: function (date, token) {
-    const year = date.getFullYear();
-    return addLeadingZeros(year, token.length);
-  },
-
-  // Quarter
-  Q: function (date, token, localize) {
-    const quarter = Math.ceil((date.getMonth() + 1) / 3);
-    switch (token) {
-      // 1, 2, 3, 4
-      case "Q":
-        return String(quarter);
-      // 01, 02, 03, 04
-      case "QQ":
-        return addLeadingZeros(quarter, 2);
-      // 1st, 2nd, 3rd, 4th
-      case "Qo":
-        return localize.ordinalNumber(quarter, { unit: "quarter" });
-      // Q1, Q2, Q3, Q4
-      case "QQQ":
-        return localize.quarter(quarter, {
-          width: "abbreviated",
-          context: "formatting",
-        });
-      // 1, 2, 3, 4 (narrow quarter; could be not numerical)
-      case "QQQQQ":
-        return localize.quarter(quarter, {
-          width: "narrow",
-          context: "formatting",
-        });
-      // 1st quarter, 2nd quarter, ...
-      case "QQQQ":
-      default:
-        return localize.quarter(quarter, {
-          width: "wide",
-          context: "formatting",
-        });
-    }
-  },
-
-  // Stand-alone quarter
-  q: function (date, token, localize) {
-    const quarter = Math.ceil((date.getMonth() + 1) / 3);
-    switch (token) {
-      // 1, 2, 3, 4
-      case "q":
-        return String(quarter);
-      // 01, 02, 03, 04
-      case "qq":
-        return addLeadingZeros(quarter, 2);
-      // 1st, 2nd, 3rd, 4th
-      case "qo":
-        return localize.ordinalNumber(quarter, { unit: "quarter" });
-      // Q1, Q2, Q3, Q4
-      case "qqq":
-        return localize.quarter(quarter, {
-          width: "abbreviated",
-          context: "standalone",
-        });
-      // 1, 2, 3, 4 (narrow quarter; could be not numerical)
-      case "qqqqq":
-        return localize.quarter(quarter, {
-          width: "narrow",
-          context: "standalone",
-        });
-      // 1st quarter, 2nd quarter, ...
-      case "qqqq":
-      default:
-        return localize.quarter(quarter, {
-          width: "wide",
-          context: "standalone",
-        });
-    }
-  },
-
-  // Month
-  M: function (date, token, localize) {
-    const month = date.getMonth();
-    switch (token) {
-      case "M":
-      case "MM":
-        return lightFormatters.M(date, token);
-      // 1st, 2nd, ..., 12th
-      case "Mo":
-        return localize.ordinalNumber(month + 1, { unit: "month" });
-      // Jan, Feb, ..., Dec
-      case "MMM":
-        return localize.month(month, {
-          width: "abbreviated",
-          context: "formatting",
-        });
-      // J, F, ..., D
-      case "MMMMM":
-        return localize.month(month, {
-          width: "narrow",
-          context: "formatting",
-        });
-      // January, February, ..., December
-      case "MMMM":
-      default:
-        return localize.month(month, { width: "wide", context: "formatting" });
-    }
-  },
-
-  // Stand-alone month
-  L: function (date, token, localize) {
-    const month = date.getMonth();
-    switch (token) {
-      // 1, 2, ..., 12
-      case "L":
-        return String(month + 1);
-      // 01, 02, ..., 12
-      case "LL":
-        return addLeadingZeros(month + 1, 2);
-      // 1st, 2nd, ..., 12th
-      case "Lo":
-        return localize.ordinalNumber(month + 1, { unit: "month" });
-      // Jan, Feb, ..., Dec
-      case "LLL":
-        return localize.month(month, {
-          width: "abbreviated",
-          context: "standalone",
-        });
-      // J, F, ..., D
-      case "LLLLL":
-        return localize.month(month, {
-          width: "narrow",
-          context: "standalone",
-        });
-      // January, February, ..., December
-      case "LLLL":
-      default:
-        return localize.month(month, { width: "wide", context: "standalone" });
-    }
-  },
-
-  // Local week of year
-  w: function (date, token, localize, options) {
-    const week = getWeek(date, options);
-
-    if (token === "wo") {
-      return localize.ordinalNumber(week, { unit: "week" });
-    }
-
-    return addLeadingZeros(week, token.length);
-  },
-
-  // ISO week of year
-  I: function (date, token, localize) {
-    const isoWeek = getISOWeek(date);
-
-    if (token === "Io") {
-      return localize.ordinalNumber(isoWeek, { unit: "week" });
-    }
-
-    return addLeadingZeros(isoWeek, token.length);
-  },
-
-  // Day of the month
-  d: function (date, token, localize) {
-    if (token === "do") {
-      return localize.ordinalNumber(date.getDate(), { unit: "date" });
-    }
-
-    return lightFormatters.d(date, token);
-  },
-
-  // Day of year
-  D: function (date, token, localize) {
-    const dayOfYear = getDayOfYear(date);
-
-    if (token === "Do") {
-      return localize.ordinalNumber(dayOfYear, { unit: "dayOfYear" });
-    }
-
-    return addLeadingZeros(dayOfYear, token.length);
-  },
-
-  // Day of week
-  E: function (date, token, localize) {
-    const dayOfWeek = date.getDay();
-    switch (token) {
-      // Tue
-      case "E":
-      case "EE":
-      case "EEE":
-        return localize.day(dayOfWeek, {
-          width: "abbreviated",
-          context: "formatting",
-        });
-      // T
-      case "EEEEE":
-        return localize.day(dayOfWeek, {
-          width: "narrow",
-          context: "formatting",
-        });
-      // Tu
-      case "EEEEEE":
-        return localize.day(dayOfWeek, {
-          width: "short",
-          context: "formatting",
-        });
-      // Tuesday
-      case "EEEE":
-      default:
-        return localize.day(dayOfWeek, {
-          width: "wide",
-          context: "formatting",
-        });
-    }
-  },
-
-  // Local day of week
-  e: function (date, token, localize, options) {
-    const dayOfWeek = date.getDay();
-    const localDayOfWeek = (dayOfWeek - options.weekStartsOn + 8) % 7 || 7;
-    switch (token) {
-      // Numerical value (Nth day of week with current locale or weekStartsOn)
-      case "e":
-        return String(localDayOfWeek);
-      // Padded numerical value
-      case "ee":
-        return addLeadingZeros(localDayOfWeek, 2);
-      // 1st, 2nd, ..., 7th
-      case "eo":
-        return localize.ordinalNumber(localDayOfWeek, { unit: "day" });
-      case "eee":
-        return localize.day(dayOfWeek, {
-          width: "abbreviated",
-          context: "formatting",
-        });
-      // T
-      case "eeeee":
-        return localize.day(dayOfWeek, {
-          width: "narrow",
-          context: "formatting",
-        });
-      // Tu
-      case "eeeeee":
-        return localize.day(dayOfWeek, {
-          width: "short",
-          context: "formatting",
-        });
-      // Tuesday
-      case "eeee":
-      default:
-        return localize.day(dayOfWeek, {
-          width: "wide",
-          context: "formatting",
-        });
-    }
-  },
-
-  // Stand-alone local day of week
-  c: function (date, token, localize, options) {
-    const dayOfWeek = date.getDay();
-    const localDayOfWeek = (dayOfWeek - options.weekStartsOn + 8) % 7 || 7;
-    switch (token) {
-      // Numerical value (same as in `e`)
-      case "c":
-        return String(localDayOfWeek);
-      // Padded numerical value
-      case "cc":
-        return addLeadingZeros(localDayOfWeek, token.length);
-      // 1st, 2nd, ..., 7th
-      case "co":
-        return localize.ordinalNumber(localDayOfWeek, { unit: "day" });
-      case "ccc":
-        return localize.day(dayOfWeek, {
-          width: "abbreviated",
-          context: "standalone",
-        });
-      // T
-      case "ccccc":
-        return localize.day(dayOfWeek, {
-          width: "narrow",
-          context: "standalone",
-        });
-      // Tu
-      case "cccccc":
-        return localize.day(dayOfWeek, {
-          width: "short",
-          context: "standalone",
-        });
-      // Tuesday
-      case "cccc":
-      default:
-        return localize.day(dayOfWeek, {
-          width: "wide",
-          context: "standalone",
-        });
-    }
-  },
-
-  // ISO day of week
-  i: function (date, token, localize) {
-    const dayOfWeek = date.getDay();
-    const isoDayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek;
-    switch (token) {
-      // 2
-      case "i":
-        return String(isoDayOfWeek);
-      // 02
-      case "ii":
-        return addLeadingZeros(isoDayOfWeek, token.length);
-      // 2nd
-      case "io":
-        return localize.ordinalNumber(isoDayOfWeek, { unit: "day" });
-      // Tue
-      case "iii":
-        return localize.day(dayOfWeek, {
-          width: "abbreviated",
-          context: "formatting",
-        });
-      // T
-      case "iiiii":
-        return localize.day(dayOfWeek, {
-          width: "narrow",
-          context: "formatting",
-        });
-      // Tu
-      case "iiiiii":
-        return localize.day(dayOfWeek, {
-          width: "short",
-          context: "formatting",
-        });
-      // Tuesday
-      case "iiii":
-      default:
-        return localize.day(dayOfWeek, {
-          width: "wide",
-          context: "formatting",
-        });
-    }
-  },
-
-  // AM or PM
-  a: function (date, token, localize) {
-    const hours = date.getHours();
-    const dayPeriodEnumValue = hours / 12 >= 1 ? "pm" : "am";
-
-    switch (token) {
-      case "a":
-      case "aa":
-        return localize.dayPeriod(dayPeriodEnumValue, {
-          width: "abbreviated",
-          context: "formatting",
-        });
-      case "aaa":
-        return localize
-          .dayPeriod(dayPeriodEnumValue, {
-            width: "abbreviated",
-            context: "formatting",
-          })
-          .toLowerCase();
-      case "aaaaa":
-        return localize.dayPeriod(dayPeriodEnumValue, {
-          width: "narrow",
-          context: "formatting",
-        });
-      case "aaaa":
-      default:
-        return localize.dayPeriod(dayPeriodEnumValue, {
-          width: "wide",
-          context: "formatting",
-        });
-    }
-  },
-
-  // AM, PM, midnight, noon
-  b: function (date, token, localize) {
-    const hours = date.getHours();
-    let dayPeriodEnumValue;
-    if (hours === 12) {
-      dayPeriodEnumValue = dayPeriodEnum.noon;
-    } else if (hours === 0) {
-      dayPeriodEnumValue = dayPeriodEnum.midnight;
-    } else {
-      dayPeriodEnumValue = hours / 12 >= 1 ? "pm" : "am";
-    }
-
-    switch (token) {
-      case "b":
-      case "bb":
-        return localize.dayPeriod(dayPeriodEnumValue, {
-          width: "abbreviated",
-          context: "formatting",
-        });
-      case "bbb":
-        return localize
-          .dayPeriod(dayPeriodEnumValue, {
-            width: "abbreviated",
-            context: "formatting",
-          })
-          .toLowerCase();
-      case "bbbbb":
-        return localize.dayPeriod(dayPeriodEnumValue, {
-          width: "narrow",
-          context: "formatting",
-        });
-      case "bbbb":
-      default:
-        return localize.dayPeriod(dayPeriodEnumValue, {
-          width: "wide",
-          context: "formatting",
-        });
-    }
-  },
-
-  // in the morning, in the afternoon, in the evening, at night
-  B: function (date, token, localize) {
-    const hours = date.getHours();
-    let dayPeriodEnumValue;
-    if (hours >= 17) {
-      dayPeriodEnumValue = dayPeriodEnum.evening;
-    } else if (hours >= 12) {
-      dayPeriodEnumValue = dayPeriodEnum.afternoon;
-    } else if (hours >= 4) {
-      dayPeriodEnumValue = dayPeriodEnum.morning;
-    } else {
-      dayPeriodEnumValue = dayPeriodEnum.night;
-    }
-
-    switch (token) {
-      case "B":
-      case "BB":
-      case "BBB":
-        return localize.dayPeriod(dayPeriodEnumValue, {
-          width: "abbreviated",
-          context: "formatting",
-        });
-      case "BBBBB":
-        return localize.dayPeriod(dayPeriodEnumValue, {
-          width: "narrow",
-          context: "formatting",
-        });
-      case "BBBB":
-      default:
-        return localize.dayPeriod(dayPeriodEnumValue, {
-          width: "wide",
-          context: "formatting",
-        });
-    }
-  },
-
-  // Hour [1-12]
-  h: function (date, token, localize) {
-    if (token === "ho") {
-      let hours = date.getHours() % 12;
-      if (hours === 0) hours = 12;
-      return localize.ordinalNumber(hours, { unit: "hour" });
-    }
-
-    return lightFormatters.h(date, token);
-  },
-
-  // Hour [0-23]
-  H: function (date, token, localize) {
-    if (token === "Ho") {
-      return localize.ordinalNumber(date.getHours(), { unit: "hour" });
-    }
-
-    return lightFormatters.H(date, token);
-  },
-
-  // Hour [0-11]
-  K: function (date, token, localize) {
-    const hours = date.getHours() % 12;
-
-    if (token === "Ko") {
-      return localize.ordinalNumber(hours, { unit: "hour" });
-    }
-
-    return addLeadingZeros(hours, token.length);
-  },
-
-  // Hour [1-24]
-  k: function (date, token, localize) {
-    let hours = date.getHours();
-    if (hours === 0) hours = 24;
-
-    if (token === "ko") {
-      return localize.ordinalNumber(hours, { unit: "hour" });
-    }
-
-    return addLeadingZeros(hours, token.length);
-  },
-
-  // Minute
-  m: function (date, token, localize) {
-    if (token === "mo") {
-      return localize.ordinalNumber(date.getMinutes(), { unit: "minute" });
-    }
-
-    return lightFormatters.m(date, token);
-  },
-
-  // Second
-  s: function (date, token, localize) {
-    if (token === "so") {
-      return localize.ordinalNumber(date.getSeconds(), { unit: "second" });
-    }
-
-    return lightFormatters.s(date, token);
-  },
-
-  // Fraction of second
-  S: function (date, token) {
-    return lightFormatters.S(date, token);
-  },
-
-  // Timezone (ISO-8601. If offset is 0, output is always `'Z'`)
-  X: function (date, token, _localize) {
-    const timezoneOffset = date.getTimezoneOffset();
-
-    if (timezoneOffset === 0) {
-      return "Z";
-    }
-
-    switch (token) {
-      // Hours and optional minutes
-      case "X":
-        return formatTimezoneWithOptionalMinutes(timezoneOffset);
-
-      // Hours, minutes and optional seconds without `:` delimiter
-      // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
-      // so this token always has the same output as `XX`
-      case "XXXX":
-      case "XX": // Hours and minutes without `:` delimiter
-        return formatTimezone(timezoneOffset);
-
-      // Hours, minutes and optional seconds with `:` delimiter
-      // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
-      // so this token always has the same output as `XXX`
-      case "XXXXX":
-      case "XXX": // Hours and minutes with `:` delimiter
-      default:
-        return formatTimezone(timezoneOffset, ":");
-    }
-  },
-
-  // Timezone (ISO-8601. If offset is 0, output is `'+00:00'` or equivalent)
-  x: function (date, token, _localize) {
-    const timezoneOffset = date.getTimezoneOffset();
-
-    switch (token) {
-      // Hours and optional minutes
-      case "x":
-        return formatTimezoneWithOptionalMinutes(timezoneOffset);
-
-      // Hours, minutes and optional seconds without `:` delimiter
-      // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
-      // so this token always has the same output as `xx`
-      case "xxxx":
-      case "xx": // Hours and minutes without `:` delimiter
-        return formatTimezone(timezoneOffset);
-
-      // Hours, minutes and optional seconds with `:` delimiter
-      // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
-      // so this token always has the same output as `xxx`
-      case "xxxxx":
-      case "xxx": // Hours and minutes with `:` delimiter
-      default:
-        return formatTimezone(timezoneOffset, ":");
-    }
-  },
-
-  // Timezone (GMT)
-  O: function (date, token, _localize) {
-    const timezoneOffset = date.getTimezoneOffset();
-
-    switch (token) {
-      // Short
-      case "O":
-      case "OO":
-      case "OOO":
-        return "GMT" + formatTimezoneShort(timezoneOffset, ":");
-      // Long
-      case "OOOO":
-      default:
-        return "GMT" + formatTimezone(timezoneOffset, ":");
-    }
-  },
-
-  // Timezone (specific non-location)
-  z: function (date, token, _localize) {
-    const timezoneOffset = date.getTimezoneOffset();
-
-    switch (token) {
-      // Short
-      case "z":
-      case "zz":
-      case "zzz":
-        return "GMT" + formatTimezoneShort(timezoneOffset, ":");
-      // Long
-      case "zzzz":
-      default:
-        return "GMT" + formatTimezone(timezoneOffset, ":");
-    }
-  },
-
-  // Seconds timestamp
-  t: function (date, token, _localize) {
-    const timestamp = Math.trunc(+date / 1000);
-    return addLeadingZeros(timestamp, token.length);
-  },
-
-  // Milliseconds timestamp
-  T: function (date, token, _localize) {
-    return addLeadingZeros(+date, token.length);
-  },
-};
-
-function formatTimezoneShort(offset, delimiter = "") {
-  const sign = offset > 0 ? "-" : "+";
-  const absOffset = Math.abs(offset);
-  const hours = Math.trunc(absOffset / 60);
-  const minutes = absOffset % 60;
-  if (minutes === 0) {
-    return sign + String(hours);
-  }
-  return sign + String(hours) + delimiter + addLeadingZeros(minutes, 2);
-}
-
-function formatTimezoneWithOptionalMinutes(offset, delimiter) {
-  if (offset % 60 === 0) {
-    const sign = offset > 0 ? "-" : "+";
-    return sign + addLeadingZeros(Math.abs(offset) / 60, 2);
-  }
-  return formatTimezone(offset, delimiter);
-}
-
-function formatTimezone(offset, delimiter = "") {
-  const sign = offset > 0 ? "-" : "+";
-  const absOffset = Math.abs(offset);
-  const hours = addLeadingZeros(Math.trunc(absOffset / 60), 2);
-  const minutes = addLeadingZeros(absOffset % 60, 2);
-  return sign + hours + delimiter + minutes;
-}
-
-const dateLongFormatter = (pattern, formatLong) => {
-  switch (pattern) {
-    case "P":
-      return formatLong.date({ width: "short" });
-    case "PP":
-      return formatLong.date({ width: "medium" });
-    case "PPP":
-      return formatLong.date({ width: "long" });
-    case "PPPP":
-    default:
-      return formatLong.date({ width: "full" });
-  }
-};
-
-const timeLongFormatter = (pattern, formatLong) => {
-  switch (pattern) {
-    case "p":
-      return formatLong.time({ width: "short" });
-    case "pp":
-      return formatLong.time({ width: "medium" });
-    case "ppp":
-      return formatLong.time({ width: "long" });
-    case "pppp":
-    default:
-      return formatLong.time({ width: "full" });
-  }
-};
-
-const dateTimeLongFormatter = (pattern, formatLong) => {
-  const matchResult = pattern.match(/(P+)(p+)?/) || [];
-  const datePattern = matchResult[1];
-  const timePattern = matchResult[2];
-
-  if (!timePattern) {
-    return dateLongFormatter(pattern, formatLong);
-  }
-
-  let dateTimeFormat;
-
-  switch (datePattern) {
-    case "P":
-      dateTimeFormat = formatLong.dateTime({ width: "short" });
-      break;
-    case "PP":
-      dateTimeFormat = formatLong.dateTime({ width: "medium" });
-      break;
-    case "PPP":
-      dateTimeFormat = formatLong.dateTime({ width: "long" });
-      break;
-    case "PPPP":
-    default:
-      dateTimeFormat = formatLong.dateTime({ width: "full" });
-      break;
-  }
-
-  return dateTimeFormat
-    .replace("{{date}}", dateLongFormatter(datePattern, formatLong))
-    .replace("{{time}}", timeLongFormatter(timePattern, formatLong));
-};
-
-const longFormatters = {
-  p: timeLongFormatter,
-  P: dateTimeLongFormatter,
-};
-
-const dayOfYearTokenRE = /^D+$/;
-const weekYearTokenRE = /^Y+$/;
-
-const throwTokens = ["D", "DD", "YY", "YYYY"];
-
-function isProtectedDayOfYearToken(token) {
-  return dayOfYearTokenRE.test(token);
-}
-
-function isProtectedWeekYearToken(token) {
-  return weekYearTokenRE.test(token);
-}
-
-function warnOrThrowProtectedError(token, format, input) {
-  const _message = message(token, format, input);
-  console.warn(_message);
-  if (throwTokens.includes(token)) throw new RangeError(_message);
-}
-
-function message(token, format, input) {
-  const subject = token[0] === "Y" ? "years" : "days of the month";
-  return `Use \`${token.toLowerCase()}\` instead of \`${token}\` (in \`${format}\`) for formatting ${subject} to the input \`${input}\`; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md`;
-}
-
-// This RegExp consists of three parts separated by `|`:
-// - [yYQqMLwIdDecihHKkms]o matches any available ordinal number token
-//   (one of the certain letters followed by `o`)
-// - (\w)\1* matches any sequences of the same letter
-// - '' matches two quote characters in a row
-// - '(''|[^'])+('|$) matches anything surrounded by two quote characters ('),
-//   except a single quote symbol, which ends the sequence.
-//   Two quote characters do not end the sequence.
-//   If there is no matching single quote
-//   then the sequence will continue until the end of the string.
-// - . matches any single character unmatched by previous parts of the RegExps
-const formattingTokensRegExp =
-  /[yYQqMLwIdDecihHKkms]o|(\w)\1*|''|'(''|[^'])+('|$)|./g;
-
-// This RegExp catches symbols escaped by quotes, and also
-// sequences of symbols P, p, and the combinations like `PPPPPPPppppp`
-const longFormattingTokensRegExp = /P+p+|P+|p+|''|'(''|[^'])+('|$)|./g;
-
-const escapedStringRegExp = /^'([^]*?)'?$/;
-const doubleQuoteRegExp = /''/g;
-const unescapedLatinCharacterRegExp = /[a-zA-Z]/;
-
-/**
- * The {@link format} function options.
- */
-
-/**
- * @name format
- * @alias formatDate
- * @category Common Helpers
- * @summary Format the date.
- *
- * @description
- * Return the formatted date string in the given format. The result may vary by locale.
- *
- * > ⚠️ Please note that the `format` tokens differ from Moment.js and other libraries.
- * > See: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
- *
- * The characters wrapped between two single quotes characters (') are escaped.
- * Two single quotes in a row, whether inside or outside a quoted sequence, represent a 'real' single quote.
- * (see the last example)
- *
- * Format of the string is based on Unicode Technical Standard #35:
- * https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
- * with a few additions (see note 7 below the table).
- *
- * Accepted patterns:
- * | Unit                            | Pattern | Result examples                   | Notes |
- * |---------------------------------|---------|-----------------------------------|-------|
- * | Era                             | G..GGG  | AD, BC                            |       |
- * |                                 | GGGG    | Anno Domini, Before Christ        | 2     |
- * |                                 | GGGGG   | A, B                              |       |
- * | Calendar year                   | y       | 44, 1, 1900, 2017                 | 5     |
- * |                                 | yo      | 44th, 1st, 0th, 17th              | 5,7   |
- * |                                 | yy      | 44, 01, 00, 17                    | 5     |
- * |                                 | yyy     | 044, 001, 1900, 2017              | 5     |
- * |                                 | yyyy    | 0044, 0001, 1900, 2017            | 5     |
- * |                                 | yyyyy   | ...                               | 3,5   |
- * | Local week-numbering year       | Y       | 44, 1, 1900, 2017                 | 5     |
- * |                                 | Yo      | 44th, 1st, 1900th, 2017th         | 5,7   |
- * |                                 | YY      | 44, 01, 00, 17                    | 5,8   |
- * |                                 | YYY     | 044, 001, 1900, 2017              | 5     |
- * |                                 | YYYY    | 0044, 0001, 1900, 2017            | 5,8   |
- * |                                 | YYYYY   | ...                               | 3,5   |
- * | ISO week-numbering year         | R       | -43, 0, 1, 1900, 2017             | 5,7   |
- * |                                 | RR      | -43, 00, 01, 1900, 2017           | 5,7   |
- * |                                 | RRR     | -043, 000, 001, 1900, 2017        | 5,7   |
- * |                                 | RRRR    | -0043, 0000, 0001, 1900, 2017     | 5,7   |
- * |                                 | RRRRR   | ...                               | 3,5,7 |
- * | Extended year                   | u       | -43, 0, 1, 1900, 2017             | 5     |
- * |                                 | uu      | -43, 01, 1900, 2017               | 5     |
- * |                                 | uuu     | -043, 001, 1900, 2017             | 5     |
- * |                                 | uuuu    | -0043, 0001, 1900, 2017           | 5     |
- * |                                 | uuuuu   | ...                               | 3,5   |
- * | Quarter (formatting)            | Q       | 1, 2, 3, 4                        |       |
- * |                                 | Qo      | 1st, 2nd, 3rd, 4th                | 7     |
- * |                                 | QQ      | 01, 02, 03, 04                    |       |
- * |                                 | QQQ     | Q1, Q2, Q3, Q4                    |       |
- * |                                 | QQQQ    | 1st quarter, 2nd quarter, ...     | 2     |
- * |                                 | QQQQQ   | 1, 2, 3, 4                        | 4     |
- * | Quarter (stand-alone)           | q       | 1, 2, 3, 4                        |       |
- * |                                 | qo      | 1st, 2nd, 3rd, 4th                | 7     |
- * |                                 | qq      | 01, 02, 03, 04                    |       |
- * |                                 | qqq     | Q1, Q2, Q3, Q4                    |       |
- * |                                 | qqqq    | 1st quarter, 2nd quarter, ...     | 2     |
- * |                                 | qqqqq   | 1, 2, 3, 4                        | 4     |
- * | Month (formatting)              | M       | 1, 2, ..., 12                     |       |
- * |                                 | Mo      | 1st, 2nd, ..., 12th               | 7     |
- * |                                 | MM      | 01, 02, ..., 12                   |       |
- * |                                 | MMM     | Jan, Feb, ..., Dec                |       |
- * |                                 | MMMM    | January, February, ..., December  | 2     |
- * |                                 | MMMMM   | J, F, ..., D                      |       |
- * | Month (stand-alone)             | L       | 1, 2, ..., 12                     |       |
- * |                                 | Lo      | 1st, 2nd, ..., 12th               | 7     |
- * |                                 | LL      | 01, 02, ..., 12                   |       |
- * |                                 | LLL     | Jan, Feb, ..., Dec                |       |
- * |                                 | LLLL    | January, February, ..., December  | 2     |
- * |                                 | LLLLL   | J, F, ..., D                      |       |
- * | Local week of year              | w       | 1, 2, ..., 53                     |       |
- * |                                 | wo      | 1st, 2nd, ..., 53th               | 7     |
- * |                                 | ww      | 01, 02, ..., 53                   |       |
- * | ISO week of year                | I       | 1, 2, ..., 53                     | 7     |
- * |                                 | Io      | 1st, 2nd, ..., 53th               | 7     |
- * |                                 | II      | 01, 02, ..., 53                   | 7     |
- * | Day of month                    | d       | 1, 2, ..., 31                     |       |
- * |                                 | do      | 1st, 2nd, ..., 31st               | 7     |
- * |                                 | dd      | 01, 02, ..., 31                   |       |
- * | Day of year                     | D       | 1, 2, ..., 365, 366               | 9     |
- * |                                 | Do      | 1st, 2nd, ..., 365th, 366th       | 7     |
- * |                                 | DD      | 01, 02, ..., 365, 366             | 9     |
- * |                                 | DDD     | 001, 002, ..., 365, 366           |       |
- * |                                 | DDDD    | ...                               | 3     |
- * | Day of week (formatting)        | E..EEE  | Mon, Tue, Wed, ..., Sun           |       |
- * |                                 | EEEE    | Monday, Tuesday, ..., Sunday      | 2     |
- * |                                 | EEEEE   | M, T, W, T, F, S, S               |       |
- * |                                 | EEEEEE  | Mo, Tu, We, Th, Fr, Sa, Su        |       |
- * | ISO day of week (formatting)    | i       | 1, 2, 3, ..., 7                   | 7     |
- * |                                 | io      | 1st, 2nd, ..., 7th                | 7     |
- * |                                 | ii      | 01, 02, ..., 07                   | 7     |
- * |                                 | iii     | Mon, Tue, Wed, ..., Sun           | 7     |
- * |                                 | iiii    | Monday, Tuesday, ..., Sunday      | 2,7   |
- * |                                 | iiiii   | M, T, W, T, F, S, S               | 7     |
- * |                                 | iiiiii  | Mo, Tu, We, Th, Fr, Sa, Su        | 7     |
- * | Local day of week (formatting)  | e       | 2, 3, 4, ..., 1                   |       |
- * |                                 | eo      | 2nd, 3rd, ..., 1st                | 7     |
- * |                                 | ee      | 02, 03, ..., 01                   |       |
- * |                                 | eee     | Mon, Tue, Wed, ..., Sun           |       |
- * |                                 | eeee    | Monday, Tuesday, ..., Sunday      | 2     |
- * |                                 | eeeee   | M, T, W, T, F, S, S               |       |
- * |                                 | eeeeee  | Mo, Tu, We, Th, Fr, Sa, Su        |       |
- * | Local day of week (stand-alone) | c       | 2, 3, 4, ..., 1                   |       |
- * |                                 | co      | 2nd, 3rd, ..., 1st                | 7     |
- * |                                 | cc      | 02, 03, ..., 01                   |       |
- * |                                 | ccc     | Mon, Tue, Wed, ..., Sun           |       |
- * |                                 | cccc    | Monday, Tuesday, ..., Sunday      | 2     |
- * |                                 | ccccc   | M, T, W, T, F, S, S               |       |
- * |                                 | cccccc  | Mo, Tu, We, Th, Fr, Sa, Su        |       |
- * | AM, PM                          | a..aa   | AM, PM                            |       |
- * |                                 | aaa     | am, pm                            |       |
- * |                                 | aaaa    | a.m., p.m.                        | 2     |
- * |                                 | aaaaa   | a, p                              |       |
- * | AM, PM, noon, midnight          | b..bb   | AM, PM, noon, midnight            |       |
- * |                                 | bbb     | am, pm, noon, midnight            |       |
- * |                                 | bbbb    | a.m., p.m., noon, midnight        | 2     |
- * |                                 | bbbbb   | a, p, n, mi                       |       |
- * | Flexible day period             | B..BBB  | at night, in the morning, ...     |       |
- * |                                 | BBBB    | at night, in the morning, ...     | 2     |
- * |                                 | BBBBB   | at night, in the morning, ...     |       |
- * | Hour [1-12]                     | h       | 1, 2, ..., 11, 12                 |       |
- * |                                 | ho      | 1st, 2nd, ..., 11th, 12th         | 7     |
- * |                                 | hh      | 01, 02, ..., 11, 12               |       |
- * | Hour [0-23]                     | H       | 0, 1, 2, ..., 23                  |       |
- * |                                 | Ho      | 0th, 1st, 2nd, ..., 23rd          | 7     |
- * |                                 | HH      | 00, 01, 02, ..., 23               |       |
- * | Hour [0-11]                     | K       | 1, 2, ..., 11, 0                  |       |
- * |                                 | Ko      | 1st, 2nd, ..., 11th, 0th          | 7     |
- * |                                 | KK      | 01, 02, ..., 11, 00               |       |
- * | Hour [1-24]                     | k       | 24, 1, 2, ..., 23                 |       |
- * |                                 | ko      | 24th, 1st, 2nd, ..., 23rd         | 7     |
- * |                                 | kk      | 24, 01, 02, ..., 23               |       |
- * | Minute                          | m       | 0, 1, ..., 59                     |       |
- * |                                 | mo      | 0th, 1st, ..., 59th               | 7     |
- * |                                 | mm      | 00, 01, ..., 59                   |       |
- * | Second                          | s       | 0, 1, ..., 59                     |       |
- * |                                 | so      | 0th, 1st, ..., 59th               | 7     |
- * |                                 | ss      | 00, 01, ..., 59                   |       |
- * | Fraction of second              | S       | 0, 1, ..., 9                      |       |
- * |                                 | SS      | 00, 01, ..., 99                   |       |
- * |                                 | SSS     | 000, 001, ..., 999                |       |
- * |                                 | SSSS    | ...                               | 3     |
- * | Timezone (ISO-8601 w/ Z)        | X       | -08, +0530, Z                     |       |
- * |                                 | XX      | -0800, +0530, Z                   |       |
- * |                                 | XXX     | -08:00, +05:30, Z                 |       |
- * |                                 | XXXX    | -0800, +0530, Z, +123456          | 2     |
- * |                                 | XXXXX   | -08:00, +05:30, Z, +12:34:56      |       |
- * | Timezone (ISO-8601 w/o Z)       | x       | -08, +0530, +00                   |       |
- * |                                 | xx      | -0800, +0530, +0000               |       |
- * |                                 | xxx     | -08:00, +05:30, +00:00            | 2     |
- * |                                 | xxxx    | -0800, +0530, +0000, +123456      |       |
- * |                                 | xxxxx   | -08:00, +05:30, +00:00, +12:34:56 |       |
- * | Timezone (GMT)                  | O...OOO | GMT-8, GMT+5:30, GMT+0            |       |
- * |                                 | OOOO    | GMT-08:00, GMT+05:30, GMT+00:00   | 2     |
- * | Timezone (specific non-locat.)  | z...zzz | GMT-8, GMT+5:30, GMT+0            | 6     |
- * |                                 | zzzz    | GMT-08:00, GMT+05:30, GMT+00:00   | 2,6   |
- * | Seconds timestamp               | t       | 512969520                         | 7     |
- * |                                 | tt      | ...                               | 3,7   |
- * | Milliseconds timestamp          | T       | 512969520900                      | 7     |
- * |                                 | TT      | ...                               | 3,7   |
- * | Long localized date             | P       | 04/29/1453                        | 7     |
- * |                                 | PP      | Apr 29, 1453                      | 7     |
- * |                                 | PPP     | April 29th, 1453                  | 7     |
- * |                                 | PPPP    | Friday, April 29th, 1453          | 2,7   |
- * | Long localized time             | p       | 12:00 AM                          | 7     |
- * |                                 | pp      | 12:00:00 AM                       | 7     |
- * |                                 | ppp     | 12:00:00 AM GMT+2                 | 7     |
- * |                                 | pppp    | 12:00:00 AM GMT+02:00             | 2,7   |
- * | Combination of date and time    | Pp      | 04/29/1453, 12:00 AM              | 7     |
- * |                                 | PPpp    | Apr 29, 1453, 12:00:00 AM         | 7     |
- * |                                 | PPPppp  | April 29th, 1453 at ...           | 7     |
- * |                                 | PPPPpppp| Friday, April 29th, 1453 at ...   | 2,7   |
- * Notes:
- * 1. "Formatting" units (e.g. formatting quarter) in the default en-US locale
- *    are the same as "stand-alone" units, but are different in some languages.
- *    "Formatting" units are declined according to the rules of the language
- *    in the context of a date. "Stand-alone" units are always nominative singular:
- *
- *    `format(new Date(2017, 10, 6), 'do LLLL', {locale: cs}) //=> '6. listopad'`
- *
- *    `format(new Date(2017, 10, 6), 'do MMMM', {locale: cs}) //=> '6. listopadu'`
- *
- * 2. Any sequence of the identical letters is a pattern, unless it is escaped by
- *    the single quote characters (see below).
- *    If the sequence is longer than listed in table (e.g. `EEEEEEEEEEE`)
- *    the output will be the same as default pattern for this unit, usually
- *    the longest one (in case of ISO weekdays, `EEEE`). Default patterns for units
- *    are marked with "2" in the last column of the table.
- *
- *    `format(new Date(2017, 10, 6), 'MMM') //=> 'Nov'`
- *
- *    `format(new Date(2017, 10, 6), 'MMMM') //=> 'November'`
- *
- *    `format(new Date(2017, 10, 6), 'MMMMM') //=> 'N'`
- *
- *    `format(new Date(2017, 10, 6), 'MMMMMM') //=> 'November'`
- *
- *    `format(new Date(2017, 10, 6), 'MMMMMMM') //=> 'November'`
- *
- * 3. Some patterns could be unlimited length (such as `yyyyyyyy`).
- *    The output will be padded with zeros to match the length of the pattern.
- *
- *    `format(new Date(2017, 10, 6), 'yyyyyyyy') //=> '00002017'`
- *
- * 4. `QQQQQ` and `qqqqq` could be not strictly numerical in some locales.
- *    These tokens represent the shortest form of the quarter.
- *
- * 5. The main difference between `y` and `u` patterns are B.C. years:
- *
- *    | Year | `y` | `u` |
- *    |------|-----|-----|
- *    | AC 1 |   1 |   1 |
- *    | BC 1 |   1 |   0 |
- *    | BC 2 |   2 |  -1 |
- *
- *    Also `yy` always returns the last two digits of a year,
- *    while `uu` pads single digit years to 2 characters and returns other years unchanged:
- *
- *    | Year | `yy` | `uu` |
- *    |------|------|------|
- *    | 1    |   01 |   01 |
- *    | 14   |   14 |   14 |
- *    | 376  |   76 |  376 |
- *    | 1453 |   53 | 1453 |
- *
- *    The same difference is true for local and ISO week-numbering years (`Y` and `R`),
- *    except local week-numbering years are dependent on `options.weekStartsOn`
- *    and `options.firstWeekContainsDate` (compare [getISOWeekYear](https://date-fns.org/docs/getISOWeekYear)
- *    and [getWeekYear](https://date-fns.org/docs/getWeekYear)).
- *
- * 6. Specific non-location timezones are currently unavailable in `date-fns`,
- *    so right now these tokens fall back to GMT timezones.
- *
- * 7. These patterns are not in the Unicode Technical Standard #35:
- *    - `i`: ISO day of week
- *    - `I`: ISO week of year
- *    - `R`: ISO week-numbering year
- *    - `t`: seconds timestamp
- *    - `T`: milliseconds timestamp
- *    - `o`: ordinal number modifier
- *    - `P`: long localized date
- *    - `p`: long localized time
- *
- * 8. `YY` and `YYYY` tokens represent week-numbering years but they are often confused with years.
- *    You should enable `options.useAdditionalWeekYearTokens` to use them. See: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
- *
- * 9. `D` and `DD` tokens represent days of the year but they are often confused with days of the month.
- *    You should enable `options.useAdditionalDayOfYearTokens` to use them. See: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
- *
- * @param date - The original date
- * @param format - The string of tokens
- * @param options - An object with options
- *
- * @returns The formatted date string
- *
- * @throws `date` must not be Invalid Date
- * @throws `options.locale` must contain `localize` property
- * @throws `options.locale` must contain `formatLong` property
- * @throws use `yyyy` instead of `YYYY` for formatting years using [format provided] to the input [input provided]; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
- * @throws use `yy` instead of `YY` for formatting years using [format provided] to the input [input provided]; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
- * @throws use `d` instead of `D` for formatting days of the month using [format provided] to the input [input provided]; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
- * @throws use `dd` instead of `DD` for formatting days of the month using [format provided] to the input [input provided]; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
- * @throws format string contains an unescaped latin alphabet character
- *
- * @example
- * // Represent 11 February 2014 in middle-endian format:
- * const result = format(new Date(2014, 1, 11), 'MM/dd/yyyy')
- * //=> '02/11/2014'
- *
- * @example
- * // Represent 2 July 2014 in Esperanto:
- * import { eoLocale } from 'date-fns/locale/eo'
- * const result = format(new Date(2014, 6, 2), "do 'de' MMMM yyyy", {
- *   locale: eoLocale
- * })
- * //=> '2-a de julio 2014'
- *
- * @example
- * // Escape string by single quote characters:
- * const result = format(new Date(2014, 6, 2, 15), "h 'o''clock'")
- * //=> "3 o'clock"
- */
-function format(date, formatStr, options) {
-  const defaultOptions = getDefaultOptions();
-  const locale = defaultOptions.locale ?? enUS;
-
-  const firstWeekContainsDate =
-    defaultOptions.firstWeekContainsDate ??
-    defaultOptions.locale?.options?.firstWeekContainsDate ??
-    1;
-
-  const weekStartsOn =
-    defaultOptions.weekStartsOn ??
-    defaultOptions.locale?.options?.weekStartsOn ??
-    0;
-
-  const originalDate = toDate(date, options?.in);
-
-  if (!isValid(originalDate)) {
-    throw new RangeError("Invalid time value");
-  }
-
-  let parts = formatStr
-    .match(longFormattingTokensRegExp)
-    .map((substring) => {
-      const firstCharacter = substring[0];
-      if (firstCharacter === "p" || firstCharacter === "P") {
-        const longFormatter = longFormatters[firstCharacter];
-        return longFormatter(substring, locale.formatLong);
-      }
-      return substring;
-    })
-    .join("")
-    .match(formattingTokensRegExp)
-    .map((substring) => {
-      // Replace two single quote characters with one single quote character
-      if (substring === "''") {
-        return { isToken: false, value: "'" };
-      }
-
-      const firstCharacter = substring[0];
-      if (firstCharacter === "'") {
-        return { isToken: false, value: cleanEscapedString(substring) };
-      }
-
-      if (formatters[firstCharacter]) {
-        return { isToken: true, value: substring };
-      }
-
-      if (firstCharacter.match(unescapedLatinCharacterRegExp)) {
-        throw new RangeError(
-          "Format string contains an unescaped latin alphabet character `" +
-            firstCharacter +
-            "`",
-        );
-      }
-
-      return { isToken: false, value: substring };
-    });
-
-  // invoke localize preprocessor (only for french locales at the moment)
-  if (locale.localize.preprocessor) {
-    parts = locale.localize.preprocessor(originalDate, parts);
-  }
-
-  const formatterOptions = {
-    firstWeekContainsDate,
-    weekStartsOn,
-    locale,
-  };
-
-  return parts
-    .map((part) => {
-      if (!part.isToken) return part.value;
-
-      const token = part.value;
-
-      if (
-        (isProtectedWeekYearToken(token)) ||
-        (isProtectedDayOfYearToken(token))
-      ) {
-        warnOrThrowProtectedError(token, formatStr, String(date));
-      }
-
-      const formatter = formatters[token[0]];
-      return formatter(originalDate, token, locale.localize, formatterOptions);
-    })
-    .join("");
-}
-
-function cleanEscapedString(input) {
-  const matched = input.match(escapedStringRegExp);
-
-  if (!matched) {
-    return input;
-  }
-
-  return matched[1].replace(doubleQuoteRegExp, "'");
-}
-
-var formatDisplayDate = function (date, outputFormat) {
-    if (outputFormat === void 0) { outputFormat = 'do MMM yyyy'; }
-    return format(new Date(date), outputFormat).toString();
-};
-
-var getShortenedGovActionId = function (txHash, index) {
-    if (txHash.length <= 6) {
-        return "".concat(txHash, "#").concat(index);
-    }
-    var firstPart = txHash.slice(0, 4);
-    var lastPart = txHash.slice(-4);
-    return "".concat(firstPart, "...").concat(lastPart, "#").concat(index);
-};
-var getFullGovActionId = function (txHash, index) {
-    return "".concat(txHash, "#").concat(index);
-};
-
-var MetadataValidationStatus;
-(function (MetadataValidationStatus) {
-    MetadataValidationStatus["URL_NOT_FOUND"] = "URL_NOT_FOUND";
-    MetadataValidationStatus["INVALID_JSONLD"] = "INVALID_JSONLD";
-    MetadataValidationStatus["INVALID_HASH"] = "INVALID_HASH";
-    MetadataValidationStatus["INCORRECT_FORMAT"] = "INCORRECT_FORMAT";
-})(MetadataValidationStatus || (MetadataValidationStatus = {}));
-
-var GovernanceActionType;
-(function (GovernanceActionType) {
-    GovernanceActionType["ParameterChange"] = "ParameterChange";
-    GovernanceActionType["HardForkInitiation"] = "HardForkInitiation";
-    GovernanceActionType["TreasuryWithdrawals"] = "TreasuryWithdrawals";
-    GovernanceActionType["NoConfidence"] = "NoConfidence";
-    GovernanceActionType["NewCommittee"] = "NewCommittee";
-    GovernanceActionType["NewConstitution"] = "NewConstitution";
-    GovernanceActionType["InfoAction"] = "InfoAction";
-})(GovernanceActionType || (GovernanceActionType = {}));
-
-/**
- * Retrieves the label for the given metadata validation status.
- *
- * @param status - The metadata validation status.
- * @returns The string corresponding to the status.
- */
-var getMetadataDataMissingStatusTranslation = function (status) {
-    var _a;
-    var errorLabel = (_a = {},
-        _a[MetadataValidationStatus.URL_NOT_FOUND] = 'Data Missing',
-        _a[MetadataValidationStatus.INVALID_JSONLD] = 'Data Formatted Incorrectly',
-        _a[MetadataValidationStatus.INCORRECT_FORMAT] = 'Data Formatted Incorrectly',
-        _a[MetadataValidationStatus.INVALID_HASH] = 'Data Not Verifiable',
-        _a)[status];
-    return errorLabel || 'Data missing';
-};
-
-var getProposalTypeTitle = function (type) {
-    var _a;
-    var title = (_a = GOVERNANCE_ACTIONS_FILTERS.find(function (i) { return i.key === type; })) === null || _a === void 0 ? void 0 : _a.title;
-    return title || type;
-};
-var getProposalTypeLabel = function (type) {
-    var _a;
-    var label = (_a = GOVERNANCE_ACTIONS_FILTERS.find(function (i) { return i.key === type; })) === null || _a === void 0 ? void 0 : _a.label;
-    return label || type;
-};
-var getProposalTypeNoEmptySpaces = function (type) {
-    return getProposalTypeLabel(type).replace(/ /g, '');
-};
-
 function bind(fn, thisArg) {
   return function wrap() {
     return fn.apply(thisArg, arguments);
@@ -54717,7 +49347,7 @@ const {isArray: isArray$1} = Array;
  *
  * @returns {boolean} True if the value is undefined, otherwise false
  */
-const isUndefined = typeOfTest('undefined');
+const isUndefined$1 = typeOfTest('undefined');
 
 /**
  * Determine if a value is a Buffer
@@ -54727,8 +49357,8 @@ const isUndefined = typeOfTest('undefined');
  * @returns {boolean} True if value is a Buffer, otherwise false
  */
 function isBuffer$1(val) {
-  return val !== null && !isUndefined(val) && val.constructor !== null && !isUndefined(val.constructor)
-    && isFunction$1(val.constructor.isBuffer) && val.constructor.isBuffer(val);
+  return val !== null && !isUndefined$1(val) && val.constructor !== null && !isUndefined$1(val.constructor)
+    && isFunction$2(val.constructor.isBuffer) && val.constructor.isBuffer(val);
 }
 
 /**
@@ -54765,7 +49395,7 @@ function isArrayBufferView(val) {
  *
  * @returns {boolean} True if value is a String, otherwise false
  */
-const isString$1 = typeOfTest('string');
+const isString$2 = typeOfTest('string');
 
 /**
  * Determine if a value is a Function
@@ -54773,7 +49403,7 @@ const isString$1 = typeOfTest('string');
  * @param {*} val The value to test
  * @returns {boolean} True if value is a Function, otherwise false
  */
-const isFunction$1 = typeOfTest('function');
+const isFunction$2 = typeOfTest('function');
 
 /**
  * Determine if a value is a Number
@@ -54791,7 +49421,7 @@ const isNumber = typeOfTest('number');
  *
  * @returns {boolean} True if value is an Object, otherwise false
  */
-const isObject$1 = (thing) => thing !== null && typeof thing === 'object';
+const isObject$2 = (thing) => thing !== null && typeof thing === 'object';
 
 /**
  * Determine if a value is a Boolean
@@ -54799,7 +49429,7 @@ const isObject$1 = (thing) => thing !== null && typeof thing === 'object';
  * @param {*} thing The value to test
  * @returns {boolean} True if value is a Boolean, otherwise false
  */
-const isBoolean = thing => thing === true || thing === false;
+const isBoolean$1 = thing => thing === true || thing === false;
 
 /**
  * Determine if a value is a plain Object
@@ -54808,7 +49438,7 @@ const isBoolean = thing => thing === true || thing === false;
  *
  * @returns {boolean} True if value is a plain Object, otherwise false
  */
-const isPlainObject$2 = (val) => {
+const isPlainObject$3 = (val) => {
   if (kindOf(val) !== 'object') {
     return false;
   }
@@ -54824,7 +49454,7 @@ const isPlainObject$2 = (val) => {
  *
  * @returns {boolean} True if value is a Date, otherwise false
  */
-const isDate$1 = kindOfTest('Date');
+const isDate$2 = kindOfTest('Date');
 
 /**
  * Determine if a value is a File
@@ -54860,7 +49490,7 @@ const isFileList = kindOfTest('FileList');
  *
  * @returns {boolean} True if value is a Stream, otherwise false
  */
-const isStream = (val) => isObject$1(val) && isFunction$1(val.pipe);
+const isStream = (val) => isObject$2(val) && isFunction$2(val.pipe);
 
 /**
  * Determine if a value is a FormData
@@ -54873,10 +49503,10 @@ const isFormData = (thing) => {
   let kind;
   return thing && (
     (typeof FormData === 'function' && thing instanceof FormData) || (
-      isFunction$1(thing.append) && (
+      isFunction$2(thing.append) && (
         (kind = kindOf(thing)) === 'formdata' ||
         // detect form-data instance
-        (kind === 'object' && isFunction$1(thing.toString) && thing.toString() === '[object FormData]')
+        (kind === 'object' && isFunction$2(thing.toString) && thing.toString() === '[object FormData]')
       )
     )
   )
@@ -54951,7 +49581,7 @@ function forEach$1(obj, fn, {allOwnKeys = false} = {}) {
   }
 }
 
-function findKey(obj, key) {
+function findKey$1(obj, key) {
   key = key.toLowerCase();
   const keys = Object.keys(obj);
   let i = keys.length;
@@ -54971,7 +49601,7 @@ const _global = (() => {
   return typeof self !== "undefined" ? self : (typeof window !== 'undefined' ? window : global)
 })();
 
-const isContextDefined = (context) => !isUndefined(context) && context !== _global;
+const isContextDefined = (context) => !isUndefined$1(context) && context !== _global;
 
 /**
  * Accepts varargs expecting each argument to be an object, then
@@ -54995,10 +49625,10 @@ function merge$3(/* obj1, obj2, obj3, ... */) {
   const {caseless} = isContextDefined(this) && this || {};
   const result = {};
   const assignValue = (val, key) => {
-    const targetKey = caseless && findKey(result, key) || key;
-    if (isPlainObject$2(result[targetKey]) && isPlainObject$2(val)) {
+    const targetKey = caseless && findKey$1(result, key) || key;
+    if (isPlainObject$3(result[targetKey]) && isPlainObject$3(val)) {
       result[targetKey] = merge$3(result[targetKey], val);
-    } else if (isPlainObject$2(val)) {
+    } else if (isPlainObject$3(val)) {
       result[targetKey] = merge$3({}, val);
     } else if (isArray$1(val)) {
       result[targetKey] = val.slice();
@@ -55025,7 +49655,7 @@ function merge$3(/* obj1, obj2, obj3, ... */) {
  */
 const extend$2 = (a, b, thisArg, {allOwnKeys}= {}) => {
   forEach$1(b, (val, key) => {
-    if (thisArg && isFunction$1(val)) {
+    if (thisArg && isFunction$2(val)) {
       a[key] = bind(val, thisArg);
     } else {
       a[key] = val;
@@ -55241,13 +49871,13 @@ const reduceDescriptors = (obj, reducer) => {
 const freezeMethods = (obj) => {
   reduceDescriptors(obj, (descriptor, name) => {
     // skip restricted props in strict mode
-    if (isFunction$1(obj) && ['arguments', 'caller', 'callee'].indexOf(name) !== -1) {
+    if (isFunction$2(obj) && ['arguments', 'caller', 'callee'].indexOf(name) !== -1) {
       return false;
     }
 
     const value = obj[name];
 
-    if (!isFunction$1(value)) return;
+    if (!isFunction$2(value)) return;
 
     descriptor.enumerable = false;
 
@@ -55312,7 +49942,7 @@ const generateString = (size = 16, alphabet = ALPHABET.ALPHA_DIGIT) => {
  * @returns {boolean}
  */
 function isSpecCompliantForm(thing) {
-  return !!(thing && isFunction$1(thing.append) && thing[Symbol.toStringTag] === 'FormData' && thing[Symbol.iterator]);
+  return !!(thing && isFunction$2(thing.append) && thing[Symbol.toStringTag] === 'FormData' && thing[Symbol.iterator]);
 }
 
 const toJSONObject = (obj) => {
@@ -55320,7 +49950,7 @@ const toJSONObject = (obj) => {
 
   const visit = (source, i) => {
 
-    if (isObject$1(source)) {
+    if (isObject$2(source)) {
       if (stack.indexOf(source) >= 0) {
         return;
       }
@@ -55331,7 +49961,7 @@ const toJSONObject = (obj) => {
 
         forEach$1(source, (value, key) => {
           const reducedValue = visit(value, i + 1);
-          !isUndefined(reducedValue) && (target[key] = reducedValue);
+          !isUndefined$1(reducedValue) && (target[key] = reducedValue);
         });
 
         stack[i] = undefined;
@@ -55349,7 +49979,7 @@ const toJSONObject = (obj) => {
 const isAsyncFn = kindOfTest('AsyncFunction');
 
 const isThenable = (thing) =>
-  thing && (isObject$1(thing) || isFunction$1(thing)) && isFunction$1(thing.then) && isFunction$1(thing.catch);
+  thing && (isObject$2(thing) || isFunction$2(thing)) && isFunction$2(thing.then) && isFunction$2(thing.catch);
 
 // original code
 // https://github.com/DigitalBrainJS/AxiosPromise/blob/16deab13710ec09779922131f3fa5954320f83ab/lib/utils.js#L11-L34
@@ -55373,7 +50003,7 @@ const _setImmediate = ((setImmediateSupported, postMessageSupported) => {
   })(`axios@${Math.random()}`, []) : (cb) => setTimeout(cb);
 })(
   typeof setImmediate === 'function',
-  isFunction$1(_global.postMessage)
+  isFunction$2(_global.postMessage)
 );
 
 const asap = typeof queueMicrotask !== 'undefined' ?
@@ -55387,21 +50017,21 @@ var utils$2 = {
   isBuffer: isBuffer$1,
   isFormData,
   isArrayBufferView,
-  isString: isString$1,
+  isString: isString$2,
   isNumber,
-  isBoolean,
-  isObject: isObject$1,
-  isPlainObject: isPlainObject$2,
+  isBoolean: isBoolean$1,
+  isObject: isObject$2,
+  isPlainObject: isPlainObject$3,
   isReadableStream,
   isRequest,
   isResponse,
   isHeaders,
-  isUndefined,
-  isDate: isDate$1,
+  isUndefined: isUndefined$1,
+  isDate: isDate$2,
   isFile,
   isBlob,
   isRegExp,
-  isFunction: isFunction$1,
+  isFunction: isFunction$2,
   isStream,
   isURLSearchParams,
   isTypedArray,
@@ -55428,7 +50058,7 @@ var utils$2 = {
   toCamelCase,
   noop: noop$3,
   toFiniteNumber,
-  findKey,
+  findKey: findKey$1,
   global: _global,
   isContextDefined,
   ALPHABET,
@@ -70283,10 +64913,10 @@ RedirectableRequest.prototype.write = function (data, encoding, callback) {
   }
 
   // Validate input and shift parameters if necessary
-  if (!isString(data) && !isBuffer(data)) {
+  if (!isString$1(data) && !isBuffer(data)) {
     throw new TypeError("data should be a string, Buffer or Uint8Array");
   }
-  if (isFunction(encoding)) {
+  if (isFunction$1(encoding)) {
     callback = encoding;
     encoding = null;
   }
@@ -70315,11 +64945,11 @@ RedirectableRequest.prototype.write = function (data, encoding, callback) {
 // Ends the current native request
 RedirectableRequest.prototype.end = function (data, encoding, callback) {
   // Shift parameters if necessary
-  if (isFunction(data)) {
+  if (isFunction$1(data)) {
     callback = data;
     data = encoding = null;
   }
-  else if (isFunction(encoding)) {
+  else if (isFunction$1(encoding)) {
     callback = encoding;
     encoding = null;
   }
@@ -70627,7 +65257,7 @@ RedirectableRequest.prototype._processResponse = function (response) {
   }
 
   // Evaluate the beforeRedirect callback
-  if (isFunction(beforeRedirect)) {
+  if (isFunction$1(beforeRedirect)) {
     var responseDetails = {
       headers: response.headers,
       statusCode: statusCode,
@@ -70666,7 +65296,7 @@ function wrap$2(protocols) {
       if (isURL(input)) {
         input = spreadUrlObject(input);
       }
-      else if (isString(input)) {
+      else if (isString$1(input)) {
         input = spreadUrlObject(parseUrl(input));
       }
       else {
@@ -70674,7 +65304,7 @@ function wrap$2(protocols) {
         options = validateUrl(input);
         input = { protocol: protocol };
       }
-      if (isFunction(options)) {
+      if (isFunction$1(options)) {
         callback = options;
         options = null;
       }
@@ -70685,7 +65315,7 @@ function wrap$2(protocols) {
         maxBodyLength: exports.maxBodyLength,
       }, input, options);
       options.nativeProtocols = nativeProtocols;
-      if (!isString(options.host) && !isString(options.hostname)) {
+      if (!isString$1(options.host) && !isString$1(options.hostname)) {
         options.hostname = "::1";
       }
 
@@ -70721,7 +65351,7 @@ function parseUrl(input) {
   else {
     // Ensure the URL is valid and absolute
     parsed = validateUrl(url.parse(input));
-    if (!isString(parsed.protocol)) {
+    if (!isString$1(parsed.protocol)) {
       throw new InvalidUrlError({ input });
     }
   }
@@ -70808,16 +65438,16 @@ function destroyRequest(request, error) {
 }
 
 function isSubdomain(subdomain, domain) {
-  assert(isString(subdomain) && isString(domain));
+  assert(isString$1(subdomain) && isString$1(domain));
   var dot = subdomain.length - domain.length - 1;
   return dot > 0 && subdomain[dot] === "." && subdomain.endsWith(domain);
 }
 
-function isString(value) {
+function isString$1(value) {
   return typeof value === "string" || value instanceof String;
 }
 
-function isFunction(value) {
+function isFunction$1(value) {
   return typeof value === "function";
 }
 
@@ -73525,89 +68155,2948 @@ axios.HttpStatusCode = HttpStatusCode;
 
 axios.default = axios;
 
-var getVoteContextTextFromFile = function (url) { return __awaiter(void 0, void 0, void 0, function () {
-    var response, voteContextText;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                if (!url) {
-                    throw new Error('URL is undefined');
-                }
-                return [4 /*yield*/, axios.get(url)];
-            case 1:
-                response = _a.sent();
-                voteContextText = response.data.body['CIP108:voteContextText']['@value'];
-                return [2 /*return*/, voteContextText];
-        }
-    });
-}); };
-
-var getProposals = function (url, validationApiUrl, _a) {
-    var _b = _a.dRepID, dRepID = _b === void 0 ? '' : _b, _c = _a.filters, filters = _c === void 0 ? [] : _c, _d = _a.page, page = _d === void 0 ? 0 : _d, 
-    // It allows fetch proposals and if we have 7 items, display 6 cards and "view all" button
-    _e = _a.pageSize, 
-    // It allows fetch proposals and if we have 7 items, display 6 cards and "view all" button
-    pageSize = _e === void 0 ? 7 : _e, _f = _a.searchPhrase, searchPhrase = _f === void 0 ? '' : _f, _g = _a.sorting, sorting = _g === void 0 ? '' : _g;
-    return __awaiter(void 0, void 0, void 0, function () {
-        var response, validatedResponse, _h;
-        var _j;
-        return __generator(this, function (_k) {
-            switch (_k.label) {
-                case 0:
-                    if (!url) {
-                        throw new Error('URL is undefined');
-                    }
-                    return [4 /*yield*/, axios.get("".concat(url, "/proposal/list"), {
-                            params: __assign(__assign(__assign(__assign({ page: page, pageSize: pageSize }, (searchPhrase && { search: searchPhrase })), (filters.length && { type: filters })), (sorting && { sort: sorting })), (dRepID && { drepId: dRepID })),
-                        })];
-                case 1:
-                    response = _k.sent();
-                    _h = [__assign({}, response.data)];
-                    _j = {};
-                    return [4 /*yield*/, Promise.all(response.data.elements.map(function (proposalDTO) {
-                            return mapDtoToProposal(validationApiUrl, proposalDTO);
-                        }))];
-                case 2:
-                    validatedResponse = __assign.apply(void 0, _h.concat([(_j.elements = _k.sent(), _j)]));
-                    return [2 /*return*/, validatedResponse];
-            }
-        });
-    });
+var LOVELACE = 1000000;
+var DECIMALS = 6;
+var correctAdaFormat = function (lovelace) {
+    if (lovelace) {
+        return Number.parseFloat((lovelace / LOVELACE).toFixed(DECIMALS));
+    }
+    return 0;
 };
 
-var TIMEOUT_IN_SECONDS = 30 * 1000; // 1000 ms is 1 s then its 30 s
-var METADATA_API = axios.create({
-    timeout: TIMEOUT_IN_SECONDS,
-});
-var postValidate = function (url, body) { return __awaiter(void 0, void 0, void 0, function () {
-    var response;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, METADATA_API.post(url, body)];
-            case 1:
-                response = _a.sent();
-                return [2 /*return*/, response.data];
+var callAll = function () {
+    var fns = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        fns[_i] = arguments[_i];
+    }
+    return function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
         }
-    });
-}); };
+        return fns.forEach(function (fn) { return fn && fn.apply(void 0, args); });
+    };
+};
 
-var getProposal = function (apiUrl, validationApiUrl, proposalId, drepId) { return __awaiter(void 0, void 0, void 0, function () {
-    var encodedHash, data, _a;
-    var _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
-            case 0:
-                encodedHash = encodeURIComponent(proposalId);
-                return [4 /*yield*/, axios.get("".concat(apiUrl, "/proposal/get/").concat(encodedHash, "?drepId=").concat(drepId))];
-            case 1:
-                data = (_c.sent()).data;
-                _a = [__assign({}, data)];
-                _b = {};
-                return [4 /*yield*/, mapDtoToProposal(validationApiUrl, data.proposal)];
-            case 2: return [2 /*return*/, __assign.apply(void 0, _a.concat([(_b.proposal = _c.sent(), _b)]))];
-        }
+/**
+ * Downloads a JSON object as a file.
+ * @param json - The JSON object to be downloaded.
+ * @param fileName - The name of the file to be downloaded.
+ * If not provided, the default name will be "data.jsonld".
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+var downloadJson = function (json, fileName) {
+    var blob = new Blob([JSON.stringify(json, null, 2)], {
+        type: 'application/json',
     });
-}); };
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = "".concat(fileName, ".jsonld");
+    // Fallback: If iOS/Safari doesn't support `download`, open the data in a new tab
+    if (navigator.userAgent.includes('Safari') &&
+        !navigator.userAgent.includes('Chrome')) {
+        window.open(url, '_blank');
+    }
+    else {
+        link.click();
+    }
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+};
+
+/**
+ * Filters out null parameters from the original object and returns a new object.
+ *
+ * @param originalObject - The original object to filter.
+ * @param filterOutKeys - An optional array of keys to exclude from the filtering process.
+ * @returns The filtered object without null parameters.
+ */
+var filterOutNullParams = function (originalObject, filterOutKeys) {
+    if (!originalObject) {
+        return null;
+    }
+    var finalObject = Object.entries(originalObject).reduce(function (acc, _a) {
+        var key = _a[0], value = _a[1];
+        if (value !== null &&
+            value !== undefined &&
+            !(filterOutKeys === null || filterOutKeys === void 0 ? void 0 : filterOutKeys.includes(key))) {
+            acc[key] = value;
+        }
+        return acc;
+    }, {});
+    return finalObject;
+};
+
+/**
+ * Filters the updatable protocol parameters based on the original object,
+ * reference object, and optional filter-out keys.
+ *
+ * @param originalObject - The original object containing the protocol parameters.
+ * @param referenceObject - The reference object containing the updated protocol parameters.
+ * @param filterOutKeys - An optional array of keys to be excluded from the final object.
+ * @returns The filtered object containing the updatable protocol parameters or null.
+ */
+var filterUpdatableProtocolParams = function (originalObject, referenceObject, filterOutKeys) {
+    if (!originalObject || !referenceObject) {
+        return null;
+    }
+    var finalObject = Object.entries(referenceObject).reduce(function (acc, _a) {
+        var key = _a[0], referenceValue = _a[1];
+        var isValid = !(filterOutKeys === null || filterOutKeys === void 0 ? void 0 : filterOutKeys.includes(key)) &&
+            originalObject.hasOwnProperty(key) &&
+            referenceValue !== undefined &&
+            referenceValue !== null;
+        if (isValid)
+            acc[key] = originalObject[key];
+        return acc;
+    }, {});
+    return finalObject;
+};
+
+/**
+ * @module constants
+ * @summary Useful constants
+ * @description
+ * Collection of useful date constants.
+ *
+ * The constants could be imported from `date-fns/constants`:
+ *
+ * ```ts
+ * import { maxTime, minTime } from "./constants/date-fns/constants";
+ *
+ * function isAllowedTime(time) {
+ *   return time <= maxTime && time >= minTime;
+ * }
+ * ```
+ */
+
+
+/**
+ * @constant
+ * @name millisecondsInWeek
+ * @summary Milliseconds in 1 week.
+ */
+const millisecondsInWeek = 604800000;
+
+/**
+ * @constant
+ * @name millisecondsInDay
+ * @summary Milliseconds in 1 day.
+ */
+const millisecondsInDay = 86400000;
+
+/**
+ * @constant
+ * @name constructFromSymbol
+ * @summary Symbol enabling Date extensions to inherit properties from the reference date.
+ *
+ * The symbol is used to enable the `constructFrom` function to construct a date
+ * using a reference date and a value. It allows to transfer extra properties
+ * from the reference date to the new date. It's useful for extensions like
+ * [`TZDate`](https://github.com/date-fns/tz) that accept a time zone as
+ * a constructor argument.
+ */
+const constructFromSymbol = Symbol.for("constructDateFrom");
+
+/**
+ * @name constructFrom
+ * @category Generic Helpers
+ * @summary Constructs a date using the reference date and the value
+ *
+ * @description
+ * The function constructs a new date using the constructor from the reference
+ * date and the given value. It helps to build generic functions that accept
+ * date extensions.
+ *
+ * It defaults to `Date` if the passed reference date is a number or a string.
+ *
+ * Starting from v3.7.0, it allows to construct a date using `[Symbol.for("constructDateFrom")]`
+ * enabling to transfer extra properties from the reference date to the new date.
+ * It's useful for extensions like [`TZDate`](https://github.com/date-fns/tz)
+ * that accept a time zone as a constructor argument.
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ *
+ * @param date - The reference date to take constructor from
+ * @param value - The value to create the date
+ *
+ * @returns Date initialized using the given date and value
+ *
+ * @example
+ * import { constructFrom } from "./constructFrom/date-fns";
+ *
+ * // A function that clones a date preserving the original type
+ * function cloneDate<DateType extends Date>(date: DateType): DateType {
+ *   return constructFrom(
+ *     date, // Use constructor from the given date
+ *     date.getTime() // Use the date value to create a new date
+ *   );
+ * }
+ */
+function constructFrom(date, value) {
+  if (typeof date === "function") return date(value);
+
+  if (date && typeof date === "object" && constructFromSymbol in date)
+    return date[constructFromSymbol](value);
+
+  if (date instanceof Date) return new date.constructor(value);
+
+  return new Date(value);
+}
+
+/**
+ * @name toDate
+ * @category Common Helpers
+ * @summary Convert the given argument to an instance of Date.
+ *
+ * @description
+ * Convert the given argument to an instance of Date.
+ *
+ * If the argument is an instance of Date, the function returns its clone.
+ *
+ * If the argument is a number, it is treated as a timestamp.
+ *
+ * If the argument is none of the above, the function returns Invalid Date.
+ *
+ * Starting from v3.7.0, it clones a date using `[Symbol.for("constructDateFrom")]`
+ * enabling to transfer extra properties from the reference date to the new date.
+ * It's useful for extensions like [`TZDate`](https://github.com/date-fns/tz)
+ * that accept a time zone as a constructor argument.
+ *
+ * **Note**: *all* Date arguments passed to any *date-fns* function is processed by `toDate`.
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ * @typeParam ResultDate - The result `Date` type, it is the type returned from the context function if it is passed, or inferred from the arguments.
+ *
+ * @param argument - The value to convert
+ *
+ * @returns The parsed date in the local time zone
+ *
+ * @example
+ * // Clone the date:
+ * const result = toDate(new Date(2014, 1, 11, 11, 30, 30))
+ * //=> Tue Feb 11 2014 11:30:30
+ *
+ * @example
+ * // Convert the timestamp to date:
+ * const result = toDate(1392098430000)
+ * //=> Tue Feb 11 2014 11:30:30
+ */
+function toDate(argument, context) {
+  // [TODO] Get rid of `toDate` or `constructFrom`?
+  return constructFrom(context || argument, argument);
+}
+
+let defaultOptions$1 = {};
+
+function getDefaultOptions() {
+  return defaultOptions$1;
+}
+
+/**
+ * The {@link startOfWeek} function options.
+ */
+
+/**
+ * @name startOfWeek
+ * @category Week Helpers
+ * @summary Return the start of a week for the given date.
+ *
+ * @description
+ * Return the start of a week for the given date.
+ * The result will be in the local timezone.
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ * @typeParam ResultDate - The result `Date` type, it is the type returned from the context function if it is passed, or inferred from the arguments.
+ *
+ * @param date - The original date
+ * @param options - An object with options
+ *
+ * @returns The start of a week
+ *
+ * @example
+ * // The start of a week for 2 September 2014 11:55:00:
+ * const result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Sun Aug 31 2014 00:00:00
+ *
+ * @example
+ * // If the week starts on Monday, the start of the week for 2 September 2014 11:55:00:
+ * const result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0), { weekStartsOn: 1 })
+ * //=> Mon Sep 01 2014 00:00:00
+ */
+function startOfWeek(date, options) {
+  const defaultOptions = getDefaultOptions();
+  const weekStartsOn =
+    options?.weekStartsOn ??
+    options?.locale?.options?.weekStartsOn ??
+    defaultOptions.weekStartsOn ??
+    defaultOptions.locale?.options?.weekStartsOn ??
+    0;
+
+  const _date = toDate(date, options?.in);
+  const day = _date.getDay();
+  const diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
+
+  _date.setDate(_date.getDate() - diff);
+  _date.setHours(0, 0, 0, 0);
+  return _date;
+}
+
+/**
+ * The {@link startOfISOWeek} function options.
+ */
+
+/**
+ * @name startOfISOWeek
+ * @category ISO Week Helpers
+ * @summary Return the start of an ISO week for the given date.
+ *
+ * @description
+ * Return the start of an ISO week for the given date.
+ * The result will be in the local timezone.
+ *
+ * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ * @typeParam ResultDate - The result `Date` type, it is the type returned from the context function if it is passed, or inferred from the arguments.
+ *
+ * @param date - The original date
+ * @param options - An object with options
+ *
+ * @returns The start of an ISO week
+ *
+ * @example
+ * // The start of an ISO week for 2 September 2014 11:55:00:
+ * const result = startOfISOWeek(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Mon Sep 01 2014 00:00:00
+ */
+function startOfISOWeek(date, options) {
+  return startOfWeek(date, { ...options, weekStartsOn: 1 });
+}
+
+/**
+ * The {@link getISOWeekYear} function options.
+ */
+
+/**
+ * @name getISOWeekYear
+ * @category ISO Week-Numbering Year Helpers
+ * @summary Get the ISO week-numbering year of the given date.
+ *
+ * @description
+ * Get the ISO week-numbering year of the given date,
+ * which always starts 3 days before the year's first Thursday.
+ *
+ * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
+ *
+ * @param date - The given date
+ *
+ * @returns The ISO week-numbering year
+ *
+ * @example
+ * // Which ISO-week numbering year is 2 January 2005?
+ * const result = getISOWeekYear(new Date(2005, 0, 2))
+ * //=> 2004
+ */
+function getISOWeekYear(date, options) {
+  const _date = toDate(date, options?.in);
+  const year = _date.getFullYear();
+
+  const fourthOfJanuaryOfNextYear = constructFrom(_date, 0);
+  fourthOfJanuaryOfNextYear.setFullYear(year + 1, 0, 4);
+  fourthOfJanuaryOfNextYear.setHours(0, 0, 0, 0);
+  const startOfNextYear = startOfISOWeek(fourthOfJanuaryOfNextYear);
+
+  const fourthOfJanuaryOfThisYear = constructFrom(_date, 0);
+  fourthOfJanuaryOfThisYear.setFullYear(year, 0, 4);
+  fourthOfJanuaryOfThisYear.setHours(0, 0, 0, 0);
+  const startOfThisYear = startOfISOWeek(fourthOfJanuaryOfThisYear);
+
+  if (_date.getTime() >= startOfNextYear.getTime()) {
+    return year + 1;
+  } else if (_date.getTime() >= startOfThisYear.getTime()) {
+    return year;
+  } else {
+    return year - 1;
+  }
+}
+
+/**
+ * Google Chrome as of 67.0.3396.87 introduced timezones with offset that includes seconds.
+ * They usually appear for dates that denote time before the timezones were introduced
+ * (e.g. for 'Europe/Prague' timezone the offset is GMT+00:57:44 before 1 October 1891
+ * and GMT+01:00:00 after that date)
+ *
+ * Date#getTimezoneOffset returns the offset in minutes and would return 57 for the example above,
+ * which would lead to incorrect calculations.
+ *
+ * This function returns the timezone offset in milliseconds that takes seconds in account.
+ */
+function getTimezoneOffsetInMilliseconds(date) {
+  const _date = toDate(date);
+  const utcDate = new Date(
+    Date.UTC(
+      _date.getFullYear(),
+      _date.getMonth(),
+      _date.getDate(),
+      _date.getHours(),
+      _date.getMinutes(),
+      _date.getSeconds(),
+      _date.getMilliseconds(),
+    ),
+  );
+  utcDate.setUTCFullYear(_date.getFullYear());
+  return +date - +utcDate;
+}
+
+function normalizeDates(context, ...dates) {
+  const normalize = constructFrom.bind(
+    null,
+    dates.find((date) => typeof date === "object"),
+  );
+  return dates.map(normalize);
+}
+
+/**
+ * The {@link startOfDay} function options.
+ */
+
+/**
+ * @name startOfDay
+ * @category Day Helpers
+ * @summary Return the start of a day for the given date.
+ *
+ * @description
+ * Return the start of a day for the given date.
+ * The result will be in the local timezone.
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ * @typeParam ResultDate - The result `Date` type, it is the type returned from the context function if it is passed, or inferred from the arguments.
+ *
+ * @param date - The original date
+ * @param options - The options
+ *
+ * @returns The start of a day
+ *
+ * @example
+ * // The start of a day for 2 September 2014 11:55:00:
+ * const result = startOfDay(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Tue Sep 02 2014 00:00:00
+ */
+function startOfDay(date, options) {
+  const _date = toDate(date, options?.in);
+  _date.setHours(0, 0, 0, 0);
+  return _date;
+}
+
+/**
+ * The {@link differenceInCalendarDays} function options.
+ */
+
+/**
+ * @name differenceInCalendarDays
+ * @category Day Helpers
+ * @summary Get the number of calendar days between the given dates.
+ *
+ * @description
+ * Get the number of calendar days between the given dates. This means that the times are removed
+ * from the dates and then the difference in days is calculated.
+ *
+ * @param laterDate - The later date
+ * @param earlierDate - The earlier date
+ * @param options - The options object
+ *
+ * @returns The number of calendar days
+ *
+ * @example
+ * // How many calendar days are between
+ * // 2 July 2011 23:00:00 and 2 July 2012 00:00:00?
+ * const result = differenceInCalendarDays(
+ *   new Date(2012, 6, 2, 0, 0),
+ *   new Date(2011, 6, 2, 23, 0)
+ * )
+ * //=> 366
+ * // How many calendar days are between
+ * // 2 July 2011 23:59:00 and 3 July 2011 00:01:00?
+ * const result = differenceInCalendarDays(
+ *   new Date(2011, 6, 3, 0, 1),
+ *   new Date(2011, 6, 2, 23, 59)
+ * )
+ * //=> 1
+ */
+function differenceInCalendarDays(laterDate, earlierDate, options) {
+  const [laterDate_, earlierDate_] = normalizeDates(
+    options?.in,
+    laterDate,
+    earlierDate,
+  );
+
+  const laterStartOfDay = startOfDay(laterDate_);
+  const earlierStartOfDay = startOfDay(earlierDate_);
+
+  const laterTimestamp =
+    +laterStartOfDay - getTimezoneOffsetInMilliseconds(laterStartOfDay);
+  const earlierTimestamp =
+    +earlierStartOfDay - getTimezoneOffsetInMilliseconds(earlierStartOfDay);
+
+  // Round the number of days to the nearest integer because the number of
+  // milliseconds in a day is not constant (e.g. it's different in the week of
+  // the daylight saving time clock shift).
+  return Math.round((laterTimestamp - earlierTimestamp) / millisecondsInDay);
+}
+
+/**
+ * The {@link startOfISOWeekYear} function options.
+ */
+
+/**
+ * @name startOfISOWeekYear
+ * @category ISO Week-Numbering Year Helpers
+ * @summary Return the start of an ISO week-numbering year for the given date.
+ *
+ * @description
+ * Return the start of an ISO week-numbering year,
+ * which always starts 3 days before the year's first Thursday.
+ * The result will be in the local timezone.
+ *
+ * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ * @typeParam ResultDate - The result `Date` type, it is the type returned from the context function if it is passed, or inferred from the arguments.
+ *
+ * @param date - The original date
+ * @param options - An object with options
+ *
+ * @returns The start of an ISO week-numbering year
+ *
+ * @example
+ * // The start of an ISO week-numbering year for 2 July 2005:
+ * const result = startOfISOWeekYear(new Date(2005, 6, 2))
+ * //=> Mon Jan 03 2005 00:00:00
+ */
+function startOfISOWeekYear(date, options) {
+  const year = getISOWeekYear(date, options);
+  const fourthOfJanuary = constructFrom(date, 0);
+  fourthOfJanuary.setFullYear(year, 0, 4);
+  fourthOfJanuary.setHours(0, 0, 0, 0);
+  return startOfISOWeek(fourthOfJanuary);
+}
+
+/**
+ * @name isDate
+ * @category Common Helpers
+ * @summary Is the given value a date?
+ *
+ * @description
+ * Returns true if the given value is an instance of Date. The function works for dates transferred across iframes.
+ *
+ * @param value - The value to check
+ *
+ * @returns True if the given value is a date
+ *
+ * @example
+ * // For a valid date:
+ * const result = isDate(new Date())
+ * //=> true
+ *
+ * @example
+ * // For an invalid date:
+ * const result = isDate(new Date(NaN))
+ * //=> true
+ *
+ * @example
+ * // For some value:
+ * const result = isDate('2014-02-31')
+ * //=> false
+ *
+ * @example
+ * // For an object:
+ * const result = isDate({})
+ * //=> false
+ */
+function isDate$1(value) {
+  return (
+    value instanceof Date ||
+    (typeof value === "object" &&
+      Object.prototype.toString.call(value) === "[object Date]")
+  );
+}
+
+/**
+ * @name isValid
+ * @category Common Helpers
+ * @summary Is the given date valid?
+ *
+ * @description
+ * Returns false if argument is Invalid Date and true otherwise.
+ * Argument is converted to Date using `toDate`. See [toDate](https://date-fns.org/docs/toDate)
+ * Invalid Date is a Date, whose time value is NaN.
+ *
+ * Time value of Date: http://es5.github.io/#x15.9.1.1
+ *
+ * @param date - The date to check
+ *
+ * @returns The date is valid
+ *
+ * @example
+ * // For the valid date:
+ * const result = isValid(new Date(2014, 1, 31))
+ * //=> true
+ *
+ * @example
+ * // For the value, convertible into a date:
+ * const result = isValid(1393804800000)
+ * //=> true
+ *
+ * @example
+ * // For the invalid date:
+ * const result = isValid(new Date(''))
+ * //=> false
+ */
+function isValid(date) {
+  return !((!isDate$1(date) && typeof date !== "number") || isNaN(+toDate(date)));
+}
+
+/**
+ * The {@link startOfYear} function options.
+ */
+
+/**
+ * @name startOfYear
+ * @category Year Helpers
+ * @summary Return the start of a year for the given date.
+ *
+ * @description
+ * Return the start of a year for the given date.
+ * The result will be in the local timezone.
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ * @typeParam ResultDate - The result `Date` type, it is the type returned from the context function if it is passed, or inferred from the arguments.
+ *
+ * @param date - The original date
+ * @param options - The options
+ *
+ * @returns The start of a year
+ *
+ * @example
+ * // The start of a year for 2 September 2014 11:55:00:
+ * const result = startOfYear(new Date(2014, 8, 2, 11, 55, 00))
+ * //=> Wed Jan 01 2014 00:00:00
+ */
+function startOfYear(date, options) {
+  const date_ = toDate(date, options?.in);
+  date_.setFullYear(date_.getFullYear(), 0, 1);
+  date_.setHours(0, 0, 0, 0);
+  return date_;
+}
+
+const formatDistanceLocale = {
+  lessThanXSeconds: {
+    one: "less than a second",
+    other: "less than {{count}} seconds",
+  },
+
+  xSeconds: {
+    one: "1 second",
+    other: "{{count}} seconds",
+  },
+
+  halfAMinute: "half a minute",
+
+  lessThanXMinutes: {
+    one: "less than a minute",
+    other: "less than {{count}} minutes",
+  },
+
+  xMinutes: {
+    one: "1 minute",
+    other: "{{count}} minutes",
+  },
+
+  aboutXHours: {
+    one: "about 1 hour",
+    other: "about {{count}} hours",
+  },
+
+  xHours: {
+    one: "1 hour",
+    other: "{{count}} hours",
+  },
+
+  xDays: {
+    one: "1 day",
+    other: "{{count}} days",
+  },
+
+  aboutXWeeks: {
+    one: "about 1 week",
+    other: "about {{count}} weeks",
+  },
+
+  xWeeks: {
+    one: "1 week",
+    other: "{{count}} weeks",
+  },
+
+  aboutXMonths: {
+    one: "about 1 month",
+    other: "about {{count}} months",
+  },
+
+  xMonths: {
+    one: "1 month",
+    other: "{{count}} months",
+  },
+
+  aboutXYears: {
+    one: "about 1 year",
+    other: "about {{count}} years",
+  },
+
+  xYears: {
+    one: "1 year",
+    other: "{{count}} years",
+  },
+
+  overXYears: {
+    one: "over 1 year",
+    other: "over {{count}} years",
+  },
+
+  almostXYears: {
+    one: "almost 1 year",
+    other: "almost {{count}} years",
+  },
+};
+
+const formatDistance = (token, count, options) => {
+  let result;
+
+  const tokenValue = formatDistanceLocale[token];
+  if (typeof tokenValue === "string") {
+    result = tokenValue;
+  } else if (count === 1) {
+    result = tokenValue.one;
+  } else {
+    result = tokenValue.other.replace("{{count}}", count.toString());
+  }
+
+  if (options?.addSuffix) {
+    if (options.comparison && options.comparison > 0) {
+      return "in " + result;
+    } else {
+      return result + " ago";
+    }
+  }
+
+  return result;
+};
+
+function buildFormatLongFn(args) {
+  return (options = {}) => {
+    // TODO: Remove String()
+    const width = options.width ? String(options.width) : args.defaultWidth;
+    const format = args.formats[width] || args.formats[args.defaultWidth];
+    return format;
+  };
+}
+
+const dateFormats = {
+  full: "EEEE, MMMM do, y",
+  long: "MMMM do, y",
+  medium: "MMM d, y",
+  short: "MM/dd/yyyy",
+};
+
+const timeFormats = {
+  full: "h:mm:ss a zzzz",
+  long: "h:mm:ss a z",
+  medium: "h:mm:ss a",
+  short: "h:mm a",
+};
+
+const dateTimeFormats = {
+  full: "{{date}} 'at' {{time}}",
+  long: "{{date}} 'at' {{time}}",
+  medium: "{{date}}, {{time}}",
+  short: "{{date}}, {{time}}",
+};
+
+const formatLong = {
+  date: buildFormatLongFn({
+    formats: dateFormats,
+    defaultWidth: "full",
+  }),
+
+  time: buildFormatLongFn({
+    formats: timeFormats,
+    defaultWidth: "full",
+  }),
+
+  dateTime: buildFormatLongFn({
+    formats: dateTimeFormats,
+    defaultWidth: "full",
+  }),
+};
+
+const formatRelativeLocale = {
+  lastWeek: "'last' eeee 'at' p",
+  yesterday: "'yesterday at' p",
+  today: "'today at' p",
+  tomorrow: "'tomorrow at' p",
+  nextWeek: "eeee 'at' p",
+  other: "P",
+};
+
+const formatRelative = (token, _date, _baseDate, _options) =>
+  formatRelativeLocale[token];
+
+/**
+ * The localize function argument callback which allows to convert raw value to
+ * the actual type.
+ *
+ * @param value - The value to convert
+ *
+ * @returns The converted value
+ */
+
+/**
+ * The map of localized values for each width.
+ */
+
+/**
+ * The index type of the locale unit value. It types conversion of units of
+ * values that don't start at 0 (i.e. quarters).
+ */
+
+/**
+ * Converts the unit value to the tuple of values.
+ */
+
+/**
+ * The tuple of localized era values. The first element represents BC,
+ * the second element represents AD.
+ */
+
+/**
+ * The tuple of localized quarter values. The first element represents Q1.
+ */
+
+/**
+ * The tuple of localized day values. The first element represents Sunday.
+ */
+
+/**
+ * The tuple of localized month values. The first element represents January.
+ */
+
+function buildLocalizeFn(args) {
+  return (value, options) => {
+    const context = options?.context ? String(options.context) : "standalone";
+
+    let valuesArray;
+    if (context === "formatting" && args.formattingValues) {
+      const defaultWidth = args.defaultFormattingWidth || args.defaultWidth;
+      const width = options?.width ? String(options.width) : defaultWidth;
+
+      valuesArray =
+        args.formattingValues[width] || args.formattingValues[defaultWidth];
+    } else {
+      const defaultWidth = args.defaultWidth;
+      const width = options?.width ? String(options.width) : args.defaultWidth;
+
+      valuesArray = args.values[width] || args.values[defaultWidth];
+    }
+    const index = args.argumentCallback ? args.argumentCallback(value) : value;
+
+    // @ts-expect-error - For some reason TypeScript just don't want to match it, no matter how hard we try. I challenge you to try to remove it!
+    return valuesArray[index];
+  };
+}
+
+const eraValues = {
+  narrow: ["B", "A"],
+  abbreviated: ["BC", "AD"],
+  wide: ["Before Christ", "Anno Domini"],
+};
+
+const quarterValues = {
+  narrow: ["1", "2", "3", "4"],
+  abbreviated: ["Q1", "Q2", "Q3", "Q4"],
+  wide: ["1st quarter", "2nd quarter", "3rd quarter", "4th quarter"],
+};
+
+// Note: in English, the names of days of the week and months are capitalized.
+// If you are making a new locale based on this one, check if the same is true for the language you're working on.
+// Generally, formatted dates should look like they are in the middle of a sentence,
+// e.g. in Spanish language the weekdays and months should be in the lowercase.
+const monthValues = {
+  narrow: ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
+  abbreviated: [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ],
+
+  wide: [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ],
+};
+
+const dayValues = {
+  narrow: ["S", "M", "T", "W", "T", "F", "S"],
+  short: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+  abbreviated: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+  wide: [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ],
+};
+
+const dayPeriodValues = {
+  narrow: {
+    am: "a",
+    pm: "p",
+    midnight: "mi",
+    noon: "n",
+    morning: "morning",
+    afternoon: "afternoon",
+    evening: "evening",
+    night: "night",
+  },
+  abbreviated: {
+    am: "AM",
+    pm: "PM",
+    midnight: "midnight",
+    noon: "noon",
+    morning: "morning",
+    afternoon: "afternoon",
+    evening: "evening",
+    night: "night",
+  },
+  wide: {
+    am: "a.m.",
+    pm: "p.m.",
+    midnight: "midnight",
+    noon: "noon",
+    morning: "morning",
+    afternoon: "afternoon",
+    evening: "evening",
+    night: "night",
+  },
+};
+
+const formattingDayPeriodValues = {
+  narrow: {
+    am: "a",
+    pm: "p",
+    midnight: "mi",
+    noon: "n",
+    morning: "in the morning",
+    afternoon: "in the afternoon",
+    evening: "in the evening",
+    night: "at night",
+  },
+  abbreviated: {
+    am: "AM",
+    pm: "PM",
+    midnight: "midnight",
+    noon: "noon",
+    morning: "in the morning",
+    afternoon: "in the afternoon",
+    evening: "in the evening",
+    night: "at night",
+  },
+  wide: {
+    am: "a.m.",
+    pm: "p.m.",
+    midnight: "midnight",
+    noon: "noon",
+    morning: "in the morning",
+    afternoon: "in the afternoon",
+    evening: "in the evening",
+    night: "at night",
+  },
+};
+
+const ordinalNumber = (dirtyNumber, _options) => {
+  const number = Number(dirtyNumber);
+
+  // If ordinal numbers depend on context, for example,
+  // if they are different for different grammatical genders,
+  // use `options.unit`.
+  //
+  // `unit` can be 'year', 'quarter', 'month', 'week', 'date', 'dayOfYear',
+  // 'day', 'hour', 'minute', 'second'.
+
+  const rem100 = number % 100;
+  if (rem100 > 20 || rem100 < 10) {
+    switch (rem100 % 10) {
+      case 1:
+        return number + "st";
+      case 2:
+        return number + "nd";
+      case 3:
+        return number + "rd";
+    }
+  }
+  return number + "th";
+};
+
+const localize = {
+  ordinalNumber,
+
+  era: buildLocalizeFn({
+    values: eraValues,
+    defaultWidth: "wide",
+  }),
+
+  quarter: buildLocalizeFn({
+    values: quarterValues,
+    defaultWidth: "wide",
+    argumentCallback: (quarter) => quarter - 1,
+  }),
+
+  month: buildLocalizeFn({
+    values: monthValues,
+    defaultWidth: "wide",
+  }),
+
+  day: buildLocalizeFn({
+    values: dayValues,
+    defaultWidth: "wide",
+  }),
+
+  dayPeriod: buildLocalizeFn({
+    values: dayPeriodValues,
+    defaultWidth: "wide",
+    formattingValues: formattingDayPeriodValues,
+    defaultFormattingWidth: "wide",
+  }),
+};
+
+function buildMatchFn(args) {
+  return (string, options = {}) => {
+    const width = options.width;
+
+    const matchPattern =
+      (width && args.matchPatterns[width]) ||
+      args.matchPatterns[args.defaultMatchWidth];
+    const matchResult = string.match(matchPattern);
+
+    if (!matchResult) {
+      return null;
+    }
+    const matchedString = matchResult[0];
+
+    const parsePatterns =
+      (width && args.parsePatterns[width]) ||
+      args.parsePatterns[args.defaultParseWidth];
+
+    const key = Array.isArray(parsePatterns)
+      ? findIndex$1(parsePatterns, (pattern) => pattern.test(matchedString))
+      : // [TODO] -- I challenge you to fix the type
+        findKey(parsePatterns, (pattern) => pattern.test(matchedString));
+
+    let value;
+
+    value = args.valueCallback ? args.valueCallback(key) : key;
+    value = options.valueCallback
+      ? // [TODO] -- I challenge you to fix the type
+        options.valueCallback(value)
+      : value;
+
+    const rest = string.slice(matchedString.length);
+
+    return { value, rest };
+  };
+}
+
+function findKey(object, predicate) {
+  for (const key in object) {
+    if (
+      Object.prototype.hasOwnProperty.call(object, key) &&
+      predicate(object[key])
+    ) {
+      return key;
+    }
+  }
+  return undefined;
+}
+
+function findIndex$1(array, predicate) {
+  for (let key = 0; key < array.length; key++) {
+    if (predicate(array[key])) {
+      return key;
+    }
+  }
+  return undefined;
+}
+
+function buildMatchPatternFn(args) {
+  return (string, options = {}) => {
+    const matchResult = string.match(args.matchPattern);
+    if (!matchResult) return null;
+    const matchedString = matchResult[0];
+
+    const parseResult = string.match(args.parsePattern);
+    if (!parseResult) return null;
+    let value = args.valueCallback
+      ? args.valueCallback(parseResult[0])
+      : parseResult[0];
+
+    // [TODO] I challenge you to fix the type
+    value = options.valueCallback ? options.valueCallback(value) : value;
+
+    const rest = string.slice(matchedString.length);
+
+    return { value, rest };
+  };
+}
+
+const matchOrdinalNumberPattern = /^(\d+)(th|st|nd|rd)?/i;
+const parseOrdinalNumberPattern = /\d+/i;
+
+const matchEraPatterns = {
+  narrow: /^(b|a)/i,
+  abbreviated: /^(b\.?\s?c\.?|b\.?\s?c\.?\s?e\.?|a\.?\s?d\.?|c\.?\s?e\.?)/i,
+  wide: /^(before christ|before common era|anno domini|common era)/i,
+};
+const parseEraPatterns = {
+  any: [/^b/i, /^(a|c)/i],
+};
+
+const matchQuarterPatterns = {
+  narrow: /^[1234]/i,
+  abbreviated: /^q[1234]/i,
+  wide: /^[1234](th|st|nd|rd)? quarter/i,
+};
+const parseQuarterPatterns = {
+  any: [/1/i, /2/i, /3/i, /4/i],
+};
+
+const matchMonthPatterns = {
+  narrow: /^[jfmasond]/i,
+  abbreviated: /^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i,
+  wide: /^(january|february|march|april|may|june|july|august|september|october|november|december)/i,
+};
+const parseMonthPatterns = {
+  narrow: [
+    /^j/i,
+    /^f/i,
+    /^m/i,
+    /^a/i,
+    /^m/i,
+    /^j/i,
+    /^j/i,
+    /^a/i,
+    /^s/i,
+    /^o/i,
+    /^n/i,
+    /^d/i,
+  ],
+
+  any: [
+    /^ja/i,
+    /^f/i,
+    /^mar/i,
+    /^ap/i,
+    /^may/i,
+    /^jun/i,
+    /^jul/i,
+    /^au/i,
+    /^s/i,
+    /^o/i,
+    /^n/i,
+    /^d/i,
+  ],
+};
+
+const matchDayPatterns = {
+  narrow: /^[smtwf]/i,
+  short: /^(su|mo|tu|we|th|fr|sa)/i,
+  abbreviated: /^(sun|mon|tue|wed|thu|fri|sat)/i,
+  wide: /^(sunday|monday|tuesday|wednesday|thursday|friday|saturday)/i,
+};
+const parseDayPatterns = {
+  narrow: [/^s/i, /^m/i, /^t/i, /^w/i, /^t/i, /^f/i, /^s/i],
+  any: [/^su/i, /^m/i, /^tu/i, /^w/i, /^th/i, /^f/i, /^sa/i],
+};
+
+const matchDayPeriodPatterns = {
+  narrow: /^(a|p|mi|n|(in the|at) (morning|afternoon|evening|night))/i,
+  any: /^([ap]\.?\s?m\.?|midnight|noon|(in the|at) (morning|afternoon|evening|night))/i,
+};
+const parseDayPeriodPatterns = {
+  any: {
+    am: /^a/i,
+    pm: /^p/i,
+    midnight: /^mi/i,
+    noon: /^no/i,
+    morning: /morning/i,
+    afternoon: /afternoon/i,
+    evening: /evening/i,
+    night: /night/i,
+  },
+};
+
+const match = {
+  ordinalNumber: buildMatchPatternFn({
+    matchPattern: matchOrdinalNumberPattern,
+    parsePattern: parseOrdinalNumberPattern,
+    valueCallback: (value) => parseInt(value, 10),
+  }),
+
+  era: buildMatchFn({
+    matchPatterns: matchEraPatterns,
+    defaultMatchWidth: "wide",
+    parsePatterns: parseEraPatterns,
+    defaultParseWidth: "any",
+  }),
+
+  quarter: buildMatchFn({
+    matchPatterns: matchQuarterPatterns,
+    defaultMatchWidth: "wide",
+    parsePatterns: parseQuarterPatterns,
+    defaultParseWidth: "any",
+    valueCallback: (index) => index + 1,
+  }),
+
+  month: buildMatchFn({
+    matchPatterns: matchMonthPatterns,
+    defaultMatchWidth: "wide",
+    parsePatterns: parseMonthPatterns,
+    defaultParseWidth: "any",
+  }),
+
+  day: buildMatchFn({
+    matchPatterns: matchDayPatterns,
+    defaultMatchWidth: "wide",
+    parsePatterns: parseDayPatterns,
+    defaultParseWidth: "any",
+  }),
+
+  dayPeriod: buildMatchFn({
+    matchPatterns: matchDayPeriodPatterns,
+    defaultMatchWidth: "any",
+    parsePatterns: parseDayPeriodPatterns,
+    defaultParseWidth: "any",
+  }),
+};
+
+/**
+ * @category Locales
+ * @summary English locale (United States).
+ * @language English
+ * @iso-639-2 eng
+ * @author Sasha Koss [@kossnocorp](https://github.com/kossnocorp)
+ * @author Lesha Koss [@leshakoss](https://github.com/leshakoss)
+ */
+const enUS = {
+  code: "en-US",
+  formatDistance: formatDistance,
+  formatLong: formatLong,
+  formatRelative: formatRelative,
+  localize: localize,
+  match: match,
+  options: {
+    weekStartsOn: 0 /* Sunday */,
+    firstWeekContainsDate: 1,
+  },
+};
+
+/**
+ * The {@link getDayOfYear} function options.
+ */
+
+/**
+ * @name getDayOfYear
+ * @category Day Helpers
+ * @summary Get the day of the year of the given date.
+ *
+ * @description
+ * Get the day of the year of the given date.
+ *
+ * @param date - The given date
+ * @param options - The options
+ *
+ * @returns The day of year
+ *
+ * @example
+ * // Which day of the year is 2 July 2014?
+ * const result = getDayOfYear(new Date(2014, 6, 2))
+ * //=> 183
+ */
+function getDayOfYear(date, options) {
+  const _date = toDate(date, options?.in);
+  const diff = differenceInCalendarDays(_date, startOfYear(_date));
+  const dayOfYear = diff + 1;
+  return dayOfYear;
+}
+
+/**
+ * The {@link getISOWeek} function options.
+ */
+
+/**
+ * @name getISOWeek
+ * @category ISO Week Helpers
+ * @summary Get the ISO week of the given date.
+ *
+ * @description
+ * Get the ISO week of the given date.
+ *
+ * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
+ *
+ * @param date - The given date
+ * @param options - The options
+ *
+ * @returns The ISO week
+ *
+ * @example
+ * // Which week of the ISO-week numbering year is 2 January 2005?
+ * const result = getISOWeek(new Date(2005, 0, 2))
+ * //=> 53
+ */
+function getISOWeek(date, options) {
+  const _date = toDate(date, options?.in);
+  const diff = +startOfISOWeek(_date) - +startOfISOWeekYear(_date);
+
+  // Round the number of weeks to the nearest integer because the number of
+  // milliseconds in a week is not constant (e.g. it's different in the week of
+  // the daylight saving time clock shift).
+  return Math.round(diff / millisecondsInWeek) + 1;
+}
+
+/**
+ * The {@link getWeekYear} function options.
+ */
+
+/**
+ * @name getWeekYear
+ * @category Week-Numbering Year Helpers
+ * @summary Get the local week-numbering year of the given date.
+ *
+ * @description
+ * Get the local week-numbering year of the given date.
+ * The exact calculation depends on the values of
+ * `options.weekStartsOn` (which is the index of the first day of the week)
+ * and `options.firstWeekContainsDate` (which is the day of January, which is always in
+ * the first week of the week-numbering year)
+ *
+ * Week numbering: https://en.wikipedia.org/wiki/Week#The_ISO_week_date_system
+ *
+ * @param date - The given date
+ * @param options - An object with options.
+ *
+ * @returns The local week-numbering year
+ *
+ * @example
+ * // Which week numbering year is 26 December 2004 with the default settings?
+ * const result = getWeekYear(new Date(2004, 11, 26))
+ * //=> 2005
+ *
+ * @example
+ * // Which week numbering year is 26 December 2004 if week starts on Saturday?
+ * const result = getWeekYear(new Date(2004, 11, 26), { weekStartsOn: 6 })
+ * //=> 2004
+ *
+ * @example
+ * // Which week numbering year is 26 December 2004 if the first week contains 4 January?
+ * const result = getWeekYear(new Date(2004, 11, 26), { firstWeekContainsDate: 4 })
+ * //=> 2004
+ */
+function getWeekYear(date, options) {
+  const _date = toDate(date, options?.in);
+  const year = _date.getFullYear();
+
+  const defaultOptions = getDefaultOptions();
+  const firstWeekContainsDate =
+    options?.firstWeekContainsDate ??
+    options?.locale?.options?.firstWeekContainsDate ??
+    defaultOptions.firstWeekContainsDate ??
+    defaultOptions.locale?.options?.firstWeekContainsDate ??
+    1;
+
+  const firstWeekOfNextYear = constructFrom(options?.in || date, 0);
+  firstWeekOfNextYear.setFullYear(year + 1, 0, firstWeekContainsDate);
+  firstWeekOfNextYear.setHours(0, 0, 0, 0);
+  const startOfNextYear = startOfWeek(firstWeekOfNextYear, options);
+
+  const firstWeekOfThisYear = constructFrom(options?.in || date, 0);
+  firstWeekOfThisYear.setFullYear(year, 0, firstWeekContainsDate);
+  firstWeekOfThisYear.setHours(0, 0, 0, 0);
+  const startOfThisYear = startOfWeek(firstWeekOfThisYear, options);
+
+  if (+_date >= +startOfNextYear) {
+    return year + 1;
+  } else if (+_date >= +startOfThisYear) {
+    return year;
+  } else {
+    return year - 1;
+  }
+}
+
+/**
+ * The {@link startOfWeekYear} function options.
+ */
+
+/**
+ * @name startOfWeekYear
+ * @category Week-Numbering Year Helpers
+ * @summary Return the start of a local week-numbering year for the given date.
+ *
+ * @description
+ * Return the start of a local week-numbering year.
+ * The exact calculation depends on the values of
+ * `options.weekStartsOn` (which is the index of the first day of the week)
+ * and `options.firstWeekContainsDate` (which is the day of January, which is always in
+ * the first week of the week-numbering year)
+ *
+ * Week numbering: https://en.wikipedia.org/wiki/Week#The_ISO_week_date_system
+ *
+ * @typeParam DateType - The `Date` type, the function operates on. Gets inferred from passed arguments. Allows to use extensions like [`UTCDate`](https://github.com/date-fns/utc).
+ * @typeParam ResultDate - The result `Date` type.
+ *
+ * @param date - The original date
+ * @param options - An object with options
+ *
+ * @returns The start of a week-numbering year
+ *
+ * @example
+ * // The start of an a week-numbering year for 2 July 2005 with default settings:
+ * const result = startOfWeekYear(new Date(2005, 6, 2))
+ * //=> Sun Dec 26 2004 00:00:00
+ *
+ * @example
+ * // The start of a week-numbering year for 2 July 2005
+ * // if Monday is the first day of week
+ * // and 4 January is always in the first week of the year:
+ * const result = startOfWeekYear(new Date(2005, 6, 2), {
+ *   weekStartsOn: 1,
+ *   firstWeekContainsDate: 4
+ * })
+ * //=> Mon Jan 03 2005 00:00:00
+ */
+function startOfWeekYear(date, options) {
+  const defaultOptions = getDefaultOptions();
+  const firstWeekContainsDate =
+    options?.firstWeekContainsDate ??
+    options?.locale?.options?.firstWeekContainsDate ??
+    defaultOptions.firstWeekContainsDate ??
+    defaultOptions.locale?.options?.firstWeekContainsDate ??
+    1;
+
+  const year = getWeekYear(date, options);
+  const firstWeek = constructFrom(options?.in || date, 0);
+  firstWeek.setFullYear(year, 0, firstWeekContainsDate);
+  firstWeek.setHours(0, 0, 0, 0);
+  const _date = startOfWeek(firstWeek, options);
+  return _date;
+}
+
+/**
+ * The {@link getWeek} function options.
+ */
+
+/**
+ * @name getWeek
+ * @category Week Helpers
+ * @summary Get the local week index of the given date.
+ *
+ * @description
+ * Get the local week index of the given date.
+ * The exact calculation depends on the values of
+ * `options.weekStartsOn` (which is the index of the first day of the week)
+ * and `options.firstWeekContainsDate` (which is the day of January, which is always in
+ * the first week of the week-numbering year)
+ *
+ * Week numbering: https://en.wikipedia.org/wiki/Week#The_ISO_week_date_system
+ *
+ * @param date - The given date
+ * @param options - An object with options
+ *
+ * @returns The week
+ *
+ * @example
+ * // Which week of the local week numbering year is 2 January 2005 with default options?
+ * const result = getWeek(new Date(2005, 0, 2))
+ * //=> 2
+ *
+ * @example
+ * // Which week of the local week numbering year is 2 January 2005,
+ * // if Monday is the first day of the week,
+ * // and the first week of the year always contains 4 January?
+ * const result = getWeek(new Date(2005, 0, 2), {
+ *   weekStartsOn: 1,
+ *   firstWeekContainsDate: 4
+ * })
+ * //=> 53
+ */
+function getWeek(date, options) {
+  const _date = toDate(date, options?.in);
+  const diff = +startOfWeek(_date, options) - +startOfWeekYear(_date, options);
+
+  // Round the number of weeks to the nearest integer because the number of
+  // milliseconds in a week is not constant (e.g. it's different in the week of
+  // the daylight saving time clock shift).
+  return Math.round(diff / millisecondsInWeek) + 1;
+}
+
+function addLeadingZeros(number, targetLength) {
+  const sign = number < 0 ? "-" : "";
+  const output = Math.abs(number).toString().padStart(targetLength, "0");
+  return sign + output;
+}
+
+/*
+ * |     | Unit                           |     | Unit                           |
+ * |-----|--------------------------------|-----|--------------------------------|
+ * |  a  | AM, PM                         |  A* |                                |
+ * |  d  | Day of month                   |  D  |                                |
+ * |  h  | Hour [1-12]                    |  H  | Hour [0-23]                    |
+ * |  m  | Minute                         |  M  | Month                          |
+ * |  s  | Second                         |  S  | Fraction of second             |
+ * |  y  | Year (abs)                     |  Y  |                                |
+ *
+ * Letters marked by * are not implemented but reserved by Unicode standard.
+ */
+
+const lightFormatters = {
+  // Year
+  y(date, token) {
+    // From http://www.unicode.org/reports/tr35/tr35-31/tr35-dates.html#Date_Format_tokens
+    // | Year     |     y | yy |   yyy |  yyyy | yyyyy |
+    // |----------|-------|----|-------|-------|-------|
+    // | AD 1     |     1 | 01 |   001 |  0001 | 00001 |
+    // | AD 12    |    12 | 12 |   012 |  0012 | 00012 |
+    // | AD 123   |   123 | 23 |   123 |  0123 | 00123 |
+    // | AD 1234  |  1234 | 34 |  1234 |  1234 | 01234 |
+    // | AD 12345 | 12345 | 45 | 12345 | 12345 | 12345 |
+
+    const signedYear = date.getFullYear();
+    // Returns 1 for 1 BC (which is year 0 in JavaScript)
+    const year = signedYear > 0 ? signedYear : 1 - signedYear;
+    return addLeadingZeros(token === "yy" ? year % 100 : year, token.length);
+  },
+
+  // Month
+  M(date, token) {
+    const month = date.getMonth();
+    return token === "M" ? String(month + 1) : addLeadingZeros(month + 1, 2);
+  },
+
+  // Day of the month
+  d(date, token) {
+    return addLeadingZeros(date.getDate(), token.length);
+  },
+
+  // AM or PM
+  a(date, token) {
+    const dayPeriodEnumValue = date.getHours() / 12 >= 1 ? "pm" : "am";
+
+    switch (token) {
+      case "a":
+      case "aa":
+        return dayPeriodEnumValue.toUpperCase();
+      case "aaa":
+        return dayPeriodEnumValue;
+      case "aaaaa":
+        return dayPeriodEnumValue[0];
+      case "aaaa":
+      default:
+        return dayPeriodEnumValue === "am" ? "a.m." : "p.m.";
+    }
+  },
+
+  // Hour [1-12]
+  h(date, token) {
+    return addLeadingZeros(date.getHours() % 12 || 12, token.length);
+  },
+
+  // Hour [0-23]
+  H(date, token) {
+    return addLeadingZeros(date.getHours(), token.length);
+  },
+
+  // Minute
+  m(date, token) {
+    return addLeadingZeros(date.getMinutes(), token.length);
+  },
+
+  // Second
+  s(date, token) {
+    return addLeadingZeros(date.getSeconds(), token.length);
+  },
+
+  // Fraction of second
+  S(date, token) {
+    const numberOfDigits = token.length;
+    const milliseconds = date.getMilliseconds();
+    const fractionalSeconds = Math.trunc(
+      milliseconds * Math.pow(10, numberOfDigits - 3),
+    );
+    return addLeadingZeros(fractionalSeconds, token.length);
+  },
+};
+
+const dayPeriodEnum = {
+  am: "am",
+  pm: "pm",
+  midnight: "midnight",
+  noon: "noon",
+  morning: "morning",
+  afternoon: "afternoon",
+  evening: "evening",
+  night: "night",
+};
+
+/*
+ * |     | Unit                           |     | Unit                           |
+ * |-----|--------------------------------|-----|--------------------------------|
+ * |  a  | AM, PM                         |  A* | Milliseconds in day            |
+ * |  b  | AM, PM, noon, midnight         |  B  | Flexible day period            |
+ * |  c  | Stand-alone local day of week  |  C* | Localized hour w/ day period   |
+ * |  d  | Day of month                   |  D  | Day of year                    |
+ * |  e  | Local day of week              |  E  | Day of week                    |
+ * |  f  |                                |  F* | Day of week in month           |
+ * |  g* | Modified Julian day            |  G  | Era                            |
+ * |  h  | Hour [1-12]                    |  H  | Hour [0-23]                    |
+ * |  i! | ISO day of week                |  I! | ISO week of year               |
+ * |  j* | Localized hour w/ day period   |  J* | Localized hour w/o day period  |
+ * |  k  | Hour [1-24]                    |  K  | Hour [0-11]                    |
+ * |  l* | (deprecated)                   |  L  | Stand-alone month              |
+ * |  m  | Minute                         |  M  | Month                          |
+ * |  n  |                                |  N  |                                |
+ * |  o! | Ordinal number modifier        |  O  | Timezone (GMT)                 |
+ * |  p! | Long localized time            |  P! | Long localized date            |
+ * |  q  | Stand-alone quarter            |  Q  | Quarter                        |
+ * |  r* | Related Gregorian year         |  R! | ISO week-numbering year        |
+ * |  s  | Second                         |  S  | Fraction of second             |
+ * |  t! | Seconds timestamp              |  T! | Milliseconds timestamp         |
+ * |  u  | Extended year                  |  U* | Cyclic year                    |
+ * |  v* | Timezone (generic non-locat.)  |  V* | Timezone (location)            |
+ * |  w  | Local week of year             |  W* | Week of month                  |
+ * |  x  | Timezone (ISO-8601 w/o Z)      |  X  | Timezone (ISO-8601)            |
+ * |  y  | Year (abs)                     |  Y  | Local week-numbering year      |
+ * |  z  | Timezone (specific non-locat.) |  Z* | Timezone (aliases)             |
+ *
+ * Letters marked by * are not implemented but reserved by Unicode standard.
+ *
+ * Letters marked by ! are non-standard, but implemented by date-fns:
+ * - `o` modifies the previous token to turn it into an ordinal (see `format` docs)
+ * - `i` is ISO day of week. For `i` and `ii` is returns numeric ISO week days,
+ *   i.e. 7 for Sunday, 1 for Monday, etc.
+ * - `I` is ISO week of year, as opposed to `w` which is local week of year.
+ * - `R` is ISO week-numbering year, as opposed to `Y` which is local week-numbering year.
+ *   `R` is supposed to be used in conjunction with `I` and `i`
+ *   for universal ISO week-numbering date, whereas
+ *   `Y` is supposed to be used in conjunction with `w` and `e`
+ *   for week-numbering date specific to the locale.
+ * - `P` is long localized date format
+ * - `p` is long localized time format
+ */
+
+const formatters = {
+  // Era
+  G: function (date, token, localize) {
+    const era = date.getFullYear() > 0 ? 1 : 0;
+    switch (token) {
+      // AD, BC
+      case "G":
+      case "GG":
+      case "GGG":
+        return localize.era(era, { width: "abbreviated" });
+      // A, B
+      case "GGGGG":
+        return localize.era(era, { width: "narrow" });
+      // Anno Domini, Before Christ
+      case "GGGG":
+      default:
+        return localize.era(era, { width: "wide" });
+    }
+  },
+
+  // Year
+  y: function (date, token, localize) {
+    // Ordinal number
+    if (token === "yo") {
+      const signedYear = date.getFullYear();
+      // Returns 1 for 1 BC (which is year 0 in JavaScript)
+      const year = signedYear > 0 ? signedYear : 1 - signedYear;
+      return localize.ordinalNumber(year, { unit: "year" });
+    }
+
+    return lightFormatters.y(date, token);
+  },
+
+  // Local week-numbering year
+  Y: function (date, token, localize, options) {
+    const signedWeekYear = getWeekYear(date, options);
+    // Returns 1 for 1 BC (which is year 0 in JavaScript)
+    const weekYear = signedWeekYear > 0 ? signedWeekYear : 1 - signedWeekYear;
+
+    // Two digit year
+    if (token === "YY") {
+      const twoDigitYear = weekYear % 100;
+      return addLeadingZeros(twoDigitYear, 2);
+    }
+
+    // Ordinal number
+    if (token === "Yo") {
+      return localize.ordinalNumber(weekYear, { unit: "year" });
+    }
+
+    // Padding
+    return addLeadingZeros(weekYear, token.length);
+  },
+
+  // ISO week-numbering year
+  R: function (date, token) {
+    const isoWeekYear = getISOWeekYear(date);
+
+    // Padding
+    return addLeadingZeros(isoWeekYear, token.length);
+  },
+
+  // Extended year. This is a single number designating the year of this calendar system.
+  // The main difference between `y` and `u` localizers are B.C. years:
+  // | Year | `y` | `u` |
+  // |------|-----|-----|
+  // | AC 1 |   1 |   1 |
+  // | BC 1 |   1 |   0 |
+  // | BC 2 |   2 |  -1 |
+  // Also `yy` always returns the last two digits of a year,
+  // while `uu` pads single digit years to 2 characters and returns other years unchanged.
+  u: function (date, token) {
+    const year = date.getFullYear();
+    return addLeadingZeros(year, token.length);
+  },
+
+  // Quarter
+  Q: function (date, token, localize) {
+    const quarter = Math.ceil((date.getMonth() + 1) / 3);
+    switch (token) {
+      // 1, 2, 3, 4
+      case "Q":
+        return String(quarter);
+      // 01, 02, 03, 04
+      case "QQ":
+        return addLeadingZeros(quarter, 2);
+      // 1st, 2nd, 3rd, 4th
+      case "Qo":
+        return localize.ordinalNumber(quarter, { unit: "quarter" });
+      // Q1, Q2, Q3, Q4
+      case "QQQ":
+        return localize.quarter(quarter, {
+          width: "abbreviated",
+          context: "formatting",
+        });
+      // 1, 2, 3, 4 (narrow quarter; could be not numerical)
+      case "QQQQQ":
+        return localize.quarter(quarter, {
+          width: "narrow",
+          context: "formatting",
+        });
+      // 1st quarter, 2nd quarter, ...
+      case "QQQQ":
+      default:
+        return localize.quarter(quarter, {
+          width: "wide",
+          context: "formatting",
+        });
+    }
+  },
+
+  // Stand-alone quarter
+  q: function (date, token, localize) {
+    const quarter = Math.ceil((date.getMonth() + 1) / 3);
+    switch (token) {
+      // 1, 2, 3, 4
+      case "q":
+        return String(quarter);
+      // 01, 02, 03, 04
+      case "qq":
+        return addLeadingZeros(quarter, 2);
+      // 1st, 2nd, 3rd, 4th
+      case "qo":
+        return localize.ordinalNumber(quarter, { unit: "quarter" });
+      // Q1, Q2, Q3, Q4
+      case "qqq":
+        return localize.quarter(quarter, {
+          width: "abbreviated",
+          context: "standalone",
+        });
+      // 1, 2, 3, 4 (narrow quarter; could be not numerical)
+      case "qqqqq":
+        return localize.quarter(quarter, {
+          width: "narrow",
+          context: "standalone",
+        });
+      // 1st quarter, 2nd quarter, ...
+      case "qqqq":
+      default:
+        return localize.quarter(quarter, {
+          width: "wide",
+          context: "standalone",
+        });
+    }
+  },
+
+  // Month
+  M: function (date, token, localize) {
+    const month = date.getMonth();
+    switch (token) {
+      case "M":
+      case "MM":
+        return lightFormatters.M(date, token);
+      // 1st, 2nd, ..., 12th
+      case "Mo":
+        return localize.ordinalNumber(month + 1, { unit: "month" });
+      // Jan, Feb, ..., Dec
+      case "MMM":
+        return localize.month(month, {
+          width: "abbreviated",
+          context: "formatting",
+        });
+      // J, F, ..., D
+      case "MMMMM":
+        return localize.month(month, {
+          width: "narrow",
+          context: "formatting",
+        });
+      // January, February, ..., December
+      case "MMMM":
+      default:
+        return localize.month(month, { width: "wide", context: "formatting" });
+    }
+  },
+
+  // Stand-alone month
+  L: function (date, token, localize) {
+    const month = date.getMonth();
+    switch (token) {
+      // 1, 2, ..., 12
+      case "L":
+        return String(month + 1);
+      // 01, 02, ..., 12
+      case "LL":
+        return addLeadingZeros(month + 1, 2);
+      // 1st, 2nd, ..., 12th
+      case "Lo":
+        return localize.ordinalNumber(month + 1, { unit: "month" });
+      // Jan, Feb, ..., Dec
+      case "LLL":
+        return localize.month(month, {
+          width: "abbreviated",
+          context: "standalone",
+        });
+      // J, F, ..., D
+      case "LLLLL":
+        return localize.month(month, {
+          width: "narrow",
+          context: "standalone",
+        });
+      // January, February, ..., December
+      case "LLLL":
+      default:
+        return localize.month(month, { width: "wide", context: "standalone" });
+    }
+  },
+
+  // Local week of year
+  w: function (date, token, localize, options) {
+    const week = getWeek(date, options);
+
+    if (token === "wo") {
+      return localize.ordinalNumber(week, { unit: "week" });
+    }
+
+    return addLeadingZeros(week, token.length);
+  },
+
+  // ISO week of year
+  I: function (date, token, localize) {
+    const isoWeek = getISOWeek(date);
+
+    if (token === "Io") {
+      return localize.ordinalNumber(isoWeek, { unit: "week" });
+    }
+
+    return addLeadingZeros(isoWeek, token.length);
+  },
+
+  // Day of the month
+  d: function (date, token, localize) {
+    if (token === "do") {
+      return localize.ordinalNumber(date.getDate(), { unit: "date" });
+    }
+
+    return lightFormatters.d(date, token);
+  },
+
+  // Day of year
+  D: function (date, token, localize) {
+    const dayOfYear = getDayOfYear(date);
+
+    if (token === "Do") {
+      return localize.ordinalNumber(dayOfYear, { unit: "dayOfYear" });
+    }
+
+    return addLeadingZeros(dayOfYear, token.length);
+  },
+
+  // Day of week
+  E: function (date, token, localize) {
+    const dayOfWeek = date.getDay();
+    switch (token) {
+      // Tue
+      case "E":
+      case "EE":
+      case "EEE":
+        return localize.day(dayOfWeek, {
+          width: "abbreviated",
+          context: "formatting",
+        });
+      // T
+      case "EEEEE":
+        return localize.day(dayOfWeek, {
+          width: "narrow",
+          context: "formatting",
+        });
+      // Tu
+      case "EEEEEE":
+        return localize.day(dayOfWeek, {
+          width: "short",
+          context: "formatting",
+        });
+      // Tuesday
+      case "EEEE":
+      default:
+        return localize.day(dayOfWeek, {
+          width: "wide",
+          context: "formatting",
+        });
+    }
+  },
+
+  // Local day of week
+  e: function (date, token, localize, options) {
+    const dayOfWeek = date.getDay();
+    const localDayOfWeek = (dayOfWeek - options.weekStartsOn + 8) % 7 || 7;
+    switch (token) {
+      // Numerical value (Nth day of week with current locale or weekStartsOn)
+      case "e":
+        return String(localDayOfWeek);
+      // Padded numerical value
+      case "ee":
+        return addLeadingZeros(localDayOfWeek, 2);
+      // 1st, 2nd, ..., 7th
+      case "eo":
+        return localize.ordinalNumber(localDayOfWeek, { unit: "day" });
+      case "eee":
+        return localize.day(dayOfWeek, {
+          width: "abbreviated",
+          context: "formatting",
+        });
+      // T
+      case "eeeee":
+        return localize.day(dayOfWeek, {
+          width: "narrow",
+          context: "formatting",
+        });
+      // Tu
+      case "eeeeee":
+        return localize.day(dayOfWeek, {
+          width: "short",
+          context: "formatting",
+        });
+      // Tuesday
+      case "eeee":
+      default:
+        return localize.day(dayOfWeek, {
+          width: "wide",
+          context: "formatting",
+        });
+    }
+  },
+
+  // Stand-alone local day of week
+  c: function (date, token, localize, options) {
+    const dayOfWeek = date.getDay();
+    const localDayOfWeek = (dayOfWeek - options.weekStartsOn + 8) % 7 || 7;
+    switch (token) {
+      // Numerical value (same as in `e`)
+      case "c":
+        return String(localDayOfWeek);
+      // Padded numerical value
+      case "cc":
+        return addLeadingZeros(localDayOfWeek, token.length);
+      // 1st, 2nd, ..., 7th
+      case "co":
+        return localize.ordinalNumber(localDayOfWeek, { unit: "day" });
+      case "ccc":
+        return localize.day(dayOfWeek, {
+          width: "abbreviated",
+          context: "standalone",
+        });
+      // T
+      case "ccccc":
+        return localize.day(dayOfWeek, {
+          width: "narrow",
+          context: "standalone",
+        });
+      // Tu
+      case "cccccc":
+        return localize.day(dayOfWeek, {
+          width: "short",
+          context: "standalone",
+        });
+      // Tuesday
+      case "cccc":
+      default:
+        return localize.day(dayOfWeek, {
+          width: "wide",
+          context: "standalone",
+        });
+    }
+  },
+
+  // ISO day of week
+  i: function (date, token, localize) {
+    const dayOfWeek = date.getDay();
+    const isoDayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek;
+    switch (token) {
+      // 2
+      case "i":
+        return String(isoDayOfWeek);
+      // 02
+      case "ii":
+        return addLeadingZeros(isoDayOfWeek, token.length);
+      // 2nd
+      case "io":
+        return localize.ordinalNumber(isoDayOfWeek, { unit: "day" });
+      // Tue
+      case "iii":
+        return localize.day(dayOfWeek, {
+          width: "abbreviated",
+          context: "formatting",
+        });
+      // T
+      case "iiiii":
+        return localize.day(dayOfWeek, {
+          width: "narrow",
+          context: "formatting",
+        });
+      // Tu
+      case "iiiiii":
+        return localize.day(dayOfWeek, {
+          width: "short",
+          context: "formatting",
+        });
+      // Tuesday
+      case "iiii":
+      default:
+        return localize.day(dayOfWeek, {
+          width: "wide",
+          context: "formatting",
+        });
+    }
+  },
+
+  // AM or PM
+  a: function (date, token, localize) {
+    const hours = date.getHours();
+    const dayPeriodEnumValue = hours / 12 >= 1 ? "pm" : "am";
+
+    switch (token) {
+      case "a":
+      case "aa":
+        return localize.dayPeriod(dayPeriodEnumValue, {
+          width: "abbreviated",
+          context: "formatting",
+        });
+      case "aaa":
+        return localize
+          .dayPeriod(dayPeriodEnumValue, {
+            width: "abbreviated",
+            context: "formatting",
+          })
+          .toLowerCase();
+      case "aaaaa":
+        return localize.dayPeriod(dayPeriodEnumValue, {
+          width: "narrow",
+          context: "formatting",
+        });
+      case "aaaa":
+      default:
+        return localize.dayPeriod(dayPeriodEnumValue, {
+          width: "wide",
+          context: "formatting",
+        });
+    }
+  },
+
+  // AM, PM, midnight, noon
+  b: function (date, token, localize) {
+    const hours = date.getHours();
+    let dayPeriodEnumValue;
+    if (hours === 12) {
+      dayPeriodEnumValue = dayPeriodEnum.noon;
+    } else if (hours === 0) {
+      dayPeriodEnumValue = dayPeriodEnum.midnight;
+    } else {
+      dayPeriodEnumValue = hours / 12 >= 1 ? "pm" : "am";
+    }
+
+    switch (token) {
+      case "b":
+      case "bb":
+        return localize.dayPeriod(dayPeriodEnumValue, {
+          width: "abbreviated",
+          context: "formatting",
+        });
+      case "bbb":
+        return localize
+          .dayPeriod(dayPeriodEnumValue, {
+            width: "abbreviated",
+            context: "formatting",
+          })
+          .toLowerCase();
+      case "bbbbb":
+        return localize.dayPeriod(dayPeriodEnumValue, {
+          width: "narrow",
+          context: "formatting",
+        });
+      case "bbbb":
+      default:
+        return localize.dayPeriod(dayPeriodEnumValue, {
+          width: "wide",
+          context: "formatting",
+        });
+    }
+  },
+
+  // in the morning, in the afternoon, in the evening, at night
+  B: function (date, token, localize) {
+    const hours = date.getHours();
+    let dayPeriodEnumValue;
+    if (hours >= 17) {
+      dayPeriodEnumValue = dayPeriodEnum.evening;
+    } else if (hours >= 12) {
+      dayPeriodEnumValue = dayPeriodEnum.afternoon;
+    } else if (hours >= 4) {
+      dayPeriodEnumValue = dayPeriodEnum.morning;
+    } else {
+      dayPeriodEnumValue = dayPeriodEnum.night;
+    }
+
+    switch (token) {
+      case "B":
+      case "BB":
+      case "BBB":
+        return localize.dayPeriod(dayPeriodEnumValue, {
+          width: "abbreviated",
+          context: "formatting",
+        });
+      case "BBBBB":
+        return localize.dayPeriod(dayPeriodEnumValue, {
+          width: "narrow",
+          context: "formatting",
+        });
+      case "BBBB":
+      default:
+        return localize.dayPeriod(dayPeriodEnumValue, {
+          width: "wide",
+          context: "formatting",
+        });
+    }
+  },
+
+  // Hour [1-12]
+  h: function (date, token, localize) {
+    if (token === "ho") {
+      let hours = date.getHours() % 12;
+      if (hours === 0) hours = 12;
+      return localize.ordinalNumber(hours, { unit: "hour" });
+    }
+
+    return lightFormatters.h(date, token);
+  },
+
+  // Hour [0-23]
+  H: function (date, token, localize) {
+    if (token === "Ho") {
+      return localize.ordinalNumber(date.getHours(), { unit: "hour" });
+    }
+
+    return lightFormatters.H(date, token);
+  },
+
+  // Hour [0-11]
+  K: function (date, token, localize) {
+    const hours = date.getHours() % 12;
+
+    if (token === "Ko") {
+      return localize.ordinalNumber(hours, { unit: "hour" });
+    }
+
+    return addLeadingZeros(hours, token.length);
+  },
+
+  // Hour [1-24]
+  k: function (date, token, localize) {
+    let hours = date.getHours();
+    if (hours === 0) hours = 24;
+
+    if (token === "ko") {
+      return localize.ordinalNumber(hours, { unit: "hour" });
+    }
+
+    return addLeadingZeros(hours, token.length);
+  },
+
+  // Minute
+  m: function (date, token, localize) {
+    if (token === "mo") {
+      return localize.ordinalNumber(date.getMinutes(), { unit: "minute" });
+    }
+
+    return lightFormatters.m(date, token);
+  },
+
+  // Second
+  s: function (date, token, localize) {
+    if (token === "so") {
+      return localize.ordinalNumber(date.getSeconds(), { unit: "second" });
+    }
+
+    return lightFormatters.s(date, token);
+  },
+
+  // Fraction of second
+  S: function (date, token) {
+    return lightFormatters.S(date, token);
+  },
+
+  // Timezone (ISO-8601. If offset is 0, output is always `'Z'`)
+  X: function (date, token, _localize) {
+    const timezoneOffset = date.getTimezoneOffset();
+
+    if (timezoneOffset === 0) {
+      return "Z";
+    }
+
+    switch (token) {
+      // Hours and optional minutes
+      case "X":
+        return formatTimezoneWithOptionalMinutes(timezoneOffset);
+
+      // Hours, minutes and optional seconds without `:` delimiter
+      // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
+      // so this token always has the same output as `XX`
+      case "XXXX":
+      case "XX": // Hours and minutes without `:` delimiter
+        return formatTimezone(timezoneOffset);
+
+      // Hours, minutes and optional seconds with `:` delimiter
+      // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
+      // so this token always has the same output as `XXX`
+      case "XXXXX":
+      case "XXX": // Hours and minutes with `:` delimiter
+      default:
+        return formatTimezone(timezoneOffset, ":");
+    }
+  },
+
+  // Timezone (ISO-8601. If offset is 0, output is `'+00:00'` or equivalent)
+  x: function (date, token, _localize) {
+    const timezoneOffset = date.getTimezoneOffset();
+
+    switch (token) {
+      // Hours and optional minutes
+      case "x":
+        return formatTimezoneWithOptionalMinutes(timezoneOffset);
+
+      // Hours, minutes and optional seconds without `:` delimiter
+      // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
+      // so this token always has the same output as `xx`
+      case "xxxx":
+      case "xx": // Hours and minutes without `:` delimiter
+        return formatTimezone(timezoneOffset);
+
+      // Hours, minutes and optional seconds with `:` delimiter
+      // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
+      // so this token always has the same output as `xxx`
+      case "xxxxx":
+      case "xxx": // Hours and minutes with `:` delimiter
+      default:
+        return formatTimezone(timezoneOffset, ":");
+    }
+  },
+
+  // Timezone (GMT)
+  O: function (date, token, _localize) {
+    const timezoneOffset = date.getTimezoneOffset();
+
+    switch (token) {
+      // Short
+      case "O":
+      case "OO":
+      case "OOO":
+        return "GMT" + formatTimezoneShort(timezoneOffset, ":");
+      // Long
+      case "OOOO":
+      default:
+        return "GMT" + formatTimezone(timezoneOffset, ":");
+    }
+  },
+
+  // Timezone (specific non-location)
+  z: function (date, token, _localize) {
+    const timezoneOffset = date.getTimezoneOffset();
+
+    switch (token) {
+      // Short
+      case "z":
+      case "zz":
+      case "zzz":
+        return "GMT" + formatTimezoneShort(timezoneOffset, ":");
+      // Long
+      case "zzzz":
+      default:
+        return "GMT" + formatTimezone(timezoneOffset, ":");
+    }
+  },
+
+  // Seconds timestamp
+  t: function (date, token, _localize) {
+    const timestamp = Math.trunc(+date / 1000);
+    return addLeadingZeros(timestamp, token.length);
+  },
+
+  // Milliseconds timestamp
+  T: function (date, token, _localize) {
+    return addLeadingZeros(+date, token.length);
+  },
+};
+
+function formatTimezoneShort(offset, delimiter = "") {
+  const sign = offset > 0 ? "-" : "+";
+  const absOffset = Math.abs(offset);
+  const hours = Math.trunc(absOffset / 60);
+  const minutes = absOffset % 60;
+  if (minutes === 0) {
+    return sign + String(hours);
+  }
+  return sign + String(hours) + delimiter + addLeadingZeros(minutes, 2);
+}
+
+function formatTimezoneWithOptionalMinutes(offset, delimiter) {
+  if (offset % 60 === 0) {
+    const sign = offset > 0 ? "-" : "+";
+    return sign + addLeadingZeros(Math.abs(offset) / 60, 2);
+  }
+  return formatTimezone(offset, delimiter);
+}
+
+function formatTimezone(offset, delimiter = "") {
+  const sign = offset > 0 ? "-" : "+";
+  const absOffset = Math.abs(offset);
+  const hours = addLeadingZeros(Math.trunc(absOffset / 60), 2);
+  const minutes = addLeadingZeros(absOffset % 60, 2);
+  return sign + hours + delimiter + minutes;
+}
+
+const dateLongFormatter = (pattern, formatLong) => {
+  switch (pattern) {
+    case "P":
+      return formatLong.date({ width: "short" });
+    case "PP":
+      return formatLong.date({ width: "medium" });
+    case "PPP":
+      return formatLong.date({ width: "long" });
+    case "PPPP":
+    default:
+      return formatLong.date({ width: "full" });
+  }
+};
+
+const timeLongFormatter = (pattern, formatLong) => {
+  switch (pattern) {
+    case "p":
+      return formatLong.time({ width: "short" });
+    case "pp":
+      return formatLong.time({ width: "medium" });
+    case "ppp":
+      return formatLong.time({ width: "long" });
+    case "pppp":
+    default:
+      return formatLong.time({ width: "full" });
+  }
+};
+
+const dateTimeLongFormatter = (pattern, formatLong) => {
+  const matchResult = pattern.match(/(P+)(p+)?/) || [];
+  const datePattern = matchResult[1];
+  const timePattern = matchResult[2];
+
+  if (!timePattern) {
+    return dateLongFormatter(pattern, formatLong);
+  }
+
+  let dateTimeFormat;
+
+  switch (datePattern) {
+    case "P":
+      dateTimeFormat = formatLong.dateTime({ width: "short" });
+      break;
+    case "PP":
+      dateTimeFormat = formatLong.dateTime({ width: "medium" });
+      break;
+    case "PPP":
+      dateTimeFormat = formatLong.dateTime({ width: "long" });
+      break;
+    case "PPPP":
+    default:
+      dateTimeFormat = formatLong.dateTime({ width: "full" });
+      break;
+  }
+
+  return dateTimeFormat
+    .replace("{{date}}", dateLongFormatter(datePattern, formatLong))
+    .replace("{{time}}", timeLongFormatter(timePattern, formatLong));
+};
+
+const longFormatters = {
+  p: timeLongFormatter,
+  P: dateTimeLongFormatter,
+};
+
+const dayOfYearTokenRE = /^D+$/;
+const weekYearTokenRE = /^Y+$/;
+
+const throwTokens = ["D", "DD", "YY", "YYYY"];
+
+function isProtectedDayOfYearToken(token) {
+  return dayOfYearTokenRE.test(token);
+}
+
+function isProtectedWeekYearToken(token) {
+  return weekYearTokenRE.test(token);
+}
+
+function warnOrThrowProtectedError(token, format, input) {
+  const _message = message(token, format, input);
+  console.warn(_message);
+  if (throwTokens.includes(token)) throw new RangeError(_message);
+}
+
+function message(token, format, input) {
+  const subject = token[0] === "Y" ? "years" : "days of the month";
+  return `Use \`${token.toLowerCase()}\` instead of \`${token}\` (in \`${format}\`) for formatting ${subject} to the input \`${input}\`; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md`;
+}
+
+// This RegExp consists of three parts separated by `|`:
+// - [yYQqMLwIdDecihHKkms]o matches any available ordinal number token
+//   (one of the certain letters followed by `o`)
+// - (\w)\1* matches any sequences of the same letter
+// - '' matches two quote characters in a row
+// - '(''|[^'])+('|$) matches anything surrounded by two quote characters ('),
+//   except a single quote symbol, which ends the sequence.
+//   Two quote characters do not end the sequence.
+//   If there is no matching single quote
+//   then the sequence will continue until the end of the string.
+// - . matches any single character unmatched by previous parts of the RegExps
+const formattingTokensRegExp =
+  /[yYQqMLwIdDecihHKkms]o|(\w)\1*|''|'(''|[^'])+('|$)|./g;
+
+// This RegExp catches symbols escaped by quotes, and also
+// sequences of symbols P, p, and the combinations like `PPPPPPPppppp`
+const longFormattingTokensRegExp = /P+p+|P+|p+|''|'(''|[^'])+('|$)|./g;
+
+const escapedStringRegExp = /^'([^]*?)'?$/;
+const doubleQuoteRegExp = /''/g;
+const unescapedLatinCharacterRegExp = /[a-zA-Z]/;
+
+/**
+ * The {@link format} function options.
+ */
+
+/**
+ * @name format
+ * @alias formatDate
+ * @category Common Helpers
+ * @summary Format the date.
+ *
+ * @description
+ * Return the formatted date string in the given format. The result may vary by locale.
+ *
+ * > ⚠️ Please note that the `format` tokens differ from Moment.js and other libraries.
+ * > See: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
+ *
+ * The characters wrapped between two single quotes characters (') are escaped.
+ * Two single quotes in a row, whether inside or outside a quoted sequence, represent a 'real' single quote.
+ * (see the last example)
+ *
+ * Format of the string is based on Unicode Technical Standard #35:
+ * https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
+ * with a few additions (see note 7 below the table).
+ *
+ * Accepted patterns:
+ * | Unit                            | Pattern | Result examples                   | Notes |
+ * |---------------------------------|---------|-----------------------------------|-------|
+ * | Era                             | G..GGG  | AD, BC                            |       |
+ * |                                 | GGGG    | Anno Domini, Before Christ        | 2     |
+ * |                                 | GGGGG   | A, B                              |       |
+ * | Calendar year                   | y       | 44, 1, 1900, 2017                 | 5     |
+ * |                                 | yo      | 44th, 1st, 0th, 17th              | 5,7   |
+ * |                                 | yy      | 44, 01, 00, 17                    | 5     |
+ * |                                 | yyy     | 044, 001, 1900, 2017              | 5     |
+ * |                                 | yyyy    | 0044, 0001, 1900, 2017            | 5     |
+ * |                                 | yyyyy   | ...                               | 3,5   |
+ * | Local week-numbering year       | Y       | 44, 1, 1900, 2017                 | 5     |
+ * |                                 | Yo      | 44th, 1st, 1900th, 2017th         | 5,7   |
+ * |                                 | YY      | 44, 01, 00, 17                    | 5,8   |
+ * |                                 | YYY     | 044, 001, 1900, 2017              | 5     |
+ * |                                 | YYYY    | 0044, 0001, 1900, 2017            | 5,8   |
+ * |                                 | YYYYY   | ...                               | 3,5   |
+ * | ISO week-numbering year         | R       | -43, 0, 1, 1900, 2017             | 5,7   |
+ * |                                 | RR      | -43, 00, 01, 1900, 2017           | 5,7   |
+ * |                                 | RRR     | -043, 000, 001, 1900, 2017        | 5,7   |
+ * |                                 | RRRR    | -0043, 0000, 0001, 1900, 2017     | 5,7   |
+ * |                                 | RRRRR   | ...                               | 3,5,7 |
+ * | Extended year                   | u       | -43, 0, 1, 1900, 2017             | 5     |
+ * |                                 | uu      | -43, 01, 1900, 2017               | 5     |
+ * |                                 | uuu     | -043, 001, 1900, 2017             | 5     |
+ * |                                 | uuuu    | -0043, 0001, 1900, 2017           | 5     |
+ * |                                 | uuuuu   | ...                               | 3,5   |
+ * | Quarter (formatting)            | Q       | 1, 2, 3, 4                        |       |
+ * |                                 | Qo      | 1st, 2nd, 3rd, 4th                | 7     |
+ * |                                 | QQ      | 01, 02, 03, 04                    |       |
+ * |                                 | QQQ     | Q1, Q2, Q3, Q4                    |       |
+ * |                                 | QQQQ    | 1st quarter, 2nd quarter, ...     | 2     |
+ * |                                 | QQQQQ   | 1, 2, 3, 4                        | 4     |
+ * | Quarter (stand-alone)           | q       | 1, 2, 3, 4                        |       |
+ * |                                 | qo      | 1st, 2nd, 3rd, 4th                | 7     |
+ * |                                 | qq      | 01, 02, 03, 04                    |       |
+ * |                                 | qqq     | Q1, Q2, Q3, Q4                    |       |
+ * |                                 | qqqq    | 1st quarter, 2nd quarter, ...     | 2     |
+ * |                                 | qqqqq   | 1, 2, 3, 4                        | 4     |
+ * | Month (formatting)              | M       | 1, 2, ..., 12                     |       |
+ * |                                 | Mo      | 1st, 2nd, ..., 12th               | 7     |
+ * |                                 | MM      | 01, 02, ..., 12                   |       |
+ * |                                 | MMM     | Jan, Feb, ..., Dec                |       |
+ * |                                 | MMMM    | January, February, ..., December  | 2     |
+ * |                                 | MMMMM   | J, F, ..., D                      |       |
+ * | Month (stand-alone)             | L       | 1, 2, ..., 12                     |       |
+ * |                                 | Lo      | 1st, 2nd, ..., 12th               | 7     |
+ * |                                 | LL      | 01, 02, ..., 12                   |       |
+ * |                                 | LLL     | Jan, Feb, ..., Dec                |       |
+ * |                                 | LLLL    | January, February, ..., December  | 2     |
+ * |                                 | LLLLL   | J, F, ..., D                      |       |
+ * | Local week of year              | w       | 1, 2, ..., 53                     |       |
+ * |                                 | wo      | 1st, 2nd, ..., 53th               | 7     |
+ * |                                 | ww      | 01, 02, ..., 53                   |       |
+ * | ISO week of year                | I       | 1, 2, ..., 53                     | 7     |
+ * |                                 | Io      | 1st, 2nd, ..., 53th               | 7     |
+ * |                                 | II      | 01, 02, ..., 53                   | 7     |
+ * | Day of month                    | d       | 1, 2, ..., 31                     |       |
+ * |                                 | do      | 1st, 2nd, ..., 31st               | 7     |
+ * |                                 | dd      | 01, 02, ..., 31                   |       |
+ * | Day of year                     | D       | 1, 2, ..., 365, 366               | 9     |
+ * |                                 | Do      | 1st, 2nd, ..., 365th, 366th       | 7     |
+ * |                                 | DD      | 01, 02, ..., 365, 366             | 9     |
+ * |                                 | DDD     | 001, 002, ..., 365, 366           |       |
+ * |                                 | DDDD    | ...                               | 3     |
+ * | Day of week (formatting)        | E..EEE  | Mon, Tue, Wed, ..., Sun           |       |
+ * |                                 | EEEE    | Monday, Tuesday, ..., Sunday      | 2     |
+ * |                                 | EEEEE   | M, T, W, T, F, S, S               |       |
+ * |                                 | EEEEEE  | Mo, Tu, We, Th, Fr, Sa, Su        |       |
+ * | ISO day of week (formatting)    | i       | 1, 2, 3, ..., 7                   | 7     |
+ * |                                 | io      | 1st, 2nd, ..., 7th                | 7     |
+ * |                                 | ii      | 01, 02, ..., 07                   | 7     |
+ * |                                 | iii     | Mon, Tue, Wed, ..., Sun           | 7     |
+ * |                                 | iiii    | Monday, Tuesday, ..., Sunday      | 2,7   |
+ * |                                 | iiiii   | M, T, W, T, F, S, S               | 7     |
+ * |                                 | iiiiii  | Mo, Tu, We, Th, Fr, Sa, Su        | 7     |
+ * | Local day of week (formatting)  | e       | 2, 3, 4, ..., 1                   |       |
+ * |                                 | eo      | 2nd, 3rd, ..., 1st                | 7     |
+ * |                                 | ee      | 02, 03, ..., 01                   |       |
+ * |                                 | eee     | Mon, Tue, Wed, ..., Sun           |       |
+ * |                                 | eeee    | Monday, Tuesday, ..., Sunday      | 2     |
+ * |                                 | eeeee   | M, T, W, T, F, S, S               |       |
+ * |                                 | eeeeee  | Mo, Tu, We, Th, Fr, Sa, Su        |       |
+ * | Local day of week (stand-alone) | c       | 2, 3, 4, ..., 1                   |       |
+ * |                                 | co      | 2nd, 3rd, ..., 1st                | 7     |
+ * |                                 | cc      | 02, 03, ..., 01                   |       |
+ * |                                 | ccc     | Mon, Tue, Wed, ..., Sun           |       |
+ * |                                 | cccc    | Monday, Tuesday, ..., Sunday      | 2     |
+ * |                                 | ccccc   | M, T, W, T, F, S, S               |       |
+ * |                                 | cccccc  | Mo, Tu, We, Th, Fr, Sa, Su        |       |
+ * | AM, PM                          | a..aa   | AM, PM                            |       |
+ * |                                 | aaa     | am, pm                            |       |
+ * |                                 | aaaa    | a.m., p.m.                        | 2     |
+ * |                                 | aaaaa   | a, p                              |       |
+ * | AM, PM, noon, midnight          | b..bb   | AM, PM, noon, midnight            |       |
+ * |                                 | bbb     | am, pm, noon, midnight            |       |
+ * |                                 | bbbb    | a.m., p.m., noon, midnight        | 2     |
+ * |                                 | bbbbb   | a, p, n, mi                       |       |
+ * | Flexible day period             | B..BBB  | at night, in the morning, ...     |       |
+ * |                                 | BBBB    | at night, in the morning, ...     | 2     |
+ * |                                 | BBBBB   | at night, in the morning, ...     |       |
+ * | Hour [1-12]                     | h       | 1, 2, ..., 11, 12                 |       |
+ * |                                 | ho      | 1st, 2nd, ..., 11th, 12th         | 7     |
+ * |                                 | hh      | 01, 02, ..., 11, 12               |       |
+ * | Hour [0-23]                     | H       | 0, 1, 2, ..., 23                  |       |
+ * |                                 | Ho      | 0th, 1st, 2nd, ..., 23rd          | 7     |
+ * |                                 | HH      | 00, 01, 02, ..., 23               |       |
+ * | Hour [0-11]                     | K       | 1, 2, ..., 11, 0                  |       |
+ * |                                 | Ko      | 1st, 2nd, ..., 11th, 0th          | 7     |
+ * |                                 | KK      | 01, 02, ..., 11, 00               |       |
+ * | Hour [1-24]                     | k       | 24, 1, 2, ..., 23                 |       |
+ * |                                 | ko      | 24th, 1st, 2nd, ..., 23rd         | 7     |
+ * |                                 | kk      | 24, 01, 02, ..., 23               |       |
+ * | Minute                          | m       | 0, 1, ..., 59                     |       |
+ * |                                 | mo      | 0th, 1st, ..., 59th               | 7     |
+ * |                                 | mm      | 00, 01, ..., 59                   |       |
+ * | Second                          | s       | 0, 1, ..., 59                     |       |
+ * |                                 | so      | 0th, 1st, ..., 59th               | 7     |
+ * |                                 | ss      | 00, 01, ..., 59                   |       |
+ * | Fraction of second              | S       | 0, 1, ..., 9                      |       |
+ * |                                 | SS      | 00, 01, ..., 99                   |       |
+ * |                                 | SSS     | 000, 001, ..., 999                |       |
+ * |                                 | SSSS    | ...                               | 3     |
+ * | Timezone (ISO-8601 w/ Z)        | X       | -08, +0530, Z                     |       |
+ * |                                 | XX      | -0800, +0530, Z                   |       |
+ * |                                 | XXX     | -08:00, +05:30, Z                 |       |
+ * |                                 | XXXX    | -0800, +0530, Z, +123456          | 2     |
+ * |                                 | XXXXX   | -08:00, +05:30, Z, +12:34:56      |       |
+ * | Timezone (ISO-8601 w/o Z)       | x       | -08, +0530, +00                   |       |
+ * |                                 | xx      | -0800, +0530, +0000               |       |
+ * |                                 | xxx     | -08:00, +05:30, +00:00            | 2     |
+ * |                                 | xxxx    | -0800, +0530, +0000, +123456      |       |
+ * |                                 | xxxxx   | -08:00, +05:30, +00:00, +12:34:56 |       |
+ * | Timezone (GMT)                  | O...OOO | GMT-8, GMT+5:30, GMT+0            |       |
+ * |                                 | OOOO    | GMT-08:00, GMT+05:30, GMT+00:00   | 2     |
+ * | Timezone (specific non-locat.)  | z...zzz | GMT-8, GMT+5:30, GMT+0            | 6     |
+ * |                                 | zzzz    | GMT-08:00, GMT+05:30, GMT+00:00   | 2,6   |
+ * | Seconds timestamp               | t       | 512969520                         | 7     |
+ * |                                 | tt      | ...                               | 3,7   |
+ * | Milliseconds timestamp          | T       | 512969520900                      | 7     |
+ * |                                 | TT      | ...                               | 3,7   |
+ * | Long localized date             | P       | 04/29/1453                        | 7     |
+ * |                                 | PP      | Apr 29, 1453                      | 7     |
+ * |                                 | PPP     | April 29th, 1453                  | 7     |
+ * |                                 | PPPP    | Friday, April 29th, 1453          | 2,7   |
+ * | Long localized time             | p       | 12:00 AM                          | 7     |
+ * |                                 | pp      | 12:00:00 AM                       | 7     |
+ * |                                 | ppp     | 12:00:00 AM GMT+2                 | 7     |
+ * |                                 | pppp    | 12:00:00 AM GMT+02:00             | 2,7   |
+ * | Combination of date and time    | Pp      | 04/29/1453, 12:00 AM              | 7     |
+ * |                                 | PPpp    | Apr 29, 1453, 12:00:00 AM         | 7     |
+ * |                                 | PPPppp  | April 29th, 1453 at ...           | 7     |
+ * |                                 | PPPPpppp| Friday, April 29th, 1453 at ...   | 2,7   |
+ * Notes:
+ * 1. "Formatting" units (e.g. formatting quarter) in the default en-US locale
+ *    are the same as "stand-alone" units, but are different in some languages.
+ *    "Formatting" units are declined according to the rules of the language
+ *    in the context of a date. "Stand-alone" units are always nominative singular:
+ *
+ *    `format(new Date(2017, 10, 6), 'do LLLL', {locale: cs}) //=> '6. listopad'`
+ *
+ *    `format(new Date(2017, 10, 6), 'do MMMM', {locale: cs}) //=> '6. listopadu'`
+ *
+ * 2. Any sequence of the identical letters is a pattern, unless it is escaped by
+ *    the single quote characters (see below).
+ *    If the sequence is longer than listed in table (e.g. `EEEEEEEEEEE`)
+ *    the output will be the same as default pattern for this unit, usually
+ *    the longest one (in case of ISO weekdays, `EEEE`). Default patterns for units
+ *    are marked with "2" in the last column of the table.
+ *
+ *    `format(new Date(2017, 10, 6), 'MMM') //=> 'Nov'`
+ *
+ *    `format(new Date(2017, 10, 6), 'MMMM') //=> 'November'`
+ *
+ *    `format(new Date(2017, 10, 6), 'MMMMM') //=> 'N'`
+ *
+ *    `format(new Date(2017, 10, 6), 'MMMMMM') //=> 'November'`
+ *
+ *    `format(new Date(2017, 10, 6), 'MMMMMMM') //=> 'November'`
+ *
+ * 3. Some patterns could be unlimited length (such as `yyyyyyyy`).
+ *    The output will be padded with zeros to match the length of the pattern.
+ *
+ *    `format(new Date(2017, 10, 6), 'yyyyyyyy') //=> '00002017'`
+ *
+ * 4. `QQQQQ` and `qqqqq` could be not strictly numerical in some locales.
+ *    These tokens represent the shortest form of the quarter.
+ *
+ * 5. The main difference between `y` and `u` patterns are B.C. years:
+ *
+ *    | Year | `y` | `u` |
+ *    |------|-----|-----|
+ *    | AC 1 |   1 |   1 |
+ *    | BC 1 |   1 |   0 |
+ *    | BC 2 |   2 |  -1 |
+ *
+ *    Also `yy` always returns the last two digits of a year,
+ *    while `uu` pads single digit years to 2 characters and returns other years unchanged:
+ *
+ *    | Year | `yy` | `uu` |
+ *    |------|------|------|
+ *    | 1    |   01 |   01 |
+ *    | 14   |   14 |   14 |
+ *    | 376  |   76 |  376 |
+ *    | 1453 |   53 | 1453 |
+ *
+ *    The same difference is true for local and ISO week-numbering years (`Y` and `R`),
+ *    except local week-numbering years are dependent on `options.weekStartsOn`
+ *    and `options.firstWeekContainsDate` (compare [getISOWeekYear](https://date-fns.org/docs/getISOWeekYear)
+ *    and [getWeekYear](https://date-fns.org/docs/getWeekYear)).
+ *
+ * 6. Specific non-location timezones are currently unavailable in `date-fns`,
+ *    so right now these tokens fall back to GMT timezones.
+ *
+ * 7. These patterns are not in the Unicode Technical Standard #35:
+ *    - `i`: ISO day of week
+ *    - `I`: ISO week of year
+ *    - `R`: ISO week-numbering year
+ *    - `t`: seconds timestamp
+ *    - `T`: milliseconds timestamp
+ *    - `o`: ordinal number modifier
+ *    - `P`: long localized date
+ *    - `p`: long localized time
+ *
+ * 8. `YY` and `YYYY` tokens represent week-numbering years but they are often confused with years.
+ *    You should enable `options.useAdditionalWeekYearTokens` to use them. See: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
+ *
+ * 9. `D` and `DD` tokens represent days of the year but they are often confused with days of the month.
+ *    You should enable `options.useAdditionalDayOfYearTokens` to use them. See: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
+ *
+ * @param date - The original date
+ * @param format - The string of tokens
+ * @param options - An object with options
+ *
+ * @returns The formatted date string
+ *
+ * @throws `date` must not be Invalid Date
+ * @throws `options.locale` must contain `localize` property
+ * @throws `options.locale` must contain `formatLong` property
+ * @throws use `yyyy` instead of `YYYY` for formatting years using [format provided] to the input [input provided]; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
+ * @throws use `yy` instead of `YY` for formatting years using [format provided] to the input [input provided]; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
+ * @throws use `d` instead of `D` for formatting days of the month using [format provided] to the input [input provided]; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
+ * @throws use `dd` instead of `DD` for formatting days of the month using [format provided] to the input [input provided]; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md
+ * @throws format string contains an unescaped latin alphabet character
+ *
+ * @example
+ * // Represent 11 February 2014 in middle-endian format:
+ * const result = format(new Date(2014, 1, 11), 'MM/dd/yyyy')
+ * //=> '02/11/2014'
+ *
+ * @example
+ * // Represent 2 July 2014 in Esperanto:
+ * import { eoLocale } from 'date-fns/locale/eo'
+ * const result = format(new Date(2014, 6, 2), "do 'de' MMMM yyyy", {
+ *   locale: eoLocale
+ * })
+ * //=> '2-a de julio 2014'
+ *
+ * @example
+ * // Escape string by single quote characters:
+ * const result = format(new Date(2014, 6, 2, 15), "h 'o''clock'")
+ * //=> "3 o'clock"
+ */
+function format(date, formatStr, options) {
+  const defaultOptions = getDefaultOptions();
+  const locale = defaultOptions.locale ?? enUS;
+
+  const firstWeekContainsDate =
+    defaultOptions.firstWeekContainsDate ??
+    defaultOptions.locale?.options?.firstWeekContainsDate ??
+    1;
+
+  const weekStartsOn =
+    defaultOptions.weekStartsOn ??
+    defaultOptions.locale?.options?.weekStartsOn ??
+    0;
+
+  const originalDate = toDate(date, options?.in);
+
+  if (!isValid(originalDate)) {
+    throw new RangeError("Invalid time value");
+  }
+
+  let parts = formatStr
+    .match(longFormattingTokensRegExp)
+    .map((substring) => {
+      const firstCharacter = substring[0];
+      if (firstCharacter === "p" || firstCharacter === "P") {
+        const longFormatter = longFormatters[firstCharacter];
+        return longFormatter(substring, locale.formatLong);
+      }
+      return substring;
+    })
+    .join("")
+    .match(formattingTokensRegExp)
+    .map((substring) => {
+      // Replace two single quote characters with one single quote character
+      if (substring === "''") {
+        return { isToken: false, value: "'" };
+      }
+
+      const firstCharacter = substring[0];
+      if (firstCharacter === "'") {
+        return { isToken: false, value: cleanEscapedString(substring) };
+      }
+
+      if (formatters[firstCharacter]) {
+        return { isToken: true, value: substring };
+      }
+
+      if (firstCharacter.match(unescapedLatinCharacterRegExp)) {
+        throw new RangeError(
+          "Format string contains an unescaped latin alphabet character `" +
+            firstCharacter +
+            "`",
+        );
+      }
+
+      return { isToken: false, value: substring };
+    });
+
+  // invoke localize preprocessor (only for french locales at the moment)
+  if (locale.localize.preprocessor) {
+    parts = locale.localize.preprocessor(originalDate, parts);
+  }
+
+  const formatterOptions = {
+    firstWeekContainsDate,
+    weekStartsOn,
+    locale,
+  };
+
+  return parts
+    .map((part) => {
+      if (!part.isToken) return part.value;
+
+      const token = part.value;
+
+      if (
+        (isProtectedWeekYearToken(token)) ||
+        (isProtectedDayOfYearToken(token))
+      ) {
+        warnOrThrowProtectedError(token, formatStr, String(date));
+      }
+
+      const formatter = formatters[token[0]];
+      return formatter(originalDate, token, locale.localize, formatterOptions);
+    })
+    .join("");
+}
+
+function cleanEscapedString(input) {
+  const matched = input.match(escapedStringRegExp);
+
+  if (!matched) {
+    return input;
+  }
+
+  return matched[1].replace(doubleQuoteRegExp, "'");
+}
+
+var formatDisplayDate = function (date, outputFormat) {
+    if (outputFormat === void 0) { outputFormat = 'do MMM yyyy'; }
+    return format(new Date(date), outputFormat).toString();
+};
+
+var getShortenedGovActionId = function (txHash, index) {
+    if (txHash.length <= 6) {
+        return "".concat(txHash, "#").concat(index);
+    }
+    var firstPart = txHash.slice(0, 4);
+    var lastPart = txHash.slice(-4);
+    return "".concat(firstPart, "...").concat(lastPart, "#").concat(index);
+};
+var getFullGovActionId = function (txHash, index) {
+    return "".concat(txHash, "#").concat(index);
+};
+
+var MetadataValidationStatus;
+(function (MetadataValidationStatus) {
+    MetadataValidationStatus["URL_NOT_FOUND"] = "URL_NOT_FOUND";
+    MetadataValidationStatus["INVALID_JSONLD"] = "INVALID_JSONLD";
+    MetadataValidationStatus["INVALID_HASH"] = "INVALID_HASH";
+    MetadataValidationStatus["INCORRECT_FORMAT"] = "INCORRECT_FORMAT";
+})(MetadataValidationStatus || (MetadataValidationStatus = {}));
+
+var GovernanceActionType;
+(function (GovernanceActionType) {
+    GovernanceActionType["ParameterChange"] = "ParameterChange";
+    GovernanceActionType["HardForkInitiation"] = "HardForkInitiation";
+    GovernanceActionType["TreasuryWithdrawals"] = "TreasuryWithdrawals";
+    GovernanceActionType["NoConfidence"] = "NoConfidence";
+    GovernanceActionType["NewCommittee"] = "NewCommittee";
+    GovernanceActionType["NewConstitution"] = "NewConstitution";
+    GovernanceActionType["InfoAction"] = "InfoAction";
+})(GovernanceActionType || (GovernanceActionType = {}));
+
+/**
+ * Retrieves the label for the given metadata validation status.
+ *
+ * @param status - The metadata validation status.
+ * @returns The string corresponding to the status.
+ */
+var getMetadataDataMissingStatusTranslation = function (status) {
+    var _a;
+    var errorLabel = (_a = {},
+        _a[MetadataValidationStatus.URL_NOT_FOUND] = 'Data Missing',
+        _a[MetadataValidationStatus.INVALID_JSONLD] = 'Data Formatted Incorrectly',
+        _a[MetadataValidationStatus.INCORRECT_FORMAT] = 'Data Formatted Incorrectly',
+        _a[MetadataValidationStatus.INVALID_HASH] = 'Data Not Verifiable',
+        _a)[status];
+    return errorLabel || 'Data missing';
+};
+
+var getProposalTypeTitle = function (type) {
+    var _a;
+    var title = (_a = GOVERNANCE_ACTIONS_FILTERS.find(function (i) { return i.key === type; })) === null || _a === void 0 ? void 0 : _a.title;
+    return title || type;
+};
+var getProposalTypeLabel = function (type) {
+    var _a;
+    var label = (_a = GOVERNANCE_ACTIONS_FILTERS.find(function (i) { return i.key === type; })) === null || _a === void 0 ? void 0 : _a.label;
+    return label || type;
+};
+var getProposalTypeNoEmptySpaces = function (type) {
+    return getProposalTypeLabel(type).replace(/ /g, '');
+};
 
 var mapDtoToProposal = function (validationApiUrl, dto) { return __awaiter(void 0, void 0, void 0, function () {
     var validationResponse;
@@ -73655,57 +71144,281 @@ var testIdFromLabel = function (label) {
     return label.trim().replace(/ /g, '-').toLocaleLowerCase();
 };
 
-var useVoteContextForm = function (setSavedHash, setStep, setErrorMessage) {
-    var _a = usePillarContext(), validateMetadata = _a.validateMetadata, generateMetadata = _a.generateMetadata, createJsonLD = _a.createJsonLD, createHash = _a.createHash;
-    var _b = reactExports.useState(null), hash = _b[0], setHash = _b[1];
-    var _c = useFormContext(), control = _c.control, _d = _c.formState, errors = _d.errors, isValid = _d.isValid, getValues = _c.getValues, handleSubmit = _c.handleSubmit, setValue = _c.setValue, watch = _c.watch, register = _c.register, reset = _c.reset;
-    var onClickDownloadJson = function () {
-        var json = createJsonLD(getValues());
-        setHash(createHash(json));
-        downloadJson(json, 'Vote_Context');
-    };
-    var onSubmit = reactExports.useCallback(function (data) { return __awaiter(void 0, void 0, void 0, function () {
-        var error_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, 3, 4]);
-                    if (!hash)
-                        throw new Error('Hash is not generated');
-                    return [4 /*yield*/, validateMetadata(data.storingURL, hash)];
+var getDRepVotes = function (apiUrl, validationApiUrl, _a) {
+    var dRepID = _a.dRepID, params = _a.params;
+    return __awaiter(void 0, void 0, void 0, function () {
+        var data, validatedData;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0: return [4 /*yield*/, axios.get("".concat(apiUrl, "/drep/getVotes/").concat(dRepID), { params: params })];
                 case 1:
-                    _a.sent();
-                    return [3 /*break*/, 4];
+                    data = (_b.sent()).data;
+                    return [4 /*yield*/, Promise.all(data.map(function (votedProposal) { return __awaiter(void 0, void 0, void 0, function () {
+                            var _a;
+                            var _b;
+                            return __generator(this, function (_c) {
+                                switch (_c.label) {
+                                    case 0:
+                                        _a = [__assign({}, votedProposal)];
+                                        _b = {};
+                                        return [4 /*yield*/, mapDtoToProposal(validationApiUrl, votedProposal.proposal)];
+                                    case 1: return [2 /*return*/, (__assign.apply(void 0, _a.concat([(_b.proposal = _c.sent(), _b)])))];
+                                }
+                            });
+                        }); }))];
                 case 2:
-                    error_1 = _a.sent();
-                    console.error(error_1);
-                    // Replace with correct one
-                    setErrorMessage === null || setErrorMessage === void 0 ? void 0 : setErrorMessage(MetadataValidationStatus.INCORRECT_FORMAT);
-                    return [3 /*break*/, 4];
-                case 3:
-                    if (setSavedHash)
-                        setSavedHash(hash);
-                    if (setStep)
-                        setStep(4);
-                    return [7 /*endfinally*/];
-                case 4: return [2 /*return*/];
+                    validatedData = _b.sent();
+                    return [2 /*return*/, validatedData];
             }
         });
-    }); }, [hash, setErrorMessage, setSavedHash, setStep, validateMetadata]);
+    });
+};
+
+var getProposal = function (apiUrl, validationApiUrl, proposalId, drepId) { return __awaiter(void 0, void 0, void 0, function () {
+    var encodedHash, data, _a;
+    var _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0:
+                encodedHash = encodeURIComponent(proposalId);
+                return [4 /*yield*/, axios.get("".concat(apiUrl, "/proposal/get/").concat(encodedHash, "?drepId=").concat(drepId))];
+            case 1:
+                data = (_c.sent()).data;
+                _a = [__assign({}, data)];
+                _b = {};
+                return [4 /*yield*/, mapDtoToProposal(validationApiUrl, data.proposal)];
+            case 2: return [2 /*return*/, __assign.apply(void 0, _a.concat([(_b.proposal = _c.sent(), _b)]))];
+        }
+    });
+}); };
+
+var getProposals = function (apiUrl, validationApiUrl, _a) {
+    var _b = _a.dRepID, dRepID = _b === void 0 ? '' : _b, _c = _a.filters, filters = _c === void 0 ? [] : _c, _d = _a.page, page = _d === void 0 ? 0 : _d, 
+    // It allows fetch proposals and if we have 7 items, display 6 cards and "view all" button
+    _e = _a.pageSize, 
+    // It allows fetch proposals and if we have 7 items, display 6 cards and "view all" button
+    pageSize = _e === void 0 ? 7 : _e, _f = _a.searchPhrase, searchPhrase = _f === void 0 ? '' : _f, _g = _a.sorting, sorting = _g === void 0 ? '' : _g;
+    return __awaiter(void 0, void 0, void 0, function () {
+        var response, validatedResponse, _h;
+        var _j;
+        return __generator(this, function (_k) {
+            switch (_k.label) {
+                case 0:
+                    if (!apiUrl) {
+                        throw new Error('URL is undefined');
+                    }
+                    return [4 /*yield*/, axios.get("".concat(apiUrl, "/proposal/list"), {
+                            params: __assign(__assign(__assign(__assign({ page: page, pageSize: pageSize }, (searchPhrase && { search: searchPhrase })), (filters.length && { type: filters })), (sorting && { sort: sorting })), (dRepID && { drepId: dRepID })),
+                        })];
+                case 1:
+                    response = _k.sent();
+                    _h = [__assign({}, response.data)];
+                    _j = {};
+                    return [4 /*yield*/, Promise.all(response.data.elements.map(function (proposalDTO) {
+                            return mapDtoToProposal(validationApiUrl, proposalDTO);
+                        }))];
+                case 2:
+                    validatedResponse = __assign.apply(void 0, _h.concat([(_j.elements = _k.sent(), _j)]));
+                    return [2 /*return*/, validatedResponse];
+            }
+        });
+    });
+};
+
+var getVoteContextTextFromFile = function (url) { return __awaiter(void 0, void 0, void 0, function () {
+    var response, voteContextText;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!url) {
+                    throw new Error('URL is undefined');
+                }
+                return [4 /*yield*/, axios.get(url)];
+            case 1:
+                response = _a.sent();
+                voteContextText = response.data.body['CIP108:voteContextText']['@value'];
+                return [2 /*return*/, voteContextText];
+        }
+    });
+}); };
+
+var TIMEOUT_IN_SECONDS = 30 * 1000; // 1000 ms is 1 s then its 30 s
+var METADATA_API = axios.create({
+    timeout: TIMEOUT_IN_SECONDS,
+});
+var postValidate = function (url, body) { return __awaiter(void 0, void 0, void 0, function () {
+    var response;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, METADATA_API.post(url, body)];
+            case 1:
+                response = _a.sent();
+                return [2 /*return*/, response.data];
+        }
+    });
+}); };
+
+var useGetDRepVotesQuery = function (type, sort, search) {
+    var _a;
+    var _b = usePillarContext(), dRepID = _b.dRepID, pendingTransaction = _b.pendingTransaction, apiUrl = _b.apiUrl, validationApiUrl = _b.validationApiUrl;
+    var _c = useQuery({
+        queryKey: [
+            QUERY_KEYS.useGetDRepVotesKey,
+            (_a = pendingTransaction.vote) === null || _a === void 0 ? void 0 : _a.transactionHash,
+            type,
+            sort,
+            search,
+        ],
+        queryFn: function () {
+            return getDRepVotes(apiUrl, validationApiUrl, {
+                dRepID: dRepID,
+                params: __assign(__assign(__assign({}, (search && { search: search })), (sort && { sort: sort })), (type && { type: type })),
+            });
+        },
+        enabled: !!dRepID,
+    }), data = _c.data, isLoading = _c.isLoading, refetch = _c.refetch, isRefetching = _c.isRefetching;
+    var groupedByType = data === null || data === void 0 ? void 0 : data.reduce(function (groups, item) {
+        var itemType = item === null || item === void 0 ? void 0 : item.proposal.type;
+        /* eslint-disable @typescript-eslint/ban-ts-comment */
+        // @ts-expect-error
+        if (!groups[itemType]) {
+            // @ts-expect-error
+            groups[itemType] = {
+                title: itemType,
+                actions: [],
+            };
+        }
+        // @ts-expect-error
+        groups[itemType].actions.push(item);
+        /* eslint-enable @typescript-eslint/ban-ts-comment */
+        return groups;
+    }, {});
     return {
-        control: control,
-        validateURL: handleSubmit(onSubmit),
-        errors: errors,
-        generateMetadata: generateMetadata,
-        getValues: getValues,
-        isValid: isValid,
-        onClickDownloadJson: onClickDownloadJson,
-        register: register,
-        reset: reset,
-        setValue: setValue,
-        watch: watch,
-        hash: hash,
+        data: Object.values(groupedByType !== null && groupedByType !== void 0 ? groupedByType : []),
+        areDRepVotesLoading: isLoading,
+        refetch: refetch,
+        isRefetching: isRefetching,
     };
+};
+
+var useGetProposalQuery = function (proposalId, enabled) {
+    var _a = usePillarContext(), dRepID = _a.dRepID, apiUrl = _a.apiUrl, validationApiUrl = _a.validationApiUrl;
+    var _b = useQuery([QUERY_KEYS.useGetProposalKey, dRepID, proposalId], function () { return getProposal(apiUrl, validationApiUrl, proposalId, dRepID); }, {
+        staleTime: Infinity,
+        enabled: enabled,
+    }), data = _b.data, isLoading = _b.isLoading, refetch = _b.refetch, isRefetching = _b.isRefetching;
+    return {
+        data: data,
+        isLoading: isLoading,
+        refetch: refetch,
+        isFetching: isRefetching,
+    };
+};
+
+var useGetProposalsInfiniteQuery = function (_a) {
+    var _b;
+    var _c = _a.filters, filters = _c === void 0 ? [] : _c, _d = _a.pageSize, pageSize = _d === void 0 ? 10 : _d, searchPhrase = _a.searchPhrase, _e = _a.sorting, sorting = _e === void 0 ? '' : _e;
+    var _f = usePillarContext(), dRepID = _f.dRepID, isEnabled = _f.isEnabled, pendingTransaction = _f.pendingTransaction, apiUrl = _f.apiUrl, validationApiUrl = _f.validationApiUrl;
+    var fetchProposals = function (_a) {
+        var _b = _a.pageParam, pageParam = _b === void 0 ? 0 : _b;
+        return __awaiter(void 0, void 0, void 0, function () {
+            var data;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0: return [4 /*yield*/, getProposals(apiUrl, validationApiUrl, {
+                            dRepID: dRepID,
+                            filters: filters,
+                            page: pageParam,
+                            pageSize: pageSize,
+                            searchPhrase: searchPhrase,
+                            sorting: sorting,
+                        })];
+                    case 1:
+                        data = _c.sent();
+                        return [2 /*return*/, data];
+                }
+            });
+        });
+    };
+    var _g = useInfiniteQuery([
+        QUERY_KEYS.useGetProposalsInfiniteKey,
+        apiUrl,
+        dRepID,
+        filters,
+        isEnabled,
+        (_b = pendingTransaction.vote) === null || _b === void 0 ? void 0 : _b.transactionHash,
+        searchPhrase,
+        sorting,
+    ], fetchProposals, {
+        getNextPageParam: function (lastPage) {
+            if (lastPage.elements.length === 0) {
+                return undefined;
+            }
+            return lastPage.page + 1;
+        },
+        refetchInterval: 20000,
+    }), data = _g.data, isLoading = _g.isLoading, fetchNextPage = _g.fetchNextPage, hasNextPage = _g.hasNextPage, isFetching = _g.isFetching, isFetchingNextPage = _g.isFetchingNextPage;
+    var proposals = data === null || data === void 0 ? void 0 : data.pages.flatMap(function (page) { return page.elements; });
+    return {
+        proposalsfetchNextPage: fetchNextPage,
+        proposalsHaveNextPage: hasNextPage,
+        isProposalsFetching: isFetching,
+        isProposalsFetchingNextPage: isFetchingNextPage,
+        isProposalsLoading: isLoading,
+        proposals: proposals,
+    };
+};
+
+var useGetProposalsQuery = function (_a) {
+    var _b, _c;
+    var _d = _a.filters, filters = _d === void 0 ? [] : _d, searchPhrase = _a.searchPhrase, sorting = _a.sorting;
+    var _e = usePillarContext(), dRepID = _e.dRepID, pendingTransaction = _e.pendingTransaction, apiUrl = _e.apiUrl, validationApiUrl = _e.validationApiUrl, voter = _e.voter;
+    var fetchProposals = function () { return __awaiter(void 0, void 0, void 0, function () {
+        var allProposals;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, Promise.all(filters.map(function (filter) {
+                        return getProposals(apiUrl, validationApiUrl, {
+                            dRepID: (voter === null || voter === void 0 ? void 0 : voter.isRegisteredAsDRep) || (voter === null || voter === void 0 ? void 0 : voter.isRegisteredAsSoleVoter)
+                                ? dRepID
+                                : undefined,
+                            filters: [filter],
+                            searchPhrase: searchPhrase,
+                            sorting: sorting,
+                        });
+                    }))];
+                case 1:
+                    allProposals = _a.sent();
+                    return [2 /*return*/, allProposals.flatMap(function (proposal) { return proposal.elements; })];
+            }
+        });
+    }); };
+    var _f = useQuery([
+        QUERY_KEYS.useGetProposalsKey,
+        filters,
+        searchPhrase,
+        sorting,
+        dRepID,
+        (_b = pendingTransaction === null || pendingTransaction === void 0 ? void 0 : pendingTransaction.vote) === null || _b === void 0 ? void 0 : _b.transactionHash,
+    ], fetchProposals), data = _f.data, isLoading = _f.isLoading;
+    var proposals = Object.values((_c = groupByType(data)) !== null && _c !== void 0 ? _c : []);
+    return {
+        isProposalsLoading: isLoading,
+        proposals: proposals,
+    };
+};
+var groupByType = function (data) {
+    return data === null || data === void 0 ? void 0 : data.reduce(function (groups, item) {
+        var itemType = item.type;
+        if (!groups[itemType]) {
+            groups[itemType] = {
+                title: itemType,
+                actions: [],
+            };
+        }
+        groups[itemType].actions.push(item);
+        return groups;
+    }, {});
 };
 
 var useGetVoteContextTextFromFile = function (url, enabled) {
@@ -73715,6 +71428,2404 @@ var useGetVoteContextTextFromFile = function (url, enabled) {
     }), data = _a.data, isLoading = _a.isLoading;
     return { voteContextText: data, isLoading: isLoading };
 };
+
+function useDebounce(value, delay) {
+    var _a = reactExports.useState(value), debouncedValue = _a[0], setDebouncedValue = _a[1];
+    reactExports.useEffect(function () {
+        var timerID = setTimeout(function () {
+            setDebouncedValue(value);
+        }, delay);
+        return function () {
+            clearTimeout(timerID);
+        };
+    }, [value, delay]);
+    return debouncedValue;
+}
+
+var windowHeightFetchThreshold = 0.85;
+var useFetchNextPageDetector = function (fetchNextPage, isLoading, hasNextPage) {
+    reactExports.useEffect(function () {
+        var onScroll = function () {
+            var scrollTop = document.documentElement.scrollTop;
+            var windowHeight = window.innerHeight;
+            var fullHeight = document.documentElement.offsetHeight;
+            if (scrollTop + windowHeight > fullHeight * windowHeightFetchThreshold &&
+                hasNextPage &&
+                !isLoading) {
+                fetchNextPage();
+            }
+        };
+        window.addEventListener('scroll', onScroll);
+        return function () {
+            window.removeEventListener('scroll', onScroll);
+        };
+    }, [fetchNextPage, isLoading, hasNextPage]);
+};
+
+function useOnClickOutside(ref, handler) {
+    reactExports.useEffect(function () {
+        var listener = function (event) {
+            var target = event.target;
+            if (!ref.current || ref.current.contains(target)) {
+                return;
+            }
+            handler(event);
+        };
+        document.addEventListener('mousedown', listener);
+        document.addEventListener('touchstart', listener);
+        return function () {
+            document.removeEventListener('mousedown', listener);
+            document.removeEventListener('touchstart', listener);
+        };
+    }, [ref, handler]);
+}
+
+var scrollPositionKey = 'governanceActionsCategoryScrollPosition';
+var useSaveScrollPosition = function (isLoading, isFetching) {
+    var saveScrollPosition = function () {
+        sessionStorage.setItem(scrollPositionKey, window.scrollY.toString());
+    };
+    reactExports.useEffect(function () {
+        if (!isLoading && !isFetching) {
+            var savedPosition = sessionStorage.getItem(scrollPositionKey);
+            if (savedPosition !== null) {
+                window.scrollTo(0, parseInt(savedPosition, 10));
+                sessionStorage.removeItem(scrollPositionKey);
+            }
+        }
+    }, [isLoading, isFetching]);
+    return saveScrollPosition;
+};
+
+var useScreenDimension = function () {
+    var _a = reactExports.useState(window.innerWidth), screenWidth = _a[0], setScreenWidth = _a[1];
+    var _b = reactExports.useState(window.innerWidth < 768), isMobile = _b[0], setIsMobile = _b[1];
+    var pagePadding;
+    if (screenWidth < 768) {
+        pagePadding = 2;
+    }
+    else if (screenWidth < 1024) {
+        pagePadding = 6;
+    }
+    else if (screenWidth < 1440) {
+        pagePadding = 8;
+    }
+    else if (screenWidth < 1920) {
+        pagePadding = 10;
+    }
+    else {
+        pagePadding = 37;
+    }
+    function handleWindowSizeChange() {
+        setScreenWidth(window.innerWidth);
+        setIsMobile(window.innerWidth < 768);
+    }
+    reactExports.useEffect(function () {
+        window.addEventListener('resize', handleWindowSizeChange);
+        return function () {
+            window.removeEventListener('resize', handleWindowSizeChange);
+        };
+    }, []);
+    return {
+        screenWidth: screenWidth,
+        isMobile: isMobile,
+        pagePadding: pagePadding,
+    };
+};
+
+var react = {};
+
+Object.defineProperty(react,"__esModule",{value:!0});var n=reactExports;function t(n){return Array.prototype.slice.call(n)}function e(n,t){var e=Math.floor(n);return e===t||e+1===t?n:t}function i$1(){return Date.now()}function r$1(n,t,e){if(t="data-keen-slider-"+t,null===e)return n.removeAttribute(t);n.setAttribute(t,e||"");}function a(n,e){return e=e||document,"function"==typeof n&&(n=n(e)),Array.isArray(n)?n:"string"==typeof n?t(e.querySelectorAll(n)):n instanceof HTMLElement?[n]:n instanceof NodeList?t(n):[]}function o$2(n){n.raw&&(n=n.raw),n.cancelable&&!n.defaultPrevented&&n.preventDefault();}function u(n){n.raw&&(n=n.raw),n.stopPropagation&&n.stopPropagation();}function c(){var n=[];return {add:function(t,e,i,r){t.addListener?t.addListener(i):t.addEventListener(e,i,r),n.push([t,e,i,r]);},input:function(n,t,e,i){this.add(n,t,function(n){return function(t){t.nativeEvent&&(t=t.nativeEvent);var e=t.changedTouches||[],i=t.targetTouches||[],r=t.detail&&t.detail.x?t.detail:null;return n({id:r?r.identifier?r.identifier:"i":i[0]?i[0]?i[0].identifier:"e":"d",idChanged:r?r.identifier?r.identifier:"i":e[0]?e[0]?e[0].identifier:"e":"d",raw:t,x:r&&r.x?r.x:i[0]?i[0].screenX:r?r.x:t.pageX,y:r&&r.y?r.y:i[0]?i[0].screenY:r?r.y:t.pageY})}}(e),i);},purge:function(){n.forEach((function(n){n[0].removeListener?n[0].removeListener(n[2]):n[0].removeEventListener(n[1],n[2],n[3]);})),n=[];}}}function s$1(n,t,e){return Math.min(Math.max(n,t),e)}function d(n){return (n>0?1:0)-(n<0?1:0)||+n}function l(n){var t=n.getBoundingClientRect();return {height:e(t.height,n.offsetHeight),width:e(t.width,n.offsetWidth)}}function f(n,t,e,i){var r=n&&n[t];return null==r?e:i&&"function"==typeof r?r():r}function p(n){return Math.round(1e6*n)/1e6}function v(n,t){if(n===t)return !0;var e=typeof n;if(e!==typeof t)return !1;if("object"!==e||null===n||null===t)return "function"===e&&n.toString()===t.toString();if(n.length!==t.length||Object.getOwnPropertyNames(n).length!==Object.getOwnPropertyNames(t).length)return !1;for(var i in n)if(!v(n[i],t[i]))return !1;return !0}var h=function(){return h=Object.assign||function(n){for(var t,e=1,i=arguments.length;e<i;e++)for(var r in t=arguments[e])Object.prototype.hasOwnProperty.call(t,r)&&(n[r]=t[r]);return n},h.apply(this,arguments)};function m(n,t,e){for(var i,r=0,a=t.length;r<a;r++)!i&&r in t||(i||(i=Array.prototype.slice.call(t,0,r)),i[r]=t[r]);return n.concat(i||Array.prototype.slice.call(t))}function g(n){var t,e,i,r,a,o;function u(t){o||(o=t),c(!0);var a=t-o;a>i&&(a=i);var l=r[e];if(l[3]<a)return e++,u(t);var f=l[2],p=l[4],v=l[0],h=l[1]*(0, l[5])(0===p?1:(a-f)/p);if(h&&n.track.to(v+h),a<i)return d();o=null,c(!1),s(null),n.emit("animationEnded");}function c(n){t.active=n;}function s(n){t.targetIdx=n;}function d(){var n;n=u,a=window.requestAnimationFrame(n);}function l(){var t;t=a,window.cancelAnimationFrame(t),c(!1),s(null),o&&n.emit("animationStopped"),o=null;}return t={active:!1,start:function(t){if(l(),n.track.details){var a=0,o=n.track.details.position;e=0,i=0,r=t.map((function(n){var t,e=Number(o),r=null!==(t=n.earlyExit)&&void 0!==t?t:n.duration,u=n.easing,c=n.distance*u(r/n.duration)||0;o+=c;var s=i;return i+=r,a+=c,[e,n.distance,s,i,n.duration,u]})),s(n.track.distToIdx(a)),d(),n.emit("animationStarted");}},stop:l,targetIdx:null}}function b(n){var t,e,r,a,o,u,c,l,v,h,g,b,y,x,k=1/0,w=[],M=null,T=0;function C(n){P(T+n);}function E(n){var t=z(T+n).abs;return O(t)?t:null}function z(n){var t=Math.floor(Math.abs(p(n/e))),i=p((n%e+e)%e);i===e&&(i=0);var r=d(n),a=c.indexOf(m([],c).reduce((function(n,t){return Math.abs(t-i)<Math.abs(n-i)?t:n}))),o=a;return r<0&&t++,a===u&&(o=0,t+=r>0?1:-1),{abs:o+t*u*r,origin:a,rel:o}}function I(n,t,e){var i;if(t||!S())return A(n,e);if(!O(n))return null;var r=z(null!=e?e:T),a=r.abs,o=n-r.rel,c=a+o;i=A(c);var s=A(c-u*d(o));return (null!==s&&Math.abs(s)<Math.abs(i)||null===i)&&(i=s),p(i)}function A(n,t){if(null==t&&(t=p(T)),!O(n)||null===n)return null;n=Math.round(n);var i=z(t),r=i.abs,a=i.rel,o=i.origin,s=L(n),d=(t%e+e)%e,l=c[o],f=Math.floor((n-(r-a))/u)*e;return p(l-d-l+c[s]+f+(o===u?e:0))}function O(n){return D(n)===n}function D(n){return s$1(n,v,h)}function S(){return a.loop}function L(n){return (n%u+u)%u}function P(t){var e;e=t-T,w.push({distance:e,timestamp:i$1()}),w.length>6&&(w=w.slice(-6)),T=p(t);var r=_().abs;if(r!==M){var a=null!==M;M=r,a&&n.emit("slideChanged");}}function _(i){var c=i?null:function(){if(u){var n=S(),t=n?(T%e+e)%e:T,i=(n?T%e:T)-o[0][2],c=0-(i<0&&n?e-Math.abs(i):i),s=0,l=z(T),f=l.abs,p=l.rel,m=o[p][2],k=o.map((function(t,i){var r=c+s;(r<0-t[0]||r>1)&&(r+=(Math.abs(r)>e-1&&n?e:0)*d(-r));var o=i-p,l=d(o),v=o+f;n&&(-1===l&&r>m&&(v+=u),1===l&&r<m&&(v-=u),null!==g&&v<g&&(r+=e),null!==b&&v>b&&(r-=e));var h=r+t[0]+t[1],y=Math.max(r>=0&&h<=1?1:h<0||r>1?0:r<0?Math.min(1,(t[0]+r)/t[0]):(1-r)/t[0],0);return s+=t[0]+t[1],{abs:v,distance:a.rtl?-1*r+1-t[0]:r,portion:y,size:t[0]}}));return f=D(f),p=L(f),{abs:D(f),length:r,max:x,maxIdx:h,min:y,minIdx:v,position:T,progress:n?t/e:T/r,rel:p,slides:k,slidesLength:e}}}();return t.details=c,n.emit("detailsChanged"),c}return t={absToRel:L,add:C,details:null,distToIdx:E,idxToDist:I,init:function(t){if(function(){if(a=n.options,o=(a.trackConfig||[]).map((function(n){return [f(n,"size",1),f(n,"spacing",0),f(n,"origin",0)]})),u=o.length){e=p(o.reduce((function(n,t){return n+t[0]+t[1]}),0));var t,i=u-1;r=p(e+o[0][2]-o[i][0]-o[i][2]-o[i][1]),c=o.reduce((function(n,e){if(!n)return [0];var i=o[n.length-1],r=n[n.length-1]+(i[0]+i[2])+i[1];return r-=e[2],n[n.length-1]>r&&(r=n[n.length-1]),r=p(r),n.push(r),(!t||t<r)&&(l=n.length-1),t=r,n}),null),0===r&&(l=0),c.push(p(e));}}(),!u)return _(!0);var i;!function(){var t=n.options.range,e=n.options.loop;g=v=e?f(e,"min",-1/0):0,b=h=e?f(e,"max",k):l;var i=f(t,"min",null),r=f(t,"max",null);null!==i&&(v=i),null!==r&&(h=r),y=v===-1/0?v:n.track.idxToDist(v||0,!0,0),x=h===k?h:I(h,!0,0),null===r&&(b=h),f(t,"align",!1)&&h!==k&&0===o[L(h)][2]&&(x-=1-o[L(h)][0],h=E(x-T)),y=p(y),x=p(x);}(),i=t,Number(i)===i?C(A(D(t))):_();},to:P,velocity:function(){var n=i$1(),t=w.reduce((function(t,e){var i=e.distance,r=e.timestamp;return n-r>200||(d(i)!==d(t.distance)&&t.distance&&(t={distance:0,lastTimestamp:0,time:0}),t.time&&(t.distance+=i),t.lastTimestamp&&(t.time+=r-t.lastTimestamp),t.lastTimestamp=r),t}),{distance:0,lastTimestamp:0,time:0});return t.distance/t.time||0}}}function y(n){var t,e,i,r,a,o,u,c;function l(n){return 2*n}function f(n){return s$1(n,u,c)}function p(n){return 1-Math.pow(1-n,3)}function v(){return i?n.track.velocity():0}function h(){b();var t="free-snap"===n.options.mode,e=n.track,i=v();r=d(i);var u=n.track.details,c=[];if(i||!t){var s=m(i),h=s.dist,g=s.dur;if(g=l(g),h*=r,t){var y=e.idxToDist(e.distToIdx(h),!0);y&&(h=y);}c.push({distance:h,duration:g,easing:p});var x=u.position,k=x+h;if(k<a||k>o){var w=k<a?a-x:o-x,M=0,T=i;if(d(w)===r){var C=Math.min(Math.abs(w)/Math.abs(h),1),E=function(n){return 1-Math.pow(1-n,1/3)}(C)*g;c[0].earlyExit=E,T=i*(1-C);}else c[0].earlyExit=0,M+=w;var z=m(T,100),I=z.dist*r;n.options.rubberband&&(c.push({distance:I,duration:l(z.dur),easing:p}),c.push({distance:-I+M,duration:500,easing:p}));}n.animator.start(c);}else n.moveToIdx(f(u.abs),!0,{duration:500,easing:function(n){return 1+--n*n*n*n*n}});}function m(n,t){void 0===t&&(t=1e3);var e=147e-9+(n=Math.abs(n))/t;return {dist:Math.pow(n,2)/e,dur:n/e}}function g(){var t=n.track.details;t&&(a=t.min,o=t.max,u=t.minIdx,c=t.maxIdx);}function b(){n.animator.stop();}n.on("updated",g),n.on("optionsChanged",g),n.on("created",g),n.on("dragStarted",(function(){i=!1,b(),t=e=n.track.details.abs;})),n.on("dragChecked",(function(){i=!0;})),n.on("dragEnded",(function(){var i=n.options.mode;"snap"===i&&function(){var i=n.track,r=n.track.details,u=r.position,c=d(v());(u>o||u<a)&&(c=0);var s=t+c;0===r.slides[i.absToRel(s)].portion&&(s-=c),t!==e&&(s=e),d(i.idxToDist(s,!0))!==c&&(s+=c),s=f(s);var l=i.idxToDist(s,!0);n.animator.start([{distance:l,duration:500,easing:function(n){return 1+--n*n*n*n*n}}]);}(),"free"!==i&&"free-snap"!==i||h();})),n.on("dragged",(function(){e=n.track.details.abs;}));}function x(n){var t,e,i,r,l,f,p,v,h,m,g,b,y,x,k,w,M,T,C=c();function E(t){if(f&&v===t.id){var a=O(t);if(h){if(!A(t))return I(t);m=a,h=!1,n.emit("dragChecked");}if(w)return m=a;o$2(t);var c=function(t){if(M===-1/0&&T===1/0)return t;var i=n.track.details,a=i.length,o=i.position,u=s$1(t,M-o,T-o);if(0===a)return 0;if(!n.options.rubberband)return u;if(o<=T&&o>=M)return t;if(o<M&&e>0||o>T&&e<0)return t;var c=(o<M?o-M:o-T)/a,d=r*a,f=Math.abs(c*d),p=Math.max(0,1-f/l*2);return p*p*t}(p(m-a)/r*i);e=d(c);var y=n.track.details.position;(y>M&&y<T||y===M&&e>0||y===T&&e<0)&&u(t),g+=c,!b&&Math.abs(g*r)>5&&(b=!0),n.track.add(c),m=a,n.emit("dragged");}}function z(t){!f&&n.track.details&&n.track.details.length&&(g=0,f=!0,b=!1,h=!0,v=t.id,A(t),m=O(t),n.emit("dragStarted"));}function I(t){f&&v===t.idChanged&&(f=!1,n.emit("dragEnded"));}function A(n){var t=D(),e=t?n.y:n.x,i=t?n.x:n.y,r=void 0!==y&&void 0!==x&&Math.abs(x-i)<=Math.abs(y-e);return y=e,x=i,r}function O(n){return D()?n.y:n.x}function D(){return n.options.vertical}function S(){r=n.size,l=D()?window.innerHeight:window.innerWidth;var t=n.track.details;t&&(M=t.min,T=t.max);}function L(n){b&&(u(n),o$2(n));}function P(){if(C.purge(),n.options.drag&&!n.options.disabled){var e;e=n.options.dragSpeed||1,p="function"==typeof e?e:function(n){return n*e},i=n.options.rtl?-1:1,S(),t=n.container,function(){var n="data-keen-slider-clickable";a("[".concat(n,"]:not([").concat(n,"=false])"),t).map((function(n){C.add(n,"dragstart",u),C.add(n,"mousedown",u),C.add(n,"touchstart",u);}));}(),C.add(t,"dragstart",(function(n){o$2(n);})),C.add(t,"click",L,{capture:!0}),C.input(t,"ksDragStart",z),C.input(t,"ksDrag",E),C.input(t,"ksDragEnd",I),C.input(t,"mousedown",z),C.input(t,"mousemove",E),C.input(t,"mouseleave",I),C.input(t,"mouseup",I),C.input(t,"touchstart",z,{passive:!0}),C.input(t,"touchmove",E,{passive:!1}),C.input(t,"touchend",I),C.input(t,"touchcancel",I),C.add(window,"wheel",(function(n){f&&o$2(n);}));var r="data-keen-slider-scrollable";a("[".concat(r,"]:not([").concat(r,"=false])"),n.container).map((function(n){return function(n){var t;C.input(n,"touchstart",(function(n){t=O(n),w=!0,k=!0;}),{passive:!0}),C.input(n,"touchmove",(function(e){var i=D(),r=i?n.scrollHeight-n.clientHeight:n.scrollWidth-n.clientWidth,a=t-O(e),u=i?n.scrollTop:n.scrollLeft,c=i&&"scroll"===n.style.overflowY||!i&&"scroll"===n.style.overflowX;if(t=O(e),(a<0&&u>0||a>0&&u<r)&&k&&c)return w=!0;k=!1,o$2(e),w=!1;})),C.input(n,"touchend",(function(){w=!1;}));}(n)}));}}n.on("updated",S),n.on("optionsChanged",P),n.on("created",P),n.on("destroyed",C.purge);}function k(n){var t,e,i=null;function r(t,e,i){n.animator.active?o(t,e,i):requestAnimationFrame((function(){return o(t,e,i)}));}function a(){r(!1,!1,e);}function o(e,r,a){var o=0,u=n.size,d=n.track.details;if(d&&t){var l=d.slides;t.forEach((function(n,t){if(e)!i&&r&&c(n,null,a),s(n,null,a);else {if(!l[t])return;var d=l[t].size*u;!i&&r&&c(n,d,a),s(n,l[t].distance*u-o,a),o+=d;}}));}}function u(t){return "performance"===n.options.renderMode?Math.round(t):t}function c(n,t,e){var i=e?"height":"width";null!==t&&(t=u(t)+"px"),n.style["min-"+i]=t,n.style["max-"+i]=t;}function s(n,t,e){if(null!==t){t=u(t);var i=e?t:0;t="translate3d(".concat(e?0:t,"px, ").concat(i,"px, 0)");}n.style.transform=t,n.style["-webkit-transform"]=t;}function d(){t&&(o(!0,!0,e),t=null),n.on("detailsChanged",a,!0);}function l(){r(!1,!0,e);}function p(){d(),e=n.options.vertical,n.options.disabled||"custom"===n.options.renderMode||(i="auto"===f(n.options.slides,"perView",null),n.on("detailsChanged",a),(t=n.slides).length&&l());}n.on("created",p),n.on("optionsChanged",p),n.on("beforeOptionsChanged",(function(){d();})),n.on("updated",l),n.on("destroyed",d);}function w(n,t){return function(e){var i,o,u,s,p,v=c();function m(n){var t;r$1(e.container,"reverse","rtl"!==(t=e.container,window.getComputedStyle(t,null).getPropertyValue("direction"))||n?null:""),r$1(e.container,"v",e.options.vertical&&!n?"":null),r$1(e.container,"disabled",e.options.disabled&&!n?"":null);}function g(){b()&&M();}function b(){var n=null;if(s.forEach((function(t){t.matches&&(n=t.__media);})),n===i)return !1;i||e.emit("beforeOptionsChanged"),i=n;var t=n?u.breakpoints[n]:u;return e.options=h(h({},u),t),m(),I(),A(),C(),!0}function y(n){var t=l(n);return (e.options.vertical?t.height:t.width)/e.size||1}function x(){return e.options.trackConfig.length}function k(n){for(var r in i=!1,u=h(h({},t),n),v.purge(),o=e.size,s=[],u.breakpoints||[]){var a=window.matchMedia(r);a.__media=r,s.push(a),v.add(a,"change",g);}v.add(window,"orientationchange",z),v.add(window,"resize",E),b();}function w(n){e.animator.stop();var t=e.track.details;e.track.init(null!=n?n:t?t.abs:0);}function M(n){w(n),e.emit("optionsChanged");}function T(n,t){if(n)return k(n),void M(t);I(),A();var i=x();C(),x()!==i?M(t):w(t),e.emit("updated");}function C(){var n=e.options.slides;if("function"==typeof n)return e.options.trackConfig=n(e.size,e.slides);for(var t=e.slides,i=t.length,r="number"==typeof n?n:f(n,"number",i,!0),a=[],o=f(n,"perView",1,!0),u=f(n,"spacing",0,!0)/e.size||0,c="auto"===o?u:u/o,s=f(n,"origin","auto"),d=0,l=0;l<r;l++){var p="auto"===o?y(t[l]):1/o-u+c,v="center"===s?.5-p/2:"auto"===s?0:s;a.push({origin:v,size:p,spacing:u}),d+=p;}if(d+=u*(r-1),"auto"===s&&!e.options.loop&&1!==o){var h=0;a.map((function(n){var t=d-h;return h+=n.size+u,t>=1||(n.origin=1-t-(d>1?0:1-d)),n}));}e.options.trackConfig=a;}function E(){I();var n=e.size;e.options.disabled||n===o||(o=n,T());}function z(){E(),setTimeout(E,500),setTimeout(E,2e3);}function I(){var n=l(e.container);e.size=(e.options.vertical?n.height:n.width)||1;}function A(){e.slides=a(e.options.selector,e.container);}e.container=(p=a(n,document)).length?p[0]:null,e.destroy=function(){v.purge(),e.emit("destroyed"),m(!0);},e.prev=function(){e.moveToIdx(e.track.details.abs-1,!0);},e.next=function(){e.moveToIdx(e.track.details.abs+1,!0);},e.update=T,k(e.options);}}var M=function(n,t,e){try{return function(n,t){var e,i={};return e={emit:function(n){i[n]&&i[n].forEach((function(n){n(e);}));var t=e.options&&e.options[n];t&&t(e);},moveToIdx:function(n,t,i){var r=e.track.idxToDist(n,t);if(r){var a=e.options.defaultAnimation;e.animator.start([{distance:r,duration:f(i||a,"duration",500),easing:f(i||a,"easing",(function(n){return 1+--n*n*n*n*n}))}]);}},on:function(n,t,e){void 0===e&&(e=!1),i[n]||(i[n]=[]);var r=i[n].indexOf(t);r>-1?e&&delete i[n][r]:e||i[n].push(t);},options:n},function(){if(e.track=b(e),e.animator=g(e),t)for(var n=0,i=t;n<i.length;n++)(0,i[n])(e);e.track.init(e.options.initial||0),e.emit("created");}(),e}(t,m([w(n,{drag:!0,mode:"snap",renderMode:"precision",rubberband:!0,selector:".keen-slider__slide"}),k,x,y],e||[],!0))}catch(n){console.error(n);}};var useKeenSlider = react.useKeenSlider=function(t,e){var i=n.useRef(null),r=n.useRef(!1),a=n.useRef(t),o=n.useCallback((function(n){n?(a.current=t,i.current=new M(n,t,e),r.current=!1):(i.current&&i.current.destroy&&i.current.destroy(),i.current=null);}),[]);return n.useEffect((function(){v(a.current,t)||(a.current=t,i.current&&i.current.update(a.current));}),[t]),[o,i]};
+
+var WheelControls = function (slider) {
+    var touchTimeout;
+    var position;
+    var wheelActive = false;
+    function dispatch(e, name) {
+        position.x -= e.deltaX;
+        position.y -= e.deltaY;
+        slider.container.dispatchEvent(new CustomEvent(name, {
+            detail: {
+                x: position.x,
+                y: position.y,
+            },
+        }));
+    }
+    function eventWheel(e) {
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+            e.preventDefault();
+            if (!wheelActive) {
+                position = {
+                    x: e.pageX,
+                    y: e.pageY,
+                };
+                dispatch(e, 'ksDragStart');
+                wheelActive = true;
+            }
+            dispatch(e, 'ksDrag');
+            clearTimeout(touchTimeout);
+            touchTimeout = setTimeout(function () {
+                wheelActive = false;
+                dispatch(e, 'ksDragEnd');
+            }, 50);
+        }
+    }
+    slider.on('created', function () {
+        slider.container.addEventListener('wheel', eventWheel, {
+            passive: false,
+        });
+    });
+};
+var useSlider = function (_a) {
+    var _b, _c, _d, _e, _f, _g, _h;
+    var config = _a.config;
+    var _j = reactExports.useState(0), currentSlide = _j[0], setCurrentSlide = _j[1];
+    var _k = useKeenSlider(__assign(__assign({}, config), { rubberband: false, detailsChanged: function (slider) {
+            setCurrentSlide(slider.track.details.rel);
+        } }), [WheelControls]), sliderRef = _k[0], instanceRef = _k[1];
+    var dataLength = (_d = (_c = (_b = instanceRef === null || instanceRef === void 0 ? void 0 : instanceRef.current) === null || _b === void 0 ? void 0 : _b.slides) === null || _c === void 0 ? void 0 : _c.length) !== null && _d !== void 0 ? _d : 10;
+    var itemsPerView = dataLength - ((_h = (_g = (_f = (_e = instanceRef === null || instanceRef === void 0 ? void 0 : instanceRef.current) === null || _e === void 0 ? void 0 : _e.track) === null || _f === void 0 ? void 0 : _f.details) === null || _g === void 0 ? void 0 : _g.maxIdx) !== null && _h !== void 0 ? _h : 2);
+    return {
+        sliderRef: sliderRef,
+        instanceRef: instanceRef,
+        currentSlide: currentSlide,
+        itemsPerView: itemsPerView,
+    };
+};
+
+var isCheckBoxInput = (element) => element.type === 'checkbox';
+
+var isDateObject = (value) => value instanceof Date;
+
+var isNullOrUndefined = (value) => value == null;
+
+const isObjectType = (value) => typeof value === 'object';
+var isObject$1 = (value) => !isNullOrUndefined(value) &&
+    !Array.isArray(value) &&
+    isObjectType(value) &&
+    !isDateObject(value);
+
+var getEventValue = (event) => isObject$1(event) && event.target
+    ? isCheckBoxInput(event.target)
+        ? event.target.checked
+        : event.target.value
+    : event;
+
+var getNodeParentName = (name) => name.substring(0, name.search(/\.\d+(\.|$)/)) || name;
+
+var isNameInFieldArray = (names, name) => names.has(getNodeParentName(name));
+
+var isPlainObject$2 = (tempObject) => {
+    const prototypeCopy = tempObject.constructor && tempObject.constructor.prototype;
+    return (isObject$1(prototypeCopy) && prototypeCopy.hasOwnProperty('isPrototypeOf'));
+};
+
+var isWeb = typeof window !== 'undefined' &&
+    typeof window.HTMLElement !== 'undefined' &&
+    typeof document !== 'undefined';
+
+function cloneObject(data) {
+    let copy;
+    const isArray = Array.isArray(data);
+    if (data instanceof Date) {
+        copy = new Date(data);
+    }
+    else if (data instanceof Set) {
+        copy = new Set(data);
+    }
+    else if (!(isWeb && (data instanceof Blob || data instanceof FileList)) &&
+        (isArray || isObject$1(data))) {
+        copy = isArray ? [] : {};
+        if (!isArray && !isPlainObject$2(data)) {
+            copy = data;
+        }
+        else {
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    copy[key] = cloneObject(data[key]);
+                }
+            }
+        }
+    }
+    else {
+        return data;
+    }
+    return copy;
+}
+
+var compact = (value) => Array.isArray(value) ? value.filter(Boolean) : [];
+
+var isUndefined = (val) => val === undefined;
+
+var get = (object, path, defaultValue) => {
+    if (!path || !isObject$1(object)) {
+        return defaultValue;
+    }
+    const result = compact(path.split(/[,[\].]+?/)).reduce((result, key) => isNullOrUndefined(result) ? result : result[key], object);
+    return isUndefined(result) || result === object
+        ? isUndefined(object[path])
+            ? defaultValue
+            : object[path]
+        : result;
+};
+
+var isBoolean = (value) => typeof value === 'boolean';
+
+var isKey = (value) => /^\w*$/.test(value);
+
+var stringToPath = (input) => compact(input.replace(/["|']|\]/g, '').split(/\.|\[/));
+
+var set = (object, path, value) => {
+    let index = -1;
+    const tempPath = isKey(path) ? [path] : stringToPath(path);
+    const length = tempPath.length;
+    const lastIndex = length - 1;
+    while (++index < length) {
+        const key = tempPath[index];
+        let newValue = value;
+        if (index !== lastIndex) {
+            const objValue = object[key];
+            newValue =
+                isObject$1(objValue) || Array.isArray(objValue)
+                    ? objValue
+                    : !isNaN(+tempPath[index + 1])
+                        ? []
+                        : {};
+        }
+        if (key === '__proto__') {
+            return;
+        }
+        object[key] = newValue;
+        object = object[key];
+    }
+    return object;
+};
+
+const EVENTS = {
+    BLUR: 'blur',
+    FOCUS_OUT: 'focusout',
+    CHANGE: 'change',
+};
+const VALIDATION_MODE = {
+    onBlur: 'onBlur',
+    onChange: 'onChange',
+    onSubmit: 'onSubmit',
+    onTouched: 'onTouched',
+    all: 'all',
+};
+const INPUT_VALIDATION_RULES = {
+    max: 'max',
+    min: 'min',
+    maxLength: 'maxLength',
+    minLength: 'minLength',
+    pattern: 'pattern',
+    required: 'required',
+    validate: 'validate',
+};
+
+const HookFormContext = React$1.createContext(null);
+/**
+ * This custom hook allows you to access the form context. useFormContext is intended to be used in deeply nested structures, where it would become inconvenient to pass the context as a prop. To be used with {@link FormProvider}.
+ *
+ * @remarks
+ * [API](https://react-hook-form.com/docs/useformcontext) • [Demo](https://codesandbox.io/s/react-hook-form-v7-form-context-ytudi)
+ *
+ * @returns return all useForm methods
+ *
+ * @example
+ * ```tsx
+ * function App() {
+ *   const methods = useForm();
+ *   const onSubmit = data => console.log(data);
+ *
+ *   return (
+ *     <FormProvider {...methods} >
+ *       <form onSubmit={methods.handleSubmit(onSubmit)}>
+ *         <NestedInput />
+ *         <input type="submit" />
+ *       </form>
+ *     </FormProvider>
+ *   );
+ * }
+ *
+ *  function NestedInput() {
+ *   const { register } = useFormContext(); // retrieve all hook methods
+ *   return <input {...register("test")} />;
+ * }
+ * ```
+ */
+const useFormContext = () => React$1.useContext(HookFormContext);
+/**
+ * A provider component that propagates the `useForm` methods to all children components via [React Context](https://reactjs.org/docs/context.html) API. To be used with {@link useFormContext}.
+ *
+ * @remarks
+ * [API](https://react-hook-form.com/docs/useformcontext) • [Demo](https://codesandbox.io/s/react-hook-form-v7-form-context-ytudi)
+ *
+ * @param props - all useForm methods
+ *
+ * @example
+ * ```tsx
+ * function App() {
+ *   const methods = useForm();
+ *   const onSubmit = data => console.log(data);
+ *
+ *   return (
+ *     <FormProvider {...methods} >
+ *       <form onSubmit={methods.handleSubmit(onSubmit)}>
+ *         <NestedInput />
+ *         <input type="submit" />
+ *       </form>
+ *     </FormProvider>
+ *   );
+ * }
+ *
+ *  function NestedInput() {
+ *   const { register } = useFormContext(); // retrieve all hook methods
+ *   return <input {...register("test")} />;
+ * }
+ * ```
+ */
+const FormProvider = (props) => {
+    const { children, ...data } = props;
+    return (React$1.createElement(HookFormContext.Provider, { value: data }, children));
+};
+
+var getProxyFormState = (formState, control, localProxyFormState, isRoot = true) => {
+    const result = {
+        defaultValues: control._defaultValues,
+    };
+    for (const key in formState) {
+        Object.defineProperty(result, key, {
+            get: () => {
+                const _key = key;
+                if (control._proxyFormState[_key] !== VALIDATION_MODE.all) {
+                    control._proxyFormState[_key] = !isRoot || VALIDATION_MODE.all;
+                }
+                localProxyFormState && (localProxyFormState[_key] = true);
+                return formState[_key];
+            },
+        });
+    }
+    return result;
+};
+
+var isEmptyObject = (value) => isObject$1(value) && !Object.keys(value).length;
+
+var shouldRenderFormState = (formStateData, _proxyFormState, updateFormState, isRoot) => {
+    updateFormState(formStateData);
+    const { name, ...formState } = formStateData;
+    return (isEmptyObject(formState) ||
+        Object.keys(formState).length >= Object.keys(_proxyFormState).length ||
+        Object.keys(formState).find((key) => _proxyFormState[key] ===
+            (!isRoot || VALIDATION_MODE.all)));
+};
+
+var convertToArrayPayload = (value) => (Array.isArray(value) ? value : [value]);
+
+var shouldSubscribeByName = (name, signalName, exact) => !name ||
+    !signalName ||
+    name === signalName ||
+    convertToArrayPayload(name).some((currentName) => currentName &&
+        (exact
+            ? currentName === signalName
+            : currentName.startsWith(signalName) ||
+                signalName.startsWith(currentName)));
+
+function useSubscribe(props) {
+    const _props = React$1.useRef(props);
+    _props.current = props;
+    React$1.useEffect(() => {
+        const subscription = !props.disabled &&
+            _props.current.subject &&
+            _props.current.subject.subscribe({
+                next: _props.current.next,
+            });
+        return () => {
+            subscription && subscription.unsubscribe();
+        };
+    }, [props.disabled]);
+}
+
+/**
+ * This custom hook allows you to subscribe to each form state, and isolate the re-render at the custom hook level. It has its scope in terms of form state subscription, so it would not affect other useFormState and useForm. Using this hook can reduce the re-render impact on large and complex form application.
+ *
+ * @remarks
+ * [API](https://react-hook-form.com/docs/useformstate) • [Demo](https://codesandbox.io/s/useformstate-75xly)
+ *
+ * @param props - include options on specify fields to subscribe. {@link UseFormStateReturn}
+ *
+ * @example
+ * ```tsx
+ * function App() {
+ *   const { register, handleSubmit, control } = useForm({
+ *     defaultValues: {
+ *     firstName: "firstName"
+ *   }});
+ *   const { dirtyFields } = useFormState({
+ *     control
+ *   });
+ *   const onSubmit = (data) => console.log(data);
+ *
+ *   return (
+ *     <form onSubmit={handleSubmit(onSubmit)}>
+ *       <input {...register("firstName")} placeholder="First Name" />
+ *       {dirtyFields.firstName && <p>Field is dirty.</p>}
+ *       <input type="submit" />
+ *     </form>
+ *   );
+ * }
+ * ```
+ */
+function useFormState(props) {
+    const methods = useFormContext();
+    const { control = methods.control, disabled, name, exact } = props || {};
+    const [formState, updateFormState] = React$1.useState(control._formState);
+    const _mounted = React$1.useRef(true);
+    const _localProxyFormState = React$1.useRef({
+        isDirty: false,
+        isLoading: false,
+        dirtyFields: false,
+        touchedFields: false,
+        validatingFields: false,
+        isValidating: false,
+        isValid: false,
+        errors: false,
+    });
+    const _name = React$1.useRef(name);
+    _name.current = name;
+    useSubscribe({
+        disabled,
+        next: (value) => _mounted.current &&
+            shouldSubscribeByName(_name.current, value.name, exact) &&
+            shouldRenderFormState(value, _localProxyFormState.current, control._updateFormState) &&
+            updateFormState({
+                ...control._formState,
+                ...value,
+            }),
+        subject: control._subjects.state,
+    });
+    React$1.useEffect(() => {
+        _mounted.current = true;
+        _localProxyFormState.current.isValid && control._updateValid(true);
+        return () => {
+            _mounted.current = false;
+        };
+    }, [control]);
+    return getProxyFormState(formState, control, _localProxyFormState.current, false);
+}
+
+var isString = (value) => typeof value === 'string';
+
+var generateWatchOutput = (names, _names, formValues, isGlobal, defaultValue) => {
+    if (isString(names)) {
+        isGlobal && _names.watch.add(names);
+        return get(formValues, names, defaultValue);
+    }
+    if (Array.isArray(names)) {
+        return names.map((fieldName) => (isGlobal && _names.watch.add(fieldName), get(formValues, fieldName)));
+    }
+    isGlobal && (_names.watchAll = true);
+    return formValues;
+};
+
+/**
+ * Custom hook to subscribe to field change and isolate re-rendering at the component level.
+ *
+ * @remarks
+ *
+ * [API](https://react-hook-form.com/docs/usewatch) • [Demo](https://codesandbox.io/s/react-hook-form-v7-ts-usewatch-h9i5e)
+ *
+ * @example
+ * ```tsx
+ * const { control } = useForm();
+ * const values = useWatch({
+ *   name: "fieldName"
+ *   control,
+ * })
+ * ```
+ */
+function useWatch(props) {
+    const methods = useFormContext();
+    const { control = methods.control, name, defaultValue, disabled, exact, } = props || {};
+    const _name = React$1.useRef(name);
+    _name.current = name;
+    useSubscribe({
+        disabled,
+        subject: control._subjects.values,
+        next: (formState) => {
+            if (shouldSubscribeByName(_name.current, formState.name, exact)) {
+                updateValue(cloneObject(generateWatchOutput(_name.current, control._names, formState.values || control._formValues, false, defaultValue)));
+            }
+        },
+    });
+    const [value, updateValue] = React$1.useState(control._getWatch(name, defaultValue));
+    React$1.useEffect(() => control._removeUnmounted());
+    return value;
+}
+
+/**
+ * Custom hook to work with controlled component, this function provide you with both form and field level state. Re-render is isolated at the hook level.
+ *
+ * @remarks
+ * [API](https://react-hook-form.com/docs/usecontroller) • [Demo](https://codesandbox.io/s/usecontroller-0o8px)
+ *
+ * @param props - the path name to the form field value, and validation rules.
+ *
+ * @returns field properties, field and form state. {@link UseControllerReturn}
+ *
+ * @example
+ * ```tsx
+ * function Input(props) {
+ *   const { field, fieldState, formState } = useController(props);
+ *   return (
+ *     <div>
+ *       <input {...field} placeholder={props.name} />
+ *       <p>{fieldState.isTouched && "Touched"}</p>
+ *       <p>{formState.isSubmitted ? "submitted" : ""}</p>
+ *     </div>
+ *   );
+ * }
+ * ```
+ */
+function useController(props) {
+    const methods = useFormContext();
+    const { name, disabled, control = methods.control, shouldUnregister } = props;
+    const isArrayField = isNameInFieldArray(control._names.array, name);
+    const value = useWatch({
+        control,
+        name,
+        defaultValue: get(control._formValues, name, get(control._defaultValues, name, props.defaultValue)),
+        exact: true,
+    });
+    const formState = useFormState({
+        control,
+        name,
+        exact: true,
+    });
+    const _registerProps = React$1.useRef(control.register(name, {
+        ...props.rules,
+        value,
+        ...(isBoolean(props.disabled) ? { disabled: props.disabled } : {}),
+    }));
+    React$1.useEffect(() => {
+        const _shouldUnregisterField = control._options.shouldUnregister || shouldUnregister;
+        const updateMounted = (name, value) => {
+            const field = get(control._fields, name);
+            if (field && field._f) {
+                field._f.mount = value;
+            }
+        };
+        updateMounted(name, true);
+        if (_shouldUnregisterField) {
+            const value = cloneObject(get(control._options.defaultValues, name));
+            set(control._defaultValues, name, value);
+            if (isUndefined(get(control._formValues, name))) {
+                set(control._formValues, name, value);
+            }
+        }
+        return () => {
+            (isArrayField
+                ? _shouldUnregisterField && !control._state.action
+                : _shouldUnregisterField)
+                ? control.unregister(name)
+                : updateMounted(name, false);
+        };
+    }, [name, control, isArrayField, shouldUnregister]);
+    React$1.useEffect(() => {
+        if (get(control._fields, name)) {
+            control._updateDisabledField({
+                disabled,
+                fields: control._fields,
+                name,
+                value: get(control._fields, name)._f.value,
+            });
+        }
+    }, [disabled, name, control]);
+    return {
+        field: {
+            name,
+            value,
+            ...(isBoolean(disabled) || formState.disabled
+                ? { disabled: formState.disabled || disabled }
+                : {}),
+            onChange: React$1.useCallback((event) => _registerProps.current.onChange({
+                target: {
+                    value: getEventValue(event),
+                    name: name,
+                },
+                type: EVENTS.CHANGE,
+            }), [name]),
+            onBlur: React$1.useCallback(() => _registerProps.current.onBlur({
+                target: {
+                    value: get(control._formValues, name),
+                    name: name,
+                },
+                type: EVENTS.BLUR,
+            }), [name, control]),
+            ref: React$1.useCallback((elm) => {
+                const field = get(control._fields, name);
+                if (field && elm) {
+                    field._f.ref = {
+                        focus: () => elm.focus(),
+                        select: () => elm.select(),
+                        setCustomValidity: (message) => elm.setCustomValidity(message),
+                        reportValidity: () => elm.reportValidity(),
+                    };
+                }
+            }, [control._fields, name]),
+        },
+        formState,
+        fieldState: Object.defineProperties({}, {
+            invalid: {
+                enumerable: true,
+                get: () => !!get(formState.errors, name),
+            },
+            isDirty: {
+                enumerable: true,
+                get: () => !!get(formState.dirtyFields, name),
+            },
+            isTouched: {
+                enumerable: true,
+                get: () => !!get(formState.touchedFields, name),
+            },
+            isValidating: {
+                enumerable: true,
+                get: () => !!get(formState.validatingFields, name),
+            },
+            error: {
+                enumerable: true,
+                get: () => get(formState.errors, name),
+            },
+        }),
+    };
+}
+
+/**
+ * Component based on `useController` hook to work with controlled component.
+ *
+ * @remarks
+ * [API](https://react-hook-form.com/docs/usecontroller/controller) • [Demo](https://codesandbox.io/s/react-hook-form-v6-controller-ts-jwyzw) • [Video](https://www.youtube.com/watch?v=N2UNk_UCVyA)
+ *
+ * @param props - the path name to the form field value, and validation rules.
+ *
+ * @returns provide field handler functions, field and form state.
+ *
+ * @example
+ * ```tsx
+ * function App() {
+ *   const { control } = useForm<FormValues>({
+ *     defaultValues: {
+ *       test: ""
+ *     }
+ *   });
+ *
+ *   return (
+ *     <form>
+ *       <Controller
+ *         control={control}
+ *         name="test"
+ *         render={({ field: { onChange, onBlur, value, ref }, formState, fieldState }) => (
+ *           <>
+ *             <input
+ *               onChange={onChange} // send value to hook form
+ *               onBlur={onBlur} // notify when input is touched
+ *               value={value} // return updated value
+ *               ref={ref} // set ref for focus management
+ *             />
+ *             <p>{formState.isSubmitted ? "submitted" : ""}</p>
+ *             <p>{fieldState.isTouched ? "touched" : ""}</p>
+ *           </>
+ *         )}
+ *       />
+ *     </form>
+ *   );
+ * }
+ * ```
+ */
+const Controller = (props) => props.render(useController(props));
+
+var appendErrors = (name, validateAllFieldCriteria, errors, type, message) => validateAllFieldCriteria
+    ? {
+        ...errors[name],
+        types: {
+            ...(errors[name] && errors[name].types ? errors[name].types : {}),
+            [type]: message || true,
+        },
+    }
+    : {};
+
+var getValidationModes = (mode) => ({
+    isOnSubmit: !mode || mode === VALIDATION_MODE.onSubmit,
+    isOnBlur: mode === VALIDATION_MODE.onBlur,
+    isOnChange: mode === VALIDATION_MODE.onChange,
+    isOnAll: mode === VALIDATION_MODE.all,
+    isOnTouch: mode === VALIDATION_MODE.onTouched,
+});
+
+var isWatched = (name, _names, isBlurEvent) => !isBlurEvent &&
+    (_names.watchAll ||
+        _names.watch.has(name) ||
+        [..._names.watch].some((watchName) => name.startsWith(watchName) &&
+            /^\.\w+/.test(name.slice(watchName.length))));
+
+const iterateFieldsByAction = (fields, action, fieldsNames, abortEarly) => {
+    for (const key of fieldsNames || Object.keys(fields)) {
+        const field = get(fields, key);
+        if (field) {
+            const { _f, ...currentField } = field;
+            if (_f) {
+                if (_f.refs && _f.refs[0] && action(_f.refs[0], key) && !abortEarly) {
+                    return true;
+                }
+                else if (_f.ref && action(_f.ref, _f.name) && !abortEarly) {
+                    return true;
+                }
+                else {
+                    if (iterateFieldsByAction(currentField, action)) {
+                        break;
+                    }
+                }
+            }
+            else if (isObject$1(currentField)) {
+                if (iterateFieldsByAction(currentField, action)) {
+                    break;
+                }
+            }
+        }
+    }
+    return;
+};
+
+var updateFieldArrayRootError = (errors, error, name) => {
+    const fieldArrayErrors = convertToArrayPayload(get(errors, name));
+    set(fieldArrayErrors, 'root', error[name]);
+    set(errors, name, fieldArrayErrors);
+    return errors;
+};
+
+var isFileInput = (element) => element.type === 'file';
+
+var isFunction = (value) => typeof value === 'function';
+
+var isHTMLElement$2 = (value) => {
+    if (!isWeb) {
+        return false;
+    }
+    const owner = value ? value.ownerDocument : 0;
+    return (value instanceof
+        (owner && owner.defaultView ? owner.defaultView.HTMLElement : HTMLElement));
+};
+
+var isMessage = (value) => isString(value);
+
+var isRadioInput = (element) => element.type === 'radio';
+
+var isRegex = (value) => value instanceof RegExp;
+
+const defaultResult = {
+    value: false,
+    isValid: false,
+};
+const validResult = { value: true, isValid: true };
+var getCheckboxValue = (options) => {
+    if (Array.isArray(options)) {
+        if (options.length > 1) {
+            const values = options
+                .filter((option) => option && option.checked && !option.disabled)
+                .map((option) => option.value);
+            return { value: values, isValid: !!values.length };
+        }
+        return options[0].checked && !options[0].disabled
+            ? // @ts-expect-error expected to work in the browser
+                options[0].attributes && !isUndefined(options[0].attributes.value)
+                    ? isUndefined(options[0].value) || options[0].value === ''
+                        ? validResult
+                        : { value: options[0].value, isValid: true }
+                    : validResult
+            : defaultResult;
+    }
+    return defaultResult;
+};
+
+const defaultReturn = {
+    isValid: false,
+    value: null,
+};
+var getRadioValue = (options) => Array.isArray(options)
+    ? options.reduce((previous, option) => option && option.checked && !option.disabled
+        ? {
+            isValid: true,
+            value: option.value,
+        }
+        : previous, defaultReturn)
+    : defaultReturn;
+
+function getValidateError(result, ref, type = 'validate') {
+    if (isMessage(result) ||
+        (Array.isArray(result) && result.every(isMessage)) ||
+        (isBoolean(result) && !result)) {
+        return {
+            type,
+            message: isMessage(result) ? result : '',
+            ref,
+        };
+    }
+}
+
+var getValueAndMessage = (validationData) => isObject$1(validationData) && !isRegex(validationData)
+    ? validationData
+    : {
+        value: validationData,
+        message: '',
+    };
+
+var validateField = async (field, formValues, validateAllFieldCriteria, shouldUseNativeValidation, isFieldArray) => {
+    const { ref, refs, required, maxLength, minLength, min, max, pattern, validate, name, valueAsNumber, mount, disabled, } = field._f;
+    const inputValue = get(formValues, name);
+    if (!mount || disabled) {
+        return {};
+    }
+    const inputRef = refs ? refs[0] : ref;
+    const setCustomValidity = (message) => {
+        if (shouldUseNativeValidation && inputRef.reportValidity) {
+            inputRef.setCustomValidity(isBoolean(message) ? '' : message || '');
+            inputRef.reportValidity();
+        }
+    };
+    const error = {};
+    const isRadio = isRadioInput(ref);
+    const isCheckBox = isCheckBoxInput(ref);
+    const isRadioOrCheckbox = isRadio || isCheckBox;
+    const isEmpty = ((valueAsNumber || isFileInput(ref)) &&
+        isUndefined(ref.value) &&
+        isUndefined(inputValue)) ||
+        (isHTMLElement$2(ref) && ref.value === '') ||
+        inputValue === '' ||
+        (Array.isArray(inputValue) && !inputValue.length);
+    const appendErrorsCurry = appendErrors.bind(null, name, validateAllFieldCriteria, error);
+    const getMinMaxMessage = (exceedMax, maxLengthMessage, minLengthMessage, maxType = INPUT_VALIDATION_RULES.maxLength, minType = INPUT_VALIDATION_RULES.minLength) => {
+        const message = exceedMax ? maxLengthMessage : minLengthMessage;
+        error[name] = {
+            type: exceedMax ? maxType : minType,
+            message,
+            ref,
+            ...appendErrorsCurry(exceedMax ? maxType : minType, message),
+        };
+    };
+    if (isFieldArray
+        ? !Array.isArray(inputValue) || !inputValue.length
+        : required &&
+            ((!isRadioOrCheckbox && (isEmpty || isNullOrUndefined(inputValue))) ||
+                (isBoolean(inputValue) && !inputValue) ||
+                (isCheckBox && !getCheckboxValue(refs).isValid) ||
+                (isRadio && !getRadioValue(refs).isValid))) {
+        const { value, message } = isMessage(required)
+            ? { value: !!required, message: required }
+            : getValueAndMessage(required);
+        if (value) {
+            error[name] = {
+                type: INPUT_VALIDATION_RULES.required,
+                message,
+                ref: inputRef,
+                ...appendErrorsCurry(INPUT_VALIDATION_RULES.required, message),
+            };
+            if (!validateAllFieldCriteria) {
+                setCustomValidity(message);
+                return error;
+            }
+        }
+    }
+    if (!isEmpty && (!isNullOrUndefined(min) || !isNullOrUndefined(max))) {
+        let exceedMax;
+        let exceedMin;
+        const maxOutput = getValueAndMessage(max);
+        const minOutput = getValueAndMessage(min);
+        if (!isNullOrUndefined(inputValue) && !isNaN(inputValue)) {
+            const valueNumber = ref.valueAsNumber ||
+                (inputValue ? +inputValue : inputValue);
+            if (!isNullOrUndefined(maxOutput.value)) {
+                exceedMax = valueNumber > maxOutput.value;
+            }
+            if (!isNullOrUndefined(minOutput.value)) {
+                exceedMin = valueNumber < minOutput.value;
+            }
+        }
+        else {
+            const valueDate = ref.valueAsDate || new Date(inputValue);
+            const convertTimeToDate = (time) => new Date(new Date().toDateString() + ' ' + time);
+            const isTime = ref.type == 'time';
+            const isWeek = ref.type == 'week';
+            if (isString(maxOutput.value) && inputValue) {
+                exceedMax = isTime
+                    ? convertTimeToDate(inputValue) > convertTimeToDate(maxOutput.value)
+                    : isWeek
+                        ? inputValue > maxOutput.value
+                        : valueDate > new Date(maxOutput.value);
+            }
+            if (isString(minOutput.value) && inputValue) {
+                exceedMin = isTime
+                    ? convertTimeToDate(inputValue) < convertTimeToDate(minOutput.value)
+                    : isWeek
+                        ? inputValue < minOutput.value
+                        : valueDate < new Date(minOutput.value);
+            }
+        }
+        if (exceedMax || exceedMin) {
+            getMinMaxMessage(!!exceedMax, maxOutput.message, minOutput.message, INPUT_VALIDATION_RULES.max, INPUT_VALIDATION_RULES.min);
+            if (!validateAllFieldCriteria) {
+                setCustomValidity(error[name].message);
+                return error;
+            }
+        }
+    }
+    if ((maxLength || minLength) &&
+        !isEmpty &&
+        (isString(inputValue) || (isFieldArray && Array.isArray(inputValue)))) {
+        const maxLengthOutput = getValueAndMessage(maxLength);
+        const minLengthOutput = getValueAndMessage(minLength);
+        const exceedMax = !isNullOrUndefined(maxLengthOutput.value) &&
+            inputValue.length > +maxLengthOutput.value;
+        const exceedMin = !isNullOrUndefined(minLengthOutput.value) &&
+            inputValue.length < +minLengthOutput.value;
+        if (exceedMax || exceedMin) {
+            getMinMaxMessage(exceedMax, maxLengthOutput.message, minLengthOutput.message);
+            if (!validateAllFieldCriteria) {
+                setCustomValidity(error[name].message);
+                return error;
+            }
+        }
+    }
+    if (pattern && !isEmpty && isString(inputValue)) {
+        const { value: patternValue, message } = getValueAndMessage(pattern);
+        if (isRegex(patternValue) && !inputValue.match(patternValue)) {
+            error[name] = {
+                type: INPUT_VALIDATION_RULES.pattern,
+                message,
+                ref,
+                ...appendErrorsCurry(INPUT_VALIDATION_RULES.pattern, message),
+            };
+            if (!validateAllFieldCriteria) {
+                setCustomValidity(message);
+                return error;
+            }
+        }
+    }
+    if (validate) {
+        if (isFunction(validate)) {
+            const result = await validate(inputValue, formValues);
+            const validateError = getValidateError(result, inputRef);
+            if (validateError) {
+                error[name] = {
+                    ...validateError,
+                    ...appendErrorsCurry(INPUT_VALIDATION_RULES.validate, validateError.message),
+                };
+                if (!validateAllFieldCriteria) {
+                    setCustomValidity(validateError.message);
+                    return error;
+                }
+            }
+        }
+        else if (isObject$1(validate)) {
+            let validationResult = {};
+            for (const key in validate) {
+                if (!isEmptyObject(validationResult) && !validateAllFieldCriteria) {
+                    break;
+                }
+                const validateError = getValidateError(await validate[key](inputValue, formValues), inputRef, key);
+                if (validateError) {
+                    validationResult = {
+                        ...validateError,
+                        ...appendErrorsCurry(key, validateError.message),
+                    };
+                    setCustomValidity(validateError.message);
+                    if (validateAllFieldCriteria) {
+                        error[name] = validationResult;
+                    }
+                }
+            }
+            if (!isEmptyObject(validationResult)) {
+                error[name] = {
+                    ref: inputRef,
+                    ...validationResult,
+                };
+                if (!validateAllFieldCriteria) {
+                    return error;
+                }
+            }
+        }
+    }
+    setCustomValidity(true);
+    return error;
+};
+
+function baseGet(object, updatePath) {
+    const length = updatePath.slice(0, -1).length;
+    let index = 0;
+    while (index < length) {
+        object = isUndefined(object) ? index++ : object[updatePath[index++]];
+    }
+    return object;
+}
+function isEmptyArray(obj) {
+    for (const key in obj) {
+        if (obj.hasOwnProperty(key) && !isUndefined(obj[key])) {
+            return false;
+        }
+    }
+    return true;
+}
+function unset(object, path) {
+    const paths = Array.isArray(path)
+        ? path
+        : isKey(path)
+            ? [path]
+            : stringToPath(path);
+    const childObject = paths.length === 1 ? object : baseGet(object, paths);
+    const index = paths.length - 1;
+    const key = paths[index];
+    if (childObject) {
+        delete childObject[key];
+    }
+    if (index !== 0 &&
+        ((isObject$1(childObject) && isEmptyObject(childObject)) ||
+            (Array.isArray(childObject) && isEmptyArray(childObject)))) {
+        unset(object, paths.slice(0, -1));
+    }
+    return object;
+}
+
+var createSubject = () => {
+    let _observers = [];
+    const next = (value) => {
+        for (const observer of _observers) {
+            observer.next && observer.next(value);
+        }
+    };
+    const subscribe = (observer) => {
+        _observers.push(observer);
+        return {
+            unsubscribe: () => {
+                _observers = _observers.filter((o) => o !== observer);
+            },
+        };
+    };
+    const unsubscribe = () => {
+        _observers = [];
+    };
+    return {
+        get observers() {
+            return _observers;
+        },
+        next,
+        subscribe,
+        unsubscribe,
+    };
+};
+
+var isPrimitive = (value) => isNullOrUndefined(value) || !isObjectType(value);
+
+function deepEqual(object1, object2) {
+    if (isPrimitive(object1) || isPrimitive(object2)) {
+        return object1 === object2;
+    }
+    if (isDateObject(object1) && isDateObject(object2)) {
+        return object1.getTime() === object2.getTime();
+    }
+    const keys1 = Object.keys(object1);
+    const keys2 = Object.keys(object2);
+    if (keys1.length !== keys2.length) {
+        return false;
+    }
+    for (const key of keys1) {
+        const val1 = object1[key];
+        if (!keys2.includes(key)) {
+            return false;
+        }
+        if (key !== 'ref') {
+            const val2 = object2[key];
+            if ((isDateObject(val1) && isDateObject(val2)) ||
+                (isObject$1(val1) && isObject$1(val2)) ||
+                (Array.isArray(val1) && Array.isArray(val2))
+                ? !deepEqual(val1, val2)
+                : val1 !== val2) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+var isMultipleSelect = (element) => element.type === `select-multiple`;
+
+var isRadioOrCheckbox = (ref) => isRadioInput(ref) || isCheckBoxInput(ref);
+
+var live = (ref) => isHTMLElement$2(ref) && ref.isConnected;
+
+var objectHasFunction = (data) => {
+    for (const key in data) {
+        if (isFunction(data[key])) {
+            return true;
+        }
+    }
+    return false;
+};
+
+function markFieldsDirty(data, fields = {}) {
+    const isParentNodeArray = Array.isArray(data);
+    if (isObject$1(data) || isParentNodeArray) {
+        for (const key in data) {
+            if (Array.isArray(data[key]) ||
+                (isObject$1(data[key]) && !objectHasFunction(data[key]))) {
+                fields[key] = Array.isArray(data[key]) ? [] : {};
+                markFieldsDirty(data[key], fields[key]);
+            }
+            else if (!isNullOrUndefined(data[key])) {
+                fields[key] = true;
+            }
+        }
+    }
+    return fields;
+}
+function getDirtyFieldsFromDefaultValues(data, formValues, dirtyFieldsFromValues) {
+    const isParentNodeArray = Array.isArray(data);
+    if (isObject$1(data) || isParentNodeArray) {
+        for (const key in data) {
+            if (Array.isArray(data[key]) ||
+                (isObject$1(data[key]) && !objectHasFunction(data[key]))) {
+                if (isUndefined(formValues) ||
+                    isPrimitive(dirtyFieldsFromValues[key])) {
+                    dirtyFieldsFromValues[key] = Array.isArray(data[key])
+                        ? markFieldsDirty(data[key], [])
+                        : { ...markFieldsDirty(data[key]) };
+                }
+                else {
+                    getDirtyFieldsFromDefaultValues(data[key], isNullOrUndefined(formValues) ? {} : formValues[key], dirtyFieldsFromValues[key]);
+                }
+            }
+            else {
+                dirtyFieldsFromValues[key] = !deepEqual(data[key], formValues[key]);
+            }
+        }
+    }
+    return dirtyFieldsFromValues;
+}
+var getDirtyFields = (defaultValues, formValues) => getDirtyFieldsFromDefaultValues(defaultValues, formValues, markFieldsDirty(formValues));
+
+var getFieldValueAs = (value, { valueAsNumber, valueAsDate, setValueAs }) => isUndefined(value)
+    ? value
+    : valueAsNumber
+        ? value === ''
+            ? NaN
+            : value
+                ? +value
+                : value
+        : valueAsDate && isString(value)
+            ? new Date(value)
+            : setValueAs
+                ? setValueAs(value)
+                : value;
+
+function getFieldValue(_f) {
+    const ref = _f.ref;
+    if (_f.refs ? _f.refs.every((ref) => ref.disabled) : ref.disabled) {
+        return;
+    }
+    if (isFileInput(ref)) {
+        return ref.files;
+    }
+    if (isRadioInput(ref)) {
+        return getRadioValue(_f.refs).value;
+    }
+    if (isMultipleSelect(ref)) {
+        return [...ref.selectedOptions].map(({ value }) => value);
+    }
+    if (isCheckBoxInput(ref)) {
+        return getCheckboxValue(_f.refs).value;
+    }
+    return getFieldValueAs(isUndefined(ref.value) ? _f.ref.value : ref.value, _f);
+}
+
+var getResolverOptions = (fieldsNames, _fields, criteriaMode, shouldUseNativeValidation) => {
+    const fields = {};
+    for (const name of fieldsNames) {
+        const field = get(_fields, name);
+        field && set(fields, name, field._f);
+    }
+    return {
+        criteriaMode,
+        names: [...fieldsNames],
+        fields,
+        shouldUseNativeValidation,
+    };
+};
+
+var getRuleValue = (rule) => isUndefined(rule)
+    ? rule
+    : isRegex(rule)
+        ? rule.source
+        : isObject$1(rule)
+            ? isRegex(rule.value)
+                ? rule.value.source
+                : rule.value
+            : rule;
+
+const ASYNC_FUNCTION = 'AsyncFunction';
+var hasPromiseValidation = (fieldReference) => (!fieldReference || !fieldReference.validate) &&
+    !!((isFunction(fieldReference.validate) &&
+        fieldReference.validate.constructor.name === ASYNC_FUNCTION) ||
+        (isObject$1(fieldReference.validate) &&
+            Object.values(fieldReference.validate).find((validateFunction) => validateFunction.constructor.name === ASYNC_FUNCTION)));
+
+var hasValidation = (options) => options.mount &&
+    (options.required ||
+        options.min ||
+        options.max ||
+        options.maxLength ||
+        options.minLength ||
+        options.pattern ||
+        options.validate);
+
+function schemaErrorLookup(errors, _fields, name) {
+    const error = get(errors, name);
+    if (error || isKey(name)) {
+        return {
+            error,
+            name,
+        };
+    }
+    const names = name.split('.');
+    while (names.length) {
+        const fieldName = names.join('.');
+        const field = get(_fields, fieldName);
+        const foundError = get(errors, fieldName);
+        if (field && !Array.isArray(field) && name !== fieldName) {
+            return { name };
+        }
+        if (foundError && foundError.type) {
+            return {
+                name: fieldName,
+                error: foundError,
+            };
+        }
+        names.pop();
+    }
+    return {
+        name,
+    };
+}
+
+var skipValidation = (isBlurEvent, isTouched, isSubmitted, reValidateMode, mode) => {
+    if (mode.isOnAll) {
+        return false;
+    }
+    else if (!isSubmitted && mode.isOnTouch) {
+        return !(isTouched || isBlurEvent);
+    }
+    else if (isSubmitted ? reValidateMode.isOnBlur : mode.isOnBlur) {
+        return !isBlurEvent;
+    }
+    else if (isSubmitted ? reValidateMode.isOnChange : mode.isOnChange) {
+        return isBlurEvent;
+    }
+    return true;
+};
+
+var unsetEmptyArray = (ref, name) => !compact(get(ref, name)).length && unset(ref, name);
+
+const defaultOptions = {
+    mode: VALIDATION_MODE.onSubmit,
+    reValidateMode: VALIDATION_MODE.onChange,
+    shouldFocusError: true,
+};
+function createFormControl(props = {}) {
+    let _options = {
+        ...defaultOptions,
+        ...props,
+    };
+    let _formState = {
+        submitCount: 0,
+        isDirty: false,
+        isLoading: isFunction(_options.defaultValues),
+        isValidating: false,
+        isSubmitted: false,
+        isSubmitting: false,
+        isSubmitSuccessful: false,
+        isValid: false,
+        touchedFields: {},
+        dirtyFields: {},
+        validatingFields: {},
+        errors: _options.errors || {},
+        disabled: _options.disabled || false,
+    };
+    let _fields = {};
+    let _defaultValues = isObject$1(_options.defaultValues) || isObject$1(_options.values)
+        ? cloneObject(_options.defaultValues || _options.values) || {}
+        : {};
+    let _formValues = _options.shouldUnregister
+        ? {}
+        : cloneObject(_defaultValues);
+    let _state = {
+        action: false,
+        mount: false,
+        watch: false,
+    };
+    let _names = {
+        mount: new Set(),
+        unMount: new Set(),
+        array: new Set(),
+        watch: new Set(),
+    };
+    let delayErrorCallback;
+    let timer = 0;
+    const _proxyFormState = {
+        isDirty: false,
+        dirtyFields: false,
+        validatingFields: false,
+        touchedFields: false,
+        isValidating: false,
+        isValid: false,
+        errors: false,
+    };
+    const _subjects = {
+        values: createSubject(),
+        array: createSubject(),
+        state: createSubject(),
+    };
+    const validationModeBeforeSubmit = getValidationModes(_options.mode);
+    const validationModeAfterSubmit = getValidationModes(_options.reValidateMode);
+    const shouldDisplayAllAssociatedErrors = _options.criteriaMode === VALIDATION_MODE.all;
+    const debounce = (callback) => (wait) => {
+        clearTimeout(timer);
+        timer = setTimeout(callback, wait);
+    };
+    const _updateValid = async (shouldUpdateValid) => {
+        if (_proxyFormState.isValid || shouldUpdateValid) {
+            const isValid = _options.resolver
+                ? isEmptyObject((await _executeSchema()).errors)
+                : await executeBuiltInValidation(_fields, true);
+            if (isValid !== _formState.isValid) {
+                _subjects.state.next({
+                    isValid,
+                });
+            }
+        }
+    };
+    const _updateIsValidating = (names, isValidating) => {
+        if (_proxyFormState.isValidating || _proxyFormState.validatingFields) {
+            (names || Array.from(_names.mount)).forEach((name) => {
+                if (name) {
+                    isValidating
+                        ? set(_formState.validatingFields, name, isValidating)
+                        : unset(_formState.validatingFields, name);
+                }
+            });
+            _subjects.state.next({
+                validatingFields: _formState.validatingFields,
+                isValidating: !isEmptyObject(_formState.validatingFields),
+            });
+        }
+    };
+    const _updateFieldArray = (name, values = [], method, args, shouldSetValues = true, shouldUpdateFieldsAndState = true) => {
+        if (args && method) {
+            _state.action = true;
+            if (shouldUpdateFieldsAndState && Array.isArray(get(_fields, name))) {
+                const fieldValues = method(get(_fields, name), args.argA, args.argB);
+                shouldSetValues && set(_fields, name, fieldValues);
+            }
+            if (shouldUpdateFieldsAndState &&
+                Array.isArray(get(_formState.errors, name))) {
+                const errors = method(get(_formState.errors, name), args.argA, args.argB);
+                shouldSetValues && set(_formState.errors, name, errors);
+                unsetEmptyArray(_formState.errors, name);
+            }
+            if (_proxyFormState.touchedFields &&
+                shouldUpdateFieldsAndState &&
+                Array.isArray(get(_formState.touchedFields, name))) {
+                const touchedFields = method(get(_formState.touchedFields, name), args.argA, args.argB);
+                shouldSetValues && set(_formState.touchedFields, name, touchedFields);
+            }
+            if (_proxyFormState.dirtyFields) {
+                _formState.dirtyFields = getDirtyFields(_defaultValues, _formValues);
+            }
+            _subjects.state.next({
+                name,
+                isDirty: _getDirty(name, values),
+                dirtyFields: _formState.dirtyFields,
+                errors: _formState.errors,
+                isValid: _formState.isValid,
+            });
+        }
+        else {
+            set(_formValues, name, values);
+        }
+    };
+    const updateErrors = (name, error) => {
+        set(_formState.errors, name, error);
+        _subjects.state.next({
+            errors: _formState.errors,
+        });
+    };
+    const _setErrors = (errors) => {
+        _formState.errors = errors;
+        _subjects.state.next({
+            errors: _formState.errors,
+            isValid: false,
+        });
+    };
+    const updateValidAndValue = (name, shouldSkipSetValueAs, value, ref) => {
+        const field = get(_fields, name);
+        if (field) {
+            const defaultValue = get(_formValues, name, isUndefined(value) ? get(_defaultValues, name) : value);
+            isUndefined(defaultValue) ||
+                (ref && ref.defaultChecked) ||
+                shouldSkipSetValueAs
+                ? set(_formValues, name, shouldSkipSetValueAs ? defaultValue : getFieldValue(field._f))
+                : setFieldValue(name, defaultValue);
+            _state.mount && _updateValid();
+        }
+    };
+    const updateTouchAndDirty = (name, fieldValue, isBlurEvent, shouldDirty, shouldRender) => {
+        let shouldUpdateField = false;
+        let isPreviousDirty = false;
+        const output = {
+            name,
+        };
+        const disabledField = !!(get(_fields, name) &&
+            get(_fields, name)._f &&
+            get(_fields, name)._f.disabled);
+        if (!isBlurEvent || shouldDirty) {
+            if (_proxyFormState.isDirty) {
+                isPreviousDirty = _formState.isDirty;
+                _formState.isDirty = output.isDirty = _getDirty();
+                shouldUpdateField = isPreviousDirty !== output.isDirty;
+            }
+            const isCurrentFieldPristine = disabledField || deepEqual(get(_defaultValues, name), fieldValue);
+            isPreviousDirty = !!(!disabledField && get(_formState.dirtyFields, name));
+            isCurrentFieldPristine || disabledField
+                ? unset(_formState.dirtyFields, name)
+                : set(_formState.dirtyFields, name, true);
+            output.dirtyFields = _formState.dirtyFields;
+            shouldUpdateField =
+                shouldUpdateField ||
+                    (_proxyFormState.dirtyFields &&
+                        isPreviousDirty !== !isCurrentFieldPristine);
+        }
+        if (isBlurEvent) {
+            const isPreviousFieldTouched = get(_formState.touchedFields, name);
+            if (!isPreviousFieldTouched) {
+                set(_formState.touchedFields, name, isBlurEvent);
+                output.touchedFields = _formState.touchedFields;
+                shouldUpdateField =
+                    shouldUpdateField ||
+                        (_proxyFormState.touchedFields &&
+                            isPreviousFieldTouched !== isBlurEvent);
+            }
+        }
+        shouldUpdateField && shouldRender && _subjects.state.next(output);
+        return shouldUpdateField ? output : {};
+    };
+    const shouldRenderByError = (name, isValid, error, fieldState) => {
+        const previousFieldError = get(_formState.errors, name);
+        const shouldUpdateValid = _proxyFormState.isValid &&
+            isBoolean(isValid) &&
+            _formState.isValid !== isValid;
+        if (props.delayError && error) {
+            delayErrorCallback = debounce(() => updateErrors(name, error));
+            delayErrorCallback(props.delayError);
+        }
+        else {
+            clearTimeout(timer);
+            delayErrorCallback = null;
+            error
+                ? set(_formState.errors, name, error)
+                : unset(_formState.errors, name);
+        }
+        if ((error ? !deepEqual(previousFieldError, error) : previousFieldError) ||
+            !isEmptyObject(fieldState) ||
+            shouldUpdateValid) {
+            const updatedFormState = {
+                ...fieldState,
+                ...(shouldUpdateValid && isBoolean(isValid) ? { isValid } : {}),
+                errors: _formState.errors,
+                name,
+            };
+            _formState = {
+                ..._formState,
+                ...updatedFormState,
+            };
+            _subjects.state.next(updatedFormState);
+        }
+    };
+    const _executeSchema = async (name) => {
+        _updateIsValidating(name, true);
+        const result = await _options.resolver(_formValues, _options.context, getResolverOptions(name || _names.mount, _fields, _options.criteriaMode, _options.shouldUseNativeValidation));
+        _updateIsValidating(name);
+        return result;
+    };
+    const executeSchemaAndUpdateState = async (names) => {
+        const { errors } = await _executeSchema(names);
+        if (names) {
+            for (const name of names) {
+                const error = get(errors, name);
+                error
+                    ? set(_formState.errors, name, error)
+                    : unset(_formState.errors, name);
+            }
+        }
+        else {
+            _formState.errors = errors;
+        }
+        return errors;
+    };
+    const executeBuiltInValidation = async (fields, shouldOnlyCheckValid, context = {
+        valid: true,
+    }) => {
+        for (const name in fields) {
+            const field = fields[name];
+            if (field) {
+                const { _f, ...fieldValue } = field;
+                if (_f) {
+                    const isFieldArrayRoot = _names.array.has(_f.name);
+                    const isPromiseFunction = field._f && hasPromiseValidation(field._f);
+                    if (isPromiseFunction && _proxyFormState.validatingFields) {
+                        _updateIsValidating([name], true);
+                    }
+                    const fieldError = await validateField(field, _formValues, shouldDisplayAllAssociatedErrors, _options.shouldUseNativeValidation && !shouldOnlyCheckValid, isFieldArrayRoot);
+                    if (isPromiseFunction && _proxyFormState.validatingFields) {
+                        _updateIsValidating([name]);
+                    }
+                    if (fieldError[_f.name]) {
+                        context.valid = false;
+                        if (shouldOnlyCheckValid) {
+                            break;
+                        }
+                    }
+                    !shouldOnlyCheckValid &&
+                        (get(fieldError, _f.name)
+                            ? isFieldArrayRoot
+                                ? updateFieldArrayRootError(_formState.errors, fieldError, _f.name)
+                                : set(_formState.errors, _f.name, fieldError[_f.name])
+                            : unset(_formState.errors, _f.name));
+                }
+                !isEmptyObject(fieldValue) &&
+                    (await executeBuiltInValidation(fieldValue, shouldOnlyCheckValid, context));
+            }
+        }
+        return context.valid;
+    };
+    const _removeUnmounted = () => {
+        for (const name of _names.unMount) {
+            const field = get(_fields, name);
+            field &&
+                (field._f.refs
+                    ? field._f.refs.every((ref) => !live(ref))
+                    : !live(field._f.ref)) &&
+                unregister(name);
+        }
+        _names.unMount = new Set();
+    };
+    const _getDirty = (name, data) => (name && data && set(_formValues, name, data),
+        !deepEqual(getValues(), _defaultValues));
+    const _getWatch = (names, defaultValue, isGlobal) => generateWatchOutput(names, _names, {
+        ...(_state.mount
+            ? _formValues
+            : isUndefined(defaultValue)
+                ? _defaultValues
+                : isString(names)
+                    ? { [names]: defaultValue }
+                    : defaultValue),
+    }, isGlobal, defaultValue);
+    const _getFieldArray = (name) => compact(get(_state.mount ? _formValues : _defaultValues, name, props.shouldUnregister ? get(_defaultValues, name, []) : []));
+    const setFieldValue = (name, value, options = {}) => {
+        const field = get(_fields, name);
+        let fieldValue = value;
+        if (field) {
+            const fieldReference = field._f;
+            if (fieldReference) {
+                !fieldReference.disabled &&
+                    set(_formValues, name, getFieldValueAs(value, fieldReference));
+                fieldValue =
+                    isHTMLElement$2(fieldReference.ref) && isNullOrUndefined(value)
+                        ? ''
+                        : value;
+                if (isMultipleSelect(fieldReference.ref)) {
+                    [...fieldReference.ref.options].forEach((optionRef) => (optionRef.selected = fieldValue.includes(optionRef.value)));
+                }
+                else if (fieldReference.refs) {
+                    if (isCheckBoxInput(fieldReference.ref)) {
+                        fieldReference.refs.length > 1
+                            ? fieldReference.refs.forEach((checkboxRef) => (!checkboxRef.defaultChecked || !checkboxRef.disabled) &&
+                                (checkboxRef.checked = Array.isArray(fieldValue)
+                                    ? !!fieldValue.find((data) => data === checkboxRef.value)
+                                    : fieldValue === checkboxRef.value))
+                            : fieldReference.refs[0] &&
+                                (fieldReference.refs[0].checked = !!fieldValue);
+                    }
+                    else {
+                        fieldReference.refs.forEach((radioRef) => (radioRef.checked = radioRef.value === fieldValue));
+                    }
+                }
+                else if (isFileInput(fieldReference.ref)) {
+                    fieldReference.ref.value = '';
+                }
+                else {
+                    fieldReference.ref.value = fieldValue;
+                    if (!fieldReference.ref.type) {
+                        _subjects.values.next({
+                            name,
+                            values: { ..._formValues },
+                        });
+                    }
+                }
+            }
+        }
+        (options.shouldDirty || options.shouldTouch) &&
+            updateTouchAndDirty(name, fieldValue, options.shouldTouch, options.shouldDirty, true);
+        options.shouldValidate && trigger(name);
+    };
+    const setValues = (name, value, options) => {
+        for (const fieldKey in value) {
+            const fieldValue = value[fieldKey];
+            const fieldName = `${name}.${fieldKey}`;
+            const field = get(_fields, fieldName);
+            (_names.array.has(name) ||
+                !isPrimitive(fieldValue) ||
+                (field && !field._f)) &&
+                !isDateObject(fieldValue)
+                ? setValues(fieldName, fieldValue, options)
+                : setFieldValue(fieldName, fieldValue, options);
+        }
+    };
+    const setValue = (name, value, options = {}) => {
+        const field = get(_fields, name);
+        const isFieldArray = _names.array.has(name);
+        const cloneValue = cloneObject(value);
+        set(_formValues, name, cloneValue);
+        if (isFieldArray) {
+            _subjects.array.next({
+                name,
+                values: { ..._formValues },
+            });
+            if ((_proxyFormState.isDirty || _proxyFormState.dirtyFields) &&
+                options.shouldDirty) {
+                _subjects.state.next({
+                    name,
+                    dirtyFields: getDirtyFields(_defaultValues, _formValues),
+                    isDirty: _getDirty(name, cloneValue),
+                });
+            }
+        }
+        else {
+            field && !field._f && !isNullOrUndefined(cloneValue)
+                ? setValues(name, cloneValue, options)
+                : setFieldValue(name, cloneValue, options);
+        }
+        isWatched(name, _names) && _subjects.state.next({ ..._formState });
+        _subjects.values.next({
+            name: _state.mount ? name : undefined,
+            values: { ..._formValues },
+        });
+    };
+    const onChange = async (event) => {
+        _state.mount = true;
+        const target = event.target;
+        let name = target.name;
+        let isFieldValueUpdated = true;
+        const field = get(_fields, name);
+        const getCurrentFieldValue = () => target.type ? getFieldValue(field._f) : getEventValue(event);
+        const _updateIsFieldValueUpdated = (fieldValue) => {
+            isFieldValueUpdated =
+                Number.isNaN(fieldValue) ||
+                    deepEqual(fieldValue, get(_formValues, name, fieldValue));
+        };
+        if (field) {
+            let error;
+            let isValid;
+            const fieldValue = getCurrentFieldValue();
+            const isBlurEvent = event.type === EVENTS.BLUR || event.type === EVENTS.FOCUS_OUT;
+            const shouldSkipValidation = (!hasValidation(field._f) &&
+                !_options.resolver &&
+                !get(_formState.errors, name) &&
+                !field._f.deps) ||
+                skipValidation(isBlurEvent, get(_formState.touchedFields, name), _formState.isSubmitted, validationModeAfterSubmit, validationModeBeforeSubmit);
+            const watched = isWatched(name, _names, isBlurEvent);
+            set(_formValues, name, fieldValue);
+            if (isBlurEvent) {
+                field._f.onBlur && field._f.onBlur(event);
+                delayErrorCallback && delayErrorCallback(0);
+            }
+            else if (field._f.onChange) {
+                field._f.onChange(event);
+            }
+            const fieldState = updateTouchAndDirty(name, fieldValue, isBlurEvent, false);
+            const shouldRender = !isEmptyObject(fieldState) || watched;
+            !isBlurEvent &&
+                _subjects.values.next({
+                    name,
+                    type: event.type,
+                    values: { ..._formValues },
+                });
+            if (shouldSkipValidation) {
+                if (_proxyFormState.isValid) {
+                    if (props.mode === 'onBlur') {
+                        if (isBlurEvent) {
+                            _updateValid();
+                        }
+                    }
+                    else {
+                        _updateValid();
+                    }
+                }
+                return (shouldRender &&
+                    _subjects.state.next({ name, ...(watched ? {} : fieldState) }));
+            }
+            !isBlurEvent && watched && _subjects.state.next({ ..._formState });
+            if (_options.resolver) {
+                const { errors } = await _executeSchema([name]);
+                _updateIsFieldValueUpdated(fieldValue);
+                if (isFieldValueUpdated) {
+                    const previousErrorLookupResult = schemaErrorLookup(_formState.errors, _fields, name);
+                    const errorLookupResult = schemaErrorLookup(errors, _fields, previousErrorLookupResult.name || name);
+                    error = errorLookupResult.error;
+                    name = errorLookupResult.name;
+                    isValid = isEmptyObject(errors);
+                }
+            }
+            else {
+                _updateIsValidating([name], true);
+                error = (await validateField(field, _formValues, shouldDisplayAllAssociatedErrors, _options.shouldUseNativeValidation))[name];
+                _updateIsValidating([name]);
+                _updateIsFieldValueUpdated(fieldValue);
+                if (isFieldValueUpdated) {
+                    if (error) {
+                        isValid = false;
+                    }
+                    else if (_proxyFormState.isValid) {
+                        isValid = await executeBuiltInValidation(_fields, true);
+                    }
+                }
+            }
+            if (isFieldValueUpdated) {
+                field._f.deps &&
+                    trigger(field._f.deps);
+                shouldRenderByError(name, isValid, error, fieldState);
+            }
+        }
+    };
+    const _focusInput = (ref, key) => {
+        if (get(_formState.errors, key) && ref.focus) {
+            ref.focus();
+            return 1;
+        }
+        return;
+    };
+    const trigger = async (name, options = {}) => {
+        let isValid;
+        let validationResult;
+        const fieldNames = convertToArrayPayload(name);
+        if (_options.resolver) {
+            const errors = await executeSchemaAndUpdateState(isUndefined(name) ? name : fieldNames);
+            isValid = isEmptyObject(errors);
+            validationResult = name
+                ? !fieldNames.some((name) => get(errors, name))
+                : isValid;
+        }
+        else if (name) {
+            validationResult = (await Promise.all(fieldNames.map(async (fieldName) => {
+                const field = get(_fields, fieldName);
+                return await executeBuiltInValidation(field && field._f ? { [fieldName]: field } : field);
+            }))).every(Boolean);
+            !(!validationResult && !_formState.isValid) && _updateValid();
+        }
+        else {
+            validationResult = isValid = await executeBuiltInValidation(_fields);
+        }
+        _subjects.state.next({
+            ...(!isString(name) ||
+                (_proxyFormState.isValid && isValid !== _formState.isValid)
+                ? {}
+                : { name }),
+            ...(_options.resolver || !name ? { isValid } : {}),
+            errors: _formState.errors,
+        });
+        options.shouldFocus &&
+            !validationResult &&
+            iterateFieldsByAction(_fields, _focusInput, name ? fieldNames : _names.mount);
+        return validationResult;
+    };
+    const getValues = (fieldNames) => {
+        const values = {
+            ...(_state.mount ? _formValues : _defaultValues),
+        };
+        return isUndefined(fieldNames)
+            ? values
+            : isString(fieldNames)
+                ? get(values, fieldNames)
+                : fieldNames.map((name) => get(values, name));
+    };
+    const getFieldState = (name, formState) => ({
+        invalid: !!get((formState || _formState).errors, name),
+        isDirty: !!get((formState || _formState).dirtyFields, name),
+        error: get((formState || _formState).errors, name),
+        isValidating: !!get(_formState.validatingFields, name),
+        isTouched: !!get((formState || _formState).touchedFields, name),
+    });
+    const clearErrors = (name) => {
+        name &&
+            convertToArrayPayload(name).forEach((inputName) => unset(_formState.errors, inputName));
+        _subjects.state.next({
+            errors: name ? _formState.errors : {},
+        });
+    };
+    const setError = (name, error, options) => {
+        const ref = (get(_fields, name, { _f: {} })._f || {}).ref;
+        const currentError = get(_formState.errors, name) || {};
+        // Don't override existing error messages elsewhere in the object tree.
+        const { ref: currentRef, message, type, ...restOfErrorTree } = currentError;
+        set(_formState.errors, name, {
+            ...restOfErrorTree,
+            ...error,
+            ref,
+        });
+        _subjects.state.next({
+            name,
+            errors: _formState.errors,
+            isValid: false,
+        });
+        options && options.shouldFocus && ref && ref.focus && ref.focus();
+    };
+    const watch = (name, defaultValue) => isFunction(name)
+        ? _subjects.values.subscribe({
+            next: (payload) => name(_getWatch(undefined, defaultValue), payload),
+        })
+        : _getWatch(name, defaultValue, true);
+    const unregister = (name, options = {}) => {
+        for (const fieldName of name ? convertToArrayPayload(name) : _names.mount) {
+            _names.mount.delete(fieldName);
+            _names.array.delete(fieldName);
+            if (!options.keepValue) {
+                unset(_fields, fieldName);
+                unset(_formValues, fieldName);
+            }
+            !options.keepError && unset(_formState.errors, fieldName);
+            !options.keepDirty && unset(_formState.dirtyFields, fieldName);
+            !options.keepTouched && unset(_formState.touchedFields, fieldName);
+            !options.keepIsValidating &&
+                unset(_formState.validatingFields, fieldName);
+            !_options.shouldUnregister &&
+                !options.keepDefaultValue &&
+                unset(_defaultValues, fieldName);
+        }
+        _subjects.values.next({
+            values: { ..._formValues },
+        });
+        _subjects.state.next({
+            ..._formState,
+            ...(!options.keepDirty ? {} : { isDirty: _getDirty() }),
+        });
+        !options.keepIsValid && _updateValid();
+    };
+    const _updateDisabledField = ({ disabled, name, field, fields, value, }) => {
+        if ((isBoolean(disabled) && _state.mount) || !!disabled) {
+            const inputValue = disabled
+                ? undefined
+                : isUndefined(value)
+                    ? getFieldValue(field ? field._f : get(fields, name)._f)
+                    : value;
+            set(_formValues, name, inputValue);
+            updateTouchAndDirty(name, inputValue, false, false, true);
+        }
+    };
+    const register = (name, options = {}) => {
+        let field = get(_fields, name);
+        const disabledIsDefined = isBoolean(options.disabled) || isBoolean(props.disabled);
+        set(_fields, name, {
+            ...(field || {}),
+            _f: {
+                ...(field && field._f ? field._f : { ref: { name } }),
+                name,
+                mount: true,
+                ...options,
+            },
+        });
+        _names.mount.add(name);
+        if (field) {
+            _updateDisabledField({
+                field,
+                disabled: isBoolean(options.disabled)
+                    ? options.disabled
+                    : props.disabled,
+                name,
+                value: options.value,
+            });
+        }
+        else {
+            updateValidAndValue(name, true, options.value);
+        }
+        return {
+            ...(disabledIsDefined
+                ? { disabled: options.disabled || props.disabled }
+                : {}),
+            ...(_options.progressive
+                ? {
+                    required: !!options.required,
+                    min: getRuleValue(options.min),
+                    max: getRuleValue(options.max),
+                    minLength: getRuleValue(options.minLength),
+                    maxLength: getRuleValue(options.maxLength),
+                    pattern: getRuleValue(options.pattern),
+                }
+                : {}),
+            name,
+            onChange,
+            onBlur: onChange,
+            ref: (ref) => {
+                if (ref) {
+                    register(name, options);
+                    field = get(_fields, name);
+                    const fieldRef = isUndefined(ref.value)
+                        ? ref.querySelectorAll
+                            ? ref.querySelectorAll('input,select,textarea')[0] || ref
+                            : ref
+                        : ref;
+                    const radioOrCheckbox = isRadioOrCheckbox(fieldRef);
+                    const refs = field._f.refs || [];
+                    if (radioOrCheckbox
+                        ? refs.find((option) => option === fieldRef)
+                        : fieldRef === field._f.ref) {
+                        return;
+                    }
+                    set(_fields, name, {
+                        _f: {
+                            ...field._f,
+                            ...(radioOrCheckbox
+                                ? {
+                                    refs: [
+                                        ...refs.filter(live),
+                                        fieldRef,
+                                        ...(Array.isArray(get(_defaultValues, name)) ? [{}] : []),
+                                    ],
+                                    ref: { type: fieldRef.type, name },
+                                }
+                                : { ref: fieldRef }),
+                        },
+                    });
+                    updateValidAndValue(name, false, undefined, fieldRef);
+                }
+                else {
+                    field = get(_fields, name, {});
+                    if (field._f) {
+                        field._f.mount = false;
+                    }
+                    (_options.shouldUnregister || options.shouldUnregister) &&
+                        !(isNameInFieldArray(_names.array, name) && _state.action) &&
+                        _names.unMount.add(name);
+                }
+            },
+        };
+    };
+    const _focusError = () => _options.shouldFocusError &&
+        iterateFieldsByAction(_fields, _focusInput, _names.mount);
+    const _disableForm = (disabled) => {
+        if (isBoolean(disabled)) {
+            _subjects.state.next({ disabled });
+            iterateFieldsByAction(_fields, (ref, name) => {
+                const currentField = get(_fields, name);
+                if (currentField) {
+                    ref.disabled = currentField._f.disabled || disabled;
+                    if (Array.isArray(currentField._f.refs)) {
+                        currentField._f.refs.forEach((inputRef) => {
+                            inputRef.disabled = currentField._f.disabled || disabled;
+                        });
+                    }
+                }
+            }, 0, false);
+        }
+    };
+    const handleSubmit = (onValid, onInvalid) => async (e) => {
+        let onValidError = undefined;
+        if (e) {
+            e.preventDefault && e.preventDefault();
+            e.persist && e.persist();
+        }
+        let fieldValues = cloneObject(_formValues);
+        _subjects.state.next({
+            isSubmitting: true,
+        });
+        if (_options.resolver) {
+            const { errors, values } = await _executeSchema();
+            _formState.errors = errors;
+            fieldValues = values;
+        }
+        else {
+            await executeBuiltInValidation(_fields);
+        }
+        unset(_formState.errors, 'root');
+        if (isEmptyObject(_formState.errors)) {
+            _subjects.state.next({
+                errors: {},
+            });
+            try {
+                await onValid(fieldValues, e);
+            }
+            catch (error) {
+                onValidError = error;
+            }
+        }
+        else {
+            if (onInvalid) {
+                await onInvalid({ ..._formState.errors }, e);
+            }
+            _focusError();
+            setTimeout(_focusError);
+        }
+        _subjects.state.next({
+            isSubmitted: true,
+            isSubmitting: false,
+            isSubmitSuccessful: isEmptyObject(_formState.errors) && !onValidError,
+            submitCount: _formState.submitCount + 1,
+            errors: _formState.errors,
+        });
+        if (onValidError) {
+            throw onValidError;
+        }
+    };
+    const resetField = (name, options = {}) => {
+        if (get(_fields, name)) {
+            if (isUndefined(options.defaultValue)) {
+                setValue(name, cloneObject(get(_defaultValues, name)));
+            }
+            else {
+                setValue(name, options.defaultValue);
+                set(_defaultValues, name, cloneObject(options.defaultValue));
+            }
+            if (!options.keepTouched) {
+                unset(_formState.touchedFields, name);
+            }
+            if (!options.keepDirty) {
+                unset(_formState.dirtyFields, name);
+                _formState.isDirty = options.defaultValue
+                    ? _getDirty(name, cloneObject(get(_defaultValues, name)))
+                    : _getDirty();
+            }
+            if (!options.keepError) {
+                unset(_formState.errors, name);
+                _proxyFormState.isValid && _updateValid();
+            }
+            _subjects.state.next({ ..._formState });
+        }
+    };
+    const _reset = (formValues, keepStateOptions = {}) => {
+        const updatedValues = formValues ? cloneObject(formValues) : _defaultValues;
+        const cloneUpdatedValues = cloneObject(updatedValues);
+        const isEmptyResetValues = isEmptyObject(formValues);
+        const values = isEmptyResetValues ? _defaultValues : cloneUpdatedValues;
+        if (!keepStateOptions.keepDefaultValues) {
+            _defaultValues = updatedValues;
+        }
+        if (!keepStateOptions.keepValues) {
+            if (keepStateOptions.keepDirtyValues) {
+                for (const fieldName of _names.mount) {
+                    get(_formState.dirtyFields, fieldName)
+                        ? set(values, fieldName, get(_formValues, fieldName))
+                        : setValue(fieldName, get(values, fieldName));
+                }
+            }
+            else {
+                if (isWeb && isUndefined(formValues)) {
+                    for (const name of _names.mount) {
+                        const field = get(_fields, name);
+                        if (field && field._f) {
+                            const fieldReference = Array.isArray(field._f.refs)
+                                ? field._f.refs[0]
+                                : field._f.ref;
+                            if (isHTMLElement$2(fieldReference)) {
+                                const form = fieldReference.closest('form');
+                                if (form) {
+                                    form.reset();
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                _fields = {};
+            }
+            _formValues = props.shouldUnregister
+                ? keepStateOptions.keepDefaultValues
+                    ? cloneObject(_defaultValues)
+                    : {}
+                : cloneObject(values);
+            _subjects.array.next({
+                values: { ...values },
+            });
+            _subjects.values.next({
+                values: { ...values },
+            });
+        }
+        _names = {
+            mount: keepStateOptions.keepDirtyValues ? _names.mount : new Set(),
+            unMount: new Set(),
+            array: new Set(),
+            watch: new Set(),
+            watchAll: false,
+            focus: '',
+        };
+        _state.mount =
+            !_proxyFormState.isValid ||
+                !!keepStateOptions.keepIsValid ||
+                !!keepStateOptions.keepDirtyValues;
+        _state.watch = !!props.shouldUnregister;
+        _subjects.state.next({
+            submitCount: keepStateOptions.keepSubmitCount
+                ? _formState.submitCount
+                : 0,
+            isDirty: isEmptyResetValues
+                ? false
+                : keepStateOptions.keepDirty
+                    ? _formState.isDirty
+                    : !!(keepStateOptions.keepDefaultValues &&
+                        !deepEqual(formValues, _defaultValues)),
+            isSubmitted: keepStateOptions.keepIsSubmitted
+                ? _formState.isSubmitted
+                : false,
+            dirtyFields: isEmptyResetValues
+                ? {}
+                : keepStateOptions.keepDirtyValues
+                    ? keepStateOptions.keepDefaultValues && _formValues
+                        ? getDirtyFields(_defaultValues, _formValues)
+                        : _formState.dirtyFields
+                    : keepStateOptions.keepDefaultValues && formValues
+                        ? getDirtyFields(_defaultValues, formValues)
+                        : keepStateOptions.keepDirty
+                            ? _formState.dirtyFields
+                            : {},
+            touchedFields: keepStateOptions.keepTouched
+                ? _formState.touchedFields
+                : {},
+            errors: keepStateOptions.keepErrors ? _formState.errors : {},
+            isSubmitSuccessful: keepStateOptions.keepIsSubmitSuccessful
+                ? _formState.isSubmitSuccessful
+                : false,
+            isSubmitting: false,
+        });
+    };
+    const reset = (formValues, keepStateOptions) => _reset(isFunction(formValues)
+        ? formValues(_formValues)
+        : formValues, keepStateOptions);
+    const setFocus = (name, options = {}) => {
+        const field = get(_fields, name);
+        const fieldReference = field && field._f;
+        if (fieldReference) {
+            const fieldRef = fieldReference.refs
+                ? fieldReference.refs[0]
+                : fieldReference.ref;
+            if (fieldRef.focus) {
+                fieldRef.focus();
+                options.shouldSelect && fieldRef.select();
+            }
+        }
+    };
+    const _updateFormState = (updatedFormState) => {
+        _formState = {
+            ..._formState,
+            ...updatedFormState,
+        };
+    };
+    const _resetDefaultValues = () => isFunction(_options.defaultValues) &&
+        _options.defaultValues().then((values) => {
+            reset(values, _options.resetOptions);
+            _subjects.state.next({
+                isLoading: false,
+            });
+        });
+    return {
+        control: {
+            register,
+            unregister,
+            getFieldState,
+            handleSubmit,
+            setError,
+            _executeSchema,
+            _getWatch,
+            _getDirty,
+            _updateValid,
+            _removeUnmounted,
+            _updateFieldArray,
+            _updateDisabledField,
+            _getFieldArray,
+            _reset,
+            _resetDefaultValues,
+            _updateFormState,
+            _disableForm,
+            _subjects,
+            _proxyFormState,
+            _setErrors,
+            get _fields() {
+                return _fields;
+            },
+            get _formValues() {
+                return _formValues;
+            },
+            get _state() {
+                return _state;
+            },
+            set _state(value) {
+                _state = value;
+            },
+            get _defaultValues() {
+                return _defaultValues;
+            },
+            get _names() {
+                return _names;
+            },
+            set _names(value) {
+                _names = value;
+            },
+            get _formState() {
+                return _formState;
+            },
+            set _formState(value) {
+                _formState = value;
+            },
+            get _options() {
+                return _options;
+            },
+            set _options(value) {
+                _options = {
+                    ..._options,
+                    ...value,
+                };
+            },
+        },
+        trigger,
+        register,
+        handleSubmit,
+        watch,
+        setValue,
+        getValues,
+        reset,
+        resetField,
+        clearErrors,
+        unregister,
+        setError,
+        setFocus,
+        getFieldState,
+    };
+}
+
+/**
+ * Custom hook to manage the entire form.
+ *
+ * @remarks
+ * [API](https://react-hook-form.com/docs/useform) • [Demo](https://codesandbox.io/s/react-hook-form-get-started-ts-5ksmm) • [Video](https://www.youtube.com/watch?v=RkXv4AXXC_4)
+ *
+ * @param props - form configuration and validation parameters.
+ *
+ * @returns methods - individual functions to manage the form state. {@link UseFormReturn}
+ *
+ * @example
+ * ```tsx
+ * function App() {
+ *   const { register, handleSubmit, watch, formState: { errors } } = useForm();
+ *   const onSubmit = data => console.log(data);
+ *
+ *   console.log(watch("example"));
+ *
+ *   return (
+ *     <form onSubmit={handleSubmit(onSubmit)}>
+ *       <input defaultValue="test" {...register("example")} />
+ *       <input {...register("exampleRequired", { required: true })} />
+ *       {errors.exampleRequired && <span>This field is required</span>}
+ *       <button>Submit</button>
+ *     </form>
+ *   );
+ * }
+ * ```
+ */
+function useForm(props = {}) {
+    const _formControl = React$1.useRef();
+    const _values = React$1.useRef();
+    const [formState, updateFormState] = React$1.useState({
+        isDirty: false,
+        isValidating: false,
+        isLoading: isFunction(props.defaultValues),
+        isSubmitted: false,
+        isSubmitting: false,
+        isSubmitSuccessful: false,
+        isValid: false,
+        submitCount: 0,
+        dirtyFields: {},
+        touchedFields: {},
+        validatingFields: {},
+        errors: props.errors || {},
+        disabled: props.disabled || false,
+        defaultValues: isFunction(props.defaultValues)
+            ? undefined
+            : props.defaultValues,
+    });
+    if (!_formControl.current) {
+        _formControl.current = {
+            ...createFormControl(props),
+            formState,
+        };
+    }
+    const control = _formControl.current.control;
+    control._options = props;
+    useSubscribe({
+        subject: control._subjects.state,
+        next: (value) => {
+            if (shouldRenderFormState(value, control._proxyFormState, control._updateFormState, true)) {
+                updateFormState({ ...control._formState });
+            }
+        },
+    });
+    React$1.useEffect(() => control._disableForm(props.disabled), [control, props.disabled]);
+    React$1.useEffect(() => {
+        if (control._proxyFormState.isDirty) {
+            const isDirty = control._getDirty();
+            if (isDirty !== formState.isDirty) {
+                control._subjects.state.next({
+                    isDirty,
+                });
+            }
+        }
+    }, [control, formState.isDirty]);
+    React$1.useEffect(() => {
+        if (props.values && !deepEqual(props.values, _values.current)) {
+            control._reset(props.values, control._options.resetOptions);
+            _values.current = props.values;
+            updateFormState((state) => ({ ...state }));
+        }
+        else {
+            control._resetDefaultValues();
+        }
+    }, [props.values, control]);
+    React$1.useEffect(() => {
+        if (props.errors) {
+            control._setErrors(props.errors);
+        }
+    }, [props.errors, control]);
+    React$1.useEffect(() => {
+        if (!control._state.mount) {
+            control._updateValid();
+            control._state.mount = true;
+        }
+        if (control._state.watch) {
+            control._state.watch = false;
+            control._subjects.state.next({ ...control._formState });
+        }
+        control._removeUnmounted();
+    });
+    React$1.useEffect(() => {
+        props.shouldUnregister &&
+            control._subjects.values.next({
+                values: control._getWatch(),
+            });
+    }, [props.shouldUnregister, control]);
+    _formControl.current.formState = getProxyFormState(formState, control);
+    return _formControl.current;
+}
 
 /**
  * Based on Kendo UI Core expression code <https://github.com/telerik/kendo-ui-core#license-information>
@@ -75925,6 +76036,59 @@ var useVoteActionForm = function (_a) {
     };
 };
 
+var useVoteContextForm = function (setSavedHash, setStep, setErrorMessage) {
+    var _a = usePillarContext(), validateMetadata = _a.validateMetadata, generateMetadata = _a.generateMetadata, createJsonLD = _a.createJsonLD, createHash = _a.createHash;
+    var _b = reactExports.useState(null), hash = _b[0], setHash = _b[1];
+    var _c = useFormContext(), control = _c.control, _d = _c.formState, errors = _d.errors, isValid = _d.isValid, getValues = _c.getValues, handleSubmit = _c.handleSubmit, setValue = _c.setValue, watch = _c.watch, register = _c.register, reset = _c.reset;
+    var onClickDownloadJson = function () {
+        var json = createJsonLD(getValues());
+        setHash(createHash(json));
+        downloadJson(json, 'Vote_Context');
+    };
+    var onSubmit = reactExports.useCallback(function (data) { return __awaiter(void 0, void 0, void 0, function () {
+        var error_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, 3, 4]);
+                    if (!hash)
+                        throw new Error('Hash is not generated');
+                    return [4 /*yield*/, validateMetadata(data.storingURL, hash)];
+                case 1:
+                    _a.sent();
+                    return [3 /*break*/, 4];
+                case 2:
+                    error_1 = _a.sent();
+                    console.error(error_1);
+                    // Replace with correct one
+                    setErrorMessage === null || setErrorMessage === void 0 ? void 0 : setErrorMessage(MetadataValidationStatus.INCORRECT_FORMAT);
+                    return [3 /*break*/, 4];
+                case 3:
+                    if (setSavedHash)
+                        setSavedHash(hash);
+                    if (setStep)
+                        setStep(4);
+                    return [7 /*endfinally*/];
+                case 4: return [2 /*return*/];
+            }
+        });
+    }); }, [hash, setErrorMessage, setSavedHash, setStep, validateMetadata]);
+    return {
+        control: control,
+        validateURL: handleSubmit(onSubmit),
+        errors: errors,
+        generateMetadata: generateMetadata,
+        getValues: getValues,
+        isValid: isValid,
+        onClickDownloadJson: onClickDownloadJson,
+        register: register,
+        reset: reset,
+        setValue: setValue,
+        watch: watch,
+        hash: hash,
+    };
+};
+
 var useWalletErrorModal = function () {
     var _a = useModal(), openModal = _a.openModal, closeModal = _a.closeModal;
     var openWalletErrorModal = function (_a) {
@@ -75949,74 +76113,6 @@ var useWalletErrorModal = function () {
         });
     };
     return openWalletErrorModal;
-};
-
-var useGetProposalsInfiniteQuery = function (_a) {
-    var _b;
-    var _c = _a.filters, filters = _c === void 0 ? [] : _c, _d = _a.pageSize, pageSize = _d === void 0 ? 10 : _d, searchPhrase = _a.searchPhrase, _e = _a.sorting, sorting = _e === void 0 ? '' : _e;
-    var _f = usePillarContext(), dRepID = _f.dRepID, isEnabled = _f.isEnabled, pendingTransaction = _f.pendingTransaction, apiUrl = _f.apiUrl, validationApiUrl = _f.validationApiUrl;
-    var fetchProposals = function (_a) {
-        var _b = _a.pageParam, pageParam = _b === void 0 ? 0 : _b;
-        return __awaiter(void 0, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0: return [4 /*yield*/, getProposals(apiUrl, validationApiUrl, {
-                            dRepID: dRepID,
-                            filters: filters,
-                            page: pageParam,
-                            pageSize: pageSize,
-                            searchPhrase: searchPhrase,
-                            sorting: sorting,
-                        })];
-                    case 1:
-                        data = _c.sent();
-                        return [2 /*return*/, data];
-                }
-            });
-        });
-    };
-    var _g = useInfiniteQuery([
-        QUERY_KEYS.useGetProposalsInfiniteKey,
-        apiUrl,
-        dRepID,
-        filters,
-        isEnabled,
-        (_b = pendingTransaction.vote) === null || _b === void 0 ? void 0 : _b.transactionHash,
-        searchPhrase,
-        sorting,
-    ], fetchProposals, {
-        getNextPageParam: function (lastPage) {
-            if (lastPage.elements.length === 0) {
-                return undefined;
-            }
-            return lastPage.page + 1;
-        },
-        refetchInterval: 20000,
-    }), data = _g.data, isLoading = _g.isLoading, fetchNextPage = _g.fetchNextPage, hasNextPage = _g.hasNextPage, isFetching = _g.isFetching, isFetchingNextPage = _g.isFetchingNextPage;
-    var proposals = data === null || data === void 0 ? void 0 : data.pages.flatMap(function (page) { return page.elements; });
-    return {
-        proposalsfetchNextPage: fetchNextPage,
-        proposalsHaveNextPage: hasNextPage,
-        isProposalsFetching: isFetching,
-        isProposalsFetchingNextPage: isFetchingNextPage,
-        isProposalsLoading: isLoading,
-        proposals: proposals,
-    };
-};
-
-var useGetProposalQuery = function (proposalId, enabled) {
-    var _a = usePillarContext(), dRepID = _a.dRepID, apiUrl = _a.apiUrl, validationApiUrl = _a.validationApiUrl;
-    var _b = useQuery([QUERY_KEYS.useGetProposalKey, dRepID, proposalId], function () { return getProposal(apiUrl, validationApiUrl, proposalId, dRepID); }, {
-        staleTime: Infinity,
-        enabled: enabled,
-    }), data = _b.data, isLoading = _b.isLoading, refetch = _b.refetch, isRefetching = _b.isRefetching;
-    return {
-        data: data,
-        isLoading: isLoading,
-        refetch: refetch,
-        isFetching: isRefetching,
-    };
 };
 
 var DataActionsBarContext = reactExports.createContext(undefined);
@@ -76069,8 +76165,6 @@ function useDataActionsBar() {
     }
     return context;
 }
-// eslint-disable-next-line no-console
-console.log({ DataActionsBarProvider: DataActionsBarProvider });
 
 process.env.NODE_ENV !== "production" ? {
   // ┌────────────────────────────── Warning ──────────────────────────────┐
@@ -88060,7 +88154,7 @@ const TabRoot = styled(ButtonBase, {
 }, ownerState.wrapped && {
   fontSize: theme.typography.pxToRem(12)
 }));
-const Tab = /*#__PURE__*/reactExports.forwardRef(function Tab(inProps, ref) {
+const Tab$1 = /*#__PURE__*/reactExports.forwardRef(function Tab(inProps, ref) {
   const props = useDefaultProps({
     props: inProps,
     name: 'MuiTab'
@@ -88139,7 +88233,7 @@ const Tab = /*#__PURE__*/reactExports.forwardRef(function Tab(inProps, ref) {
     }), indicator]
   }));
 });
-process.env.NODE_ENV !== "production" ? Tab.propTypes /* remove-proptypes */ = {
+process.env.NODE_ENV !== "production" ? Tab$1.propTypes /* remove-proptypes */ = {
   // ┌────────────────────────────── Warning ──────────────────────────────┐
   // │ These PropTypes are generated from the TypeScript type definitions. │
   // │    To update them, edit the d.ts file and run `pnpm proptypes`.     │
@@ -89560,6 +89654,20 @@ var Spacer = function (_a) {
     var x = _a.x, y = _a.y;
     return jsxRuntimeExports.jsx(Box, { pt: y, pr: x });
 };
+
+/**
+ * Represents a custom styled tab component.
+ */
+var Tab = styled(function (props) { return (jsxRuntimeExports.jsx(Tab$1, __assign({ disableRipple: true }, props))); })(function () { return ({
+    textTransform: 'none',
+    fontWeight: 400,
+    fontSize: 16,
+    color: '#242232',
+    '&.Mui-selected': {
+        color: '#FF640A',
+        fontWeight: 500,
+    },
+}); });
 
 var TextAreaBase = styled(TextareaAutosize)(function () { return "\n  font-family: \"Poppins\";\n  font-weight: 400;\n    ::placeholder {\n      font-family: \"Poppins\";\n      font-weight: 400;\n      color: #a6a6a6;\n    }\n    "; });
 /**
@@ -110696,6 +110804,29 @@ var GovernanceActionCardHeader = function (_a) {
                     }, sx: { ml: 0.7 }, fontSize: "small" }) })))] })));
 };
 
+var GovernanceActionCardMyVote = function (_a) {
+    var voteTxHash = _a.voteTxHash, vote = _a.vote;
+    var cExplorerBaseUrl = usePillarContext().cExplorerBaseUrl;
+    return (jsxRuntimeExports.jsxs(Box, __assign({ "data-testid": "my-vote", mb: "20px" }, { children: [jsxRuntimeExports.jsx(Typography, __assign({ variant: "caption", sx: {
+                    fontWeight: 500,
+                    color: '#8E908E',
+                } }, { children: "My Vote:" })), jsxRuntimeExports.jsxs(Box, __assign({ sx: {
+                    mt: 1,
+                    px: '4px',
+                    py: '2px',
+                    display: 'flex',
+                    border: 1,
+                    borderColor: 'rgba(214, 226, 255, 1)',
+                    borderRadius: 20,
+                    flex: 1,
+                    alignItems: 'center',
+                } }, { children: [jsxRuntimeExports.jsx(Box, __assign({ flex: 1 }, { children: jsxRuntimeExports.jsx(VotePill, { vote: vote }) })), jsxRuntimeExports.jsx(Button, __assign({ onClick: function () { return openInNewTab("".concat(cExplorerBaseUrl, "/tx/").concat(voteTxHash)); }, variant: "text", size: "small", sx: {
+                            paddingY: 0.75,
+                            flex: 1,
+                            whiteSpace: 'nowrap',
+                        } }, { children: "See transaction" }))] }))] })));
+};
+
 var Check = {};
 
 var _interopRequireDefault$b = interopRequireDefaultExports;
@@ -110742,7 +110873,7 @@ var CustomTabPanel = function (_a) {
         return null;
     return jsxRuntimeExports.jsx(Box, __assign({ sx: { overflow: 'auto' } }, { children: children }));
 };
-var StyledTab = styled(function (props) { return (jsxRuntimeExports.jsx(Tab, __assign({ disableRipple: true }, props))); })(function (_a) {
+var StyledTab = styled(function (props) { return (jsxRuntimeExports.jsx(Tab$1, __assign({ disableRipple: true }, props))); })(function (_a) {
     var isMobile = _a.isMobile;
     return ({
         textTransform: 'none',
@@ -114252,6 +114383,24 @@ var Step = function (_a) {
 };
 
 /**
+ * Renders a tab panel component.
+ *
+ * @param props - The component props.
+ * @param props.children - The content of the tab panel.
+ * @param props.value - The current value of the tab panel.
+ * @param props.index - The index of the tab panel.
+ * @returns The rendered tab panel component.
+ */
+var TabPanel = function (props) {
+    var children = props.children, value = props.value, index = props.index;
+    return (jsxRuntimeExports.jsx("div", __assign({ role: "tabpanel", hidden: value !== index, id: "simple-tabpanel-".concat(index), "aria-labelledby": "simple-tab-".concat(index), style: {
+            display: 'flex',
+            flexDirection: 'column',
+            flex: value !== index ? 0 : 1,
+        } }, { children: value === index && jsxRuntimeExports.jsx(Box, __assign({ pb: 3 }, { children: children })) })));
+};
+
+/**
  * Renders a vote pill component.
  *
  * @param vote - The vote value.
@@ -115086,6 +115235,47 @@ var VoteContextText = function (_a) {
                 } }, { children: "Provide context about your vote" })), jsxRuntimeExports.jsx(Typography, __assign({ variant: "body1", sx: { fontWeight: 400, mb: 2 } }, { children: "Additional information about your vote" })), jsxRuntimeExports.jsx(ControlledField.TextArea, __assign({}, { control: control, errors: errors }, fieldProps, { isModifiedLayout: true, "data-testid": "provide-context-input" }))] })));
 };
 
+var GovernanceActionVotedOnCard = function (_a) {
+    var votedProposal = _a.votedProposal, inProgress = _a.inProgress;
+    var navigate = useNavigate();
+    var proposal = votedProposal.proposal, vote = votedProposal.vote;
+    var abstract = proposal.abstract, createdDate = proposal.createdDate, createdEpochNo = proposal.createdEpochNo, expiryDate = proposal.expiryDate, expiryEpochNo = proposal.expiryEpochNo, index = proposal.index, metadataStatus = proposal.metadataStatus, metadataValid = proposal.metadataValid, txHash = proposal.txHash, type = proposal.type, title = proposal.title;
+    var _b = useScreenDimension(), isMobile = _b.isMobile, screenWidth = _b.screenWidth;
+    return (jsxRuntimeExports.jsxs(Box, __assign({ sx: {
+            width: screenWidth < 420 ? 290 : isMobile ? 324 : 350,
+            height: '100%',
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            boxShadow: '0px 4px 15px 0px #DDE3F5',
+            borderRadius: '20px',
+            backgroundColor: !metadataValid
+                ? 'rgba(251, 235, 235, 0.50)'
+                : 'rgba(255, 255, 255, 0.3)',
+            border: inProgress
+                ? '1px solid #FFCBAD'
+                : !metadataValid
+                    ? '1px solid #F6D5D5'
+                    : '1px solid #C0E4BA',
+        }, "data-testid": "govaction-".concat(getProposalTypeNoEmptySpaces(type), "-card") }, { children: [jsxRuntimeExports.jsx(GovernanceActionCardStatePill, { variant: inProgress ? 'inProgress' : 'voteSubmitted' }), jsxRuntimeExports.jsxs(Box, __assign({ sx: {
+                    padding: '40px 24px 0',
+                } }, { children: [jsxRuntimeExports.jsx(GovernanceActionCardHeader, { title: title, isDataMissing: metadataStatus }), jsxRuntimeExports.jsx(GovernanceActionCardElement, { label: "Abstract", text: abstract, textVariant: "twoLines", dataTestId: "governance-action-abstract", isSliderCard: true }), jsxRuntimeExports.jsx(GovernanceActionCardElement, { label: "Governance Action Type:", text: getProposalTypeLabel(type), textVariant: "pill", dataTestId: "".concat(getProposalTypeNoEmptySpaces(type), "-type"), isSliderCard: true }), jsxRuntimeExports.jsx(GovernanceActionsDatesBox, { createdDate: createdDate, expiryDate: expiryDate, expiryEpochNo: expiryEpochNo, createdEpochNo: createdEpochNo, isSliderCard: true }), jsxRuntimeExports.jsx(GovernanceActionCardElement, { label: "Governance Action ID:", text: getFullGovActionId(txHash, index), dataTestId: "".concat(getFullGovActionId(txHash, index), "-id"), isCopyButton: true, isSliderCard: true }), jsxRuntimeExports.jsx(GovernanceActionCardMyVote, { voteTxHash: vote.txHash, vote: vote.vote })] })), jsxRuntimeExports.jsx(Box, __assign({ bgcolor: "white", px: isMobile ? 2 : 5, py: 2, sx: {
+                    boxShadow: '0px 4px 15px 0px #DDE3F5',
+                    borderBottomLeftRadius: 20,
+                    borderBottomRightRadius: 20,
+                } }, { children: jsxRuntimeExports.jsx(Button, __assign({ disabled: inProgress, "data-testid": "govaction-".concat(getFullGovActionId(txHash, index), "-change-your-vote"), onClick: function () {
+                        return navigate(PATHS.governanceActionsAction.replace(':proposalId', getFullGovActionId(txHash, index)), {
+                            state: {
+                                proposal: proposal,
+                                vote: vote,
+                            },
+                        });
+                    }, sx: {
+                        width: '100%',
+                    }, variant: "contained" }, { children: "View details" })) }))] })));
+};
+
 ({
     none: {
         component: null,
@@ -115119,9 +115309,23 @@ function useModal() {
 
 var PillarContext = reactExports.createContext(undefined);
 var PillarProvider = function (_a) {
-    var children = _a.children, apiUrl = _a.apiUrl, walletApi = _a.walletApi, validationApiUrl = _a.validationApiUrl;
+    var children = _a.children, apiUrl = _a.apiUrl, walletApi = _a.walletApi, validationApiUrl = _a.validationApiUrl, cExplorerBaseUrl = _a.cExplorerBaseUrl, openFeedbackWindow = _a.openFeedbackWindow, isVotingOnGovernanceActionEnabled = _a.isVotingOnGovernanceActionEnabled, epochParams = _a.epochParams, addSuccessAlert = _a.addSuccessAlert, validateMetadata = _a.validateMetadata, generateMetadata = _a.generateMetadata, createJsonLD = _a.createJsonLD, createHash = _a.createHash;
     var voter = useGetVoterInfo().voter;
-    var contextValue = reactExports.useMemo(function () { return (__assign({ apiUrl: apiUrl || process.env.API_URL, validationApiUrl: validationApiUrl || process.env.VALIDATION_API_URL, isEnabled: true, openFeedbackWindow: function () { }, isVotingOnGovernanceActionEnabled: function (proposalType) { return !!proposalType; }, epochParams: null, addSuccessAlert: function () { }, validateMetadata: function (url, hash) { }, generateMetadata: function () { }, createJsonLD: function (data) { }, createHash: function (json) { return ''; }, voter: voter }, (walletApi || {}))); }, [apiUrl, voter, walletApi, validationApiUrl]);
+    var contextValue = reactExports.useMemo(function () { return (__assign(__assign({ apiUrl: apiUrl || process.env.API_URL, validationApiUrl: validationApiUrl || process.env.VALIDATION_API_URL, openFeedbackWindow: openFeedbackWindow, isVotingOnGovernanceActionEnabled: isVotingOnGovernanceActionEnabled, epochParams: epochParams, addSuccessAlert: addSuccessAlert, validateMetadata: validateMetadata, generateMetadata: generateMetadata, createJsonLD: createJsonLD, createHash: createHash, voter: voter }, (walletApi || {})), { cExplorerBaseUrl: cExplorerBaseUrl || process.env.C_EXPLORER_BASE_URL })); }, [
+        apiUrl,
+        validationApiUrl,
+        openFeedbackWindow,
+        isVotingOnGovernanceActionEnabled,
+        epochParams,
+        addSuccessAlert,
+        validateMetadata,
+        generateMetadata,
+        createJsonLD,
+        createHash,
+        voter,
+        walletApi,
+        cExplorerBaseUrl,
+    ]);
     return (jsxRuntimeExports.jsx(PillarContext.Provider, __assign({ value: contextValue }, { children: children })));
 };
 var usePillarContext = function () {
@@ -115191,222 +115395,64 @@ var GovernanceActionsToVote = function (_a) {
                             } }, { children: jsxRuntimeExports.jsx(GovernanceActionCard, __assign({}, action, { inProgress: false, onClick: onGovernanceActionCardClick(action) })) }), action.id)); }), dataLength: item.actions.slice(0, 6).length, filters: filters, notSlicedDataLength: item.actions.length, onDashboard: onDashboard, searchPhrase: searchPhrase, sorting: sorting, title: getProposalTypeTitle(item.title), onClickShowAll: onGovernanceActionSliderShowAllClick(item.title) }), index < proposals.length - 1 && (jsxRuntimeExports.jsx(Box, { height: isMobile ? 40 : 52 }))] }), item.title)); }) })) }));
 };
 
-// TODO: Mock: Replace with a real data
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-var proposals = [
-    {
-        title: 'Info Action',
-        actions: [
-            {
-                id: 419,
-                txHash: '6ac2988bded2fe82f8efd6bad7afb6151a124d7b21e0dd31f6cd0b66f733a687',
-                index: 0,
-                type: 'InfoAction',
-                details: {},
-                expiryDate: '2024-10-10T07:46:23.275Z',
-                expiryEpochNo: 483,
-                createdDate: '2024-09-25T06:02:15.000Z',
-                createdEpochNo: 468,
-                url: 'https://docs.cardano.org/about-cardano/introduction/',
-                metadataHash: '0000000000000000000000000000000000000000000000000000000000000000',
-                protocolParams: null,
-                title: null,
-                abstract: null,
-                motivation: null,
-                rationale: null,
-                dRepYesVotes: 0,
-                dRepNoVotes: 205253998167,
-                dRepAbstainVotes: 6652525776310,
-                poolYesVotes: 0,
-                poolNoVotes: 0,
-                poolAbstainVotes: 0,
-                ccYesVotes: 0,
-                ccNoVotes: 0,
-                ccAbstainVotes: 0,
-                prevGovActionIndex: null,
-                prevGovActionTxHash: null,
-            },
-            {
-                id: 420,
-                txHash: 'd32abad7d403c4c921877f93e437c40af3a7bb5eb88236e27a98f3cb1e022c3e',
-                index: 0,
-                type: 'InfoAction',
-                details: {},
-                expiryDate: '2024-10-10T07:46:23.275Z',
-                expiryEpochNo: 483,
-                createdDate: '2024-09-25T06:10:47.000Z',
-                createdEpochNo: 468,
-                url: 'cardano.com',
-                metadataHash: '0000000000000000000000000000000000000000000000000000000000000000',
-                protocolParams: null,
-                title: null,
-                abstract: null,
-                motivation: null,
-                rationale: null,
-                dRepYesVotes: 0,
-                dRepNoVotes: 205253998167,
-                dRepAbstainVotes: 8116673867964,
-                poolYesVotes: 0,
-                poolNoVotes: 0,
-                poolAbstainVotes: 0,
-                ccYesVotes: 0,
-                ccNoVotes: 0,
-                ccAbstainVotes: 0,
-                prevGovActionIndex: null,
-                prevGovActionTxHash: null,
-            },
-            {
-                id: 421,
-                txHash: '246c1a9ca2b50f8ee03a1a853b0ff94c3fa885810585d859fdec5ac61b03dabe',
-                index: 0,
-                type: 'InfoAction',
-                details: {},
-                expiryDate: '2024-10-10T07:46:23.275Z',
-                expiryEpochNo: 483,
-                createdDate: '2024-09-25T06:15:36.000Z',
-                createdEpochNo: 468,
-                url: 'agents.cardanoapi.io',
-                metadataHash: '1111111111111111111111111111111111111111111111111111111111111111',
-                protocolParams: null,
-                title: null,
-                abstract: null,
-                motivation: null,
-                rationale: null,
-                dRepYesVotes: 0,
-                dRepNoVotes: 205253998167,
-                dRepAbstainVotes: 6652525776310,
-                poolYesVotes: 0,
-                poolNoVotes: 0,
-                poolAbstainVotes: 0,
-                ccYesVotes: 0,
-                ccNoVotes: 0,
-                ccAbstainVotes: 0,
-                prevGovActionIndex: null,
-                prevGovActionTxHash: null,
-            },
-            {
-                id: 422,
-                txHash: '7434d11716f14737b6506d89a2e2c95eb48aab8a7971f5e74c86c767966a4f51',
-                index: 0,
-                type: 'InfoAction',
-                details: {},
-                expiryDate: '2024-10-10T07:46:23.275Z',
-                expiryEpochNo: 483,
-                createdDate: '2024-09-25T06:17:04.000Z',
-                createdEpochNo: 468,
-                url: 'agents.cardanoapi.io',
-                metadataHash: '1111111111111111111111111111111111111111111111111111111111111111',
-                protocolParams: null,
-                title: null,
-                abstract: null,
-                motivation: null,
-                rationale: null,
-                dRepYesVotes: 0,
-                dRepNoVotes: 1669402089821,
-                dRepAbstainVotes: 6652525776310,
-                poolYesVotes: 0,
-                poolNoVotes: 0,
-                poolAbstainVotes: 0,
-                ccYesVotes: 0,
-                ccNoVotes: 0,
-                ccAbstainVotes: 0,
-                prevGovActionIndex: null,
-                prevGovActionTxHash: null,
-            },
-            {
-                id: 423,
-                txHash: '7f1f9281dbb736131ac852eb6060b47e404d995f3af0208440ca989c80ca0ea3',
-                index: 0,
-                type: 'InfoAction',
-                details: {},
-                expiryDate: '2024-10-10T07:46:23.275Z',
-                expiryEpochNo: 483,
-                createdDate: '2024-09-25T06:32:34.000Z',
-                createdEpochNo: 468,
-                url: 'helloworld.com',
-                metadataHash: '0000000000000000000000000000000000000000000000000000000000000000',
-                protocolParams: null,
-                title: null,
-                abstract: null,
-                motivation: null,
-                rationale: null,
-                dRepYesVotes: 0,
-                dRepNoVotes: 205253998167,
-                dRepAbstainVotes: 8116673867964,
-                poolYesVotes: 0,
-                poolNoVotes: 0,
-                poolAbstainVotes: 0,
-                ccYesVotes: 0,
-                ccNoVotes: 0,
-                ccAbstainVotes: 0,
-                prevGovActionIndex: null,
-                prevGovActionTxHash: null,
-            },
-            {
-                id: 424,
-                txHash: '8b9317ae02acd6249109abf8216e73d87aff1b0116a3216b2cbab3081b9f2d21',
-                index: 0,
-                type: 'InfoAction',
-                details: {},
-                expiryDate: '2024-10-10T07:46:23.275Z',
-                expiryEpochNo: 483,
-                createdDate: '2024-09-25T06:56:21.000Z',
-                createdEpochNo: 468,
-                url: 'https://metadata.cardanoapi.io/data/5b2d3da91a0481507561acd8886166ede0d700a7fea5e86e59ad83c0e6d9878c',
-                metadataHash: '5b2d3da91a0481507561acd8886166ede0d700a7fea5e86e59ad83c0e6d9878c',
-                protocolParams: null,
-                title: null,
-                abstract: null,
-                motivation: null,
-                rationale: null,
-                dRepYesVotes: 0,
-                dRepNoVotes: 205253998167,
-                dRepAbstainVotes: 6652525776310,
-                poolYesVotes: 0,
-                poolNoVotes: 0,
-                poolAbstainVotes: 0,
-                ccYesVotes: 0,
-                ccNoVotes: 0,
-                ccAbstainVotes: 0,
-                prevGovActionIndex: null,
-                prevGovActionTxHash: null,
-            },
-            {
-                id: 425,
-                txHash: '552d6c7a8e830d37d88ea56a54635eadf4420e2c5a3128b4d7bf7862b85cdbc2',
-                index: 0,
-                type: 'InfoAction',
-                details: {},
-                expiryDate: '2024-10-10T07:46:23.275Z',
-                expiryEpochNo: 483,
-                createdDate: '2024-09-25T07:00:10.000Z',
-                createdEpochNo: 468,
-                url: 'https://metadata.cardanoapi.io/data/5b2d3da91a0481507561acd8886166ede0d700a7fea5e86e59ad83c0e6d9878c',
-                metadataHash: '5b2d3da91a0481507561acd8886166ede0d700a7fea5e86e59ad83c0e6d9878c',
-                protocolParams: null,
-                title: null,
-                abstract: null,
-                motivation: null,
-                rationale: null,
-                dRepYesVotes: 0,
-                dRepNoVotes: 205253998167,
-                dRepAbstainVotes: 6652525776310,
-                poolYesVotes: 0,
-                poolNoVotes: 0,
-                poolAbstainVotes: 0,
-                ccYesVotes: 0,
-                ccNoVotes: 0,
-                ccAbstainVotes: 0,
-                prevGovActionIndex: null,
-                prevGovActionTxHash: null,
-            },
-        ],
-    },
-];
-var isProposalsLoading = false;
+/**
+ * Renders a component that displays the Governance Actions that the user has voted on.
+ *
+ * @param filters - The filters to apply to the Governance Actions.
+ * @param searchPhrase - The search phrase to filter the Governance Actions.
+ * @param sorting - The sorting options for the Governance Actions.
+ * @returns The rendered component.
+ */
+var GovernanceActionsVotedOn = function (_a) {
+    var filters = _a.filters, searchPhrase = _a.searchPhrase, sorting = _a.sorting;
+    var _b = useGetDRepVotesQuery(filters, sorting, searchPhrase), data = _b.data, areDRepVotesLoading = _b.areDRepVotesLoading;
+    var isMobile = useScreenDimension().isMobile;
+    var pendingTransaction = usePillarContext().pendingTransaction;
+    var navigate = useNavigate();
+    var onGovernanceActionSliderShowAllClick = reactExports.useCallback(function (title) { return function () {
+        navigate(generatePath(PATHS.governanceActionsCategory, {
+            category: title,
+        }));
+    }; }, [navigate]);
+    var filteredData = reactExports.useMemo(function () {
+        if (data.length && searchPhrase) {
+            return data
+                .map(function (entry) { return (__assign(__assign({}, entry), { actions: entry.actions.filter(function (action) {
+                    return getFullGovActionId(action.proposal.txHash, action.proposal.index)
+                        .toLowerCase()
+                        .includes(searchPhrase.toLowerCase());
+                }) })); })
+                .filter(function (entry) { return entry.actions.length > 0; });
+        }
+        return data;
+    }, [data, searchPhrase]);
+    return areDRepVotesLoading ? (jsxRuntimeExports.jsx(Box, __assign({ py: 4, display: "flex", justifyContent: "center" }, { children: jsxRuntimeExports.jsx(CircularProgress, {}) }))) : (jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: !data.length ? (jsxRuntimeExports.jsx(Typography$1, __assign({ py: 4, fontWeight: "300" }, { children: "You haven't voted on any Governance Actions yet. Check the 'To vote on' section to vote on Governance Actions." }))) : !(filteredData === null || filteredData === void 0 ? void 0 : filteredData.length) ? (jsxRuntimeExports.jsx(Typography$1, __assign({ py: 4, fontWeight: "300" }, { children: "No results for the search." }))) : (jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: filteredData === null || filteredData === void 0 ? void 0 : filteredData.map(function (item) { return (jsxRuntimeExports.jsxs("div", { children: [jsxRuntimeExports.jsx(Slider, { title: getProposalTypeLabel(item.title), searchPhrase: searchPhrase, dataLength: item.actions.slice(0, 6).length, onDashboard: true, onClickShowAll: onGovernanceActionSliderShowAllClick(item.title), data: item.actions.map(function (action) {
+                            var _a;
+                            return (jsxRuntimeExports.jsx("div", __assign({ className: "keen-slider__slide", style: { overflow: 'visible', width: 'auto' } }, { children: jsxRuntimeExports.jsx(GovernanceActionVotedOnCard, { votedProposal: action, inProgress: ((_a = pendingTransaction.vote) === null || _a === void 0 ? void 0 : _a.resourceId) ===
+                                        action.proposal.txHash + action.proposal.index }) }), "".concat(action === null || action === void 0 ? void 0 : action.proposal.id).concat(action.vote.vote)));
+                        }) }, item.title), jsxRuntimeExports.jsx(Box, { height: isMobile ? 50 : 72 })] }, item.title)); }) })) }));
+};
+
+var defaultCategories = GOVERNANCE_ACTIONS_FILTERS.map(function (category) { return category.key; });
 var GovernanceActionsPage = function () {
     var _a = useDataActionsBar(), debouncedSearchText = _a.debouncedSearchText, dataActionsBarProps = __rest(_a, ["debouncedSearchText"]);
+    var chosenFilters = dataActionsBarProps.chosenFilters, chosenSorting = dataActionsBarProps.chosenSorting;
+    var queryFilters = chosenFilters.length > 0 ? chosenFilters : defaultCategories;
     var _b = useScreenDimension(), isMobile = _b.isMobile, pagePadding = _b.pagePadding;
+    var _c = usePillarContext(), isEnabled = _c.isEnabled, voter = _c.voter;
+    var _d = useGetProposalsQuery({
+        filters: queryFilters,
+        sorting: chosenSorting,
+        searchPhrase: debouncedSearchText,
+    }), proposals = _d.proposals, isProposalsLoading = _d.isProposalsLoading;
+    var state = useLocation().state;
+    var _e = reactExports.useState(state && state.isVotedListOnLoad ? 1 : 0), content = _e[0], setContent = _e[1];
+    var handleChange = function (_event, newValue) {
+        setContent(newValue);
+    };
+    reactExports.useEffect(function () {
+        window.history.replaceState({}, document.title);
+    }, []);
     return (jsxRuntimeExports.jsxs(Box, __assign({ sx: {
             display: 'flex',
             flex: 1,
@@ -115426,7 +115472,19 @@ var GovernanceActionsPage = function () {
                             display: 'flex',
                             flex: 1,
                             justifyContent: 'center',
-                        } }, { children: jsxRuntimeExports.jsx(CircularProgress, {}) }))) : (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx(Box, { height: isMobile ? 60 : 80 }), jsxRuntimeExports.jsx(GovernanceActionsToVote, { filters: dataActionsBarProps.chosenFilters, onDashboard: false, searchPhrase: debouncedSearchText, sorting: dataActionsBarProps.chosenSorting, proposals: proposals })] }))] }))] })));
+                        } }, { children: jsxRuntimeExports.jsx(CircularProgress, {}) }))) : isEnabled &&
+                        ((voter === null || voter === void 0 ? void 0 : voter.isRegisteredAsDRep) || (voter === null || voter === void 0 ? void 0 : voter.isRegisteredAsSoleVoter)) ? (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsxs(Tabs, __assign({ sx: {
+                                    marginTop: 3,
+                                    display: 'flex',
+                                    fontSize: 16,
+                                    fontWeight: 500,
+                                }, value: content, indicatorColor: "secondary", onChange: handleChange, "aria-label": "Governance Actions tabs" }, { children: [jsxRuntimeExports.jsx(Tab, { "data-testid": "to-vote-tab", label: "To vote", sx: {
+                                            textTransform: 'none',
+                                            width: !isMobile ? 'auto' : '50%',
+                                        } }), jsxRuntimeExports.jsx(Tab, { "data-testid": "voted-tab", label: "Voted on by me", sx: {
+                                            textTransform: 'none',
+                                            width: !isMobile ? 'auto' : '50%',
+                                        } })] })), ' ', jsxRuntimeExports.jsx(Box, { height: isMobile ? 24 : 60 }), jsxRuntimeExports.jsx(TabPanel, __assign({ value: content, index: 0 }, { children: jsxRuntimeExports.jsx(GovernanceActionsToVote, { filters: chosenFilters, onDashboard: true, searchPhrase: debouncedSearchText, sorting: chosenSorting, proposals: proposals }) })), jsxRuntimeExports.jsx(TabPanel, __assign({ value: content, index: 1 }, { children: jsxRuntimeExports.jsx(GovernanceActionsVotedOn, { filters: chosenFilters, searchPhrase: debouncedSearchText, sorting: chosenSorting }) }))] })) : (jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [jsxRuntimeExports.jsx(Box, { height: isMobile ? 60 : 80 }), jsxRuntimeExports.jsx(GovernanceActionsToVote, { filters: dataActionsBarProps.chosenFilters, onDashboard: false, searchPhrase: debouncedSearchText, sorting: dataActionsBarProps.chosenSorting, proposals: proposals })] }))] }))] })));
 };
 
 // TODO: Refactor: GovernanceActionDetals and DashboardGovernanceActionDetails are almost identical
@@ -115504,9 +115562,12 @@ var GovernanceActionsCategory = function () {
 };
 
 var VotingPillar = function (_a) {
-    var walletApi = _a.walletApi, apiUrl = _a.apiUrl, validationApiUrl = _a.validationApiUrl;
-    return (jsxRuntimeExports.jsx(PillarProvider, __assign({ walletApi: walletApi, apiUrl: apiUrl, validationApiUrl: validationApiUrl }, { children: jsxRuntimeExports.jsx(QueryClientProvider, __assign({ client: new QueryClient() }, { children: jsxRuntimeExports.jsx(ThemeProvider, __assign({ theme: voltaire }, { children: jsxRuntimeExports.jsx(DataActionsBarProvider, { children: jsxRuntimeExports.jsxs(Routes, { children: [jsxRuntimeExports.jsx(Route, { path: PATHS.governanceActions, element: jsxRuntimeExports.jsx(GovernanceActionsPage, {}) }), jsxRuntimeExports.jsx(Route, { path: PATHS.governanceActionsAction, element: jsxRuntimeExports.jsx(GovernanceActionDetails, {}) }), jsxRuntimeExports.jsx(Route, { path: PATHS.governanceActionsCategory, element: jsxRuntimeExports.jsx(GovernanceActionsCategory, {}) })] }) }) })) })) })));
+    var walletApi = _a.walletApi, apiUrl = _a.apiUrl, validationApiUrl = _a.validationApiUrl, props = __rest(_a, ["walletApi", "apiUrl", "validationApiUrl"]);
+    return (jsxRuntimeExports.jsx(PillarProvider, __assign({}, props, { walletApi: walletApi, apiUrl: apiUrl, validationApiUrl: validationApiUrl }, { children: jsxRuntimeExports.jsx(QueryClientProvider, __assign({ client: new QueryClient() }, { children: jsxRuntimeExports.jsx(ThemeProvider, __assign({ theme: voltaire }, { children: jsxRuntimeExports.jsx(DataActionsBarProvider, { children: jsxRuntimeExports.jsxs(Routes, { children: [jsxRuntimeExports.jsx(Route, { path: PATHS.governanceActions, element: jsxRuntimeExports.jsx(GovernanceActionsPage, {}) }), jsxRuntimeExports.jsx(Route, { path: PATHS.governanceActionsAction, element: jsxRuntimeExports.jsx(GovernanceActionDetails, {}) }), jsxRuntimeExports.jsx(Route, { path: PATHS.governanceActionsCategory, element: jsxRuntimeExports.jsx(GovernanceActionsCategory, {}) })] }) }) })) })) })));
 };
 
-module.exports = VotingPillar;
+exports.GovernanceActionDetails = GovernanceActionDetails;
+exports.GovernanceActionsCategory = GovernanceActionsCategory;
+exports.GovernanceActionsPage = GovernanceActionsPage;
+exports.default = VotingPillar;
 //# sourceMappingURL=index.js.map

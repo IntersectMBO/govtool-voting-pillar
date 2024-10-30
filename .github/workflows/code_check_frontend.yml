@@ -11,27 +11,28 @@ defaults:
     working-directory: frontend
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  # Uncomment once tests are implemented
+  # test:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
+  #     - name: Cache dependencies
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: node_modules
+  #         key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Set up Node.js & Install dependencies
-        uses: actions/setup-node@v4
+  #     - name: Set up Node.js & Install dependencies
+  #       uses: actions/setup-node@v4
 
-      - run: npm ci
+  #     - run: npm ci
 
-      - name: 🧪 Test
-        run: |
-          npm run test
+  #     - name: 🧪 Test
+  #       run: |
+  #         npm run test
 
   lint:
     runs-on: ubuntu-latest

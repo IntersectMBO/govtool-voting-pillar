@@ -100,7 +100,7 @@ export const GovernanceActionsVotedOn = ({
                     <GovernanceActionVotedOnCard
                       votedProposal={action}
                       inProgress={
-                        pendingTransaction.vote?.resourceId ===
+                        pendingTransaction?.vote?.resourceId ===
                         action.proposal.txHash + action.proposal.index
                       }
                     />

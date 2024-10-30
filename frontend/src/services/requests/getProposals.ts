@@ -28,6 +28,7 @@ export const getProposals = async (
   if (!apiUrl) {
     throw new Error('URL is undefined');
   }
+
   const response = await axios.get<Infinite<ProposalDataDTO>>(
     `${apiUrl}/proposal/list`,
     {
