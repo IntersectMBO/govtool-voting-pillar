@@ -40,7 +40,7 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-/* global Reflect, Promise, SuppressedError, Symbol */
+/* global Reflect, Promise, SuppressedError, Symbol, Iterator */
 
 
 var __assign = function() {
@@ -77,8 +77,8 @@ function __awaiter(thisArg, _arguments, P, generator) {
 }
 
 function __generator(thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
@@ -35282,7 +35282,7 @@ var reactDomExports = reactDom.exports;
 var ReactDOM = /*@__PURE__*/getDefaultExportFromCjs(reactDomExports);
 
 /**
- * @remix-run/router v1.19.2
+ * @remix-run/router v1.20.0
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -35919,7 +35919,7 @@ const validRequestMethodsArr = ["get", ...validMutationMethodsArr];
 new Set(validRequestMethodsArr);
 
 /**
- * React Router v6.26.2
+ * React Router v6.27.0
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -36725,7 +36725,7 @@ function createRoutesFromChildren(children, parentPath) {
 }
 
 /**
- * React Router DOM v6.26.2
+ * React Router DOM v6.27.0
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -36880,9 +36880,9 @@ function getFormSubmissionInfo(target, basename) {
   };
 }
 
-const _excluded$N = ["onClick", "relative", "reloadDocument", "replace", "state", "target", "to", "preventScrollReset", "unstable_viewTransition"],
-  _excluded2$6 = ["aria-current", "caseSensitive", "className", "end", "style", "to", "unstable_viewTransition", "children"],
-  _excluded3$3 = ["fetcherKey", "navigate", "reloadDocument", "replace", "state", "method", "action", "onSubmit", "relative", "preventScrollReset", "unstable_viewTransition"];
+const _excluded$N = ["onClick", "relative", "reloadDocument", "replace", "state", "target", "to", "preventScrollReset", "viewTransition"],
+  _excluded2$6 = ["aria-current", "caseSensitive", "className", "end", "style", "to", "viewTransition", "children"],
+  _excluded3$3 = ["fetcherKey", "navigate", "reloadDocument", "replace", "state", "method", "action", "onSubmit", "relative", "preventScrollReset", "viewTransition"];
 // HEY YOU! DON'T TOUCH THIS VARIABLE!
 //
 // It is replaced with the proper version at build time via a babel plugin in
@@ -36924,7 +36924,7 @@ const Link$1 = /*#__PURE__*/reactExports.forwardRef(function LinkWithRef(_ref7, 
       target,
       to,
       preventScrollReset,
-      unstable_viewTransition
+      viewTransition
     } = _ref7,
     rest = _objectWithoutPropertiesLoose$1(_ref7, _excluded$N);
   let {
@@ -36964,7 +36964,7 @@ const Link$1 = /*#__PURE__*/reactExports.forwardRef(function LinkWithRef(_ref7, 
     target,
     preventScrollReset,
     relative,
-    unstable_viewTransition
+    viewTransition
   });
   function handleClick(event) {
     if (onClick) onClick(event);
@@ -36997,7 +36997,7 @@ const NavLink = /*#__PURE__*/reactExports.forwardRef(function NavLinkWithRef(_re
       end = false,
       style: styleProp,
       to,
-      unstable_viewTransition,
+      viewTransition,
       children
     } = _ref8,
     rest = _objectWithoutPropertiesLoose$1(_ref8, _excluded2$6);
@@ -37013,7 +37013,7 @@ const NavLink = /*#__PURE__*/reactExports.forwardRef(function NavLinkWithRef(_re
   let isTransitioning = routerState != null &&
   // Conditional usage is OK here because the usage of a data router is static
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  useViewTransitionState(path) && unstable_viewTransition === true;
+  useViewTransitionState(path) && viewTransition === true;
   let toPathname = navigator.encodeLocation ? navigator.encodeLocation(path).pathname : path.pathname;
   let locationPathname = location.pathname;
   let nextLocationPathname = routerState && routerState.navigation && routerState.navigation.location ? routerState.navigation.location.pathname : null;
@@ -37057,7 +37057,7 @@ const NavLink = /*#__PURE__*/reactExports.forwardRef(function NavLinkWithRef(_re
     ref: ref,
     style: style,
     to: to,
-    unstable_viewTransition: unstable_viewTransition
+    viewTransition: viewTransition
   }), typeof children === "function" ? children(renderProps) : children);
 });
 if (process.env.NODE_ENV !== "production") {
@@ -37081,7 +37081,7 @@ const Form = /*#__PURE__*/reactExports.forwardRef((_ref9, forwardedRef) => {
       onSubmit,
       relative,
       preventScrollReset,
-      unstable_viewTransition
+      viewTransition
     } = _ref9,
     props = _objectWithoutPropertiesLoose$1(_ref9, _excluded3$3);
   let submit = useSubmit();
@@ -37103,7 +37103,7 @@ const Form = /*#__PURE__*/reactExports.forwardRef((_ref9, forwardedRef) => {
       state,
       relative,
       preventScrollReset,
-      unstable_viewTransition
+      viewTransition
     });
   };
   return /*#__PURE__*/reactExports.createElement("form", _extends$2({
@@ -37157,7 +37157,7 @@ function useLinkClickHandler(to, _temp) {
     state,
     preventScrollReset,
     relative,
-    unstable_viewTransition
+    viewTransition
   } = _temp === void 0 ? {} : _temp;
   let navigate = useNavigate();
   let location = useLocation();
@@ -37175,10 +37175,10 @@ function useLinkClickHandler(to, _temp) {
         state,
         preventScrollReset,
         relative,
-        unstable_viewTransition
+        viewTransition
       });
     }
-  }, [location, navigate, path, replaceProp, state, target, to, preventScrollReset, relative, unstable_viewTransition]);
+  }, [location, navigate, path, replaceProp, state, target, to, preventScrollReset, relative, viewTransition]);
 }
 function validateClientSideSubmission() {
   if (typeof document === "undefined") {
@@ -37219,7 +37219,7 @@ function useSubmit() {
         body,
         formMethod: options.method || method,
         formEncType: options.encType || encType,
-        unstable_flushSync: options.unstable_flushSync
+        flushSync: options.flushSync
       });
     } else {
       router.navigate(options.action || action, {
@@ -37231,8 +37231,8 @@ function useSubmit() {
         replace: options.replace,
         state: options.state,
         fromRouteId: currentRouteId,
-        unstable_flushSync: options.unstable_flushSync,
-        unstable_viewTransition: options.unstable_viewTransition
+        flushSync: options.flushSync,
+        viewTransition: options.viewTransition
       });
     }
   }, [router, basename, currentRouteId]);
@@ -37266,9 +37266,13 @@ function useFormAction(action, _temp2) {
     // since it might not apply to our contextual route.  We add it back based
     // on match.route.index below
     let params = new URLSearchParams(path.search);
-    if (params.has("index") && params.get("index") === "") {
+    let indexValues = params.getAll("index");
+    let hasNakedIndexParam = indexValues.some(v => v === "");
+    if (hasNakedIndexParam) {
       params.delete("index");
-      path.search = params.toString() ? "?" + params.toString() : "";
+      indexValues.filter(v => v).forEach(v => params.append("index", v));
+      let qs = params.toString();
+      path.search = qs ? "?" + qs : "";
     }
   }
   if ((!action || action === ".") && match.route.index) {
@@ -37296,7 +37300,7 @@ function useViewTransitionState(to, opts) {
     opts = {};
   }
   let vtContext = reactExports.useContext(ViewTransitionContext);
-  !(vtContext != null) ? process.env.NODE_ENV !== "production" ? invariant(false, "`unstable_useViewTransitionState` must be used within `react-router-dom`'s `RouterProvider`.  " + "Did you accidentally import `RouterProvider` from `react-router`?") : invariant(false) : void 0;
+  !(vtContext != null) ? process.env.NODE_ENV !== "production" ? invariant(false, "`useViewTransitionState` must be used within `react-router-dom`'s `RouterProvider`.  " + "Did you accidentally import `RouterProvider` from `react-router`?") : invariant(false) : void 0;
   let {
     basename
   } = useDataRouterContext(DataRouterHook.useViewTransitionState);
@@ -37312,11 +37316,11 @@ function useViewTransitionState(to, opts) {
   // destination.  This ensures that other PUSH navigations that reverse
   // an indicated transition apply.  I.e., on the list view you have:
   //
-  //   <NavLink to="/details/1" unstable_viewTransition>
+  //   <NavLink to="/details/1" viewTransition>
   //
   // If you click the breadcrumb back to the list view:
   //
-  //   <NavLink to="/list" unstable_viewTransition>
+  //   <NavLink to="/list" viewTransition>
   //
   // We should apply the transition because it's indicated as active going
   // from /list -> /details/1 and therefore should be active on the reverse
@@ -37380,7 +37384,7 @@ function memoize$2(fn) {
 }
 
 // eslint-disable-next-line no-undef
-var reactPropsRegex = /^((children|dangerouslySetInnerHTML|key|ref|autoFocus|defaultValue|defaultChecked|innerHTML|suppressContentEditableWarning|suppressHydrationWarning|valueLink|abbr|accept|acceptCharset|accessKey|action|allow|allowUserMedia|allowPaymentRequest|allowFullScreen|allowTransparency|alt|async|autoComplete|autoPlay|capture|cellPadding|cellSpacing|challenge|charSet|checked|cite|classID|className|cols|colSpan|content|contentEditable|contextMenu|controls|controlsList|coords|crossOrigin|data|dateTime|decoding|default|defer|dir|disabled|disablePictureInPicture|disableRemotePlayback|download|draggable|encType|enterKeyHint|form|formAction|formEncType|formMethod|formNoValidate|formTarget|frameBorder|headers|height|hidden|high|href|hrefLang|htmlFor|httpEquiv|id|inputMode|integrity|is|keyParams|keyType|kind|label|lang|list|loading|loop|low|marginHeight|marginWidth|max|maxLength|media|mediaGroup|method|min|minLength|multiple|muted|name|nonce|noValidate|open|optimum|pattern|placeholder|playsInline|poster|preload|profile|radioGroup|readOnly|referrerPolicy|rel|required|reversed|role|rows|rowSpan|sandbox|scope|scoped|scrolling|seamless|selected|shape|size|sizes|slot|span|spellCheck|src|srcDoc|srcLang|srcSet|start|step|style|summary|tabIndex|target|title|translate|type|useMap|value|width|wmode|wrap|about|datatype|inlist|prefix|property|resource|typeof|vocab|autoCapitalize|autoCorrect|autoSave|color|incremental|fallback|inert|itemProp|itemScope|itemType|itemID|itemRef|on|option|results|security|unselectable|accentHeight|accumulate|additive|alignmentBaseline|allowReorder|alphabetic|amplitude|arabicForm|ascent|attributeName|attributeType|autoReverse|azimuth|baseFrequency|baselineShift|baseProfile|bbox|begin|bias|by|calcMode|capHeight|clip|clipPathUnits|clipPath|clipRule|colorInterpolation|colorInterpolationFilters|colorProfile|colorRendering|contentScriptType|contentStyleType|cursor|cx|cy|d|decelerate|descent|diffuseConstant|direction|display|divisor|dominantBaseline|dur|dx|dy|edgeMode|elevation|enableBackground|end|exponent|externalResourcesRequired|fill|fillOpacity|fillRule|filter|filterRes|filterUnits|floodColor|floodOpacity|focusable|fontFamily|fontSize|fontSizeAdjust|fontStretch|fontStyle|fontVariant|fontWeight|format|from|fr|fx|fy|g1|g2|glyphName|glyphOrientationHorizontal|glyphOrientationVertical|glyphRef|gradientTransform|gradientUnits|hanging|horizAdvX|horizOriginX|ideographic|imageRendering|in|in2|intercept|k|k1|k2|k3|k4|kernelMatrix|kernelUnitLength|kerning|keyPoints|keySplines|keyTimes|lengthAdjust|letterSpacing|lightingColor|limitingConeAngle|local|markerEnd|markerMid|markerStart|markerHeight|markerUnits|markerWidth|mask|maskContentUnits|maskUnits|mathematical|mode|numOctaves|offset|opacity|operator|order|orient|orientation|origin|overflow|overlinePosition|overlineThickness|panose1|paintOrder|pathLength|patternContentUnits|patternTransform|patternUnits|pointerEvents|points|pointsAtX|pointsAtY|pointsAtZ|preserveAlpha|preserveAspectRatio|primitiveUnits|r|radius|refX|refY|renderingIntent|repeatCount|repeatDur|requiredExtensions|requiredFeatures|restart|result|rotate|rx|ry|scale|seed|shapeRendering|slope|spacing|specularConstant|specularExponent|speed|spreadMethod|startOffset|stdDeviation|stemh|stemv|stitchTiles|stopColor|stopOpacity|strikethroughPosition|strikethroughThickness|string|stroke|strokeDasharray|strokeDashoffset|strokeLinecap|strokeLinejoin|strokeMiterlimit|strokeOpacity|strokeWidth|surfaceScale|systemLanguage|tableValues|targetX|targetY|textAnchor|textDecoration|textRendering|textLength|to|transform|u1|u2|underlinePosition|underlineThickness|unicode|unicodeBidi|unicodeRange|unitsPerEm|vAlphabetic|vHanging|vIdeographic|vMathematical|values|vectorEffect|version|vertAdvY|vertOriginX|vertOriginY|viewBox|viewTarget|visibility|widths|wordSpacing|writingMode|x|xHeight|x1|x2|xChannelSelector|xlinkActuate|xlinkArcrole|xlinkHref|xlinkRole|xlinkShow|xlinkTitle|xlinkType|xmlBase|xmlns|xmlnsXlink|xmlLang|xmlSpace|y|y1|y2|yChannelSelector|z|zoomAndPan|for|class|autofocus)|(([Dd][Aa][Tt][Aa]|[Aa][Rr][Ii][Aa]|x)-.*))$/; // https://esbench.com/bench/5bfee68a4cd7e6009ef61d23
+var reactPropsRegex = /^((children|dangerouslySetInnerHTML|key|ref|autoFocus|defaultValue|defaultChecked|innerHTML|suppressContentEditableWarning|suppressHydrationWarning|valueLink|abbr|accept|acceptCharset|accessKey|action|allow|allowUserMedia|allowPaymentRequest|allowFullScreen|allowTransparency|alt|async|autoComplete|autoPlay|capture|cellPadding|cellSpacing|challenge|charSet|checked|cite|classID|className|cols|colSpan|content|contentEditable|contextMenu|controls|controlsList|coords|crossOrigin|data|dateTime|decoding|default|defer|dir|disabled|disablePictureInPicture|disableRemotePlayback|download|draggable|encType|enterKeyHint|fetchpriority|fetchPriority|form|formAction|formEncType|formMethod|formNoValidate|formTarget|frameBorder|headers|height|hidden|high|href|hrefLang|htmlFor|httpEquiv|id|inputMode|integrity|is|keyParams|keyType|kind|label|lang|list|loading|loop|low|marginHeight|marginWidth|max|maxLength|media|mediaGroup|method|min|minLength|multiple|muted|name|nonce|noValidate|open|optimum|pattern|placeholder|playsInline|poster|preload|profile|radioGroup|readOnly|referrerPolicy|rel|required|reversed|role|rows|rowSpan|sandbox|scope|scoped|scrolling|seamless|selected|shape|size|sizes|slot|span|spellCheck|src|srcDoc|srcLang|srcSet|start|step|style|summary|tabIndex|target|title|translate|type|useMap|value|width|wmode|wrap|about|datatype|inlist|prefix|property|resource|typeof|vocab|autoCapitalize|autoCorrect|autoSave|color|incremental|fallback|inert|itemProp|itemScope|itemType|itemID|itemRef|on|option|results|security|unselectable|accentHeight|accumulate|additive|alignmentBaseline|allowReorder|alphabetic|amplitude|arabicForm|ascent|attributeName|attributeType|autoReverse|azimuth|baseFrequency|baselineShift|baseProfile|bbox|begin|bias|by|calcMode|capHeight|clip|clipPathUnits|clipPath|clipRule|colorInterpolation|colorInterpolationFilters|colorProfile|colorRendering|contentScriptType|contentStyleType|cursor|cx|cy|d|decelerate|descent|diffuseConstant|direction|display|divisor|dominantBaseline|dur|dx|dy|edgeMode|elevation|enableBackground|end|exponent|externalResourcesRequired|fill|fillOpacity|fillRule|filter|filterRes|filterUnits|floodColor|floodOpacity|focusable|fontFamily|fontSize|fontSizeAdjust|fontStretch|fontStyle|fontVariant|fontWeight|format|from|fr|fx|fy|g1|g2|glyphName|glyphOrientationHorizontal|glyphOrientationVertical|glyphRef|gradientTransform|gradientUnits|hanging|horizAdvX|horizOriginX|ideographic|imageRendering|in|in2|intercept|k|k1|k2|k3|k4|kernelMatrix|kernelUnitLength|kerning|keyPoints|keySplines|keyTimes|lengthAdjust|letterSpacing|lightingColor|limitingConeAngle|local|markerEnd|markerMid|markerStart|markerHeight|markerUnits|markerWidth|mask|maskContentUnits|maskUnits|mathematical|mode|numOctaves|offset|opacity|operator|order|orient|orientation|origin|overflow|overlinePosition|overlineThickness|panose1|paintOrder|pathLength|patternContentUnits|patternTransform|patternUnits|pointerEvents|points|pointsAtX|pointsAtY|pointsAtZ|preserveAlpha|preserveAspectRatio|primitiveUnits|r|radius|refX|refY|renderingIntent|repeatCount|repeatDur|requiredExtensions|requiredFeatures|restart|result|rotate|rx|ry|scale|seed|shapeRendering|slope|spacing|specularConstant|specularExponent|speed|spreadMethod|startOffset|stdDeviation|stemh|stemv|stitchTiles|stopColor|stopOpacity|strikethroughPosition|strikethroughThickness|string|stroke|strokeDasharray|strokeDashoffset|strokeLinecap|strokeLinejoin|strokeMiterlimit|strokeOpacity|strokeWidth|surfaceScale|systemLanguage|tableValues|targetX|targetY|textAnchor|textDecoration|textRendering|textLength|to|transform|u1|u2|underlinePosition|underlineThickness|unicode|unicodeBidi|unicodeRange|unitsPerEm|vAlphabetic|vHanging|vIdeographic|vMathematical|values|vectorEffect|version|vertAdvY|vertOriginX|vertOriginY|viewBox|viewTarget|visibility|widths|wordSpacing|writingMode|x|xHeight|x1|x2|xChannelSelector|xlinkActuate|xlinkArcrole|xlinkHref|xlinkRole|xlinkShow|xlinkTitle|xlinkType|xmlBase|xmlns|xmlnsXlink|xmlLang|xmlSpace|y|y1|y2|yChannelSelector|z|zoomAndPan|for|class|autofocus)|(([Dd][Aa][Tt][Aa]|[Aa][Rr][Ii][Aa]|x)-.*))$/; // https://esbench.com/bench/5bfee68a4cd7e6009ef61d23
 
 var isPropValid = /* #__PURE__ */memoize$2(function (prop) {
   return reactPropsRegex.test(prop) || prop.charCodeAt(0) === 111
@@ -38694,9 +38698,9 @@ createCache(options
   return cache;
 };
 
-var reactIs$4 = {exports: {}};
+var reactIs$3 = {exports: {}};
 
-var reactIs_production_min$3 = {};
+var reactIs_production_min$2 = {};
 
 /** @license React v16.13.1
  * react-is.production.min.js
@@ -38707,21 +38711,21 @@ var reactIs_production_min$3 = {};
  * LICENSE file in the root directory of this source tree.
  */
 
-var hasRequiredReactIs_production_min$3;
+var hasRequiredReactIs_production_min$2;
 
-function requireReactIs_production_min$3 () {
-	if (hasRequiredReactIs_production_min$3) return reactIs_production_min$3;
-	hasRequiredReactIs_production_min$3 = 1;
+function requireReactIs_production_min$2 () {
+	if (hasRequiredReactIs_production_min$2) return reactIs_production_min$2;
+	hasRequiredReactIs_production_min$2 = 1;
 var b="function"===typeof Symbol&&Symbol.for,c=b?Symbol.for("react.element"):60103,d=b?Symbol.for("react.portal"):60106,e=b?Symbol.for("react.fragment"):60107,f=b?Symbol.for("react.strict_mode"):60108,g=b?Symbol.for("react.profiler"):60114,h=b?Symbol.for("react.provider"):60109,k=b?Symbol.for("react.context"):60110,l=b?Symbol.for("react.async_mode"):60111,m=b?Symbol.for("react.concurrent_mode"):60111,n=b?Symbol.for("react.forward_ref"):60112,p=b?Symbol.for("react.suspense"):60113,q=b?
 	Symbol.for("react.suspense_list"):60120,r=b?Symbol.for("react.memo"):60115,t=b?Symbol.for("react.lazy"):60116,v=b?Symbol.for("react.block"):60121,w=b?Symbol.for("react.fundamental"):60117,x=b?Symbol.for("react.responder"):60118,y=b?Symbol.for("react.scope"):60119;
-	function z(a){if("object"===typeof a&&null!==a){var u=a.$$typeof;switch(u){case c:switch(a=a.type,a){case l:case m:case e:case g:case f:case p:return a;default:switch(a=a&&a.$$typeof,a){case k:case n:case t:case r:case h:return a;default:return u}}case d:return u}}}function A(a){return z(a)===m}reactIs_production_min$3.AsyncMode=l;reactIs_production_min$3.ConcurrentMode=m;reactIs_production_min$3.ContextConsumer=k;reactIs_production_min$3.ContextProvider=h;reactIs_production_min$3.Element=c;reactIs_production_min$3.ForwardRef=n;reactIs_production_min$3.Fragment=e;reactIs_production_min$3.Lazy=t;reactIs_production_min$3.Memo=r;reactIs_production_min$3.Portal=d;
-	reactIs_production_min$3.Profiler=g;reactIs_production_min$3.StrictMode=f;reactIs_production_min$3.Suspense=p;reactIs_production_min$3.isAsyncMode=function(a){return A(a)||z(a)===l};reactIs_production_min$3.isConcurrentMode=A;reactIs_production_min$3.isContextConsumer=function(a){return z(a)===k};reactIs_production_min$3.isContextProvider=function(a){return z(a)===h};reactIs_production_min$3.isElement=function(a){return "object"===typeof a&&null!==a&&a.$$typeof===c};reactIs_production_min$3.isForwardRef=function(a){return z(a)===n};reactIs_production_min$3.isFragment=function(a){return z(a)===e};reactIs_production_min$3.isLazy=function(a){return z(a)===t};
-	reactIs_production_min$3.isMemo=function(a){return z(a)===r};reactIs_production_min$3.isPortal=function(a){return z(a)===d};reactIs_production_min$3.isProfiler=function(a){return z(a)===g};reactIs_production_min$3.isStrictMode=function(a){return z(a)===f};reactIs_production_min$3.isSuspense=function(a){return z(a)===p};
-	reactIs_production_min$3.isValidElementType=function(a){return "string"===typeof a||"function"===typeof a||a===e||a===m||a===g||a===f||a===p||a===q||"object"===typeof a&&null!==a&&(a.$$typeof===t||a.$$typeof===r||a.$$typeof===h||a.$$typeof===k||a.$$typeof===n||a.$$typeof===w||a.$$typeof===x||a.$$typeof===y||a.$$typeof===v)};reactIs_production_min$3.typeOf=z;
-	return reactIs_production_min$3;
+	function z(a){if("object"===typeof a&&null!==a){var u=a.$$typeof;switch(u){case c:switch(a=a.type,a){case l:case m:case e:case g:case f:case p:return a;default:switch(a=a&&a.$$typeof,a){case k:case n:case t:case r:case h:return a;default:return u}}case d:return u}}}function A(a){return z(a)===m}reactIs_production_min$2.AsyncMode=l;reactIs_production_min$2.ConcurrentMode=m;reactIs_production_min$2.ContextConsumer=k;reactIs_production_min$2.ContextProvider=h;reactIs_production_min$2.Element=c;reactIs_production_min$2.ForwardRef=n;reactIs_production_min$2.Fragment=e;reactIs_production_min$2.Lazy=t;reactIs_production_min$2.Memo=r;reactIs_production_min$2.Portal=d;
+	reactIs_production_min$2.Profiler=g;reactIs_production_min$2.StrictMode=f;reactIs_production_min$2.Suspense=p;reactIs_production_min$2.isAsyncMode=function(a){return A(a)||z(a)===l};reactIs_production_min$2.isConcurrentMode=A;reactIs_production_min$2.isContextConsumer=function(a){return z(a)===k};reactIs_production_min$2.isContextProvider=function(a){return z(a)===h};reactIs_production_min$2.isElement=function(a){return "object"===typeof a&&null!==a&&a.$$typeof===c};reactIs_production_min$2.isForwardRef=function(a){return z(a)===n};reactIs_production_min$2.isFragment=function(a){return z(a)===e};reactIs_production_min$2.isLazy=function(a){return z(a)===t};
+	reactIs_production_min$2.isMemo=function(a){return z(a)===r};reactIs_production_min$2.isPortal=function(a){return z(a)===d};reactIs_production_min$2.isProfiler=function(a){return z(a)===g};reactIs_production_min$2.isStrictMode=function(a){return z(a)===f};reactIs_production_min$2.isSuspense=function(a){return z(a)===p};
+	reactIs_production_min$2.isValidElementType=function(a){return "string"===typeof a||"function"===typeof a||a===e||a===m||a===g||a===f||a===p||a===q||"object"===typeof a&&null!==a&&(a.$$typeof===t||a.$$typeof===r||a.$$typeof===h||a.$$typeof===k||a.$$typeof===n||a.$$typeof===w||a.$$typeof===x||a.$$typeof===y||a.$$typeof===v)};reactIs_production_min$2.typeOf=z;
+	return reactIs_production_min$2;
 }
 
-var reactIs_development$3 = {};
+var reactIs_development$2 = {};
 
 /** @license React v16.13.1
  * react-is.development.js
@@ -38732,11 +38736,11 @@ var reactIs_development$3 = {};
  * LICENSE file in the root directory of this source tree.
  */
 
-var hasRequiredReactIs_development$3;
+var hasRequiredReactIs_development$2;
 
-function requireReactIs_development$3 () {
-	if (hasRequiredReactIs_development$3) return reactIs_development$3;
-	hasRequiredReactIs_development$3 = 1;
+function requireReactIs_development$2 () {
+	if (hasRequiredReactIs_development$2) return reactIs_development$2;
+	hasRequiredReactIs_development$2 = 1;
 
 
 
@@ -38877,48 +38881,48 @@ function requireReactIs_development$3 () {
 	  return typeOf(object) === REACT_SUSPENSE_TYPE;
 	}
 
-	reactIs_development$3.AsyncMode = AsyncMode;
-	reactIs_development$3.ConcurrentMode = ConcurrentMode;
-	reactIs_development$3.ContextConsumer = ContextConsumer;
-	reactIs_development$3.ContextProvider = ContextProvider;
-	reactIs_development$3.Element = Element;
-	reactIs_development$3.ForwardRef = ForwardRef;
-	reactIs_development$3.Fragment = Fragment;
-	reactIs_development$3.Lazy = Lazy;
-	reactIs_development$3.Memo = Memo;
-	reactIs_development$3.Portal = Portal;
-	reactIs_development$3.Profiler = Profiler;
-	reactIs_development$3.StrictMode = StrictMode;
-	reactIs_development$3.Suspense = Suspense;
-	reactIs_development$3.isAsyncMode = isAsyncMode;
-	reactIs_development$3.isConcurrentMode = isConcurrentMode;
-	reactIs_development$3.isContextConsumer = isContextConsumer;
-	reactIs_development$3.isContextProvider = isContextProvider;
-	reactIs_development$3.isElement = isElement;
-	reactIs_development$3.isForwardRef = isForwardRef;
-	reactIs_development$3.isFragment = isFragment;
-	reactIs_development$3.isLazy = isLazy;
-	reactIs_development$3.isMemo = isMemo;
-	reactIs_development$3.isPortal = isPortal;
-	reactIs_development$3.isProfiler = isProfiler;
-	reactIs_development$3.isStrictMode = isStrictMode;
-	reactIs_development$3.isSuspense = isSuspense;
-	reactIs_development$3.isValidElementType = isValidElementType;
-	reactIs_development$3.typeOf = typeOf;
+	reactIs_development$2.AsyncMode = AsyncMode;
+	reactIs_development$2.ConcurrentMode = ConcurrentMode;
+	reactIs_development$2.ContextConsumer = ContextConsumer;
+	reactIs_development$2.ContextProvider = ContextProvider;
+	reactIs_development$2.Element = Element;
+	reactIs_development$2.ForwardRef = ForwardRef;
+	reactIs_development$2.Fragment = Fragment;
+	reactIs_development$2.Lazy = Lazy;
+	reactIs_development$2.Memo = Memo;
+	reactIs_development$2.Portal = Portal;
+	reactIs_development$2.Profiler = Profiler;
+	reactIs_development$2.StrictMode = StrictMode;
+	reactIs_development$2.Suspense = Suspense;
+	reactIs_development$2.isAsyncMode = isAsyncMode;
+	reactIs_development$2.isConcurrentMode = isConcurrentMode;
+	reactIs_development$2.isContextConsumer = isContextConsumer;
+	reactIs_development$2.isContextProvider = isContextProvider;
+	reactIs_development$2.isElement = isElement;
+	reactIs_development$2.isForwardRef = isForwardRef;
+	reactIs_development$2.isFragment = isFragment;
+	reactIs_development$2.isLazy = isLazy;
+	reactIs_development$2.isMemo = isMemo;
+	reactIs_development$2.isPortal = isPortal;
+	reactIs_development$2.isProfiler = isProfiler;
+	reactIs_development$2.isStrictMode = isStrictMode;
+	reactIs_development$2.isSuspense = isSuspense;
+	reactIs_development$2.isValidElementType = isValidElementType;
+	reactIs_development$2.typeOf = typeOf;
 	  })();
 	}
-	return reactIs_development$3;
+	return reactIs_development$2;
 }
 
 if (process.env.NODE_ENV === 'production') {
-  reactIs$4.exports = requireReactIs_production_min$3();
+  reactIs$3.exports = requireReactIs_production_min$2();
 } else {
-  reactIs$4.exports = requireReactIs_development$3();
+  reactIs$3.exports = requireReactIs_development$2();
 }
 
-var reactIsExports$2 = reactIs$4.exports;
+var reactIsExports$1 = reactIs$3.exports;
 
-var reactIs$3 = reactIsExports$2;
+var reactIs$2 = reactIsExports$1;
 var FORWARD_REF_STATICS = {
   '$$typeof': true,
   render: true,
@@ -38935,8 +38939,8 @@ var MEMO_STATICS = {
   type: true
 };
 var TYPE_STATICS = {};
-TYPE_STATICS[reactIs$3.ForwardRef] = FORWARD_REF_STATICS;
-TYPE_STATICS[reactIs$3.Memo] = MEMO_STATICS;
+TYPE_STATICS[reactIs$2.ForwardRef] = FORWARD_REF_STATICS;
+TYPE_STATICS[reactIs$2.Memo] = MEMO_STATICS;
 
 var isBrowser$3 = typeof document !== 'undefined';
 
@@ -38945,7 +38949,7 @@ function getRegisteredStyles(registered, registeredStyles, classNames) {
   classNames.split(' ').forEach(function (className) {
     if (registered[className] !== undefined) {
       registeredStyles.push(registered[className] + ";");
-    } else {
+    } else if (className) {
       rawClassName += className + " ";
     }
   });
@@ -39079,6 +39083,7 @@ var unitlessKeys = {
   opacity: 1,
   order: 1,
   orphans: 1,
+  scale: 1,
   tabSize: 1,
   widows: 1,
   zIndex: 1,
@@ -39275,7 +39280,7 @@ function createStringFromObject(mergedProps, registered, obj) {
   return string;
 }
 
-var labelPattern = /label:\s*([^\s;\n{]+)\s*(;|$)/g;
+var labelPattern = /label:\s*([^\s;{]+)\s*(;|$)/g;
 // keyframes are stored on the SerializedStyles object as a linked list
 
 
@@ -39810,9 +39815,9 @@ tags.forEach(function (tagName) {
 
 var propTypes = {exports: {}};
 
-var reactIs$2 = {exports: {}};
+var reactIs$1 = {exports: {}};
 
-var reactIs_production_min$2 = {};
+var reactIs_production_min$1 = {};
 
 /** @license React v16.13.1
  * react-is.production.min.js
@@ -39823,21 +39828,21 @@ var reactIs_production_min$2 = {};
  * LICENSE file in the root directory of this source tree.
  */
 
-var hasRequiredReactIs_production_min$2;
+var hasRequiredReactIs_production_min$1;
 
-function requireReactIs_production_min$2 () {
-	if (hasRequiredReactIs_production_min$2) return reactIs_production_min$2;
-	hasRequiredReactIs_production_min$2 = 1;
+function requireReactIs_production_min$1 () {
+	if (hasRequiredReactIs_production_min$1) return reactIs_production_min$1;
+	hasRequiredReactIs_production_min$1 = 1;
 var b="function"===typeof Symbol&&Symbol.for,c=b?Symbol.for("react.element"):60103,d=b?Symbol.for("react.portal"):60106,e=b?Symbol.for("react.fragment"):60107,f=b?Symbol.for("react.strict_mode"):60108,g=b?Symbol.for("react.profiler"):60114,h=b?Symbol.for("react.provider"):60109,k=b?Symbol.for("react.context"):60110,l=b?Symbol.for("react.async_mode"):60111,m=b?Symbol.for("react.concurrent_mode"):60111,n=b?Symbol.for("react.forward_ref"):60112,p=b?Symbol.for("react.suspense"):60113,q=b?
 	Symbol.for("react.suspense_list"):60120,r=b?Symbol.for("react.memo"):60115,t=b?Symbol.for("react.lazy"):60116,v=b?Symbol.for("react.block"):60121,w=b?Symbol.for("react.fundamental"):60117,x=b?Symbol.for("react.responder"):60118,y=b?Symbol.for("react.scope"):60119;
-	function z(a){if("object"===typeof a&&null!==a){var u=a.$$typeof;switch(u){case c:switch(a=a.type,a){case l:case m:case e:case g:case f:case p:return a;default:switch(a=a&&a.$$typeof,a){case k:case n:case t:case r:case h:return a;default:return u}}case d:return u}}}function A(a){return z(a)===m}reactIs_production_min$2.AsyncMode=l;reactIs_production_min$2.ConcurrentMode=m;reactIs_production_min$2.ContextConsumer=k;reactIs_production_min$2.ContextProvider=h;reactIs_production_min$2.Element=c;reactIs_production_min$2.ForwardRef=n;reactIs_production_min$2.Fragment=e;reactIs_production_min$2.Lazy=t;reactIs_production_min$2.Memo=r;reactIs_production_min$2.Portal=d;
-	reactIs_production_min$2.Profiler=g;reactIs_production_min$2.StrictMode=f;reactIs_production_min$2.Suspense=p;reactIs_production_min$2.isAsyncMode=function(a){return A(a)||z(a)===l};reactIs_production_min$2.isConcurrentMode=A;reactIs_production_min$2.isContextConsumer=function(a){return z(a)===k};reactIs_production_min$2.isContextProvider=function(a){return z(a)===h};reactIs_production_min$2.isElement=function(a){return "object"===typeof a&&null!==a&&a.$$typeof===c};reactIs_production_min$2.isForwardRef=function(a){return z(a)===n};reactIs_production_min$2.isFragment=function(a){return z(a)===e};reactIs_production_min$2.isLazy=function(a){return z(a)===t};
-	reactIs_production_min$2.isMemo=function(a){return z(a)===r};reactIs_production_min$2.isPortal=function(a){return z(a)===d};reactIs_production_min$2.isProfiler=function(a){return z(a)===g};reactIs_production_min$2.isStrictMode=function(a){return z(a)===f};reactIs_production_min$2.isSuspense=function(a){return z(a)===p};
-	reactIs_production_min$2.isValidElementType=function(a){return "string"===typeof a||"function"===typeof a||a===e||a===m||a===g||a===f||a===p||a===q||"object"===typeof a&&null!==a&&(a.$$typeof===t||a.$$typeof===r||a.$$typeof===h||a.$$typeof===k||a.$$typeof===n||a.$$typeof===w||a.$$typeof===x||a.$$typeof===y||a.$$typeof===v)};reactIs_production_min$2.typeOf=z;
-	return reactIs_production_min$2;
+	function z(a){if("object"===typeof a&&null!==a){var u=a.$$typeof;switch(u){case c:switch(a=a.type,a){case l:case m:case e:case g:case f:case p:return a;default:switch(a=a&&a.$$typeof,a){case k:case n:case t:case r:case h:return a;default:return u}}case d:return u}}}function A(a){return z(a)===m}reactIs_production_min$1.AsyncMode=l;reactIs_production_min$1.ConcurrentMode=m;reactIs_production_min$1.ContextConsumer=k;reactIs_production_min$1.ContextProvider=h;reactIs_production_min$1.Element=c;reactIs_production_min$1.ForwardRef=n;reactIs_production_min$1.Fragment=e;reactIs_production_min$1.Lazy=t;reactIs_production_min$1.Memo=r;reactIs_production_min$1.Portal=d;
+	reactIs_production_min$1.Profiler=g;reactIs_production_min$1.StrictMode=f;reactIs_production_min$1.Suspense=p;reactIs_production_min$1.isAsyncMode=function(a){return A(a)||z(a)===l};reactIs_production_min$1.isConcurrentMode=A;reactIs_production_min$1.isContextConsumer=function(a){return z(a)===k};reactIs_production_min$1.isContextProvider=function(a){return z(a)===h};reactIs_production_min$1.isElement=function(a){return "object"===typeof a&&null!==a&&a.$$typeof===c};reactIs_production_min$1.isForwardRef=function(a){return z(a)===n};reactIs_production_min$1.isFragment=function(a){return z(a)===e};reactIs_production_min$1.isLazy=function(a){return z(a)===t};
+	reactIs_production_min$1.isMemo=function(a){return z(a)===r};reactIs_production_min$1.isPortal=function(a){return z(a)===d};reactIs_production_min$1.isProfiler=function(a){return z(a)===g};reactIs_production_min$1.isStrictMode=function(a){return z(a)===f};reactIs_production_min$1.isSuspense=function(a){return z(a)===p};
+	reactIs_production_min$1.isValidElementType=function(a){return "string"===typeof a||"function"===typeof a||a===e||a===m||a===g||a===f||a===p||a===q||"object"===typeof a&&null!==a&&(a.$$typeof===t||a.$$typeof===r||a.$$typeof===h||a.$$typeof===k||a.$$typeof===n||a.$$typeof===w||a.$$typeof===x||a.$$typeof===y||a.$$typeof===v)};reactIs_production_min$1.typeOf=z;
+	return reactIs_production_min$1;
 }
 
-var reactIs_development$2 = {};
+var reactIs_development$1 = {};
 
 /** @license React v16.13.1
  * react-is.development.js
@@ -39848,11 +39853,11 @@ var reactIs_development$2 = {};
  * LICENSE file in the root directory of this source tree.
  */
 
-var hasRequiredReactIs_development$2;
+var hasRequiredReactIs_development$1;
 
-function requireReactIs_development$2 () {
-	if (hasRequiredReactIs_development$2) return reactIs_development$2;
-	hasRequiredReactIs_development$2 = 1;
+function requireReactIs_development$1 () {
+	if (hasRequiredReactIs_development$1) return reactIs_development$1;
+	hasRequiredReactIs_development$1 = 1;
 
 
 
@@ -39993,51 +39998,51 @@ function requireReactIs_development$2 () {
 	  return typeOf(object) === REACT_SUSPENSE_TYPE;
 	}
 
-	reactIs_development$2.AsyncMode = AsyncMode;
-	reactIs_development$2.ConcurrentMode = ConcurrentMode;
-	reactIs_development$2.ContextConsumer = ContextConsumer;
-	reactIs_development$2.ContextProvider = ContextProvider;
-	reactIs_development$2.Element = Element;
-	reactIs_development$2.ForwardRef = ForwardRef;
-	reactIs_development$2.Fragment = Fragment;
-	reactIs_development$2.Lazy = Lazy;
-	reactIs_development$2.Memo = Memo;
-	reactIs_development$2.Portal = Portal;
-	reactIs_development$2.Profiler = Profiler;
-	reactIs_development$2.StrictMode = StrictMode;
-	reactIs_development$2.Suspense = Suspense;
-	reactIs_development$2.isAsyncMode = isAsyncMode;
-	reactIs_development$2.isConcurrentMode = isConcurrentMode;
-	reactIs_development$2.isContextConsumer = isContextConsumer;
-	reactIs_development$2.isContextProvider = isContextProvider;
-	reactIs_development$2.isElement = isElement;
-	reactIs_development$2.isForwardRef = isForwardRef;
-	reactIs_development$2.isFragment = isFragment;
-	reactIs_development$2.isLazy = isLazy;
-	reactIs_development$2.isMemo = isMemo;
-	reactIs_development$2.isPortal = isPortal;
-	reactIs_development$2.isProfiler = isProfiler;
-	reactIs_development$2.isStrictMode = isStrictMode;
-	reactIs_development$2.isSuspense = isSuspense;
-	reactIs_development$2.isValidElementType = isValidElementType;
-	reactIs_development$2.typeOf = typeOf;
+	reactIs_development$1.AsyncMode = AsyncMode;
+	reactIs_development$1.ConcurrentMode = ConcurrentMode;
+	reactIs_development$1.ContextConsumer = ContextConsumer;
+	reactIs_development$1.ContextProvider = ContextProvider;
+	reactIs_development$1.Element = Element;
+	reactIs_development$1.ForwardRef = ForwardRef;
+	reactIs_development$1.Fragment = Fragment;
+	reactIs_development$1.Lazy = Lazy;
+	reactIs_development$1.Memo = Memo;
+	reactIs_development$1.Portal = Portal;
+	reactIs_development$1.Profiler = Profiler;
+	reactIs_development$1.StrictMode = StrictMode;
+	reactIs_development$1.Suspense = Suspense;
+	reactIs_development$1.isAsyncMode = isAsyncMode;
+	reactIs_development$1.isConcurrentMode = isConcurrentMode;
+	reactIs_development$1.isContextConsumer = isContextConsumer;
+	reactIs_development$1.isContextProvider = isContextProvider;
+	reactIs_development$1.isElement = isElement;
+	reactIs_development$1.isForwardRef = isForwardRef;
+	reactIs_development$1.isFragment = isFragment;
+	reactIs_development$1.isLazy = isLazy;
+	reactIs_development$1.isMemo = isMemo;
+	reactIs_development$1.isPortal = isPortal;
+	reactIs_development$1.isProfiler = isProfiler;
+	reactIs_development$1.isStrictMode = isStrictMode;
+	reactIs_development$1.isSuspense = isSuspense;
+	reactIs_development$1.isValidElementType = isValidElementType;
+	reactIs_development$1.typeOf = typeOf;
 	  })();
 	}
-	return reactIs_development$2;
+	return reactIs_development$1;
 }
 
 var hasRequiredReactIs;
 
 function requireReactIs () {
-	if (hasRequiredReactIs) return reactIs$2.exports;
+	if (hasRequiredReactIs) return reactIs$1.exports;
 	hasRequiredReactIs = 1;
 
 	if (process.env.NODE_ENV === 'production') {
-	  reactIs$2.exports = requireReactIs_production_min$2();
+	  reactIs$1.exports = requireReactIs_production_min$1();
 	} else {
-	  reactIs$2.exports = requireReactIs_development$2();
+	  reactIs$1.exports = requireReactIs_development$1();
 	}
-	return reactIs$2.exports;
+	return reactIs$1.exports;
 }
 
 /*
@@ -42533,9 +42538,9 @@ function generateUtilityClasses(componentName, slots, globalStatePrefix = 'Mui')
   return result;
 }
 
-var reactIs$1 = {exports: {}};
+var reactIs = {exports: {}};
 
-var reactIs_production_min$1 = {};
+var reactIs_production_min = {};
 
 /**
  * @license React
@@ -42547,20 +42552,20 @@ var reactIs_production_min$1 = {};
  * LICENSE file in the root directory of this source tree.
  */
 
-var hasRequiredReactIs_production_min$1;
+var hasRequiredReactIs_production_min;
 
-function requireReactIs_production_min$1 () {
-	if (hasRequiredReactIs_production_min$1) return reactIs_production_min$1;
-	hasRequiredReactIs_production_min$1 = 1;
+function requireReactIs_production_min () {
+	if (hasRequiredReactIs_production_min) return reactIs_production_min;
+	hasRequiredReactIs_production_min = 1;
 var b=Symbol.for("react.element"),c=Symbol.for("react.portal"),d=Symbol.for("react.fragment"),e=Symbol.for("react.strict_mode"),f=Symbol.for("react.profiler"),g=Symbol.for("react.provider"),h=Symbol.for("react.context"),k=Symbol.for("react.server_context"),l=Symbol.for("react.forward_ref"),m=Symbol.for("react.suspense"),n=Symbol.for("react.suspense_list"),p=Symbol.for("react.memo"),q=Symbol.for("react.lazy"),t=Symbol.for("react.offscreen"),u;u=Symbol.for("react.module.reference");
-	function v(a){if("object"===typeof a&&null!==a){var r=a.$$typeof;switch(r){case b:switch(a=a.type,a){case d:case f:case e:case m:case n:return a;default:switch(a=a&&a.$$typeof,a){case k:case h:case l:case q:case p:case g:return a;default:return r}}case c:return r}}}reactIs_production_min$1.ContextConsumer=h;reactIs_production_min$1.ContextProvider=g;reactIs_production_min$1.Element=b;reactIs_production_min$1.ForwardRef=l;reactIs_production_min$1.Fragment=d;reactIs_production_min$1.Lazy=q;reactIs_production_min$1.Memo=p;reactIs_production_min$1.Portal=c;reactIs_production_min$1.Profiler=f;reactIs_production_min$1.StrictMode=e;reactIs_production_min$1.Suspense=m;
-	reactIs_production_min$1.SuspenseList=n;reactIs_production_min$1.isAsyncMode=function(){return !1};reactIs_production_min$1.isConcurrentMode=function(){return !1};reactIs_production_min$1.isContextConsumer=function(a){return v(a)===h};reactIs_production_min$1.isContextProvider=function(a){return v(a)===g};reactIs_production_min$1.isElement=function(a){return "object"===typeof a&&null!==a&&a.$$typeof===b};reactIs_production_min$1.isForwardRef=function(a){return v(a)===l};reactIs_production_min$1.isFragment=function(a){return v(a)===d};reactIs_production_min$1.isLazy=function(a){return v(a)===q};reactIs_production_min$1.isMemo=function(a){return v(a)===p};
-	reactIs_production_min$1.isPortal=function(a){return v(a)===c};reactIs_production_min$1.isProfiler=function(a){return v(a)===f};reactIs_production_min$1.isStrictMode=function(a){return v(a)===e};reactIs_production_min$1.isSuspense=function(a){return v(a)===m};reactIs_production_min$1.isSuspenseList=function(a){return v(a)===n};
-	reactIs_production_min$1.isValidElementType=function(a){return "string"===typeof a||"function"===typeof a||a===d||a===f||a===e||a===m||a===n||a===t||"object"===typeof a&&null!==a&&(a.$$typeof===q||a.$$typeof===p||a.$$typeof===g||a.$$typeof===h||a.$$typeof===l||a.$$typeof===u||void 0!==a.getModuleId)?!0:!1};reactIs_production_min$1.typeOf=v;
-	return reactIs_production_min$1;
+	function v(a){if("object"===typeof a&&null!==a){var r=a.$$typeof;switch(r){case b:switch(a=a.type,a){case d:case f:case e:case m:case n:return a;default:switch(a=a&&a.$$typeof,a){case k:case h:case l:case q:case p:case g:return a;default:return r}}case c:return r}}}reactIs_production_min.ContextConsumer=h;reactIs_production_min.ContextProvider=g;reactIs_production_min.Element=b;reactIs_production_min.ForwardRef=l;reactIs_production_min.Fragment=d;reactIs_production_min.Lazy=q;reactIs_production_min.Memo=p;reactIs_production_min.Portal=c;reactIs_production_min.Profiler=f;reactIs_production_min.StrictMode=e;reactIs_production_min.Suspense=m;
+	reactIs_production_min.SuspenseList=n;reactIs_production_min.isAsyncMode=function(){return !1};reactIs_production_min.isConcurrentMode=function(){return !1};reactIs_production_min.isContextConsumer=function(a){return v(a)===h};reactIs_production_min.isContextProvider=function(a){return v(a)===g};reactIs_production_min.isElement=function(a){return "object"===typeof a&&null!==a&&a.$$typeof===b};reactIs_production_min.isForwardRef=function(a){return v(a)===l};reactIs_production_min.isFragment=function(a){return v(a)===d};reactIs_production_min.isLazy=function(a){return v(a)===q};reactIs_production_min.isMemo=function(a){return v(a)===p};
+	reactIs_production_min.isPortal=function(a){return v(a)===c};reactIs_production_min.isProfiler=function(a){return v(a)===f};reactIs_production_min.isStrictMode=function(a){return v(a)===e};reactIs_production_min.isSuspense=function(a){return v(a)===m};reactIs_production_min.isSuspenseList=function(a){return v(a)===n};
+	reactIs_production_min.isValidElementType=function(a){return "string"===typeof a||"function"===typeof a||a===d||a===f||a===e||a===m||a===n||a===t||"object"===typeof a&&null!==a&&(a.$$typeof===q||a.$$typeof===p||a.$$typeof===g||a.$$typeof===h||a.$$typeof===l||a.$$typeof===u||void 0!==a.getModuleId)?!0:!1};reactIs_production_min.typeOf=v;
+	return reactIs_production_min;
 }
 
-var reactIs_development$1 = {};
+var reactIs_development = {};
 
 /**
  * @license React
@@ -42572,11 +42577,11 @@ var reactIs_development$1 = {};
  * LICENSE file in the root directory of this source tree.
  */
 
-var hasRequiredReactIs_development$1;
+var hasRequiredReactIs_development;
 
-function requireReactIs_development$1 () {
-	if (hasRequiredReactIs_development$1) return reactIs_development$1;
-	hasRequiredReactIs_development$1 = 1;
+function requireReactIs_development () {
+	if (hasRequiredReactIs_development) return reactIs_development;
+	hasRequiredReactIs_development = 1;
 
 	if (process.env.NODE_ENV !== "production") {
 	  (function() {
@@ -42756,46 +42761,46 @@ function requireReactIs_development$1 () {
 	  return typeOf(object) === REACT_SUSPENSE_LIST_TYPE;
 	}
 
-	reactIs_development$1.ContextConsumer = ContextConsumer;
-	reactIs_development$1.ContextProvider = ContextProvider;
-	reactIs_development$1.Element = Element;
-	reactIs_development$1.ForwardRef = ForwardRef;
-	reactIs_development$1.Fragment = Fragment;
-	reactIs_development$1.Lazy = Lazy;
-	reactIs_development$1.Memo = Memo;
-	reactIs_development$1.Portal = Portal;
-	reactIs_development$1.Profiler = Profiler;
-	reactIs_development$1.StrictMode = StrictMode;
-	reactIs_development$1.Suspense = Suspense;
-	reactIs_development$1.SuspenseList = SuspenseList;
-	reactIs_development$1.isAsyncMode = isAsyncMode;
-	reactIs_development$1.isConcurrentMode = isConcurrentMode;
-	reactIs_development$1.isContextConsumer = isContextConsumer;
-	reactIs_development$1.isContextProvider = isContextProvider;
-	reactIs_development$1.isElement = isElement;
-	reactIs_development$1.isForwardRef = isForwardRef;
-	reactIs_development$1.isFragment = isFragment;
-	reactIs_development$1.isLazy = isLazy;
-	reactIs_development$1.isMemo = isMemo;
-	reactIs_development$1.isPortal = isPortal;
-	reactIs_development$1.isProfiler = isProfiler;
-	reactIs_development$1.isStrictMode = isStrictMode;
-	reactIs_development$1.isSuspense = isSuspense;
-	reactIs_development$1.isSuspenseList = isSuspenseList;
-	reactIs_development$1.isValidElementType = isValidElementType;
-	reactIs_development$1.typeOf = typeOf;
+	reactIs_development.ContextConsumer = ContextConsumer;
+	reactIs_development.ContextProvider = ContextProvider;
+	reactIs_development.Element = Element;
+	reactIs_development.ForwardRef = ForwardRef;
+	reactIs_development.Fragment = Fragment;
+	reactIs_development.Lazy = Lazy;
+	reactIs_development.Memo = Memo;
+	reactIs_development.Portal = Portal;
+	reactIs_development.Profiler = Profiler;
+	reactIs_development.StrictMode = StrictMode;
+	reactIs_development.Suspense = Suspense;
+	reactIs_development.SuspenseList = SuspenseList;
+	reactIs_development.isAsyncMode = isAsyncMode;
+	reactIs_development.isConcurrentMode = isConcurrentMode;
+	reactIs_development.isContextConsumer = isContextConsumer;
+	reactIs_development.isContextProvider = isContextProvider;
+	reactIs_development.isElement = isElement;
+	reactIs_development.isForwardRef = isForwardRef;
+	reactIs_development.isFragment = isFragment;
+	reactIs_development.isLazy = isLazy;
+	reactIs_development.isMemo = isMemo;
+	reactIs_development.isPortal = isPortal;
+	reactIs_development.isProfiler = isProfiler;
+	reactIs_development.isStrictMode = isStrictMode;
+	reactIs_development.isSuspense = isSuspense;
+	reactIs_development.isSuspenseList = isSuspenseList;
+	reactIs_development.isValidElementType = isValidElementType;
+	reactIs_development.typeOf = typeOf;
 	  })();
 	}
-	return reactIs_development$1;
+	return reactIs_development;
 }
 
 if (process.env.NODE_ENV === 'production') {
-  reactIs$1.exports = requireReactIs_production_min$1();
+  reactIs.exports = requireReactIs_production_min();
 } else {
-  reactIs$1.exports = requireReactIs_development$1();
+  reactIs.exports = requireReactIs_development();
 }
 
-var reactIsExports$1 = reactIs$1.exports;
+var reactIsExports = reactIs.exports;
 
 // Simplified polyfill for IE11 support
 // https://github.com/JamesMGreene/Function.name/blob/58b314d4a983110c3682f1228f845d39ccca1817/Function.name.js#L3
@@ -42832,9 +42837,9 @@ function getDisplayName$1(Component) {
   // TypeScript can't have components as objects but they exist in the form of `memo` or `Suspense`
   if (typeof Component === 'object') {
     switch (Component.$$typeof) {
-      case reactIsExports$1.ForwardRef:
+      case reactIsExports.ForwardRef:
         return getWrappedName(Component, Component.render, 'ForwardRef');
-      case reactIsExports$1.Memo:
+      case reactIsExports.Memo:
         return getWrappedName(Component, Component.type, 'memo');
       default:
         return undefined;
@@ -45555,13 +45560,13 @@ function require_extends () {
 	hasRequired_extends = 1;
 	(function (module) {
 		function _extends() {
-		  return (module.exports = _extends = Object.assign ? Object.assign.bind() : function (n) {
+		  return module.exports = _extends = Object.assign ? Object.assign.bind() : function (n) {
 		    for (var e = 1; e < arguments.length; e++) {
 		      var t = arguments[e];
 		      for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]);
 		    }
 		    return n;
-		  }, module.exports.__esModule = true, module.exports["default"] = module.exports), _extends.apply(null, arguments);
+		  }, module.exports.__esModule = true, module.exports["default"] = module.exports, _extends.apply(null, arguments);
 		}
 		module.exports = _extends, module.exports.__esModule = true, module.exports["default"] = module.exports; 
 	} (_extends));
@@ -49148,6 +49153,7 @@ var QUERY_KEYS = {
     useGetProposalsKey: 'useGetProposalsKey',
     useGetProposalKey: 'useGetProposalKey',
     useGetDRepVotesKey: 'useGetDRepVotesKey',
+    useGetDRepInfoKey: 'useGetDRepInfoKey',
 };
 
 var URL_REGEX = /^(?:(?:https?:\/\/)?(?:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,})(?:\/[^\s]*)?)|(?:ipfs:\/\/[a-f0-9]+(?:\/[a-zA-Z0-9_]+)*)$|^$/;
@@ -61849,7 +61855,7 @@ FormData$1.prototype.append = function(field, value, options) {
   }
 
   // https://github.com/felixge/node-form-data/issues/38
-  if (util.isArray(value)) {
+  if (Array.isArray(value)) {
     // Please convert your array into string
     // the way web server expects it
     this._error(new Error('Arrays are not supported.'));
@@ -62880,7 +62886,7 @@ function stringifySafely(rawValue, parser, encoder) {
     }
   }
 
-  return (encoder || JSON.stringify)(rawValue);
+  return (0, JSON.stringify)(rawValue);
 }
 
 const defaults = {
@@ -63615,7 +63621,7 @@ function requireMs () {
 	 * @api public
 	 */
 
-	ms = function(val, options) {
+	ms = function (val, options) {
 	  options = options || {};
 	  var type = typeof val;
 	  if (type === 'string' && val.length > 0) {
@@ -64794,10 +64800,21 @@ var Writable = stream.Writable;
 var assert = require$$4$2;
 var debug = debug_1;
 
+// Preventive platform detection
+// istanbul ignore next
+(function detectUnsupportedEnvironment() {
+  var looksLikeNode = typeof process !== "undefined";
+  var looksLikeBrowser = typeof window !== "undefined" && typeof document !== "undefined";
+  var looksLikeV8 = isFunction$1(Error.captureStackTrace);
+  if (!looksLikeNode && (looksLikeBrowser || !looksLikeV8)) {
+    console.warn("The follow-redirects package should be excluded from browser builds.");
+  }
+}());
+
 // Whether to use the native URL object or the legacy url module
 var useNativeURL = false;
 try {
-  assert(new URL$1());
+  assert(new URL$1(""));
 }
 catch (error) {
   useNativeURL = error.code === "ERR_INVALID_URL";
@@ -65134,17 +65151,17 @@ RedirectableRequest.prototype._performRequest = function () {
     var buffers = this._requestBodyBuffers;
     (function writeNext(error) {
       // Only write if this request has not been redirected yet
-      /* istanbul ignore else */
+      // istanbul ignore else
       if (request === self._currentRequest) {
         // Report any write errors
-        /* istanbul ignore if */
+        // istanbul ignore if
         if (error) {
           self.emit("error", error);
         }
         // Write the next buffer if there are still left
         else if (i < buffers.length) {
           var buffer = buffers[i++];
-          /* istanbul ignore else */
+          // istanbul ignore else
           if (!request.finished) {
             request.write(buffer.data, buffer.encoding, writeNext);
           }
@@ -65340,7 +65357,7 @@ function noop$2() { /* empty */ }
 
 function parseUrl(input) {
   var parsed;
-  /* istanbul ignore else */
+  // istanbul ignore else
   if (useNativeURL) {
     parsed = new URL$1(input);
   }
@@ -65355,7 +65372,7 @@ function parseUrl(input) {
 }
 
 function resolveUrl(relative, base) {
-  /* istanbul ignore next */
+  // istanbul ignore next
   return useNativeURL ? new URL$1(relative, base) : parseUrl(url.resolve(base, relative));
 }
 
@@ -65404,7 +65421,10 @@ function removeMatchingHeaders(regex, headers) {
 function createErrorType(code, message, baseClass) {
   // Create constructor
   function CustomError(properties) {
-    Error.captureStackTrace(this, this.constructor);
+    // istanbul ignore else
+    if (isFunction$1(Error.captureStackTrace)) {
+      Error.captureStackTrace(this, this.constructor);
+    }
     Object.assign(this, properties || {});
     this.code = code;
     this.message = this.cause ? message + ": " + this.cause.message : message;
@@ -67094,7 +67114,7 @@ const composeSignals = (signals, timeout) => {
 const streamChunk = function* (chunk, chunkSize) {
   let len = chunk.byteLength;
 
-  if (!chunkSize || len < chunkSize) {
+  if (len < chunkSize) {
     yield chunk;
     return;
   }
@@ -71260,14 +71280,14 @@ var useGetDRepVotesQuery = function (type, sort, search) {
     var _c = useQuery({
         queryKey: [
             QUERY_KEYS.useGetDRepVotesKey,
-            (_a = pendingTransaction.vote) === null || _a === void 0 ? void 0 : _a.transactionHash,
+            (_a = pendingTransaction === null || pendingTransaction === void 0 ? void 0 : pendingTransaction.vote) === null || _a === void 0 ? void 0 : _a.transactionHash,
             type,
             sort,
             search,
         ],
         queryFn: function () {
             return getDRepVotes(apiUrl, validationApiUrl, {
-                dRepID: dRepID,
+                dRepID: dRepID !== null && dRepID !== void 0 ? dRepID : '',
                 params: __assign(__assign(__assign({}, (search && { search: search })), (sort && { sort: sort })), (type && { type: type })),
             });
         },
@@ -71342,7 +71362,7 @@ var useGetProposalsInfiniteQuery = function (_a) {
         dRepID,
         filters,
         isEnabled,
-        (_b = pendingTransaction.vote) === null || _b === void 0 ? void 0 : _b.transactionHash,
+        (_b = pendingTransaction === null || pendingTransaction === void 0 ? void 0 : pendingTransaction.vote) === null || _b === void 0 ? void 0 : _b.transactionHash,
         searchPhrase,
         sorting,
     ], fetchProposals, {
@@ -72795,7 +72815,7 @@ function createFormControl(props = {}) {
         timer = setTimeout(callback, wait);
     };
     const _updateValid = async (shouldUpdateValid) => {
-        if (_proxyFormState.isValid || shouldUpdateValid) {
+        if (!props.disabled && (_proxyFormState.isValid || shouldUpdateValid)) {
             const isValid = _options.resolver
                 ? isEmptyObject((await _executeSchema()).errors)
                 : await executeBuiltInValidation(_fields, true);
@@ -72807,7 +72827,8 @@ function createFormControl(props = {}) {
         }
     };
     const _updateIsValidating = (names, isValidating) => {
-        if (_proxyFormState.isValidating || _proxyFormState.validatingFields) {
+        if (!props.disabled &&
+            (_proxyFormState.isValidating || _proxyFormState.validatingFields)) {
             (names || Array.from(_names.mount)).forEach((name) => {
                 if (name) {
                     isValidating
@@ -72822,7 +72843,7 @@ function createFormControl(props = {}) {
         }
     };
     const _updateFieldArray = (name, values = [], method, args, shouldSetValues = true, shouldUpdateFieldsAndState = true) => {
-        if (args && method) {
+        if (args && method && !props.disabled) {
             _state.action = true;
             if (shouldUpdateFieldsAndState && Array.isArray(get(_fields, name))) {
                 const fieldValues = method(get(_fields, name), args.argA, args.argB);
@@ -72886,38 +72907,40 @@ function createFormControl(props = {}) {
         const output = {
             name,
         };
-        const disabledField = !!(get(_fields, name) &&
-            get(_fields, name)._f &&
-            get(_fields, name)._f.disabled);
-        if (!isBlurEvent || shouldDirty) {
-            if (_proxyFormState.isDirty) {
-                isPreviousDirty = _formState.isDirty;
-                _formState.isDirty = output.isDirty = _getDirty();
-                shouldUpdateField = isPreviousDirty !== output.isDirty;
-            }
-            const isCurrentFieldPristine = disabledField || deepEqual(get(_defaultValues, name), fieldValue);
-            isPreviousDirty = !!(!disabledField && get(_formState.dirtyFields, name));
-            isCurrentFieldPristine || disabledField
-                ? unset(_formState.dirtyFields, name)
-                : set(_formState.dirtyFields, name, true);
-            output.dirtyFields = _formState.dirtyFields;
-            shouldUpdateField =
-                shouldUpdateField ||
-                    (_proxyFormState.dirtyFields &&
-                        isPreviousDirty !== !isCurrentFieldPristine);
-        }
-        if (isBlurEvent) {
-            const isPreviousFieldTouched = get(_formState.touchedFields, name);
-            if (!isPreviousFieldTouched) {
-                set(_formState.touchedFields, name, isBlurEvent);
-                output.touchedFields = _formState.touchedFields;
+        if (!props.disabled) {
+            const disabledField = !!(get(_fields, name) &&
+                get(_fields, name)._f &&
+                get(_fields, name)._f.disabled);
+            if (!isBlurEvent || shouldDirty) {
+                if (_proxyFormState.isDirty) {
+                    isPreviousDirty = _formState.isDirty;
+                    _formState.isDirty = output.isDirty = _getDirty();
+                    shouldUpdateField = isPreviousDirty !== output.isDirty;
+                }
+                const isCurrentFieldPristine = disabledField || deepEqual(get(_defaultValues, name), fieldValue);
+                isPreviousDirty = !!(!disabledField && get(_formState.dirtyFields, name));
+                isCurrentFieldPristine || disabledField
+                    ? unset(_formState.dirtyFields, name)
+                    : set(_formState.dirtyFields, name, true);
+                output.dirtyFields = _formState.dirtyFields;
                 shouldUpdateField =
                     shouldUpdateField ||
-                        (_proxyFormState.touchedFields &&
-                            isPreviousFieldTouched !== isBlurEvent);
+                        (_proxyFormState.dirtyFields &&
+                            isPreviousDirty !== !isCurrentFieldPristine);
             }
+            if (isBlurEvent) {
+                const isPreviousFieldTouched = get(_formState.touchedFields, name);
+                if (!isPreviousFieldTouched) {
+                    set(_formState.touchedFields, name, isBlurEvent);
+                    output.touchedFields = _formState.touchedFields;
+                    shouldUpdateField =
+                        shouldUpdateField ||
+                            (_proxyFormState.touchedFields &&
+                                isPreviousFieldTouched !== isBlurEvent);
+                }
+            }
+            shouldUpdateField && shouldRender && _subjects.state.next(output);
         }
-        shouldUpdateField && shouldRender && _subjects.state.next(output);
         return shouldUpdateField ? output : {};
     };
     const shouldRenderByError = (name, isValid, error, fieldState) => {
@@ -73020,8 +73043,9 @@ function createFormControl(props = {}) {
         }
         _names.unMount = new Set();
     };
-    const _getDirty = (name, data) => (name && data && set(_formValues, name, data),
-        !deepEqual(getValues(), _defaultValues));
+    const _getDirty = (name, data) => !props.disabled &&
+        (name && data && set(_formValues, name, data),
+            !deepEqual(getValues(), _defaultValues));
     const _getWatch = (names, defaultValue, isGlobal) => generateWatchOutput(names, _names, {
         ...(_state.mount
             ? _formValues
@@ -73085,7 +73109,7 @@ function createFormControl(props = {}) {
             const fieldName = `${name}.${fieldKey}`;
             const field = get(_fields, fieldName);
             (_names.array.has(name) ||
-                !isPrimitive(fieldValue) ||
+                isObject$1(fieldValue) ||
                 (field && !field._f)) &&
                 !isDateObject(fieldValue)
                 ? setValues(fieldName, fieldValue, options)
@@ -73132,6 +73156,7 @@ function createFormControl(props = {}) {
         const _updateIsFieldValueUpdated = (fieldValue) => {
             isFieldValueUpdated =
                 Number.isNaN(fieldValue) ||
+                    (isDateObject(fieldValue) && isNaN(fieldValue.getTime())) ||
                     deepEqual(fieldValue, get(_formValues, name, fieldValue));
         };
         if (field) {
@@ -73521,7 +73546,11 @@ function createFormControl(props = {}) {
         }
         if (!keepStateOptions.keepValues) {
             if (keepStateOptions.keepDirtyValues) {
-                for (const fieldName of _names.mount) {
+                const fieldsToCheck = new Set([
+                    ..._names.mount,
+                    ...Object.keys(getDirtyFields(_defaultValues, _formValues)),
+                ]);
+                for (const fieldName of Array.from(fieldsToCheck)) {
                     get(_formState.dirtyFields, fieldName)
                         ? set(values, fieldName, get(_formValues, fieldName))
                         : setValue(fieldName, get(values, fieldName));
@@ -73819,6 +73848,11 @@ function useForm(props = {}) {
                 values: control._getWatch(),
             });
     }, [props.shouldUnregister, control]);
+    React$1.useEffect(() => {
+        if (_formControl.current) {
+            _formControl.current.watch = _formControl.current.watch.bind({});
+        }
+    }, [formState]);
     _formControl.current.formState = getProxyFormState(formState, control);
     return _formControl.current;
 }
@@ -75971,17 +76005,17 @@ var useVoteActionForm = function (_a) {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 4, 5, 6]);
-                    isPendingTx = isPendingTransaction();
+                    isPendingTx = isPendingTransaction === null || isPendingTransaction === void 0 ? void 0 : isPendingTransaction();
                     if (isPendingTx)
                         return [2 /*return*/];
-                    return [4 /*yield*/, buildVote(values.vote, txHash, index, urlSubmitValue, hashSubmitValue)];
+                    return [4 /*yield*/, (buildVote === null || buildVote === void 0 ? void 0 : buildVote(values.vote, txHash, index, urlSubmitValue, hashSubmitValue))];
                 case 2:
                     votingBuilder = _a.sent();
-                    return [4 /*yield*/, buildSignSubmitConwayCertTx({
+                    return [4 /*yield*/, (buildSignSubmitConwayCertTx === null || buildSignSubmitConwayCertTx === void 0 ? void 0 : buildSignSubmitConwayCertTx({
                             votingBuilder: votingBuilder,
                             type: 'vote',
                             resourceId: txHash + index,
-                        })];
+                        }))];
                 case 3:
                     result = _a.sent();
                     if (result) {
@@ -76408,270 +76442,6 @@ var utils = /*#__PURE__*/Object.freeze({
     useForkRef: useForkRef,
     useIsFocusVisible: useIsFocusVisible
 });
-
-var reactIs = {exports: {}};
-
-var reactIs_production_min = {};
-
-/**
- * @license React
- * react-is.production.min.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-var hasRequiredReactIs_production_min;
-
-function requireReactIs_production_min () {
-	if (hasRequiredReactIs_production_min) return reactIs_production_min;
-	hasRequiredReactIs_production_min = 1;
-var b=Symbol.for("react.element"),c=Symbol.for("react.portal"),d=Symbol.for("react.fragment"),e=Symbol.for("react.strict_mode"),f=Symbol.for("react.profiler"),g=Symbol.for("react.provider"),h=Symbol.for("react.context"),k=Symbol.for("react.server_context"),l=Symbol.for("react.forward_ref"),m=Symbol.for("react.suspense"),n=Symbol.for("react.suspense_list"),p=Symbol.for("react.memo"),q=Symbol.for("react.lazy"),t=Symbol.for("react.offscreen"),u;u=Symbol.for("react.module.reference");
-	function v(a){if("object"===typeof a&&null!==a){var r=a.$$typeof;switch(r){case b:switch(a=a.type,a){case d:case f:case e:case m:case n:return a;default:switch(a=a&&a.$$typeof,a){case k:case h:case l:case q:case p:case g:return a;default:return r}}case c:return r}}}reactIs_production_min.ContextConsumer=h;reactIs_production_min.ContextProvider=g;reactIs_production_min.Element=b;reactIs_production_min.ForwardRef=l;reactIs_production_min.Fragment=d;reactIs_production_min.Lazy=q;reactIs_production_min.Memo=p;reactIs_production_min.Portal=c;reactIs_production_min.Profiler=f;reactIs_production_min.StrictMode=e;reactIs_production_min.Suspense=m;
-	reactIs_production_min.SuspenseList=n;reactIs_production_min.isAsyncMode=function(){return !1};reactIs_production_min.isConcurrentMode=function(){return !1};reactIs_production_min.isContextConsumer=function(a){return v(a)===h};reactIs_production_min.isContextProvider=function(a){return v(a)===g};reactIs_production_min.isElement=function(a){return "object"===typeof a&&null!==a&&a.$$typeof===b};reactIs_production_min.isForwardRef=function(a){return v(a)===l};reactIs_production_min.isFragment=function(a){return v(a)===d};reactIs_production_min.isLazy=function(a){return v(a)===q};reactIs_production_min.isMemo=function(a){return v(a)===p};
-	reactIs_production_min.isPortal=function(a){return v(a)===c};reactIs_production_min.isProfiler=function(a){return v(a)===f};reactIs_production_min.isStrictMode=function(a){return v(a)===e};reactIs_production_min.isSuspense=function(a){return v(a)===m};reactIs_production_min.isSuspenseList=function(a){return v(a)===n};
-	reactIs_production_min.isValidElementType=function(a){return "string"===typeof a||"function"===typeof a||a===d||a===f||a===e||a===m||a===n||a===t||"object"===typeof a&&null!==a&&(a.$$typeof===q||a.$$typeof===p||a.$$typeof===g||a.$$typeof===h||a.$$typeof===l||a.$$typeof===u||void 0!==a.getModuleId)?!0:!1};reactIs_production_min.typeOf=v;
-	return reactIs_production_min;
-}
-
-var reactIs_development = {};
-
-/**
- * @license React
- * react-is.development.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-var hasRequiredReactIs_development;
-
-function requireReactIs_development () {
-	if (hasRequiredReactIs_development) return reactIs_development;
-	hasRequiredReactIs_development = 1;
-
-	if (process.env.NODE_ENV !== "production") {
-	  (function() {
-
-	// ATTENTION
-	// When adding new symbols to this file,
-	// Please consider also adding to 'react-devtools-shared/src/backend/ReactSymbols'
-	// The Symbol used to tag the ReactElement-like types.
-	var REACT_ELEMENT_TYPE = Symbol.for('react.element');
-	var REACT_PORTAL_TYPE = Symbol.for('react.portal');
-	var REACT_FRAGMENT_TYPE = Symbol.for('react.fragment');
-	var REACT_STRICT_MODE_TYPE = Symbol.for('react.strict_mode');
-	var REACT_PROFILER_TYPE = Symbol.for('react.profiler');
-	var REACT_PROVIDER_TYPE = Symbol.for('react.provider');
-	var REACT_CONTEXT_TYPE = Symbol.for('react.context');
-	var REACT_SERVER_CONTEXT_TYPE = Symbol.for('react.server_context');
-	var REACT_FORWARD_REF_TYPE = Symbol.for('react.forward_ref');
-	var REACT_SUSPENSE_TYPE = Symbol.for('react.suspense');
-	var REACT_SUSPENSE_LIST_TYPE = Symbol.for('react.suspense_list');
-	var REACT_MEMO_TYPE = Symbol.for('react.memo');
-	var REACT_LAZY_TYPE = Symbol.for('react.lazy');
-	var REACT_OFFSCREEN_TYPE = Symbol.for('react.offscreen');
-
-	// -----------------------------------------------------------------------------
-
-	var enableScopeAPI = false; // Experimental Create Event Handle API.
-	var enableCacheElement = false;
-	var enableTransitionTracing = false; // No known bugs, but needs performance testing
-
-	var enableLegacyHidden = false; // Enables unstable_avoidThisFallback feature in Fiber
-	// stuff. Intended to enable React core members to more easily debug scheduling
-	// issues in DEV builds.
-
-	var enableDebugTracing = false; // Track which Fiber(s) schedule render work.
-
-	var REACT_MODULE_REFERENCE;
-
-	{
-	  REACT_MODULE_REFERENCE = Symbol.for('react.module.reference');
-	}
-
-	function isValidElementType(type) {
-	  if (typeof type === 'string' || typeof type === 'function') {
-	    return true;
-	  } // Note: typeof might be other than 'symbol' or 'number' (e.g. if it's a polyfill).
-
-
-	  if (type === REACT_FRAGMENT_TYPE || type === REACT_PROFILER_TYPE || enableDebugTracing  || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || enableLegacyHidden  || type === REACT_OFFSCREEN_TYPE || enableScopeAPI  || enableCacheElement  || enableTransitionTracing ) {
-	    return true;
-	  }
-
-	  if (typeof type === 'object' && type !== null) {
-	    if (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || // This needs to include all possible module reference object
-	    // types supported by any Flight configuration anywhere since
-	    // we don't know which Flight build this will end up being used
-	    // with.
-	    type.$$typeof === REACT_MODULE_REFERENCE || type.getModuleId !== undefined) {
-	      return true;
-	    }
-	  }
-
-	  return false;
-	}
-
-	function typeOf(object) {
-	  if (typeof object === 'object' && object !== null) {
-	    var $$typeof = object.$$typeof;
-
-	    switch ($$typeof) {
-	      case REACT_ELEMENT_TYPE:
-	        var type = object.type;
-
-	        switch (type) {
-	          case REACT_FRAGMENT_TYPE:
-	          case REACT_PROFILER_TYPE:
-	          case REACT_STRICT_MODE_TYPE:
-	          case REACT_SUSPENSE_TYPE:
-	          case REACT_SUSPENSE_LIST_TYPE:
-	            return type;
-
-	          default:
-	            var $$typeofType = type && type.$$typeof;
-
-	            switch ($$typeofType) {
-	              case REACT_SERVER_CONTEXT_TYPE:
-	              case REACT_CONTEXT_TYPE:
-	              case REACT_FORWARD_REF_TYPE:
-	              case REACT_LAZY_TYPE:
-	              case REACT_MEMO_TYPE:
-	              case REACT_PROVIDER_TYPE:
-	                return $$typeofType;
-
-	              default:
-	                return $$typeof;
-	            }
-
-	        }
-
-	      case REACT_PORTAL_TYPE:
-	        return $$typeof;
-	    }
-	  }
-
-	  return undefined;
-	}
-	var ContextConsumer = REACT_CONTEXT_TYPE;
-	var ContextProvider = REACT_PROVIDER_TYPE;
-	var Element = REACT_ELEMENT_TYPE;
-	var ForwardRef = REACT_FORWARD_REF_TYPE;
-	var Fragment = REACT_FRAGMENT_TYPE;
-	var Lazy = REACT_LAZY_TYPE;
-	var Memo = REACT_MEMO_TYPE;
-	var Portal = REACT_PORTAL_TYPE;
-	var Profiler = REACT_PROFILER_TYPE;
-	var StrictMode = REACT_STRICT_MODE_TYPE;
-	var Suspense = REACT_SUSPENSE_TYPE;
-	var SuspenseList = REACT_SUSPENSE_LIST_TYPE;
-	var hasWarnedAboutDeprecatedIsAsyncMode = false;
-	var hasWarnedAboutDeprecatedIsConcurrentMode = false; // AsyncMode should be deprecated
-
-	function isAsyncMode(object) {
-	  {
-	    if (!hasWarnedAboutDeprecatedIsAsyncMode) {
-	      hasWarnedAboutDeprecatedIsAsyncMode = true; // Using console['warn'] to evade Babel and ESLint
-
-	      console['warn']('The ReactIs.isAsyncMode() alias has been deprecated, ' + 'and will be removed in React 18+.');
-	    }
-	  }
-
-	  return false;
-	}
-	function isConcurrentMode(object) {
-	  {
-	    if (!hasWarnedAboutDeprecatedIsConcurrentMode) {
-	      hasWarnedAboutDeprecatedIsConcurrentMode = true; // Using console['warn'] to evade Babel and ESLint
-
-	      console['warn']('The ReactIs.isConcurrentMode() alias has been deprecated, ' + 'and will be removed in React 18+.');
-	    }
-	  }
-
-	  return false;
-	}
-	function isContextConsumer(object) {
-	  return typeOf(object) === REACT_CONTEXT_TYPE;
-	}
-	function isContextProvider(object) {
-	  return typeOf(object) === REACT_PROVIDER_TYPE;
-	}
-	function isElement(object) {
-	  return typeof object === 'object' && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
-	}
-	function isForwardRef(object) {
-	  return typeOf(object) === REACT_FORWARD_REF_TYPE;
-	}
-	function isFragment(object) {
-	  return typeOf(object) === REACT_FRAGMENT_TYPE;
-	}
-	function isLazy(object) {
-	  return typeOf(object) === REACT_LAZY_TYPE;
-	}
-	function isMemo(object) {
-	  return typeOf(object) === REACT_MEMO_TYPE;
-	}
-	function isPortal(object) {
-	  return typeOf(object) === REACT_PORTAL_TYPE;
-	}
-	function isProfiler(object) {
-	  return typeOf(object) === REACT_PROFILER_TYPE;
-	}
-	function isStrictMode(object) {
-	  return typeOf(object) === REACT_STRICT_MODE_TYPE;
-	}
-	function isSuspense(object) {
-	  return typeOf(object) === REACT_SUSPENSE_TYPE;
-	}
-	function isSuspenseList(object) {
-	  return typeOf(object) === REACT_SUSPENSE_LIST_TYPE;
-	}
-
-	reactIs_development.ContextConsumer = ContextConsumer;
-	reactIs_development.ContextProvider = ContextProvider;
-	reactIs_development.Element = Element;
-	reactIs_development.ForwardRef = ForwardRef;
-	reactIs_development.Fragment = Fragment;
-	reactIs_development.Lazy = Lazy;
-	reactIs_development.Memo = Memo;
-	reactIs_development.Portal = Portal;
-	reactIs_development.Profiler = Profiler;
-	reactIs_development.StrictMode = StrictMode;
-	reactIs_development.Suspense = Suspense;
-	reactIs_development.SuspenseList = SuspenseList;
-	reactIs_development.isAsyncMode = isAsyncMode;
-	reactIs_development.isConcurrentMode = isConcurrentMode;
-	reactIs_development.isContextConsumer = isContextConsumer;
-	reactIs_development.isContextProvider = isContextProvider;
-	reactIs_development.isElement = isElement;
-	reactIs_development.isForwardRef = isForwardRef;
-	reactIs_development.isFragment = isFragment;
-	reactIs_development.isLazy = isLazy;
-	reactIs_development.isMemo = isMemo;
-	reactIs_development.isPortal = isPortal;
-	reactIs_development.isProfiler = isProfiler;
-	reactIs_development.isStrictMode = isStrictMode;
-	reactIs_development.isSuspense = isSuspense;
-	reactIs_development.isSuspenseList = isSuspenseList;
-	reactIs_development.isValidElementType = isValidElementType;
-	reactIs_development.typeOf = typeOf;
-	  })();
-	}
-	return reactIs_development;
-}
-
-if (process.env.NODE_ENV === 'production') {
-  reactIs.exports = requireReactIs_production_min();
-} else {
-  reactIs.exports = requireReactIs_development();
-}
-
-var reactIsExports = reactIs.exports;
 
 var config = {
   disabled: false
@@ -92572,12 +92342,19 @@ VFileMessage.prototype.place = undefined;
 VFileMessage.prototype.ruleId = undefined;
 VFileMessage.prototype.source = undefined;
 
-// Register MDX nodes in mdast:
-/// <reference types="mdast-util-mdx-expression" />
-/// <reference types="mdast-util-mdx-jsx" />
-/// <reference types="mdast-util-mdxjs-esm" />
+/**
+ * @import {Identifier, Literal, MemberExpression} from 'estree'
+ * @import {Jsx, JsxDev, Options, Props} from 'hast-util-to-jsx-runtime'
+ * @import {Element, Nodes, Parents, Root, Text} from 'hast'
+ * @import {MdxFlowExpressionHast, MdxTextExpressionHast} from 'mdast-util-mdx-expression'
+ * @import {MdxJsxFlowElementHast, MdxJsxTextElementHast} from 'mdast-util-mdx-jsx'
+ * @import {MdxjsEsmHast} from 'mdast-util-mdxjs-esm'
+ * @import {Position} from 'unist'
+ * @import {Child, Create, Field, State, Style} from './types.js'
+ */
 
 
+// To do: next major: `Object.hasOwn`.
 const own$4 = {}.hasOwnProperty;
 
 /** @type {Map<string, number>} */
@@ -92763,7 +92540,7 @@ function element(state, node, key) {
  *
  * @param {State} state
  *   Info passed around.
- * @param {MdxFlowExpression | MdxTextExpression} node
+ * @param {MdxFlowExpressionHast | MdxTextExpressionHast} node
  *   Current node.
  * @returns {Child | undefined}
  *   Child, optional.
@@ -92788,7 +92565,7 @@ function mdxExpression(state, node) {
  *
  * @param {State} state
  *   Info passed around.
- * @param {MdxjsEsm} node
+ * @param {MdxjsEsmHast} node
  *   Current node.
  * @returns {Child | undefined}
  *   Child, optional.
@@ -92809,7 +92586,7 @@ function mdxEsm(state, node) {
  *
  * @param {State} state
  *   Info passed around.
- * @param {MdxJsxFlowElement | MdxJsxTextElement} node
+ * @param {MdxJsxFlowElementHast | MdxJsxTextElementHast} node
  *   Current node.
  * @param {string | undefined} key
  *   Key.
@@ -92888,7 +92665,7 @@ function text$3(_, node) {
  *   Props.
  * @param {unknown} type
  *   Type.
- * @param {Element | MdxJsxFlowElement | MdxJsxTextElement} node
+ * @param {Element | MdxJsxFlowElementHast | MdxJsxTextElementHast} node
  *   Node.
  * @returns {undefined}
  *   Nothing.
@@ -93025,7 +92802,7 @@ function createElementProps(state, node) {
  *
  * @param {State} state
  *   Info passed around.
- * @param {MdxJsxFlowElement | MdxJsxTextElement} node
+ * @param {MdxJsxFlowElementHast | MdxJsxTextElementHast} node
  *   Current JSX element.
  * @returns {Props}
  *   Props.
@@ -93197,7 +92974,6 @@ function parseStyle(state, value) {
   const result = {};
 
   try {
-    // @ts-expect-error: `style-to-object` types are broken.
     styleToObject(value, replacer);
   } catch (error) {
     if (!state.ignoreInvalidStyle) {
@@ -104155,38 +103931,44 @@ function decode($0, $1, $2) {
 }
 
 /**
- * @typedef {import('mdast').Break} Break
- * @typedef {import('mdast').Blockquote} Blockquote
- * @typedef {import('mdast').Code} Code
- * @typedef {import('mdast').Definition} Definition
- * @typedef {import('mdast').Emphasis} Emphasis
- * @typedef {import('mdast').Heading} Heading
- * @typedef {import('mdast').Html} Html
- * @typedef {import('mdast').Image} Image
- * @typedef {import('mdast').InlineCode} InlineCode
- * @typedef {import('mdast').Link} Link
- * @typedef {import('mdast').List} List
- * @typedef {import('mdast').ListItem} ListItem
- * @typedef {import('mdast').Nodes} Nodes
- * @typedef {import('mdast').Paragraph} Paragraph
- * @typedef {import('mdast').Parent} Parent
- * @typedef {import('mdast').PhrasingContent} PhrasingContent
- * @typedef {import('mdast').ReferenceType} ReferenceType
- * @typedef {import('mdast').Root} Root
- * @typedef {import('mdast').Strong} Strong
- * @typedef {import('mdast').Text} Text
- * @typedef {import('mdast').ThematicBreak} ThematicBreak
- *
- * @typedef {import('micromark-util-types').Encoding} Encoding
- * @typedef {import('micromark-util-types').Event} Event
- * @typedef {import('micromark-util-types').ParseOptions} ParseOptions
- * @typedef {import('micromark-util-types').Token} Token
- * @typedef {import('micromark-util-types').TokenizeContext} TokenizeContext
- * @typedef {import('micromark-util-types').Value} Value
- *
- * @typedef {import('unist').Point} Point
- *
- * @typedef {import('../index.js').CompileData} CompileData
+ * @import {
+ *   Break,
+ *   Blockquote,
+ *   Code,
+ *   Definition,
+ *   Emphasis,
+ *   Heading,
+ *   Html,
+ *   Image,
+ *   InlineCode,
+ *   Link,
+ *   ListItem,
+ *   List,
+ *   Nodes,
+ *   Paragraph,
+ *   PhrasingContent,
+ *   ReferenceType,
+ *   Root,
+ *   Strong,
+ *   Text,
+ *   ThematicBreak
+ * } from 'mdast'
+ * @import {
+ *   Encoding,
+ *   Event,
+ *   Token,
+ *   Value
+ * } from 'micromark-util-types'
+ * @import {Point} from 'unist'
+ * @import {
+ *   CompileContext,
+ *   CompileData,
+ *   Config,
+ *   Extension,
+ *   Handle,
+ *   OnEnterError,
+ *   Options
+ * } from './types.js'
  */
 
 const own$2 = {}.hasOwnProperty;
@@ -104547,8 +104329,7 @@ function compiler(options) {
   }
 
   /**
-   * @this {CompileContext}
-   * @returns {undefined}
+   * @type {CompileContext['buffer']}
    */
   function buffer() {
     this.stack.push({
@@ -104558,16 +104339,7 @@ function compiler(options) {
   }
 
   /**
-   * @this {CompileContext}
-   *   Context.
-   * @param {Nodes} node
-   *   Node to enter.
-   * @param {Token} token
-   *   Corresponding token.
-   * @param {OnEnterError | undefined} [errorHandler]
-   *   Handle the case where this token is open, but it is closed by something else.
-   * @returns {undefined}
-   *   Nothing.
+   * @type {CompileContext['enter']}
    */
   function enter(node, token, errorHandler) {
     const parent = this.stack[this.stack.length - 1];
@@ -104575,7 +104347,7 @@ function compiler(options) {
     const siblings = parent.children;
     siblings.push(node);
     this.stack.push(node);
-    this.tokenStack.push([token, errorHandler]);
+    this.tokenStack.push([token, errorHandler || undefined]);
     node.position = {
       start: point(token.start),
       // @ts-expect-error: `end` will be patched later.
@@ -104606,14 +104378,7 @@ function compiler(options) {
   }
 
   /**
-   * @this {CompileContext}
-   *   Context.
-   * @param {Token} token
-   *   Corresponding token.
-   * @param {OnExitError | undefined} [onExitError]
-   *   Handle the case where another token is open.
-   * @returns {undefined}
-   *   Nothing.
+   * @type {CompileContext['exit']}
    */
   function exit(token, onExitError) {
     const node = this.stack.pop();
@@ -104635,8 +104400,7 @@ function compiler(options) {
   }
 
   /**
-   * @this {CompileContext}
-   * @returns {string}
+   * @type {CompileContext['resume']}
    */
   function resume() {
     return toString$1(this.stack.pop());
@@ -115305,9 +115069,8 @@ function useModal() {
 
 var PillarContext = reactExports.createContext(undefined);
 var PillarProvider = function (_a) {
-    var children = _a.children, apiUrl = _a.apiUrl, walletApi = _a.walletApi, validationApiUrl = _a.validationApiUrl, cExplorerBaseUrl = _a.cExplorerBaseUrl, openFeedbackWindow = _a.openFeedbackWindow, isVotingOnGovernanceActionEnabled = _a.isVotingOnGovernanceActionEnabled, epochParams = _a.epochParams, addSuccessAlert = _a.addSuccessAlert, validateMetadata = _a.validateMetadata, generateMetadata = _a.generateMetadata, createJsonLD = _a.createJsonLD, createHash = _a.createHash;
-    var voter = useGetVoterInfo().voter;
-    var contextValue = reactExports.useMemo(function () { return (__assign(__assign({ apiUrl: apiUrl || process.env.API_URL, validationApiUrl: validationApiUrl || process.env.VALIDATION_API_URL, openFeedbackWindow: openFeedbackWindow, isVotingOnGovernanceActionEnabled: isVotingOnGovernanceActionEnabled, epochParams: epochParams, addSuccessAlert: addSuccessAlert, validateMetadata: validateMetadata, generateMetadata: generateMetadata, createJsonLD: createJsonLD, createHash: createHash, voter: voter }, (walletApi || {})), { cExplorerBaseUrl: cExplorerBaseUrl || process.env.C_EXPLORER_BASE_URL })); }, [
+    var children = _a.children, apiUrl = _a.apiUrl, walletApi = _a.walletApi, validationApiUrl = _a.validationApiUrl, cExplorerBaseUrl = _a.cExplorerBaseUrl, openFeedbackWindow = _a.openFeedbackWindow, isVotingOnGovernanceActionEnabled = _a.isVotingOnGovernanceActionEnabled, epochParams = _a.epochParams, addSuccessAlert = _a.addSuccessAlert, validateMetadata = _a.validateMetadata, generateMetadata = _a.generateMetadata, createJsonLD = _a.createJsonLD, createHash = _a.createHash, voter = _a.voter;
+    var contextValue = reactExports.useMemo(function () { return (__assign({ apiUrl: apiUrl, validationApiUrl: validationApiUrl, cExplorerBaseUrl: cExplorerBaseUrl, openFeedbackWindow: openFeedbackWindow, isVotingOnGovernanceActionEnabled: isVotingOnGovernanceActionEnabled, epochParams: epochParams, addSuccessAlert: addSuccessAlert, validateMetadata: validateMetadata, generateMetadata: generateMetadata, createJsonLD: createJsonLD, createHash: createHash, voter: voter }, (walletApi || {}))); }, [
         apiUrl,
         validationApiUrl,
         openFeedbackWindow,
@@ -115330,31 +115093,6 @@ var usePillarContext = function () {
         throw new Error('usePillarContext must be used within a PillarProvider');
     }
     return context;
-};
-// Mocked hook
-var useGetVoterInfo = function () {
-    return {
-        voter: {
-            dRepRegisterTxHash: null,
-            dRepRetireTxHash: null,
-            deposit: 0,
-            givenName: null,
-            imageHash: null,
-            imageUrl: null,
-            isRegisteredAsDRep: false,
-            isRegisteredAsSoleVoter: false,
-            motivations: null,
-            objectives: null,
-            paymentAddress: null,
-            qualifications: null,
-            soleVoterRegisterTxHash: null,
-            soleVoterRetireTxHash: null,
-            url: null,
-            votingPower: 0,
-            wasRegisteredAsDRep: false,
-            wasRegisteredAsSoleVoter: false,
-        },
-    };
 };
 
 /**
@@ -115424,7 +115162,7 @@ var GovernanceActionsVotedOn = function (_a) {
     }, [data, searchPhrase]);
     return areDRepVotesLoading ? (jsxRuntimeExports.jsx(Box, __assign({ py: 4, display: "flex", justifyContent: "center" }, { children: jsxRuntimeExports.jsx(CircularProgress, {}) }))) : (jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: !data.length ? (jsxRuntimeExports.jsx(Typography$1, __assign({ py: 4, fontWeight: "300" }, { children: "You haven't voted on any Governance Actions yet. Check the 'To vote on' section to vote on Governance Actions." }))) : !(filteredData === null || filteredData === void 0 ? void 0 : filteredData.length) ? (jsxRuntimeExports.jsx(Typography$1, __assign({ py: 4, fontWeight: "300" }, { children: "No results for the search." }))) : (jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: filteredData === null || filteredData === void 0 ? void 0 : filteredData.map(function (item) { return (jsxRuntimeExports.jsxs("div", { children: [jsxRuntimeExports.jsx(Slider, { title: getProposalTypeLabel(item.title), searchPhrase: searchPhrase, dataLength: item.actions.slice(0, 6).length, onDashboard: true, onClickShowAll: onGovernanceActionSliderShowAllClick(item.title), data: item.actions.map(function (action) {
                             var _a;
-                            return (jsxRuntimeExports.jsx("div", __assign({ className: "keen-slider__slide", style: { overflow: 'visible', width: 'auto' } }, { children: jsxRuntimeExports.jsx(GovernanceActionVotedOnCard, { votedProposal: action, inProgress: ((_a = pendingTransaction.vote) === null || _a === void 0 ? void 0 : _a.resourceId) ===
+                            return (jsxRuntimeExports.jsx("div", __assign({ className: "keen-slider__slide", style: { overflow: 'visible', width: 'auto' } }, { children: jsxRuntimeExports.jsx(GovernanceActionVotedOnCard, { votedProposal: action, inProgress: ((_a = pendingTransaction === null || pendingTransaction === void 0 ? void 0 : pendingTransaction.vote) === null || _a === void 0 ? void 0 : _a.resourceId) ===
                                         action.proposal.txHash + action.proposal.index }) }), "".concat(action === null || action === void 0 ? void 0 : action.proposal.id).concat(action.vote.vote)));
                         }) }, item.title), jsxRuntimeExports.jsx(Box, { height: isMobile ? 50 : 72 })] }, item.title)); }) })) }));
 };
