@@ -1,43 +1,49 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import typescript from '@rollup/plugin-typescript';
-import json from '@rollup/plugin-json';
-import postcss from 'rollup-plugin-postcss';
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+const resolve = require('@rollup/plugin-node-resolve');
+const commonjs = require('@rollup/plugin-commonjs');
+const typescript = require('@rollup/plugin-typescript');
+const json = require('@rollup/plugin-json');
+const postcss = require('rollup-plugin-postcss');
+const babel = require('@rollup/plugin-babel');
 const packageJson = require('./package.json');
 
-export default [
-  {
-    input: 'src/VotingPillar.tsx',
-    output: [
-      {
-        file: packageJson.main,
-        format: 'cjs',
-        sourcemap: true,
-      },
-      {
-        file: packageJson.module,
-        format: 'esm',
-        sourcemap: true,
-      },
-    ],
-    plugins: [
-      resolve(),
-      commonjs(),
-      typescript({ tsconfig: './tsconfig.json' }),
-      postcss(),
-      json(),
-    ],
-    onwarn: (warning, warn) => {
-      // Suppress source map warnings from node_modules
-      if (
-        warning.code === 'SOURCEMAP_ERROR' &&
-        /node_modules/.test(warning.message)
-      )
-        return;
-      warn(warning);
+const extensions = ['.js', '.jsx', '.ts', '.tsx'];
+
+module.exports = {
+  input: 'src/VotingPillar.tsx',
+  output: [
+    {
+      file: packageJson.main,
+      format: 'cjs',
+      sourcemap: true,
     },
-  },
-];
+    {
+      file: packageJson.module,
+      format: 'esm',
+      sourcemap: true,
+    },
+  ],
+  plugins: [
+    resolve({ extensions, browser: true }),
+    commonjs(),
+    typescript({ tsconfig: './tsconfig.json', sourceMap: true }),
+    postcss({
+      extract: true,
+      modules: true,
+      use: ['sass'],
+    }),
+    babel({
+      extensions,
+      babelHelpers: 'runtime',
+      exclude: 'node_modules/**',
+      plugins: [['@babel/plugin-transform-runtime', { useESModules: true }]],
+    }),
+    json(),
+  ],
+  external: [
+    'react',
+    'react-dom',
+    'react-router-dom',
+    ...Object.keys(packageJson.dependencies || {}),
+    ...Object.keys(packageJson.peerDependencies || {}),
+  ],
+};

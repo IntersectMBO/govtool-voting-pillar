@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-import { Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -31,20 +30,22 @@ const VotingPillar = ({
     <QueryClientProvider client={new QueryClient()}>
       <ThemeProvider theme={voltaireTheme}>
         <DataActionsBarProvider>
-          <Routes>
-            <Route
-              path={PATHS.governanceActions}
-              element={<GovernanceActionsPage />}
-            />
-            <Route
-              path={PATHS.governanceActionsAction}
-              element={<GovernanceActionDetails />}
-            />
-            <Route
-              path={PATHS.governanceActionsCategory}
-              element={<GovernanceActionsCategory />}
-            />
-          </Routes>
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path={PATHS.governanceActions}
+                element={<GovernanceActionsPage />}
+              />
+              <Route
+                path={PATHS.governanceActionsAction}
+                element={<GovernanceActionDetails />}
+              />
+              <Route
+                path={PATHS.governanceActionsCategory}
+                element={<GovernanceActionsCategory />}
+              />
+            </Routes>
+          </BrowserRouter>
         </DataActionsBarProvider>
       </ThemeProvider>
     </QueryClientProvider>
