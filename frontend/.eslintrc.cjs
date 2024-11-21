@@ -97,5 +97,6 @@ module.exports = {
     '.storybook/',
     'dist/',
     'node_modules/',
+    'rollup.config.mjs',
   ],
 };
