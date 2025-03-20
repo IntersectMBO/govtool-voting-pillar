@@ -132,3 +132,5 @@ infra/terraform/.terraform*
 .yarn
 node_modules/
 *storybook.log
+
+.vite
