@@ -52,7 +52,4 @@ const VotingPillar = ({
   </PillarProvider>
 );
 
-// That exports pages of the VotingPillar component
-export * from './components';
-
 export default VotingPillar;
