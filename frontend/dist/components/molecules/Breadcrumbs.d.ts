@@ -1,8 +1,5 @@
-import { To } from 'react-router-dom';
 import { MetadataValidationStatus } from '../../models';
 type BreadcrumbsProps = {
-    elementOne: string;
-    elementOnePath: To;
     elementTwo: string;
     isDataMissing: MetadataValidationStatus | null;
 };
@@ -16,5 +13,5 @@ type BreadcrumbsProps = {
  * @param {boolean} props.isDataMissing - Indicates if data is missing.
  * @returns {JSX.Element} The rendered Breadcrumbs component.
  */
-export declare const Breadcrumbs: ({ elementOne, elementOnePath, elementTwo, isDataMissing, }: BreadcrumbsProps) => import("react/jsx-runtime").JSX.Element;
+export declare const Breadcrumbs: ({ elementTwo, isDataMissing, }: BreadcrumbsProps) => import("react/jsx-runtime").JSX.Element;
 export {};

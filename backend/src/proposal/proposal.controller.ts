@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags, ApiQuery } from '@nestjs/swagger';
 
 import { ProposalService } from './proposal.service';
@@ -125,7 +125,7 @@ export class ProposalController {
       ccAbstainVotes: 100,
     },
   })
-  async getProposalById(@Query('proposalId') proposalId: string) {
+  async getProposalById(@Param('proposalId') proposalId: string) {
     return this.proposalService.getProposalById(proposalId);
   }
 }

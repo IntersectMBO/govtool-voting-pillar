@@ -31,6 +31,7 @@ type ActionTypeProps = Omit<
 > & {
   onClick?: () => void;
   inProgress?: boolean;
+  isVoter?: boolean;
 };
 
 /**
@@ -51,6 +52,7 @@ type ActionTypeProps = Omit<
  * @param {string} props.metadataStatus - The metadata status of the governance action.
  * @param {boolean} props.metadataValid - Indicates if the metadata is valid.
  * @param {string} props.title - The title of the governance action.
+ * @param {boolean} [props.isVoter=false] - Indicates if the user is a voter.
  * @returns {JSX.Element} The rendered component.
  */
 export const GovernanceActionCard: FC<ActionTypeProps> = ({
@@ -67,6 +69,7 @@ export const GovernanceActionCard: FC<ActionTypeProps> = ({
   metadataStatus,
   metadataValid,
   title,
+  isVoter = false,
 }) => {
   const { isMobile, screenWidth } = useScreenDimension();
 
@@ -163,7 +166,7 @@ export const GovernanceActionCard: FC<ActionTypeProps> = ({
           }}
           data-testid={`govaction-${govActionId}-view-detail`}
         >
-          {inProgress ? 'View Details' : 'View Details and Vote'}
+          {inProgress && !isVoter ? 'View Details' : 'View Details and Vote'}
         </Button>
       </Box>
     </Box>

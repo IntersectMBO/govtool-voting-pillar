@@ -4,9 +4,9 @@
   "version": "0.0.1",
   "license": "MIT",
   "type": "module",
-  "main": "./dist/govtool-voting-pillar.umd.js",
-  "module": "./dist/govtool-voting-pillar.es.js",
-  "types": "./dist/types/export.d.ts",
+  "main": "./dist/@intersect.mbo/govtool-voting-pillar.umd.js",
+  "module": "./dist/@intersect.mbo/govtool-voting-pillar.es.js",
+  "types": "./dist/export.d.ts",
   "files": [
     "dist",
     "README.md",
@@ -14,13 +14,15 @@
   ],
   "exports": {
     ".": {
+      "node": "./dist/@intersect.mbo/govtool-voting-pillar.umd.js",
+      "types": "./dist/export.d.ts",
       "import": {
-        "types": "./dist/types/export.d.ts",
-        "default": "./dist/govtool-voting-pillar.es.js"
+        "types": "./dist/export.d.ts",
+        "default": "./dist/@intersect.mbo/govtool-voting-pillar.es.js"
       },
       "require": {
-        "types": "./dist/types/export.d.ts",
-        "default": "./dist/govtool-voting-pillar.umd.js"
+        "types": "./dist/export.d.ts",
+        "default": "./dist/@intersect.mbo/govtool-voting-pillar.umd.js"
       }
     },
     "./package.json": "./package.json",
@@ -65,14 +67,16 @@
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
     "@hookform/resolvers": "^3.9.0",
-    "@mui/icons-material": "^5.14.3",
-    "@mui/material": "^5.16.7",
+    "@mui/icons-material": "^6.1.5",
+    "@mui/material": "^6.1.5",
     "@storybook/addon-actions": "^8.2.8",
     "@storybook/addon-essentials": "^8.2.8",
     "@storybook/addon-links": "^8.2.8",
     "@storybook/react-webpack5": "^8.2.8",
+    "@types/jsonld": "^1.5.15",
     "axios": "^1.8.3",
     "date-fns": "^4.1.0",
+    "jsonld": "^8.3.3",
     "keen-slider": "^6.8.5",
     "react-diff-view": "^3.2.1",
     "react-dom": "^18.3.1",
@@ -141,6 +145,8 @@
   },
   "peerDependencies": {
     "@fontsource/roboto": "^5.0.14",
+    "@mui/icons-material": "^6.1.5",
+    "@mui/material": "^6.1.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
@@ -170,5 +176,5 @@
       "last 1 safari version"
     ]
   },
-  "packageManager": "yarn@4.6.0+sha512.5383cc12567a95f1d668fbe762dfe0075c595b4bfff433be478dbbe24e05251a8e8c3eb992a986667c1d53b6c3a9c85b8398c35a960587fbd9fa3a0915406728"
+  "packageManager": "yarn@4.7.0"
 }

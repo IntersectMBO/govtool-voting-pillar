@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { VotedProposal, VotedProposalDTO } from '../../models';
+import { ProposalDataDTO, VotedProposal } from '../../models';
 import { mapDtoToProposal } from '../../utils';
 
 export const getProposal = async (
@@ -11,12 +11,12 @@ export const getProposal = async (
 ): Promise<VotedProposal> => {
   const encodedHash = encodeURIComponent(proposalId);
 
-  const { data } = await axios.get<VotedProposalDTO>(
+  const { data } = await axios.get<ProposalDataDTO>(
     `${apiUrl}/proposal/get/${encodedHash}?drepId=${drepId}`
   );
 
   return {
     ...data,
-    proposal: await mapDtoToProposal(validationApiUrl, data.proposal),
+    proposal: await mapDtoToProposal(validationApiUrl, data),
   };
 };

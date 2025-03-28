@@ -1,3 +1,5 @@
-import { PillarProvider, PillarProviderProps } from './context';
+import { PillarProvider, PillarProviderProps, DataActionsBarProvider } from './context';
 import { GovernanceActionsPage, GovernanceActionDetails, GovernanceActionsCategory } from './components/pages';
-export { PillarProvider, type PillarProviderProps, GovernanceActionsPage, GovernanceActionDetails, GovernanceActionsCategory, };
+import { ThemeWrapper } from './theme';
+import { default as VotingPillar } from './VotingPillar';
+export { PillarProvider, type PillarProviderProps, GovernanceActionsPage, GovernanceActionDetails, GovernanceActionsCategory, DataActionsBarProvider, ThemeWrapper, VotingPillar, };

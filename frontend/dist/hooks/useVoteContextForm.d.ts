@@ -8,7 +8,7 @@ export declare const useVoteContextForm: (setSavedHash?: Dispatch<SetStateAction
     control: import('react-hook-form').Control<VoteContextFormValues, any>;
     validateURL: (e?: import('react').BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>;
     errors: import('react-hook-form').FieldErrors<VoteContextFormValues>;
-    generateMetadata: () => void;
+    generateMetadata: () => Promise<any>;
     getValues: import('react-hook-form').UseFormGetValues<VoteContextFormValues>;
     isValid: boolean;
     onClickDownloadJson: () => void;

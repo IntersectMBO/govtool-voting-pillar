@@ -15,9 +15,10 @@ export const useVoteContextForm = (
   setStep?: Dispatch<SetStateAction<number>>,
   setErrorMessage?: Dispatch<SetStateAction<string | undefined>>
 ) => {
-  const { validateMetadata, generateMetadata, createJsonLD, createHash } =
+  const { validateMetadata, generateMetadataBody, createJsonLD, createHash } =
     usePillarContext();
   const [hash, setHash] = useState<string | null>(null);
+  const [jsonLD, setJsonLD] = useState<Record<string, unknown> | null>(null);
 
   const {
     control,
@@ -30,10 +31,28 @@ export const useVoteContextForm = (
     reset,
   } = useFormContext<VoteContextFormValues>();
 
+  const generateMetadata = useCallback(async () => {
+    const { voteContextText } = getValues();
+    const body = await generateMetadataBody({
+      data: {
+        comment: voteContextText,
+      },
+      acceptedKeys: ['comment'],
+    });
+    const jsonld = await createJsonLD(body, CIP_100_CONTEXT);
+
+    const jsonHash = createHash(jsonld);
+
+    // That allows to validate metadata hash
+    setHash(jsonHash);
+    setJsonLD(jsonld);
+
+    return jsonld;
+  }, [getValues]);
+
   const onClickDownloadJson = () => {
-    const json = createJsonLD(getValues());
-    setHash(createHash(json));
-    downloadJson(json, 'Vote_Context');
+    if (!jsonLD) return;
+    downloadJson(jsonLD, 'Vote_Context');
   };
 
   const onSubmit = useCallback(
@@ -41,11 +60,11 @@ export const useVoteContextForm = (
       try {
         if (!hash) throw new Error('Hash is not generated');
 
-        await validateMetadata(data.storingURL, hash);
+        await validateMetadata({ url: data.storingURL, hash });
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         console.error(error);
-        // Replace with correct one
+        // Replace with the correct one
         setErrorMessage?.(MetadataValidationStatus.INCORRECT_FORMAT);
       } finally {
         if (setSavedHash) setSavedHash(hash);

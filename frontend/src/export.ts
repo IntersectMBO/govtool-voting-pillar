@@ -1,9 +1,16 @@
-import { PillarProvider, PillarProviderProps } from './context';
+import {
+  PillarProvider,
+  PillarProviderProps,
+  DataActionsBarProvider,
+} from './context';
 import {
   GovernanceActionsPage,
   GovernanceActionDetails,
   GovernanceActionsCategory,
 } from './components/pages';
+
+import { ThemeWrapper } from './theme';
+import VotingPillar from './VotingPillar';
 
 export {
   PillarProvider,
@@ -11,4 +18,7 @@ export {
   GovernanceActionsPage,
   GovernanceActionDetails,
   GovernanceActionsCategory,
+  DataActionsBarProvider,
+  ThemeWrapper,
+  VotingPillar,
 };

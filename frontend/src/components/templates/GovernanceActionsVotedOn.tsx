@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from 'react';
 import { Box, Typography, CircularProgress } from '@mui/material';
-import { generatePath, useNavigate } from 'react-router-dom';
 
 import { useGetDRepVotesQuery, useScreenDimension } from '../../hooks';
 import { Slider, GovernanceActionVotedOnCard } from '../organisms';
@@ -27,6 +26,7 @@ export const GovernanceActionsVotedOn = ({
   searchPhrase,
   sorting,
 }: GovernanceActionsVotedOnProps) => {
+  const { generatePath, useNavigate } = usePillarContext();
   const { data, areDRepVotesLoading } = useGetDRepVotesQuery(
     filters,
     sorting,
@@ -44,7 +44,7 @@ export const GovernanceActionsVotedOn = ({
         })
       );
     },
-    [navigate]
+    [generatePath, navigate]
   );
 
   const filteredData = useMemo(() => {
@@ -64,7 +64,7 @@ export const GovernanceActionsVotedOn = ({
   }, [data, searchPhrase]);
 
   return areDRepVotesLoading ? (
-    <Box py={4} display="flex" justifyContent="center">
+    <Box py={4} display="flex" justifyContent="center" minHeight="100vh">
       <CircularProgress />
     </Box>
   ) : (

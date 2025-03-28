@@ -1,5 +1,5 @@
 export const PATHS = {
-  governanceActions: '/governance_actions',
-  governanceActionsAction: '/governance_actions/:proposalId',
-  governanceActionsCategory: '/governance_actions/category/:category',
+  governanceActions: '/en/governance_actions',
+  governanceActionsAction: '/en/governance_actions/:proposalId',
+  governanceActionsCategory: '/en/governance_actions/category/:category',
 };

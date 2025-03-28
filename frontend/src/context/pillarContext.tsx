@@ -1,3 +1,6 @@
+'use client';
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   createContext,
   FC,
@@ -5,6 +8,12 @@ import {
   useContext,
   PropsWithChildren,
 } from 'react';
+import { ThemeProvider } from '@emotion/react';
+import { QueryClientProvider, QueryClient } from 'react-query';
+import * as jsonld from 'jsonld';
+
+import { DataActionsBarProvider } from './dataActionsBar';
+import { voltaireTheme } from '../theme';
 
 export type VoterInfo = {
   dRepRegisterTxHash: string | null;
@@ -70,12 +79,33 @@ type PillarContextType = {
   openFeedbackWindow: () => void;
   isVotingOnGovernanceActionEnabled: (proposalType: string) => boolean;
   epochParams: unknown;
-  addSuccessAlert: (message: string) => void;
-  validateMetadata: (url: string, hash: string) => void;
-  generateMetadata: () => void;
-  createJsonLD: (data: unknown) => void;
-  createHash: (json: unknown) => string;
+  addSuccessAlert: (message: string, autoHideDuration?: number) => void;
+  validateMetadata: (body: { url: string; hash: string }) => Promise<void>;
+  generateJsonld: <
+    T extends Record<string, JSONValue>,
+    C extends jsonld.ContextDefinition,
+  >(
+    body: T,
+    context: C,
+    bodyCip?: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ) => Promise<any>;
+  createHash: (json: jsonld.NodeObject) => Promise<string>;
   voter?: VoterInfo;
+  useLocation: () => {
+    pathname: string;
+    search: string;
+    hash: string;
+    state: any;
+    key: any;
+    readonly href: string;
+  };
+  useParams: (routePattern: any) => any;
+  useNavigate: () => (to: any, options?: any) => void;
+  generatePath: (
+    path: string,
+    params?: Record<string, string | number>
+  ) => string;
 } & Partial<WalletApi>;
 
 const PillarContext = createContext<PillarContextType | undefined>(undefined);
@@ -88,12 +118,34 @@ export type PillarProviderProps = {
   openFeedbackWindow: () => void;
   isVotingOnGovernanceActionEnabled: (proposalType: string) => boolean;
   epochParams: unknown;
-  addSuccessAlert: (message: string) => void;
-  validateMetadata: (url: string, hash: string) => void;
-  generateMetadata: () => void;
-  createJsonLD: (data: unknown) => void;
-  createHash: (json: unknown) => string;
+  addSuccessAlert: (message: string, autoHideDuration?: number) => void;
+  validateMetadata: (body: { url: string; hash: string }) => Promise<void>;
+  generateJsonld: <
+    T extends Record<string, JSONValue>,
+    C extends jsonld.ContextDefinition,
+  >(
+    body: T,
+    context: C,
+    bodyCip?: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ) => Promise<any>;
+  createHash: (json: jsonld.NodeObject) => Promise<string>;
   voter?: VoterInfo;
+  routePath?: string;
+  useLocation: () => {
+    pathname: string;
+    search: string;
+    hash: string;
+    state: any;
+    key: any;
+    readonly href: string;
+  };
+  useParams: (routePattern: any) => any;
+  useNavigate: () => (to: any, options?: any) => void;
+  generatePath: (
+    path: string,
+    params?: Record<string, string | number>
+  ) => string;
 };
 
 export const PillarProvider: FC<PillarProviderProps & PropsWithChildren> = ({
@@ -107,10 +159,14 @@ export const PillarProvider: FC<PillarProviderProps & PropsWithChildren> = ({
   epochParams,
   addSuccessAlert,
   validateMetadata,
-  generateMetadata,
-  createJsonLD,
+  generateJsonld,
   createHash,
   voter,
+  routePath,
+  useLocation,
+  useParams,
+  useNavigate,
+  generatePath,
 }) => {
   const contextValue = useMemo(
     () => ({
@@ -122,10 +178,14 @@ export const PillarProvider: FC<PillarProviderProps & PropsWithChildren> = ({
       epochParams,
       addSuccessAlert,
       validateMetadata,
-      generateMetadata,
-      createJsonLD,
+      generateJsonld,
       createHash,
       voter,
+      routePath,
+      useLocation,
+      useParams,
+      useNavigate,
+      generatePath,
       ...(walletApi || {}),
     }),
     [
@@ -136,18 +196,24 @@ export const PillarProvider: FC<PillarProviderProps & PropsWithChildren> = ({
       epochParams,
       addSuccessAlert,
       validateMetadata,
-      generateMetadata,
-      createJsonLD,
+      generateJsonld,
       createHash,
       voter,
       walletApi,
       cExplorerBaseUrl,
+      routePath,
+      useLocation,
+      useParams,
+      useNavigate,
+      generatePath,
     ]
   );
 
   return (
     <PillarContext.Provider value={contextValue}>
-      {children}
+      <QueryClientProvider client={new QueryClient()}>
+        <DataActionsBarProvider>{children}</DataActionsBarProvider>
+      </QueryClientProvider>
     </PillarContext.Provider>
   );
 };

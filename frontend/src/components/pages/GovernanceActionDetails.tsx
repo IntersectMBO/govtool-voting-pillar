@@ -1,9 +1,3 @@
-import {
-  useNavigate,
-  useLocation,
-  useParams,
-  generatePath,
-} from 'react-router-dom';
 import { Box, CircularProgress, Link } from '@mui/material';
 
 import { Typography } from '../atoms';
@@ -13,21 +7,25 @@ import { GovernanceActionDetailsCard } from '../organisms';
 import { getFullGovActionId, getShortenedGovActionId } from '../../utils';
 import { ProposalData } from '../../models';
 import { Breadcrumbs } from '../molecules';
+import { usePillarContext } from '../../context';
 
 type GovernanceActionDetailsState = {
   proposal?: ProposalData;
   openedFromCategoryPage?: boolean;
 };
 
-// TODO: Refactor: GovernanceActionDetals and DashboardGovernanceActionDetails are almost identical
+// TODO: Refactor: GovernanceActionDetails and DashboardGovernanceActionDetails are almost identical
 // and should be unified
 export const GovernanceActionDetails = () => {
-  const { state: untypedState, hash } = useLocation();
+  const { voter, useNavigate, useLocation, useParams, generatePath } =
+    usePillarContext();
+  const location = useLocation();
+  const { state: untypedState, hash } = location;
   const state = untypedState as GovernanceActionDetailsState | null;
   const index = hash.slice(1);
   const navigate = useNavigate();
   const { pagePadding, isMobile } = useScreenDimension();
-  const { proposalId: txHash } = useParams();
+  const { hash: txHash } = useParams('/governance_actions/[hash]');
 
   const fullProposalId = txHash && getFullGovActionId(txHash, index);
   const shortenedGovActionId = txHash && getShortenedGovActionId(txHash, index);
@@ -68,7 +66,7 @@ export const GovernanceActionDetails = () => {
           }}
           onClick={() =>
             navigate(
-              state && state.openedFromCategoryPage
+              state?.openedFromCategoryPage
                 ? generatePath(PATHS.governanceActionsCategory, {
                     category: state?.proposal?.type,
                   })
@@ -91,14 +89,17 @@ export const GovernanceActionDetails = () => {
             display="flex"
             flex={1}
             justifyContent="center"
+            minHeight="100vh"
           >
             <CircularProgress />
           </Box>
         ) : proposal ? (
           <Box data-testid="governance-action-details">
-            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-            {/* @ts-expect-error */}
-            <GovernanceActionDetailsCard proposal={proposal} metadataValid />
+            <GovernanceActionDetailsCard
+              proposal={proposal}
+              isDataMissing={proposal.metadataStatus}
+              isVoter={!!voter}
+            />
           </Box>
         ) : (
           <Box display="flex" flexWrap="wrap" mt={4}>

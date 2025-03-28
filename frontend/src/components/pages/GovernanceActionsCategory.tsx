@@ -1,5 +1,4 @@
 import { useMemo, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import { Box, CircularProgress, Link } from '@mui/material';
 
 import { Typography } from '../atoms';
@@ -21,14 +20,16 @@ import {
   removeDuplicatedProposals,
 } from '../../utils';
 import { useDataActionsBar } from '../../context/dataActionsBar';
+import { usePillarContext } from '../../context';
 
 export const GovernanceActionsCategory = () => {
-  const { category } = useParams();
+  const { useNavigate, useParams } = usePillarContext();
+  const { category } = useParams('/governance_actions/category/[category]');
   const { debouncedSearchText, ...dataActionsBarProps } = useDataActionsBar();
   const { chosenSorting } = dataActionsBarProps;
   const { isMobile, pagePadding, screenWidth } = useScreenDimension();
   const navigate = useNavigate();
-
+  const { voter, isEnabled } = usePillarContext();
   const {
     isProposalsFetching,
     isProposalsFetchingNextPage,
@@ -58,13 +59,6 @@ export const GovernanceActionsCategory = () => {
     () => removeDuplicatedProposals(proposals),
     [proposals]
   );
-
-  // useEffect(() => {
-  //   if (isEnabled && getItemFromLocalStorage(`${WALLET_LS_KEY}_stake_key`)) {
-  //     const { pathname } = window.location;
-  //     navigate(`/connected${pathname}`);
-  //   }
-  // }, [isEnabled]);
 
   return (
     <Box
@@ -131,6 +125,7 @@ export const GovernanceActionsCategory = () => {
                   <Box pb={4.25} key={item.txHash + item.index}>
                     <GovernanceActionCard
                       {...item}
+                      isVoter={!!voter && isEnabled}
                       onClick={() => {
                         saveScrollPosition();
 

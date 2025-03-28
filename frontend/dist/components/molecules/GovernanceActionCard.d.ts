@@ -3,6 +3,7 @@ import { ProposalData } from '../../models';
 type ActionTypeProps = Omit<ProposalData, 'yesVotes' | 'noVotes' | 'abstainVotes' | 'metadataHash' | 'url' | 'id' | 'details' | 'rationale' | 'motivation'> & {
     onClick?: () => void;
     inProgress?: boolean;
+    isVoter?: boolean;
 };
 /**
  * Renders a card component for a governance action.
@@ -22,6 +23,7 @@ type ActionTypeProps = Omit<ProposalData, 'yesVotes' | 'noVotes' | 'abstainVotes
  * @param {string} props.metadataStatus - The metadata status of the governance action.
  * @param {boolean} props.metadataValid - Indicates if the metadata is valid.
  * @param {string} props.title - The title of the governance action.
+ * @param {boolean} [props.isVoter=false] - Indicates if the user is a voter.
  * @returns {JSX.Element} The rendered component.
  */
 export declare const GovernanceActionCard: FC<ActionTypeProps>;
