@@ -2,7 +2,6 @@ import { useCallback, useMemo, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { PATHS } from '../consts';
 import { useWalletErrorModal } from '../hooks';
@@ -46,11 +45,14 @@ export const useVoteActionForm = ({
     buildSignSubmitConwayCertTx,
     buildVote,
     isPendingTransaction,
+    useLocation,
+    useNavigate,
+    useParams,
   } = usePillarContext();
   const navigate = useNavigate();
   const { hash } = useLocation();
   const index = +hash.slice(1);
-  const { proposalId: txHash } = useParams();
+  const { proposalId: txHash } = useParams('/governance_actions/[hash]');
   const openWalletErrorModal = useWalletErrorModal();
 
   const {

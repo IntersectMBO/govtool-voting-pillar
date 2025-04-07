@@ -1,4 +1,3 @@
-import { generatePath, useNavigate } from 'react-router-dom';
 import { useCallback } from 'react';
 import { Box } from '@mui/material';
 
@@ -9,6 +8,7 @@ import { ProposalData } from '../../models';
 import { useScreenDimension } from '../../hooks';
 import { getFullGovActionId, getProposalTypeTitle } from '../../utils';
 import { PATHS } from '../../consts';
+import { usePillarContext } from '../../context';
 
 type GovernanceActionsToVoteProps = {
   filters: string[];
@@ -35,6 +35,7 @@ export const GovernanceActionsToVote = ({
   searchPhrase,
   sorting,
 }: GovernanceActionsToVoteProps) => {
+  const { generatePath, useNavigate, voter, isEnabled } = usePillarContext();
   const { isMobile } = useScreenDimension();
   const navigate = useNavigate();
 
@@ -51,7 +52,7 @@ export const GovernanceActionsToVote = ({
         }
       );
     },
-    [navigate]
+    [generatePath, navigate]
   );
 
   const onGovernanceActionSliderShowAllClick = useCallback(
@@ -62,7 +63,7 @@ export const GovernanceActionsToVote = ({
         })
       );
     },
-    [navigate]
+    [generatePath, navigate]
   );
 
   return (
@@ -88,6 +89,7 @@ export const GovernanceActionsToVote = ({
                     <GovernanceActionCard
                       {...action}
                       inProgress={false}
+                      isVoter={!!voter && isEnabled}
                       onClick={onGovernanceActionCardClick(action)}
                     />
                   </div>

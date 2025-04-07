@@ -31,6 +31,7 @@ type ActionTypeProps = Omit<
 > & {
   onClick?: () => void;
   inProgress?: boolean;
+  isVoter?: boolean;
 };
 
 /**
@@ -40,22 +41,22 @@ type ActionTypeProps = Omit<
  * @param {ActionTypeProps} props - The props for the component.
  * @returns {JSX.Element} - The rendered component.
  */
-export const GovernanceActionCard: FC<ActionTypeProps> = ({ ...props }) => {
-  const {
-    abstract,
-    type,
-    inProgress = false,
-    expiryDate,
-    expiryEpochNo,
-    onClick,
-    createdDate,
-    createdEpochNo,
-    txHash,
-    index,
-    metadataStatus,
-    metadataValid,
-    title,
-  } = props;
+export const GovernanceActionCard: FC<ActionTypeProps> = ({
+  abstract,
+  type,
+  inProgress = false,
+  expiryDate,
+  expiryEpochNo,
+  onClick,
+  createdDate,
+  createdEpochNo,
+  txHash,
+  index,
+  metadataStatus,
+  metadataValid,
+  title,
+  isVoter,
+}) => {
   const { isMobile, screenWidth } = useScreenDimension();
 
   const govActionId = getFullGovActionId(txHash, index);
@@ -141,7 +142,7 @@ export const GovernanceActionCard: FC<ActionTypeProps> = ({ ...props }) => {
           }}
           data-testid={`govaction-${govActionId}-view-detail`}
         >
-          {inProgress ? 'View Details' : 'View Details and Vote'}
+          {inProgress && !isVoter ? 'View Details' : 'View Details and Vote'}
         </Button>
       </Box>
     </Box>

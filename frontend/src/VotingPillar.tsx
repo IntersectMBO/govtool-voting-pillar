@@ -19,37 +19,40 @@ const VotingPillar = ({
   walletApi,
   apiUrl,
   validationApiUrl,
+  routePath,
   ...props
-}: PillarProviderProps) => (
-  <PillarProvider
-    {...props}
-    walletApi={walletApi}
-    apiUrl={apiUrl}
-    validationApiUrl={validationApiUrl}
-  >
-    <QueryClientProvider client={new QueryClient()}>
-      <ThemeProvider theme={voltaireTheme}>
-        <DataActionsBarProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route
-                path={PATHS.governanceActions}
-                element={<GovernanceActionsPage />}
-              />
-              <Route
-                path={PATHS.governanceActionsAction}
-                element={<GovernanceActionDetails />}
-              />
-              <Route
-                path={PATHS.governanceActionsCategory}
-                element={<GovernanceActionsCategory />}
-              />
-            </Routes>
-          </BrowserRouter>
-        </DataActionsBarProvider>
-      </ThemeProvider>
-    </QueryClientProvider>
-  </PillarProvider>
-);
+}: PillarProviderProps) => {
+  return (
+    <PillarProvider
+      {...props}
+      walletApi={walletApi}
+      apiUrl={apiUrl}
+      validationApiUrl={validationApiUrl}
+    >
+      <QueryClientProvider client={new QueryClient()}>
+        <ThemeProvider theme={voltaireTheme}>
+          <DataActionsBarProvider>
+            <BrowserRouter basename={routePath}>
+              <Routes>
+                <Route
+                  path={PATHS.governanceActions}
+                  element={<GovernanceActionsPage />}
+                />
+                <Route
+                  path={PATHS.governanceActionsAction}
+                  element={<GovernanceActionDetails />}
+                />
+                <Route
+                  path={PATHS.governanceActionsCategory}
+                  element={<GovernanceActionsCategory />}
+                />
+              </Routes>
+            </BrowserRouter>
+          </DataActionsBarProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </PillarProvider>
+  );
+};
 
 export default VotingPillar;

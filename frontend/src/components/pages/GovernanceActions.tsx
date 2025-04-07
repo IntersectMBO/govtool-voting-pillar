@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { Box, Divider, CircularProgress, Tabs } from '@mui/material';
 
 import { useScreenDimension, useGetProposalsQuery } from '../../hooks';
@@ -34,10 +33,8 @@ export const GovernanceActionsPage = () => {
     searchPhrase: debouncedSearchText,
   });
 
-  const { state } = useLocation();
-  const [content, setContent] = useState<number>(
-    state && state.isVotedListOnLoad ? 1 : 0
-  );
+  const [content, setContent] = useState<number>();
+  // state?.isVotedListOnLoad ? 1 : 0
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setContent(newValue);
@@ -93,6 +90,7 @@ export const GovernanceActionsPage = () => {
               display: 'flex',
               flex: 1,
               justifyContent: 'center',
+              minHeight: '100vh',
             }}
           >
             <CircularProgress />

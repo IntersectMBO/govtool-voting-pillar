@@ -1,4 +1,5 @@
 import { FC, PropsWithChildren } from 'react';
+import * as jsonld from 'jsonld';
 export type VoterInfo = {
     dRepRegisterTxHash: string | null;
     dRepRetireTxHash: string | null;
@@ -47,12 +48,25 @@ type PillarContextType = {
     openFeedbackWindow: () => void;
     isVotingOnGovernanceActionEnabled: (proposalType: string) => boolean;
     epochParams: unknown;
-    addSuccessAlert: (message: string) => void;
-    validateMetadata: (url: string, hash: string) => void;
-    generateMetadata: () => void;
-    createJsonLD: (data: unknown) => void;
-    createHash: (json: unknown) => string;
+    addSuccessAlert: (message: string, autoHideDuration?: number) => void;
+    validateMetadata: (body: {
+        url: string;
+        hash: string;
+    }) => Promise<void>;
+    generateJsonld: <T extends Record<string, JSONValue>, C extends jsonld.ContextDefinition>(body: T, context: C, bodyCip?: string) => Promise<any>;
+    createHash: (json: jsonld.NodeObject) => Promise<string>;
     voter?: VoterInfo;
+    useLocation: () => {
+        pathname: string;
+        search: string;
+        hash: string;
+        state: any;
+        key: any;
+        readonly href: string;
+    };
+    useParams: (routePattern: any) => any;
+    useNavigate: () => (to: any, options?: any) => void;
+    generatePath: (path: string, params?: Record<string, string | number>) => string;
 } & Partial<WalletApi>;
 export type PillarProviderProps = {
     walletApi: WalletApi | null;
@@ -62,12 +76,26 @@ export type PillarProviderProps = {
     openFeedbackWindow: () => void;
     isVotingOnGovernanceActionEnabled: (proposalType: string) => boolean;
     epochParams: unknown;
-    addSuccessAlert: (message: string) => void;
-    validateMetadata: (url: string, hash: string) => void;
-    generateMetadata: () => void;
-    createJsonLD: (data: unknown) => void;
-    createHash: (json: unknown) => string;
+    addSuccessAlert: (message: string, autoHideDuration?: number) => void;
+    validateMetadata: (body: {
+        url: string;
+        hash: string;
+    }) => Promise<void>;
+    generateJsonld: <T extends Record<string, JSONValue>, C extends jsonld.ContextDefinition>(body: T, context: C, bodyCip?: string) => Promise<any>;
+    createHash: (json: jsonld.NodeObject) => Promise<string>;
     voter?: VoterInfo;
+    routePath?: string;
+    useLocation: () => {
+        pathname: string;
+        search: string;
+        hash: string;
+        state: any;
+        key: any;
+        readonly href: string;
+    };
+    useParams: (routePattern: any) => any;
+    useNavigate: () => (to: any, options?: any) => void;
+    generatePath: (path: string, params?: Record<string, string | number>) => string;
 };
 export declare const PillarProvider: FC<PillarProviderProps & PropsWithChildren>;
 export declare const usePillarContext: () => PillarContextType;

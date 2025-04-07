@@ -34,9 +34,9 @@ always_abstain_voting_power AS (
                 drep_hash.view = 'drep_always_abstain'
             ORDER BY epoch_no DESC LIMIT 1), 0) AS amount
 )
-SELECT
+SELECT DISTINCT ON (gov_action_proposal.id)
     gov_action_proposal.id,
-    encode(creator_tx.hash, 'hex') AS tx_hash,  -- Proposal ID in format hash#index
+    encode(creator_tx.hash, 'hex') AS tx_hash,
     gov_action_proposal.index,
     gov_action_proposal.type::text,
     CASE
@@ -126,21 +126,14 @@ FROM
     LEFT JOIN gov_action_proposal AS prev_gov_action ON gov_action_proposal.prev_gov_action_proposal = prev_gov_action.id
     LEFT JOIN tx AS prev_gov_action_tx ON prev_gov_action.tx_id = prev_gov_action_tx.id
 WHERE
-    -- Search by text or proposalId (concatenation of tx hash and index)
     (COALESCE($1, '') = '' OR
      off_chain_vote_gov_action_data.title ILIKE $1 OR
      off_chain_vote_gov_action_data.abstract ILIKE $1 OR
      off_chain_vote_gov_action_data.motivation ILIKE $1 OR
      off_chain_vote_gov_action_data.rationale ILIKE $1 OR
      concat(encode(creator_tx.hash, 'hex'), '#', gov_action_proposal.index) ILIKE $1)
-
-    -- Handle drepId filtering explicitly by casting it AS bigint if not null
     AND ($2::bigint IS NULL OR voting_procedure.drep_voter = $2::bigint)
-
-    -- Filter by type
     AND ($4::text IS NULL OR gov_action_proposal.type::text = $4::text)
-
-    -- Only show proposals that have not yet been finalized
     AND gov_action_proposal.expiration > (SELECT Max(NO) FROM epoch)
     AND gov_action_proposal.ratified_epoch IS NULL
     AND gov_action_proposal.enacted_epoch IS NULL
@@ -172,8 +165,8 @@ GROUP BY
     prev_gov_action.index,
     prev_gov_action_tx.hash,
     meta.network_name
--- Use the full expression for yes_votes in ORDER BY
 ORDER BY
+    gov_action_proposal.id,
     CASE WHEN $3 = 'SoonestToExpire' THEN gov_action_proposal.expiration END ASC,
     CASE WHEN $3 = 'NewestCreated' THEN creator_block.time END DESC,
     CASE WHEN $3 = 'MostYesVotes' THEN (COALESCE(SUM(ldd_drep.amount) FILTER (WHERE voting_procedure.vote::text = 'Yes'), 0) + (

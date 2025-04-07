@@ -23,7 +23,7 @@ export const mapDtoToProposal = async (
       references: validationResponse.metadata?.references?.map(
         ({ uri }) => uri
       ),
-      metadataStatus: validationResponse.status || null,
+      metadataStatus: validationResponse.status ?? null,
       metadataValid: validationResponse.valid,
     };
   }

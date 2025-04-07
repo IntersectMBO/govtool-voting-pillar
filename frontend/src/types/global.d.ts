@@ -10,6 +10,14 @@ type Reference = {
   uri: string;
 };
 
+type JSONValue =
+  | string
+  | number
+  | boolean
+  | null
+  | { [property: string]: JSONValue }
+  | JSONValue[];
+
 type WalletApi = {
   address?: string;
   disconnectWallet: () => Promise<void>;

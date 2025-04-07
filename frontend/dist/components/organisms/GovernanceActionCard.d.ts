@@ -3,6 +3,7 @@ import { ProposalData } from '../../models';
 type ActionTypeProps = Omit<ProposalData, 'yesVotes' | 'noVotes' | 'abstainVotes' | 'metadataHash' | 'url' | 'id' | 'details' | 'rationale' | 'motivation'> & {
     onClick?: () => void;
     inProgress?: boolean;
+    isVoter?: boolean;
 };
 /**
  * Represents a card component for displaying governance actions.

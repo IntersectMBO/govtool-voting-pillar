@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { Box, Tabs, Tab, styled } from '@mui/material';
-import { useLocation } from 'react-router-dom';
 
 import { CopyButton, ExternalModalButton, Typography } from '../atoms';
 import {
@@ -122,7 +121,7 @@ export const GovernanceActionDetailsCardData = ({
     protocolParams,
   },
 }: GovernanceActionDetailsCardDataProps) => {
-  const { epochParams } = usePillarContext();
+  const { epochParams, useLocation } = usePillarContext();
   const { screenWidth } = useScreenDimension();
   const { isMobile } = useScreenDimension();
 

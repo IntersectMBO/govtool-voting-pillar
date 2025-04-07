@@ -1,4 +1,3 @@
-import { NavLink, To } from 'react-router-dom';
 import { Box } from '@mui/material';
 import Divider from '@mui/material/Divider';
 
@@ -8,8 +7,8 @@ import { getMetadataDataMissingStatusTranslation } from '../../utils';
 import { MetadataValidationStatus } from '../../models';
 
 type BreadcrumbsProps = {
-  elementOne: string;
-  elementOnePath: To;
+  // elementOne: string;
+  // elementOnePath: To;
   elementTwo: string;
   isDataMissing: MetadataValidationStatus | null;
 };
@@ -25,8 +24,8 @@ type BreadcrumbsProps = {
  * @returns {JSX.Element} The rendered Breadcrumbs component.
  */
 export const Breadcrumbs = ({
-  elementOne,
-  elementOnePath,
+  // elementOne,
+  // elementOnePath,
   elementTwo,
   isDataMissing,
 }: BreadcrumbsProps) => {
@@ -39,7 +38,7 @@ export const Breadcrumbs = ({
         margin: `2px 0 ${isMobile ? '44px' : '24px'}`,
       }}
     >
-      <NavLink to={elementOnePath} style={{ textDecorationColor: '#0033AD' }}>
+      {/* <NavLink to={elementOnePath} style={{ textDecorationColor: '#0033AD' }}>
         <Typography
           color="primary"
           variant="caption"
@@ -49,7 +48,7 @@ export const Breadcrumbs = ({
         >
           {elementOne}
         </Typography>
-      </NavLink>
+      </NavLink> */}
       <Divider
         orientation="vertical"
         flexItem
