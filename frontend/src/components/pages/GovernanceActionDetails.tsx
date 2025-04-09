@@ -1,7 +1,7 @@
 import { Box, CircularProgress, Link } from '@mui/material';
 
 import { Typography } from '../atoms';
-import { ICONS, PATHS } from '../../consts';
+import { ICONS } from '../../consts';
 import { useGetProposalQuery, useScreenDimension } from '../../hooks';
 import { GovernanceActionDetailsCard } from '../organisms';
 import { getFullGovActionId, getShortenedGovActionId } from '../../utils';
@@ -14,16 +14,13 @@ type GovernanceActionDetailsState = {
   openedFromCategoryPage?: boolean;
 };
 
-// TODO: Refactor: GovernanceActionDetails and DashboardGovernanceActionDetails are almost identical
-// and should be unified
 export const GovernanceActionDetails = () => {
-  const { voter, useNavigate, useLocation, useParams, generatePath } =
-    usePillarContext();
+  const { voter, useLocation, useParams, useRouter } = usePillarContext();
   const location = useLocation();
   const { state: untypedState, hash } = location;
   const state = untypedState as GovernanceActionDetailsState | null;
   const index = hash.slice(1);
-  const navigate = useNavigate();
+  const router = useRouter();
   const { pagePadding, isMobile } = useScreenDimension();
   const { hash: txHash } = useParams('/governance_actions/[hash]');
 
@@ -53,8 +50,6 @@ export const GovernanceActionDetails = () => {
           </Box>
         ) : null}
         <Breadcrumbs
-          elementOne="Governance Actions"
-          elementOnePath={PATHS.governanceActions}
           elementTwo={proposal?.title ?? ''}
           isDataMissing={proposal?.metadataStatus ?? null}
         />
@@ -64,15 +59,7 @@ export const GovernanceActionDetails = () => {
             display: 'flex',
             textDecoration: 'none',
           }}
-          onClick={() =>
-            navigate(
-              state?.openedFromCategoryPage
-                ? generatePath(PATHS.governanceActionsCategory, {
-                    category: state?.proposal?.type,
-                  })
-                : PATHS.governanceActions
-            )
-          }
+          onClick={router.back}
         >
           <img
             alt="arrow"

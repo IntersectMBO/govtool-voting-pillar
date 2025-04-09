@@ -23,13 +23,12 @@ import { useDataActionsBar } from '../../context/dataActionsBar';
 import { usePillarContext } from '../../context';
 
 export const GovernanceActionsCategory = () => {
-  const { useNavigate, useParams } = usePillarContext();
+  const { useParams, useRouter, voter, isEnabled } = usePillarContext();
   const { category } = useParams('/governance_actions/category/[category]');
   const { debouncedSearchText, ...dataActionsBarProps } = useDataActionsBar();
   const { chosenSorting } = dataActionsBarProps;
   const { isMobile, pagePadding, screenWidth } = useScreenDimension();
-  const navigate = useNavigate();
-  const { voter, isEnabled } = usePillarContext();
+  const router = useRouter();
   const {
     isProposalsFetching,
     isProposalsFetchingNextPage,
@@ -83,7 +82,7 @@ export const GovernanceActionsCategory = () => {
               textDecoration: 'none',
               marginBottom: 4.25,
             }}
-            onClick={() => navigate(PATHS.governanceActions)}
+            onClick={router.back}
           >
             <img
               src={ICONS.arrowRightIcon}
@@ -129,17 +128,11 @@ export const GovernanceActionsCategory = () => {
                       onClick={() => {
                         saveScrollPosition();
 
-                        navigate(
-                          PATHS.governanceActionsAction.replace(
+                        router.push(
+                          `${isEnabled ? '/dashboard' : ''}${PATHS.governanceActionsAction.replace(
                             ':proposalId',
                             getFullGovActionId(item.txHash, item.index)
-                          ),
-                          {
-                            state: {
-                              proposal: item,
-                              openedFromCategoryPage: true,
-                            },
-                          }
+                          )}`
                         );
                       }}
                     />

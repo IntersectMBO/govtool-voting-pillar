@@ -65,9 +65,7 @@ export const Breadcrumbs = ({
         }}
       >
         {(isDataMissing &&
-          getMetadataDataMissingStatusTranslation(
-            isDataMissing as MetadataValidationStatus
-          )) ||
+          getMetadataDataMissingStatusTranslation(isDataMissing)) ||
           elementTwo}
       </Typography>
     </Box>

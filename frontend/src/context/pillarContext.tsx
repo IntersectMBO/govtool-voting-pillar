@@ -8,12 +8,10 @@ import {
   useContext,
   PropsWithChildren,
 } from 'react';
-import { ThemeProvider } from '@emotion/react';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import * as jsonld from 'jsonld';
 
 import { DataActionsBarProvider } from './dataActionsBar';
-import { voltaireTheme } from '../theme';
 
 export type VoterInfo = {
   dRepRegisterTxHash: string | null;
@@ -101,11 +99,18 @@ type PillarContextType = {
     readonly href: string;
   };
   useParams: (routePattern: any) => any;
-  useNavigate: () => (to: any, options?: any) => void;
   generatePath: (
     path: string,
     params?: Record<string, string | number>
   ) => string;
+  useRouter: () => {
+    push: (href: any) => void;
+    replace: (href: any) => void;
+    prefetch: (href: any) => void;
+    back: () => void;
+    forward: () => void;
+    refresh: () => void;
+  };
 } & Partial<WalletApi>;
 
 const PillarContext = createContext<PillarContextType | undefined>(undefined);
@@ -141,11 +146,18 @@ export type PillarProviderProps = {
     readonly href: string;
   };
   useParams: (routePattern: any) => any;
-  useNavigate: () => (to: any, options?: any) => void;
   generatePath: (
     path: string,
     params?: Record<string, string | number>
   ) => string;
+  useRouter: () => {
+    push: (href: any) => void;
+    replace: (href: any) => void;
+    prefetch: (href: any) => void;
+    back: () => void;
+    forward: () => void;
+    refresh: () => void;
+  };
 };
 
 export const PillarProvider: FC<PillarProviderProps & PropsWithChildren> = ({
@@ -165,8 +177,8 @@ export const PillarProvider: FC<PillarProviderProps & PropsWithChildren> = ({
   routePath,
   useLocation,
   useParams,
-  useNavigate,
   generatePath,
+  useRouter,
 }) => {
   const contextValue = useMemo(
     () => ({
@@ -184,8 +196,8 @@ export const PillarProvider: FC<PillarProviderProps & PropsWithChildren> = ({
       routePath,
       useLocation,
       useParams,
-      useNavigate,
       generatePath,
+      useRouter,
       ...(walletApi || {}),
     }),
     [
@@ -204,8 +216,8 @@ export const PillarProvider: FC<PillarProviderProps & PropsWithChildren> = ({
       routePath,
       useLocation,
       useParams,
-      useNavigate,
       generatePath,
+      useRouter,
     ]
   );
 
