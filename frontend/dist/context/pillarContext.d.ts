@@ -65,8 +65,15 @@ type PillarContextType = {
         readonly href: string;
     };
     useParams: (routePattern: any) => any;
-    useNavigate: () => (to: any, options?: any) => void;
     generatePath: (path: string, params?: Record<string, string | number>) => string;
+    useRouter: () => {
+        push: (href: any) => void;
+        replace: (href: any) => void;
+        prefetch: (href: any) => void;
+        back: () => void;
+        forward: () => void;
+        refresh: () => void;
+    };
 } & Partial<WalletApi>;
 export type PillarProviderProps = {
     walletApi: WalletApi | null;
@@ -94,8 +101,15 @@ export type PillarProviderProps = {
         readonly href: string;
     };
     useParams: (routePattern: any) => any;
-    useNavigate: () => (to: any, options?: any) => void;
     generatePath: (path: string, params?: Record<string, string | number>) => string;
+    useRouter: () => {
+        push: (href: any) => void;
+        replace: (href: any) => void;
+        prefetch: (href: any) => void;
+        back: () => void;
+        forward: () => void;
+        refresh: () => void;
+    };
 };
 export declare const PillarProvider: FC<PillarProviderProps & PropsWithChildren>;
 export declare const usePillarContext: () => PillarContextType;

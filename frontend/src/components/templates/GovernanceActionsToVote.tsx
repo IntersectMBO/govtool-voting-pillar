@@ -35,35 +35,36 @@ export const GovernanceActionsToVote = ({
   searchPhrase,
   sorting,
 }: GovernanceActionsToVoteProps) => {
-  const { generatePath, useNavigate, voter, isEnabled } = usePillarContext();
+  const { generatePath, voter, isEnabled, useRouter } = usePillarContext();
   const { isMobile } = useScreenDimension();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const onGovernanceActionCardClick = useCallback(
     (action: ProposalData) => () => {
-      navigate(
-        generatePath(PATHS.governanceActionsAction, {
-          proposalId: getFullGovActionId(action.txHash, action.index),
-        }),
-        {
-          state: {
-            proposal: action,
-          },
-        }
+      router.push(
+        `${isEnabled ? '/dashboard' : ''}${generatePath(
+          PATHS.governanceActionsAction,
+          {
+            proposalId: getFullGovActionId(action.txHash, action.index),
+          }
+        )}`
       );
     },
-    [generatePath, navigate]
+    [generatePath, router, isEnabled]
   );
 
   const onGovernanceActionSliderShowAllClick = useCallback(
     (title: string) => () => {
-      navigate(
-        generatePath(PATHS.governanceActionsCategory, {
-          category: title,
-        })
+      router.push(
+        `${isEnabled ? '/dashboard' : ''}${generatePath(
+          PATHS.governanceActionsCategory,
+          {
+            category: title,
+          }
+        )}`
       );
     },
-    [generatePath, navigate]
+    [generatePath, router, isEnabled]
   );
 
   return (

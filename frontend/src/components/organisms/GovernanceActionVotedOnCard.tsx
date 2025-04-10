@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 
 import { Button } from '../atoms';
@@ -17,6 +16,7 @@ import {
   GovernanceActionsDatesBox,
 } from '../molecules';
 import { VotedProposal } from '../../models';
+import { usePillarContext } from '../../context';
 
 type Props = {
   votedProposal: VotedProposal;
@@ -27,7 +27,9 @@ export const GovernanceActionVotedOnCard = ({
   votedProposal,
   inProgress,
 }: Props) => {
-  const navigate = useNavigate();
+  const { useRouter, isEnabled } = usePillarContext();
+  const router = useRouter();
+
   const { proposal, vote } = votedProposal;
   const {
     abstract,
@@ -126,17 +128,11 @@ export const GovernanceActionVotedOnCard = ({
             index
           )}-change-your-vote`}
           onClick={() =>
-            navigate(
-              PATHS.governanceActionsAction.replace(
+            router.push(
+              `${isEnabled ? '/dashboard' : ''}${PATHS.governanceActionsAction.replace(
                 ':proposalId',
                 getFullGovActionId(txHash, index)
-              ),
-              {
-                state: {
-                  proposal,
-                  vote,
-                },
-              }
+              )}`
             )
           }
           sx={{

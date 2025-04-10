@@ -46,10 +46,10 @@ export const useVoteActionForm = ({
     buildVote,
     isPendingTransaction,
     useLocation,
-    useNavigate,
     useParams,
+    useRouter,
   } = usePillarContext();
-  const navigate = useNavigate();
+  const router = useRouter();
   const { hash } = useLocation();
   const index = +hash.slice(1);
   const { proposalId: txHash } = useParams('/governance_actions/[hash]');
@@ -103,11 +103,7 @@ export const useVoteActionForm = ({
         });
         if (result) {
           addSuccessAlert('Vote submitted');
-          navigate(PATHS.governanceActions, {
-            state: {
-              isVotedListOnLoad: !!previousVote?.vote,
-            },
-          });
+          router.push(PATHS.governanceActions);
         }
       } catch (error) {
         openWalletErrorModal({
@@ -128,8 +124,7 @@ export const useVoteActionForm = ({
       index,
       buildSignSubmitConwayCertTx,
       addSuccessAlert,
-      navigate,
-      previousVote?.vote,
+      router,
       openWalletErrorModal,
     ]
   );

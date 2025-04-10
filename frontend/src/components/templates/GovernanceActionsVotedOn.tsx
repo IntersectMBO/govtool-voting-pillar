@@ -26,7 +26,7 @@ export const GovernanceActionsVotedOn = ({
   searchPhrase,
   sorting,
 }: GovernanceActionsVotedOnProps) => {
-  const { generatePath, useNavigate } = usePillarContext();
+  const { generatePath, useRouter, isEnabled } = usePillarContext();
   const { data, areDRepVotesLoading } = useGetDRepVotesQuery(
     filters,
     sorting,
@@ -34,17 +34,20 @@ export const GovernanceActionsVotedOn = ({
   );
   const { isMobile } = useScreenDimension();
   const { pendingTransaction } = usePillarContext();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const onGovernanceActionSliderShowAllClick = useCallback(
     (title: string) => () => {
-      navigate(
-        generatePath(PATHS.governanceActionsCategory, {
-          category: title,
-        })
+      router.push(
+        `${isEnabled ? '/dashboard' : ''}${generatePath(
+          PATHS.governanceActionsCategory,
+          {
+            category: title,
+          }
+        )}`
       );
     },
-    [generatePath, navigate]
+    [generatePath, router, isEnabled]
   );
 
   const filteredData = useMemo(() => {
