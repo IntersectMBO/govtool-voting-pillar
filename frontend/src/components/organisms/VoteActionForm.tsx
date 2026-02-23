@@ -5,12 +5,14 @@ import { Button, Radio, Typography } from '../atoms';
 import { orange } from '../../consts';
 import { useModal, usePillarContext } from '../../context';
 import {
+  SurveyResponsePayload,
+  useGetProposalSurveyQuery,
   useScreenDimension,
   useGetVoteContextTextFromFile,
   useVoteActionForm,
 } from '../../hooks';
-import { formatDisplayDate } from '../../utils';
-import { ProposalData, ProposalVote } from '../../models';
+import { formatDisplayDate, getFullGovActionId } from '../../utils';
+import { GovernanceActionType, ProposalData, ProposalVote } from '../../models';
 import { VoteContextModalState, SubmittedVotesModalState } from '../organisms';
 
 type VoteActionFormProps = {
@@ -40,12 +42,28 @@ export const VoteActionForm = ({
   proposal,
   proposal: { expiryDate, expiryEpochNo },
 }: VoteActionFormProps) => {
+  const [surveyAnswers, setSurveyAnswers] = useState<
+    Record<
+      string,
+      {
+        selection?: number[];
+        numericValue?: number;
+        customValue?: string;
+      }
+    >
+  >({});
+  const [surveyError, setSurveyError] = useState<string | null>(null);
   const [voteContextHash, setVoteContextHash] = useState<string | undefined>();
   const [voteContextUrl, setVoteContextUrl] = useState<string | undefined>();
   const [showWholeVoteContext, setShowWholeVoteContext] =
     useState<boolean>(false);
 
   const { voter } = usePillarContext();
+  const fullProposalId = getFullGovActionId(proposal.txHash, proposal.index);
+  const { data: proposalSurvey } = useGetProposalSurveyQuery(
+    fullProposalId,
+    proposal.type === GovernanceActionType.InfoAction
+  );
   const { voteContextText } = useGetVoteContextTextFromFile(voteContextUrl);
 
   const { isMobile, screenWidth } = useScreenDimension();
@@ -61,6 +79,82 @@ export const VoteActionForm = ({
     vote,
     canVote,
   } = useVoteActionForm({ previousVote, voteContextHash, voteContextUrl });
+
+  const handleVoteClick = () => {
+    const shouldAttachSurveyResponse =
+      proposalSurvey?.linked &&
+      proposalSurvey?.linkValidation?.valid &&
+      proposalSurvey?.surveyDetailsValidation?.valid &&
+      proposalSurvey?.surveyRef &&
+      proposalSurvey?.surveyDetails;
+
+    let surveyResponsePayload: SurveyResponsePayload | undefined;
+
+    if (shouldAttachSurveyResponse) {
+      let hasInvalidSurveyAnswer = false;
+      const answers = proposalSurvey.surveyDetails.questions.flatMap(
+        (question) => {
+          const answer = surveyAnswers[question.questionId];
+          if (!answer) return [];
+
+          if (Array.isArray(answer.selection)) {
+            return [
+              {
+                questionId: question.questionId,
+                selection: answer.selection,
+              },
+            ];
+          }
+
+          if (
+            typeof answer.numericValue === 'number' &&
+            Number.isFinite(answer.numericValue)
+          ) {
+            return [
+              {
+                questionId: question.questionId,
+                numericValue: answer.numericValue,
+              },
+            ];
+          }
+
+          if (typeof answer.customValue === 'string' && answer.customValue.trim()) {
+            try {
+              const customValue = JSON.parse(answer.customValue);
+              return [
+                {
+                  questionId: question.questionId,
+                  customValue,
+                },
+              ];
+            } catch (_error) {
+              setSurveyError('Invalid custom survey answer JSON.');
+              hasInvalidSurveyAnswer = true;
+              return [];
+            }
+          }
+
+          return [];
+        }
+      );
+
+      if (hasInvalidSurveyAnswer) {
+        return;
+      }
+
+      if (answers.length) {
+        surveyResponsePayload = {
+          specVersion: '1.0.0',
+          surveyTxId: proposalSurvey.surveyRef.surveyTxId,
+          surveyHash: proposalSurvey.surveyRef.surveyHash,
+          answers,
+        };
+      }
+    }
+
+    setSurveyError(null);
+    confirmVote(surveyResponsePayload);
+  };
 
   const setVoteContextData = (url: string, hash: string | null) => {
     setVoteContextUrl(url);
@@ -101,7 +195,7 @@ export const VoteActionForm = ({
     () => (
       <Button
         data-testid="change-vote"
-        onClick={confirmVote}
+        onClick={handleVoteClick}
         disabled={!canVote}
         isLoading={isVoteLoading}
         variant="contained"
@@ -115,7 +209,7 @@ export const VoteActionForm = ({
         Change vote
       </Button>
     ),
-    [confirmVote, canVote, isVoteLoading]
+    [canVote, handleVoteClick, isVoteLoading]
   );
 
   return (
@@ -212,6 +306,178 @@ export const VoteActionForm = ({
             disabled={isInProgress}
           />
         </Box>
+        {proposalSurvey?.linked &&
+          proposalSurvey?.linkValidation?.valid &&
+          proposalSurvey?.surveyDetailsValidation?.valid &&
+          proposalSurvey?.surveyDetails && (
+            <Box
+              sx={{
+                mt: 3,
+                width: '100%',
+                border: '1px solid rgba(47, 98, 220, 0.20)',
+                borderRadius: '12px',
+                p: 2,
+              }}
+            >
+              <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                Survey response
+              </Typography>
+              <Typography variant="caption" sx={{ display: 'block', mt: 0.5 }}>
+                {proposalSurvey.surveyDetails.title}
+              </Typography>
+              {proposalSurvey.surveyDetails.questions.map((question) => {
+                const localAnswer = surveyAnswers[question.questionId];
+                const methodType = question.methodType;
+                const selection = localAnswer?.selection ?? [];
+
+                return (
+                  <Box key={question.questionId} sx={{ mt: 2 }}>
+                    <Typography variant="body2">{question.question}</Typography>
+                    {(methodType ===
+                      'urn:cardano:poll-method:single-choice:v1' ||
+                      methodType === 'urn:cardano:poll-method:multi-select:v1') &&
+                      (question.options ?? []).map((option, optionIndex) => {
+                        const isSingle =
+                          methodType === 'urn:cardano:poll-method:single-choice:v1';
+                        const checked = selection.includes(optionIndex);
+
+                        return (
+                          <label
+                            key={`${question.questionId}-${option}`}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              marginTop: '8px',
+                              cursor: 'pointer',
+                            }}
+                          >
+                            <input
+                              type={isSingle ? 'radio' : 'checkbox'}
+                              checked={checked}
+                              onChange={() => {
+                                setSurveyError(null);
+                                if (isSingle) {
+                                  setSurveyAnswers((prev) => ({
+                                    ...prev,
+                                    [question.questionId]: {
+                                      selection: [optionIndex],
+                                    },
+                                  }));
+                                  return;
+                                }
+
+                                setSurveyAnswers((prev) => {
+                                  const currentSelection =
+                                    prev[question.questionId]?.selection ?? [];
+                                  const nextSelection = currentSelection.includes(
+                                    optionIndex
+                                  )
+                                    ? currentSelection.filter(
+                                        (item) => item !== optionIndex
+                                      )
+                                    : [...currentSelection, optionIndex];
+                                  return {
+                                    ...prev,
+                                    [question.questionId]: {
+                                      selection: nextSelection,
+                                    },
+                                  };
+                                });
+                              }}
+                            />
+                            <span>{option}</span>
+                          </label>
+                        );
+                      })}
+                    {methodType === 'urn:cardano:poll-method:numeric-range:v1' && (
+                      <input
+                        style={{
+                          width: '100%',
+                          marginTop: '8px',
+                          padding: '8px',
+                          border: '1px solid #D0D7E8',
+                          borderRadius: '8px',
+                        }}
+                        type="number"
+                        min={question.numericConstraints?.minValue}
+                        max={question.numericConstraints?.maxValue}
+                        step={question.numericConstraints?.step ?? 1}
+                        value={localAnswer?.numericValue ?? ''}
+                        onChange={(event) => {
+                          setSurveyError(null);
+                          const numericValue = Number(event.target.value);
+                          setSurveyAnswers((prev) => ({
+                            ...prev,
+                            [question.questionId]: { numericValue },
+                          }));
+                        }}
+                      />
+                    )}
+                    {![
+                      'urn:cardano:poll-method:single-choice:v1',
+                      'urn:cardano:poll-method:multi-select:v1',
+                      'urn:cardano:poll-method:numeric-range:v1',
+                    ].includes(methodType) && (
+                      <textarea
+                        style={{
+                          width: '100%',
+                          marginTop: '8px',
+                          minHeight: '76px',
+                          padding: '8px',
+                          border: '1px solid #D0D7E8',
+                          borderRadius: '8px',
+                        }}
+                        placeholder='Custom value JSON, e.g. {"rank":[0,1,2]}'
+                        value={localAnswer?.customValue ?? ''}
+                        onChange={(event) => {
+                          setSurveyError(null);
+                          setSurveyAnswers((prev) => ({
+                            ...prev,
+                            [question.questionId]: {
+                              customValue: event.target.value,
+                            },
+                          }));
+                        }}
+                      />
+                    )}
+                  </Box>
+                );
+              })}
+            </Box>
+          )}
+        {proposalSurvey?.linked &&
+          (!proposalSurvey?.linkValidation?.valid ||
+            !proposalSurvey?.surveyDetailsValidation?.valid) && (
+            <Box sx={{ mt: 2, width: '100%' }}>
+              <Typography variant="caption" sx={{ display: 'block' }}>
+                Linked survey is invalid:
+              </Typography>
+              {[
+                ...(proposalSurvey?.linkValidation?.errors ?? []),
+                ...(proposalSurvey?.surveyDetailsValidation?.errors ?? []),
+              ].map((validationError) => (
+                <Typography
+                  key={validationError}
+                  variant="caption"
+                  sx={{ display: 'block', mt: 0.5 }}
+                >
+                  • {validationError}
+                </Typography>
+              ))}
+            </Box>
+          )}
+        {surveyError && (
+          <Typography
+            sx={{
+              fontSize: '14px',
+              fontWeight: 700,
+              color: '#d32f2f',
+            }}
+          >
+            {surveyError}
+          </Typography>
+        )}
         {(voter?.isRegisteredAsDRep || voter?.isRegisteredAsSoleVoter) && (
           <Button
             data-testid="show-votes-button"
@@ -370,7 +636,7 @@ export const VoteActionForm = ({
             !vote || previousVote?.vote === vote || (areFormErrors && isDirty)
           }
           isLoading={isVoteLoading}
-          onClick={confirmVote}
+          onClick={handleVoteClick}
           size="extraLarge"
         >
           Vote

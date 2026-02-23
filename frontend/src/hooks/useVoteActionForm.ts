@@ -12,6 +12,18 @@ export interface VoteActionFormValues {
   vote: string;
 }
 
+export type SurveyResponsePayload = {
+  specVersion: string;
+  surveyTxId: string;
+  surveyHash: string;
+  answers: {
+    questionId: string;
+    selection?: number[];
+    numericValue?: number;
+    customValue?: unknown;
+  }[];
+};
+
 export const useVoteActionFormController = () => {
   const validationSchema = useMemo(
     () =>
@@ -43,6 +55,7 @@ export const useVoteActionForm = ({
   const {
     addSuccessAlert,
     buildSignSubmitConwayCertTx,
+    buildMetadataAuxiliaryData,
     buildVote,
     isPendingTransaction,
     useLocation,
@@ -57,7 +70,6 @@ export const useVoteActionForm = ({
 
   const {
     control,
-    handleSubmit,
     formState: { errors, isDirty },
     setValue,
     register: registerInput,
@@ -77,9 +89,12 @@ export const useVoteActionForm = ({
     !areFormErrors &&
     previousVote?.vote !== vote;
 
-  const confirmVote = useCallback(
-    async (values: VoteActionFormValues) => {
-      if (!canVote) return;
+  const submitVote = useCallback(
+    async (
+      values: VoteActionFormValues,
+      surveyResponse?: SurveyResponsePayload | null
+    ) => {
+      if (!canVote || !values.vote) return;
 
       setIsLoading(true);
 
@@ -96,10 +111,23 @@ export const useVoteActionForm = ({
           urlSubmitValue,
           hashSubmitValue
         );
+
+        if (surveyResponse && !buildMetadataAuxiliaryData) {
+          throw new Error(
+            'Wallet context does not support building auxiliary metadata.'
+          );
+        }
+
+        const auxiliaryData =
+          surveyResponse && buildMetadataAuxiliaryData
+            ? buildMetadataAuxiliaryData(17, { surveyResponse })
+            : undefined;
+
         const result = await buildSignSubmitConwayCertTx?.({
           votingBuilder,
           type: 'vote',
           resourceId: txHash + index,
+          auxiliaryData,
         });
         if (result) {
           addSuccessAlert('Vote submitted');
@@ -123,14 +151,28 @@ export const useVoteActionForm = ({
       txHash,
       index,
       buildSignSubmitConwayCertTx,
+      buildMetadataAuxiliaryData,
       addSuccessAlert,
       router,
       openWalletErrorModal,
     ]
   );
 
+  const confirmVote = useCallback(
+    async (surveyResponse?: SurveyResponsePayload | null) => {
+      const selectedVote = vote as VoteActionFormValues['vote'];
+      await submitVote(
+        {
+          vote: selectedVote,
+        },
+        surveyResponse
+      );
+    },
+    [submitVote, vote]
+  );
+
   return {
-    confirmVote: handleSubmit(confirmVote),
+    confirmVote,
     setValue,
     vote,
     registerInput,

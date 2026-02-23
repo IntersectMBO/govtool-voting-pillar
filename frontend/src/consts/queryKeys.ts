@@ -3,6 +3,8 @@ export const QUERY_KEYS = {
   useGetProposalsInfiniteKey: 'useGetProposalsInfiniteKey',
   useGetProposalsKey: 'useGetProposalsKey',
   useGetProposalKey: 'useGetProposalKey',
+  useGetProposalSurveyKey: 'useGetProposalSurveyKey',
+  useGetProposalSurveyTallyKey: 'useGetProposalSurveyTallyKey',
   useGetDRepVotesKey: 'useGetDRepVotesKey',
   useGetDRepInfoKey: 'useGetDRepInfoKey',
 };

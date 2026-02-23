@@ -39,6 +39,7 @@ type BuildSignSubmitConwayCertTxArgs = {
   govActionBuilder?: unknown;
   votingBuilder?: unknown;
   voter?: VoterInfo;
+  auxiliaryData?: unknown;
   type: string;
   resourceId: string;
 };
@@ -59,6 +60,7 @@ type WalletApi = {
     type,
     votingBuilder,
     voter,
+    auxiliaryData,
   }: BuildSignSubmitConwayCertTxArgs) => Promise<string>;
   buildVote: (
     voteChoice: string,
@@ -67,6 +69,10 @@ type WalletApi = {
     cip95MetadataURL?: string,
     cip95MetadataHash?: string
   ) => Promise<unknown>;
+  buildMetadataAuxiliaryData?: (
+    label: number,
+    payload: Record<string, unknown>
+  ) => unknown;
   isPendingTransaction: () => boolean;
 };
 

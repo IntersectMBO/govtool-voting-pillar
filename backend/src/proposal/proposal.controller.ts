@@ -128,4 +128,26 @@ export class ProposalController {
   async getProposalById(@Param('proposalId') proposalId: string) {
     return this.proposalService.getProposalById(proposalId);
   }
+
+  @Get('survey/:proposalId')
+  @ApiOperation({ summary: 'Get survey linkage and survey details for a proposal' })
+  @ApiQuery({ name: 'proposalId', type: 'string' })
+  async getProposalSurvey(@Param('proposalId') proposalId: string) {
+    return this.proposalService.getProposalSurvey(proposalId);
+  }
+
+  @Get('survey/:proposalId/tally')
+  @ApiOperation({ summary: 'Get survey tally for a proposal' })
+  @ApiQuery({ name: 'proposalId', type: 'string' })
+  @ApiQuery({
+    name: 'weighting',
+    enum: ['CredentialBased', 'StakeBased'],
+    required: false,
+  })
+  async getProposalSurveyTally(
+    @Param('proposalId') proposalId: string,
+    @Query('weighting') weighting: 'CredentialBased' | 'StakeBased' = 'CredentialBased',
+  ) {
+    return this.proposalService.getProposalSurveyTally(proposalId, weighting);
+  }
 }

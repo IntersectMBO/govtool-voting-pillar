@@ -41,6 +41,7 @@ type WalletApi = {
     type,
     votingBuilder,
     voter,
+    auxiliaryData,
   }: BuildSignSubmitConwayCertTxArgs) => Promise<string>;
   buildDRepRegCert: (url?: string, hash?: string) => Promise<Certificate>;
   buildVoteDelegationCert: (vote: string) => Promise<CertificatesBuilder>;
@@ -53,6 +54,10 @@ type WalletApi = {
     cip95MetadataURL?: string,
     cip95MetadataHash?: string
   ) => Promise<VotingBuilder>;
+  buildMetadataAuxiliaryData?: (
+    label: number,
+    payload: Record<string, unknown>
+  ) => unknown;
   pendingTransaction: PendingTransaction;
   isPendingTransaction: () => boolean;
   buildNewInfoGovernanceAction: (
