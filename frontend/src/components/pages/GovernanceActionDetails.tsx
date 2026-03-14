@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Box, CircularProgress, Link } from '@mui/material';
 
 import { Typography } from '../atoms';
@@ -11,7 +11,7 @@ import {
 } from '../../hooks';
 import { GovernanceActionDetailsCard } from '../organisms';
 import { getFullGovActionId, getShortenedGovActionId } from '../../utils';
-import { GovernanceActionType, ProposalData } from '../../models';
+import { ProposalData } from '../../models';
 import { Breadcrumbs } from '../molecules';
 import { usePillarContext } from '../../context';
 
@@ -21,9 +21,6 @@ type GovernanceActionDetailsState = {
 };
 
 export const GovernanceActionDetails = () => {
-  const [weighting, setWeighting] = useState<'CredentialBased' | 'StakeBased'>(
-    'CredentialBased'
-  );
   const { voter, useLocation, useParams, useRouter } = usePillarContext();
   const location = useLocation();
   const { state: untypedState, hash } = location;
@@ -41,8 +38,7 @@ export const GovernanceActionDetails = () => {
     !state?.proposal
   );
   const proposal = (data ?? state)?.proposal;
-  const shouldFetchSurvey =
-    !!fullProposalId && proposal?.type === GovernanceActionType.InfoAction;
+  const shouldFetchSurvey = !!fullProposalId && !!proposal?.type;
   const { data: surveyData, isLoading: isSurveyLoading } =
     useGetProposalSurveyQuery(fullProposalId ?? '', shouldFetchSurvey);
 
@@ -56,11 +52,7 @@ export const GovernanceActionDetails = () => {
   );
 
   const { data: surveyTallyData, isLoading: isSurveyTallyLoading } =
-    useGetProposalSurveyTallyQuery(
-      fullProposalId ?? '',
-      weighting,
-      shouldFetchTally
-    );
+    useGetProposalSurveyTallyQuery(fullProposalId ?? '', 'CredentialBased', shouldFetchTally);
 
   return (
     <Box display="flex" flex={1} flexDirection="row" pt={2} px={pagePadding}>
@@ -116,27 +108,26 @@ export const GovernanceActionDetails = () => {
               isDataMissing={proposal.metadataStatus}
               isVoter={!!voter}
             />
-            {proposal.type === GovernanceActionType.InfoAction && (
-              <Box
-                sx={{
-                  mt: 3,
-                  p: 3,
-                  borderRadius: '20px',
-                  background: 'rgba(255,255,255,0.45)',
-                  boxShadow: '2px 2px 20px 0px rgba(47, 98, 220, 0.12)',
-                }}
-              >
-                <Typography variant="headline4">Linked Survey</Typography>
-                {isSurveyLoading ? (
-                  <Box mt={2}>
-                    <CircularProgress size={22} />
-                  </Box>
-                ) : !surveyData?.linked ? (
-                  <Typography variant="body2" sx={{ mt: 2 }}>
-                    No survey linked to this Info Action.
-                  </Typography>
-                ) : (
-                  <>
+            <Box
+              sx={{
+                mt: 3,
+                p: 3,
+                borderRadius: '20px',
+                background: 'rgba(255,255,255,0.45)',
+                boxShadow: '2px 2px 20px 0px rgba(47, 98, 220, 0.12)',
+              }}
+            >
+              <Typography variant="headline4">Linked Survey</Typography>
+              {isSurveyLoading ? (
+                <Box mt={2}>
+                  <CircularProgress size={22} />
+                </Box>
+              ) : !surveyData?.linked ? (
+                <Typography variant="body2" sx={{ mt: 2 }}>
+                  No survey linked to this governance action.
+                </Typography>
+              ) : (
+                <>
                     <Typography variant="body2" sx={{ mt: 2 }}>
                       {surveyData.surveyDetails?.title ?? 'Untitled survey'}
                     </Typography>
@@ -172,56 +163,6 @@ export const GovernanceActionDetails = () => {
                     {surveyData.linkValidation.valid &&
                       surveyData.surveyDetailsValidation.valid && (
                         <>
-                          <Box
-                            sx={{
-                              mt: 2,
-                              display: 'flex',
-                              gap: 1,
-                              flexWrap: 'wrap',
-                            }}
-                          >
-                            <button
-                              type="button"
-                              onClick={() => setWeighting('CredentialBased')}
-                              style={{
-                                borderRadius: 20,
-                                border: '1px solid #2F62DC',
-                                padding: '6px 12px',
-                                cursor: 'pointer',
-                                background:
-                                  weighting === 'CredentialBased'
-                                    ? '#2F62DC'
-                                    : 'transparent',
-                                color:
-                                  weighting === 'CredentialBased'
-                                    ? '#fff'
-                                    : '#2F62DC',
-                              }}
-                            >
-                              CredentialBased
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => setWeighting('StakeBased')}
-                              style={{
-                                borderRadius: 20,
-                                border: '1px solid #2F62DC',
-                                padding: '6px 12px',
-                                cursor: 'pointer',
-                                background:
-                                  weighting === 'StakeBased'
-                                    ? '#2F62DC'
-                                    : 'transparent',
-                                color:
-                                  weighting === 'StakeBased'
-                                    ? '#fff'
-                                    : '#2F62DC',
-                              }}
-                            >
-                              StakeBased
-                            </button>
-                          </Box>
-
                           {isSurveyTallyLoading ? (
                             <Box mt={2}>
                               <CircularProgress size={22} />
@@ -239,91 +180,92 @@ export const GovernanceActionDetails = () => {
                               </Typography>
 
                               <Box mt={2}>
-                                {surveyTallyData.methodResults.map((result) => {
-                                  const resultRecord = result as Record<string, unknown>;
-                                  const questionId = String(
-                                    resultRecord.questionId ?? 'question'
-                                  );
-                                  const question = String(resultRecord.question ?? '');
-                                  const options = Array.isArray(resultRecord.options)
-                                    ? (resultRecord.options as string[])
-                                    : [];
-                                  const optionTotals = Array.isArray(
-                                    resultRecord.optionTotals
-                                  )
-                                    ? (resultRecord.optionTotals as number[])
-                                    : [];
-                                  const customValueTotals =
-                                    (resultRecord.customValueTotals as
-                                      | Record<string, number>
-                                      | undefined) ?? {};
+                                {surveyTallyData.roleResults.map((roleResult) => (
+                                  <Box
+                                    key={`${roleResult.responderRole}-${roleResult.weightingMode}`}
+                                    sx={{
+                                      mt: 2,
+                                      p: 2,
+                                      borderRadius: '12px',
+                                      border: '1px solid rgba(47,98,220,0.2)',
+                                    }}
+                                  >
+                                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                                      {roleResult.responderRole} ({roleResult.weightingMode})
+                                    </Typography>
+                                    <Typography variant="caption" sx={{ display: 'block', mt: 0.5 }}>
+                                      Valid latest responses: {roleResult.totals.valid}
+                                    </Typography>
+                                    <Typography variant="caption" sx={{ display: 'block', mt: 0.5 }}>
+                                      Invalid responses: {roleResult.totals.invalid}
+                                    </Typography>
+                                    {roleResult.methodResults.map((result) => {
+                                      const resultRecord = result as Record<string, unknown>;
+                                      const questionId = String(
+                                        resultRecord.questionId ?? 'question'
+                                      );
+                                      const question = String(resultRecord.question ?? '');
+                                      const options = Array.isArray(resultRecord.options)
+                                        ? (resultRecord.options as string[])
+                                        : [];
+                                      const optionTotals = Array.isArray(
+                                        resultRecord.optionTotals
+                                      )
+                                        ? (resultRecord.optionTotals as number[])
+                                        : [];
+                                      const customValueTotals =
+                                        (resultRecord.customValueTotals as
+                                          | Record<string, number>
+                                          | undefined) ?? {};
 
-                                  return (
-                                    <Box
-                                      key={questionId}
-                                      sx={{
-                                        mt: 2,
-                                        p: 2,
-                                        borderRadius: '12px',
-                                        border: '1px solid rgba(47,98,220,0.2)',
-                                      }}
-                                    >
-                                      <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                                        {question}
-                                      </Typography>
-                                      {options.length > 0 &&
-                                        options.map((option, optionIndex) => (
-                                          <Typography
-                                            key={`${questionId}-${option}`}
-                                            variant="caption"
-                                            sx={{ display: 'block', mt: 0.5 }}
-                                          >
-                                            {option}: {optionTotals[optionIndex] ?? 0}
+                                      return (
+                                        <Box key={`${roleResult.responderRole}-${questionId}`} sx={{ mt: 1.5 }}>
+                                          <Typography variant="caption" sx={{ display: 'block', fontWeight: 600 }}>
+                                            {question}
                                           </Typography>
-                                        ))}
-                                      {resultRecord.mean !== undefined && (
-                                        <>
-                                          <Typography
-                                            variant="caption"
-                                            sx={{ display: 'block', mt: 0.5 }}
-                                          >
-                                            Count: {String(resultRecord.count ?? 0)}
-                                          </Typography>
-                                          <Typography
-                                            variant="caption"
-                                            sx={{ display: 'block', mt: 0.5 }}
-                                          >
-                                            Min: {String(resultRecord.min ?? '-')}
-                                          </Typography>
-                                          <Typography
-                                            variant="caption"
-                                            sx={{ display: 'block', mt: 0.5 }}
-                                          >
-                                            Max: {String(resultRecord.max ?? '-')}
-                                          </Typography>
-                                          <Typography
-                                            variant="caption"
-                                            sx={{ display: 'block', mt: 0.5 }}
-                                          >
-                                            Mean: {String(resultRecord.mean ?? '-')}
-                                          </Typography>
-                                        </>
-                                      )}
-                                      {Object.keys(customValueTotals).length > 0 &&
-                                        Object.entries(customValueTotals).map(
-                                          ([valueKey, valueTotal]) => (
-                                            <Typography
-                                              key={`${questionId}-${valueKey}`}
-                                              variant="caption"
-                                              sx={{ display: 'block', mt: 0.5 }}
-                                            >
-                                              {valueKey}: {valueTotal}
-                                            </Typography>
-                                          )
-                                        )}
-                                    </Box>
-                                  );
-                                })}
+                                          {options.length > 0 &&
+                                            options.map((option, optionIndex) => (
+                                              <Typography
+                                                key={`${questionId}-${option}`}
+                                                variant="caption"
+                                                sx={{ display: 'block', mt: 0.5 }}
+                                              >
+                                                {option}: {optionTotals[optionIndex] ?? 0}
+                                              </Typography>
+                                            ))}
+                                          {resultRecord.mean !== undefined && (
+                                            <>
+                                              <Typography variant="caption" sx={{ display: 'block', mt: 0.5 }}>
+                                                Count: {String(resultRecord.count ?? 0)}
+                                              </Typography>
+                                              <Typography variant="caption" sx={{ display: 'block', mt: 0.5 }}>
+                                                Min: {String(resultRecord.min ?? '-')}
+                                              </Typography>
+                                              <Typography variant="caption" sx={{ display: 'block', mt: 0.5 }}>
+                                                Max: {String(resultRecord.max ?? '-')}
+                                              </Typography>
+                                              <Typography variant="caption" sx={{ display: 'block', mt: 0.5 }}>
+                                                Mean: {String(resultRecord.mean ?? '-')}
+                                              </Typography>
+                                            </>
+                                          )}
+                                          {Object.keys(customValueTotals).length > 0 &&
+                                            Object.entries(customValueTotals).map(
+                                              ([valueKey, valueTotal]) => (
+                                                <Typography
+                                                  key={`${questionId}-${valueKey}`}
+                                                  variant="caption"
+                                                  sx={{ display: 'block', mt: 0.5 }}
+                                                >
+                                                  {valueKey}: {valueTotal}
+                                                </Typography>
+                                              )
+                                            )}
+                                        </Box>
+                                      );
+                                    })}
+                                  </Box>
+                                ))}
                               </Box>
                             </Box>
                           ) : null}
@@ -331,8 +273,7 @@ export const GovernanceActionDetails = () => {
                       )}
                   </>
                 )}
-              </Box>
-            )}
+            </Box>
           </Box>
         ) : (
           <Box display="flex" flexWrap="wrap" mt={4}>

@@ -16,12 +16,8 @@ type ProposalSurveyLinkRow = {
   proposal_type: string;
   tx_hash: string;
   proposal_index: string | number;
-  creator_slot: string | number | null;
-  creator_epoch: string | number | null;
   expiration_epoch: string | number | null;
   anchor_json: unknown;
-  network_name: string;
-  gov_action_lifetime: string | number | null;
 };
 
 type SurveyDetailsRow = {
@@ -35,11 +31,22 @@ type SurveyResponseRow = {
   metadata_id: string | number;
   metadata_json: Record<string, unknown>;
   slot_no: string | number;
+  epoch_no: string | number;
   tx_index: string | number | null;
-  voting_procedure_id: string | number;
+  tx_id: string | number;
+  voting_procedure_count: string | number;
+  voter_role: string | null;
   response_credential: string;
   drep_voting_power: string | number | null;
+  pool_voting_power: string | number | null;
+  cc_active_at_end_epoch: boolean | null;
 };
+
+type ResponderRole = 'DRep' | 'SPO' | 'CC' | 'Stakeholder';
+type WeightingMode =
+  | 'CredentialBased'
+  | 'StakeBased'
+  | 'PledgeBased';
 
 type SurveyQuestion = {
   questionId: string;
@@ -53,7 +60,6 @@ type SurveyQuestion = {
     step?: number;
   };
   methodSchemaUri?: string;
-  hashAlgorithm?: string;
   methodSchemaHash?: string;
 };
 
@@ -62,26 +68,30 @@ type SurveyDetails = {
   title: string;
   description: string;
   questions: SurveyQuestion[];
-  eligibility?: string[];
-  voteWeighting?: 'StakeBased' | 'CredentialBased';
-  lifecycle?: {
-    startSlot: number;
-    endSlot: number;
-  };
+  roleWeighting: Partial<Record<ResponderRole, WeightingMode>>;
+  endEpoch: number;
 };
 
 type SurveyContext = {
   proposalDbId: number;
-  actionLifecycle: { startSlot: number; endSlot: number };
-  surveyRef: { surveyTxId: string; surveyHash: string } | null;
+  proposalType: string;
+  proposalId: {
+    txId: string;
+    govActionIx: number;
+  };
+  actionEndEpoch: number | null;
+  actionEligibility: ResponderRole[];
+  surveyTxId: string | null;
   surveyDetails: SurveyDetails | null;
-  computedSurveyHash: string | null;
+  linkedRoleWeighting: Partial<Record<ResponderRole, WeightingMode>> | null;
   linkErrors: string[];
   surveyErrors: string[];
 };
 
 type ValidatedResponse = {
   row: SurveyResponseRow;
+  responderRole: ResponderRole;
+  weight: number;
   answers: {
     questionId: string;
     selection?: number[];
@@ -140,12 +150,6 @@ export class ProposalService {
     }
   }
 
-  private computeSurveyHash(surveyDetails: SurveyDetails): string {
-    const envelope = { 17: { surveyDetails } };
-    const serializedEnvelope = this.stableSerialize(envelope);
-    return this.blake2b256Hex(Buffer.from(serializedEnvelope));
-  }
-
   private parseProposalId(proposalId: string): { txHash: string; index: number } {
     const match = proposalId.match(/^([0-9a-fA-F]{64})#(\d+)$/);
     if (!match) {
@@ -157,27 +161,72 @@ export class ProposalService {
     };
   }
 
-  private getSlotsPerEpoch(networkName: string): number {
-    if (networkName === 'mainnet' || networkName === 'preprod') {
-      return 432000;
+  private getActionEligibility(proposalType: string): ResponderRole[] {
+    switch (proposalType) {
+      case 'TreasuryWithdrawals':
+      case 'NewConstitution':
+        return ['DRep', 'CC'];
+      case 'NoConfidence':
+      case 'NewCommittee':
+      case 'HardForkInitiation':
+      case 'ParameterChange':
+      case 'InfoAction':
+        return ['DRep', 'SPO', 'CC'];
+      default:
+        return ['DRep', 'SPO', 'CC'];
     }
-    return 86400;
   }
 
-  private estimateActionLifecycle(row: ProposalSurveyLinkRow): {
-    startSlot: number;
-    endSlot: number;
-  } {
-    const startSlot = Number(row.creator_slot ?? 0);
-    const slotsPerEpoch = this.getSlotsPerEpoch(row.network_name);
-    const govActionLifetime = Number(row.gov_action_lifetime ?? 0);
-    const endSlot = startSlot + govActionLifetime * slotsPerEpoch;
-    return { startSlot, endSlot };
+  private isAllowedWeighting(role: ResponderRole, weighting: WeightingMode): boolean {
+    switch (role) {
+      case 'DRep':
+        return ['CredentialBased', 'StakeBased'].includes(weighting);
+      case 'SPO':
+        return ['CredentialBased', 'StakeBased', 'PledgeBased'].includes(weighting);
+      case 'CC':
+        return weighting === 'CredentialBased';
+      case 'Stakeholder':
+        return weighting === 'StakeBased';
+      default:
+        return false;
+    }
+  }
+
+  private toResponderRole(value: unknown): ResponderRole | null {
+    if (value === 'DRep' || value === 'SPO' || value === 'CC' || value === 'Stakeholder') {
+      return value;
+    }
+    return null;
+  }
+
+  private getResponseWeight(
+    row: SurveyResponseRow,
+    responderRole: ResponderRole,
+    weighting: WeightingMode,
+  ): number {
+    if (weighting === 'CredentialBased') {
+      return 1;
+    }
+
+    if (responderRole === 'DRep') {
+      return Number(row.drep_voting_power ?? 0);
+    }
+
+    if (responderRole === 'SPO') {
+      return Number(row.pool_voting_power ?? 0);
+    }
+
+    if (responderRole === 'CC') {
+      return row.cc_active_at_end_epoch ? 1 : 0;
+    }
+
+    return 0;
   }
 
   private validateSurveyDetails(
     surveyDetails: SurveyDetails | null,
-    actionLifecycle: { startSlot: number; endSlot: number },
+    actionEndEpoch: number | null,
+    actionEligibility: ResponderRole[],
   ): { errors: string[]; questionMap: Map<string, SurveyQuestion> } {
     const errors: string[] = [];
     const questionMap = new Map<string, SurveyQuestion>();
@@ -205,44 +254,42 @@ export class ProposalService {
       return { errors, questionMap };
     }
 
-    if (!surveyDetails.lifecycle) {
-      errors.push('surveyDetails.lifecycle is required for linked InfoAction surveys.');
-    } else {
-      const startSlot = Number(surveyDetails.lifecycle.startSlot);
-      const endSlot = Number(surveyDetails.lifecycle.endSlot);
-
-      if (!Number.isFinite(startSlot) || !Number.isFinite(endSlot)) {
-        errors.push('surveyDetails.lifecycle.startSlot/endSlot must be finite numbers.');
-      } else {
-        if (startSlot > endSlot) {
-          errors.push('surveyDetails.lifecycle.startSlot must be <= endSlot.');
-        }
-        if (
-          startSlot !== actionLifecycle.startSlot ||
-          endSlot !== actionLifecycle.endSlot
-        ) {
-          errors.push(
-            'surveyDetails.lifecycle must match InfoAction lifecycle (start/end slot mismatch).',
-          );
-        }
-      }
-    }
-
-    const validEligibility = new Set(['DRep', 'SPO', 'CC', 'Stakeholder']);
-    if (Array.isArray(surveyDetails.eligibility)) {
-      const invalidRoles = surveyDetails.eligibility.filter(
-        (role) => !validEligibility.has(role),
-      );
-      if (invalidRoles.length) {
-        errors.push(`Invalid eligibility values: ${invalidRoles.join(', ')}`);
-      }
-    }
-
     if (
-      surveyDetails.voteWeighting &&
-      !['StakeBased', 'CredentialBased'].includes(surveyDetails.voteWeighting)
+      !surveyDetails.roleWeighting ||
+      typeof surveyDetails.roleWeighting !== 'object' ||
+      Array.isArray(surveyDetails.roleWeighting) ||
+      Object.keys(surveyDetails.roleWeighting).length === 0
     ) {
-      errors.push('surveyDetails.voteWeighting must be StakeBased or CredentialBased.');
+      errors.push('surveyDetails.roleWeighting must contain at least one role.');
+    } else {
+      for (const [roleKey, weighting] of Object.entries(surveyDetails.roleWeighting)) {
+        const role = this.toResponderRole(roleKey);
+        if (!role) {
+          errors.push(`Invalid roleWeighting role: ${roleKey}`);
+          continue;
+        }
+
+        if (
+          typeof weighting !== 'string' ||
+          !this.isAllowedWeighting(role, weighting as WeightingMode)
+        ) {
+          errors.push(`Invalid weighting mode for ${roleKey}: ${String(weighting)}`);
+        }
+      }
+    }
+
+    const linkedRoleWeightingKeys = Object.keys(surveyDetails.roleWeighting ?? {}).filter(
+      (roleKey) => actionEligibility.includes(roleKey as ResponderRole),
+    );
+    if (!linkedRoleWeightingKeys.length) {
+      errors.push('Survey roleWeighting has no overlap with governance action eligibility.');
+    }
+
+    const endEpoch = Number(surveyDetails.endEpoch);
+    if (!Number.isInteger(endEpoch) || endEpoch < 0) {
+      errors.push('surveyDetails.endEpoch must be a non-negative integer.');
+    } else if (actionEndEpoch !== null && endEpoch !== actionEndEpoch) {
+      errors.push('surveyDetails.endEpoch must exactly match the governance action voting end epoch.');
     }
 
     const seenQuestionIds = new Set<string>();
@@ -334,11 +381,6 @@ export class ProposalService {
       if (isCustom) {
         if (!question.methodSchemaUri || typeof question.methodSchemaUri !== 'string') {
           errors.push(`Question ${question.questionId}: missing methodSchemaUri.`);
-        }
-        if (question.hashAlgorithm !== 'blake2b-256') {
-          errors.push(
-            `Question ${question.questionId}: hashAlgorithm must be blake2b-256.`,
-          );
         }
         if (
           !question.methodSchemaHash ||
@@ -544,28 +586,50 @@ export class ProposalService {
   private async validateSurveyResponse(
     surveyResponse: Record<string, unknown>,
     questionMap: Map<string, SurveyQuestion>,
-    lifecycle: { startSlot: number; endSlot: number },
-    slotNo: number,
+    linkedRoleWeighting: Partial<Record<ResponderRole, WeightingMode>>,
+    row: SurveyResponseRow,
+    surveyTxId: string,
+    endEpoch: number,
   ): Promise<{
     valid: boolean;
     errors: string[];
+    responderRole: ResponderRole | null;
     answers: ValidatedResponse['answers'];
   }> {
     const errors: string[] = [];
     const answersPayload = surveyResponse.answers;
     const answers: ValidatedResponse['answers'] = [];
-
-    if (slotNo < lifecycle.startSlot || slotNo > lifecycle.endSlot) {
-      errors.push('Response outside survey lifecycle window.');
-    }
+    const responderRole = this.toResponderRole(surveyResponse.responderRole);
 
     if (surveyResponse.specVersion !== '1.0.0') {
       errors.push('surveyResponse.specVersion must be 1.0.0.');
     }
+    if (surveyResponse.surveyTxId !== surveyTxId) {
+      errors.push('surveyResponse.surveyTxId does not match the linked survey.');
+    }
+    if (!responderRole) {
+      errors.push('surveyResponse.responderRole must be one of DRep, SPO, CC, or Stakeholder.');
+    } else if (!linkedRoleWeighting[responderRole]) {
+      errors.push(`surveyResponse.responderRole ${responderRole} is not eligible for this linked survey.`);
+    }
+    if (Number(row.epoch_no) > endEpoch) {
+      errors.push('Response was submitted after survey endEpoch.');
+    }
+    if (Number(row.voting_procedure_count) !== 1) {
+      errors.push('Linked survey responses must include exactly one voting procedure entry.');
+    }
+    if (!row.voter_role) {
+      errors.push('Could not derive responder role from the linked voting procedure.');
+    } else if (responderRole && row.voter_role !== responderRole) {
+      errors.push('Claimed responderRole does not match the linked voting procedure role.');
+    }
+    if (!row.response_credential) {
+      errors.push('Could not derive a unique response credential from the linked voting procedure.');
+    }
 
     if (!Array.isArray(answersPayload) || !answersPayload.length) {
       errors.push('surveyResponse.answers must be a non-empty array.');
-      return { valid: false, errors, answers };
+      return { valid: false, errors, responderRole, answers };
     }
 
     const seenQuestionIds = new Set<string>();
@@ -697,6 +761,7 @@ export class ProposalService {
     return {
       valid: errors.length === 0,
       errors,
+      responderRole,
       answers,
     };
   }
@@ -719,19 +784,9 @@ export class ProposalService {
     const row = linkRows[0];
     const linkErrors: string[] = [];
     const surveyErrors: string[] = [];
-    const actionLifecycle = this.estimateActionLifecycle(row);
-
-    if (row.proposal_type !== 'InfoAction') {
-      return {
-        proposalDbId: Number(row.proposal_db_id),
-        actionLifecycle,
-        surveyRef: null,
-        surveyDetails: null,
-        computedSurveyHash: null,
-        linkErrors: ['Survey linkage is only valid for InfoAction proposals.'],
-        surveyErrors,
-      };
-    }
+    const actionEligibility = this.getActionEligibility(row.proposal_type);
+    const actionEndEpoch =
+      row.expiration_epoch === null ? null : Number(row.expiration_epoch);
 
     const anchorJson =
       typeof row.anchor_json === 'string'
@@ -743,34 +798,33 @@ export class ProposalService {
       linkErrors.push('Anchor metadata kind is not cardano-governance-survey-link.');
     }
 
-    const surveyRefRaw = anchorJson?.surveyRef as
-      | { surveyTxId?: string; surveyHash?: string }
-      | undefined;
+    const surveyTxId =
+      typeof anchorJson?.surveyTxId === 'string'
+        ? anchorJson.surveyTxId.toLowerCase()
+        : null;
 
-    if (!surveyRefRaw?.surveyTxId || !surveyRefRaw?.surveyHash) {
-      linkErrors.push('Missing surveyRef.surveyTxId or surveyRef.surveyHash in anchor metadata.');
+    if (!surveyTxId) {
+      linkErrors.push('Missing top-level surveyTxId in anchor metadata.');
       return {
         proposalDbId: Number(row.proposal_db_id),
-        actionLifecycle,
-        surveyRef: null,
+        proposalType: row.proposal_type,
+        proposalId: { txId: txHash, govActionIx: index },
+        actionEndEpoch,
+        actionEligibility,
+        surveyTxId: null,
         surveyDetails: null,
-        computedSurveyHash: null,
+        linkedRoleWeighting: null,
         linkErrors,
         surveyErrors,
       };
     }
-
-    const surveyRef = {
-      surveyTxId: surveyRefRaw.surveyTxId.toLowerCase(),
-      surveyHash: surveyRefRaw.surveyHash.toLowerCase(),
-    };
 
     const surveyDetailsSql = this.loadSqlFile(
       path.join(__dirname, '../sql', 'get-survey-details.sql'),
     );
     const surveyRows = await this.dataSource.query<SurveyDetailsRow[]>(
       surveyDetailsSql,
-      [surveyRef.surveyTxId],
+      [surveyTxId],
     );
 
     const detailsRow = surveyRows.find((entry) => entry.metadata_json?.surveyDetails);
@@ -778,33 +832,46 @@ export class ProposalService {
       linkErrors.push('Referenced surveyTxId has no label 17 surveyDetails payload.');
       return {
         proposalDbId: Number(row.proposal_db_id),
-        actionLifecycle,
-        surveyRef,
+        proposalType: row.proposal_type,
+        proposalId: { txId: txHash, govActionIx: index },
+        actionEndEpoch,
+        actionEligibility,
+        surveyTxId,
         surveyDetails: null,
-        computedSurveyHash: null,
+        linkedRoleWeighting: null,
         linkErrors,
         surveyErrors,
       };
     }
 
     const surveyDetails = detailsRow.metadata_json.surveyDetails as SurveyDetails;
-    const computedSurveyHash = this.computeSurveyHash(surveyDetails).toLowerCase();
-    if (computedSurveyHash !== surveyRef.surveyHash) {
-      linkErrors.push('surveyRef.surveyHash does not match resolved surveyDetails hash.');
-    }
 
     const { errors: validationErrors } = this.validateSurveyDetails(
       surveyDetails,
-      actionLifecycle,
+      actionEndEpoch,
+      actionEligibility,
     );
     surveyErrors.push(...validationErrors);
 
+    const linkedRoleWeighting = Object.fromEntries(
+      Object.entries(surveyDetails.roleWeighting ?? {}).filter(([roleKey]) =>
+        actionEligibility.includes(roleKey as ResponderRole),
+      ),
+    ) as Partial<Record<ResponderRole, WeightingMode>>;
+
+    if (!Object.keys(linkedRoleWeighting).length) {
+      linkErrors.push('Linked survey has no eligible roles after governance action filtering.');
+    }
+
     return {
       proposalDbId: Number(row.proposal_db_id),
-      actionLifecycle,
-      surveyRef,
+      proposalType: row.proposal_type,
+      proposalId: { txId: txHash, govActionIx: index },
+      actionEndEpoch,
+      actionEligibility,
+      surveyTxId,
       surveyDetails,
-      computedSurveyHash,
+      linkedRoleWeighting,
       linkErrors,
       surveyErrors,
     };
@@ -933,17 +1000,18 @@ export class ProposalService {
     const context = await this.buildSurveyContext(proposalId);
     const linkValidationErrors = [...context.linkErrors];
     const surveyValidationErrors = [...context.surveyErrors];
-    const isLinkValid = linkValidationErrors.length === 0 && !!context.surveyRef;
+    const isLinkValid = linkValidationErrors.length === 0 && !!context.surveyTxId;
     const isSurveyValid = surveyValidationErrors.length === 0 && !!context.surveyDetails;
 
     return {
-      linked: !!context.surveyRef,
-      actionLifecycle: context.actionLifecycle,
-      surveyRef: context.surveyRef,
-      computedSurveyHash: context.computedSurveyHash,
+      linked: !!context.surveyTxId,
+      surveyTxId: context.surveyTxId,
       linkValidation: {
         valid: isLinkValid,
         errors: linkValidationErrors,
+        actionEligibility: context.actionEligibility,
+        linkedRoleWeighting: context.linkedRoleWeighting,
+        linkedActionId: context.proposalId,
       },
       surveyDetails: context.surveyDetails,
       surveyDetailsValidation: {
@@ -955,16 +1023,14 @@ export class ProposalService {
 
   async getProposalSurveyTally(
     proposalId: string,
-    weighting: 'CredentialBased' | 'StakeBased' = 'CredentialBased',
+    _weighting: 'CredentialBased' | 'StakeBased' = 'CredentialBased',
   ) {
     const context = await this.buildSurveyContext(proposalId);
     const contextErrors = [...context.linkErrors, ...context.surveyErrors];
 
-    if (!context.surveyRef || !context.surveyDetails || contextErrors.length) {
+    if (!context.surveyTxId || !context.surveyDetails || !context.linkedRoleWeighting || contextErrors.length) {
       return {
-        surveyTxId: context.surveyRef?.surveyTxId ?? null,
-        surveyHash: context.surveyRef?.surveyHash ?? null,
-        weightingMode: weighting,
+        surveyTxId: context.surveyTxId ?? null,
         totals: {
           totalSeen: 0,
           valid: 0,
@@ -972,14 +1038,15 @@ export class ProposalService {
           deduped: 0,
           uniqueResponders: 0,
         },
-        methodResults: [],
+        roleResults: [],
         errors: contextErrors,
       };
     }
 
     const { questionMap } = this.validateSurveyDetails(
       context.surveyDetails,
-      context.actionLifecycle,
+      context.actionEndEpoch,
+      context.actionEligibility,
     );
 
     const responseSql = this.loadSqlFile(
@@ -987,12 +1054,16 @@ export class ProposalService {
     );
     const responseRows = await this.dataSource.query<SurveyResponseRow[]>(
       responseSql,
-      [context.surveyRef.surveyTxId, context.surveyRef.surveyHash, context.proposalDbId],
+      [context.surveyTxId, context.proposalDbId, context.surveyDetails.endEpoch],
     );
 
     const groupedByCredential = new Map<string, SurveyResponseRow[]>();
     for (const row of responseRows) {
-      const key = row.response_credential;
+      const surveyResponse = row.metadata_json?.surveyResponse as
+        | Record<string, unknown>
+        | undefined;
+      const responderRole = this.toResponderRole(surveyResponse?.responderRole);
+      const key = `${responderRole ?? 'unknown'}:${row.response_credential}`;
       const existing = groupedByCredential.get(key);
       if (existing) {
         existing.push(row);
@@ -1019,17 +1090,27 @@ export class ProposalService {
         const validation = await this.validateSurveyResponse(
           surveyResponse,
           questionMap,
-          context.actionLifecycle,
-          Number(row.slot_no),
+          context.linkedRoleWeighting,
+          row,
+          context.surveyTxId,
+          context.surveyDetails.endEpoch,
         );
 
-        if (!validation.valid) {
+        if (!validation.valid || !validation.responderRole) {
+          invalidResponses += 1;
+          continue;
+        }
+
+        const responderWeighting = context.linkedRoleWeighting[validation.responderRole];
+        if (!responderWeighting) {
           invalidResponses += 1;
           continue;
         }
 
         selectedResponses.push({
           row,
+          responderRole: validation.responderRole,
+          weight: this.getResponseWeight(row, validation.responderRole, responderWeighting),
           answers: validation.answers,
         });
         picked = true;
@@ -1040,112 +1121,135 @@ export class ProposalService {
       }
     }
 
-    const methodResults = context.surveyDetails.questions.map((question) => {
-      const baseResult = {
-        questionId: question.questionId,
-        question: question.question,
-        methodType: question.methodType,
-      };
+    const roleResults = Object.entries(context.linkedRoleWeighting).map(
+      ([roleKey, weightingMode]) => {
+        const responderRole = roleKey as ResponderRole;
+        const roleResponses = selectedResponses.filter(
+          (response) => response.responderRole === responderRole,
+        );
+        const roleSeen = responseRows.filter((row) => {
+          const surveyResponse = row.metadata_json?.surveyResponse as
+            | Record<string, unknown>
+            | undefined;
+          return surveyResponse?.responderRole === responderRole;
+        }).length;
 
-      if (
-        question.methodType === 'urn:cardano:poll-method:single-choice:v1' ||
-        question.methodType === 'urn:cardano:poll-method:multi-select:v1'
-      ) {
+        const methodResults = context.surveyDetails.questions.map((question) => {
+          const baseResult = {
+            questionId: question.questionId,
+            question: question.question,
+            methodType: question.methodType,
+          };
+
+          if (
+            question.methodType === 'urn:cardano:poll-method:single-choice:v1' ||
+            question.methodType === 'urn:cardano:poll-method:multi-select:v1'
+          ) {
+            return {
+              ...baseResult,
+              options: question.options ?? [],
+              optionTotals: Array.isArray(question.options)
+                ? question.options.map(() => 0)
+                : [],
+            };
+          }
+
+          if (question.methodType === 'urn:cardano:poll-method:numeric-range:v1') {
+            return {
+              ...baseResult,
+              count: 0,
+              min: null,
+              max: null,
+              mean: null,
+              weightedSum: 0,
+              totalWeight: 0,
+            };
+          }
+
+          return {
+            ...baseResult,
+            customValueTotals: {} as Record<string, number>,
+          };
+        });
+
+        const methodResultByQuestionId = new Map(
+          methodResults.map((entry) => [entry.questionId, entry]),
+        );
+
+        for (const response of roleResponses) {
+          for (const answer of response.answers) {
+            const question = questionMap.get(answer.questionId);
+            const tallyEntry = methodResultByQuestionId.get(answer.questionId) as
+              | Record<string, any>
+              | undefined;
+
+            if (!question || !tallyEntry) {
+              continue;
+            }
+
+            if (
+              question.methodType === 'urn:cardano:poll-method:single-choice:v1' ||
+              question.methodType === 'urn:cardano:poll-method:multi-select:v1'
+            ) {
+              const selection = answer.selection ?? [];
+              for (const selectedIndex of selection) {
+                if (tallyEntry.optionTotals[selectedIndex] !== undefined) {
+                  tallyEntry.optionTotals[selectedIndex] += response.weight;
+                }
+              }
+              continue;
+            }
+
+            if (question.methodType === 'urn:cardano:poll-method:numeric-range:v1') {
+              const value = Number(answer.numericValue);
+              if (!Number.isFinite(value)) {
+                continue;
+              }
+              tallyEntry.count += 1;
+              tallyEntry.min =
+                tallyEntry.min === null ? value : Math.min(tallyEntry.min, value);
+              tallyEntry.max =
+                tallyEntry.max === null ? value : Math.max(tallyEntry.max, value);
+              tallyEntry.weightedSum += value * response.weight;
+              tallyEntry.totalWeight += response.weight;
+              tallyEntry.mean =
+                tallyEntry.totalWeight > 0
+                  ? tallyEntry.weightedSum / tallyEntry.totalWeight
+                  : null;
+              continue;
+            }
+
+            const customKey = this.stableSerialize(answer.customValue);
+            tallyEntry.customValueTotals[customKey] =
+              (tallyEntry.customValueTotals[customKey] ?? 0) + response.weight;
+          }
+        }
+
         return {
-          ...baseResult,
-          options: question.options ?? [],
-          optionTotals: Array.isArray(question.options)
-            ? question.options.map(() => 0)
-            : [],
+          responderRole,
+          weightingMode,
+          totals: {
+            totalSeen: roleSeen,
+            valid: roleResponses.length,
+            invalid: Math.max(roleSeen - roleResponses.length, 0),
+            deduped: Math.max(roleSeen - roleResponses.length, 0),
+            uniqueResponders: roleResponses.length,
+          },
+          methodResults,
         };
-      }
-
-      if (question.methodType === 'urn:cardano:poll-method:numeric-range:v1') {
-        return {
-          ...baseResult,
-          count: 0,
-          min: null,
-          max: null,
-          mean: null,
-          weightedSum: 0,
-          totalWeight: 0,
-        };
-      }
-
-      return {
-        ...baseResult,
-        customValueTotals: {} as Record<string, number>,
-      };
-    });
-
-    const methodResultByQuestionId = new Map(
-      methodResults.map((entry) => [entry.questionId, entry]),
+      },
     );
 
-    for (const response of selectedResponses) {
-      const weight =
-        weighting === 'StakeBased'
-          ? Number(response.row.drep_voting_power ?? 0)
-          : 1;
-
-      for (const answer of response.answers) {
-        const question = questionMap.get(answer.questionId);
-        const tallyEntry = methodResultByQuestionId.get(answer.questionId);
-
-        if (!question || !tallyEntry) {
-          continue;
-        }
-
-        if (
-          question.methodType === 'urn:cardano:poll-method:single-choice:v1' ||
-          question.methodType === 'urn:cardano:poll-method:multi-select:v1'
-        ) {
-          const selection = answer.selection ?? [];
-          for (const selectedIndex of selection) {
-            if (tallyEntry.optionTotals[selectedIndex] !== undefined) {
-              tallyEntry.optionTotals[selectedIndex] += weight;
-            }
-          }
-          continue;
-        }
-
-        if (question.methodType === 'urn:cardano:poll-method:numeric-range:v1') {
-          const value = Number(answer.numericValue);
-          if (!Number.isFinite(value)) {
-            continue;
-          }
-          tallyEntry.count += 1;
-          tallyEntry.min =
-            tallyEntry.min === null ? value : Math.min(tallyEntry.min, value);
-          tallyEntry.max =
-            tallyEntry.max === null ? value : Math.max(tallyEntry.max, value);
-          tallyEntry.weightedSum += value * weight;
-          tallyEntry.totalWeight += weight;
-          tallyEntry.mean =
-            tallyEntry.totalWeight > 0
-              ? tallyEntry.weightedSum / tallyEntry.totalWeight
-              : null;
-          continue;
-        }
-
-        const customKey = this.stableSerialize(answer.customValue);
-        tallyEntry.customValueTotals[customKey] =
-          (tallyEntry.customValueTotals[customKey] ?? 0) + weight;
-      }
-    }
-
     return {
-      surveyTxId: context.surveyRef.surveyTxId,
-      surveyHash: context.surveyRef.surveyHash,
-      weightingMode: weighting,
+      surveyTxId: context.surveyTxId,
       totals: {
         totalSeen: responseRows.length,
         valid: selectedResponses.length,
         invalid: invalidResponses,
-        deduped: selectedResponses.length,
+        deduped: Math.max(responseRows.length - invalidResponses - selectedResponses.length, 0),
         uniqueResponders: selectedResponses.length,
       },
-      methodResults,
+      roleResults,
       errors: [],
     };
   }

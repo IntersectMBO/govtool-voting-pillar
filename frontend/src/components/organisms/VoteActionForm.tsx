@@ -62,7 +62,7 @@ export const VoteActionForm = ({
   const fullProposalId = getFullGovActionId(proposal.txHash, proposal.index);
   const { data: proposalSurvey } = useGetProposalSurveyQuery(
     fullProposalId,
-    proposal.type === GovernanceActionType.InfoAction
+    !!proposal.type
   );
   const { voteContextText } = useGetVoteContextTextFromFile(voteContextUrl);
 
@@ -85,7 +85,7 @@ export const VoteActionForm = ({
       proposalSurvey?.linked &&
       proposalSurvey?.linkValidation?.valid &&
       proposalSurvey?.surveyDetailsValidation?.valid &&
-      proposalSurvey?.surveyRef &&
+      proposalSurvey?.surveyTxId &&
       proposalSurvey?.surveyDetails;
 
     let surveyResponsePayload: SurveyResponsePayload | undefined;
@@ -145,8 +145,8 @@ export const VoteActionForm = ({
       if (answers.length) {
         surveyResponsePayload = {
           specVersion: '1.0.0',
-          surveyTxId: proposalSurvey.surveyRef.surveyTxId,
-          surveyHash: proposalSurvey.surveyRef.surveyHash,
+          surveyTxId: proposalSurvey.surveyTxId,
+          responderRole: 'DRep',
           answers,
         };
       }

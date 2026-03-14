@@ -143,10 +143,11 @@ export type Infinite<T> = {
   total: number;
 };
 
-export type SurveyRef = {
-  surveyTxId: string;
-  surveyHash: string;
-};
+export type ResponderRole = 'DRep' | 'SPO' | 'CC' | 'Stakeholder';
+export type WeightingMode =
+  | 'CredentialBased'
+  | 'StakeBased'
+  | 'PledgeBased';
 
 export type SurveyQuestion = {
   questionId: string;
@@ -160,7 +161,6 @@ export type SurveyQuestion = {
     step?: number;
   };
   methodSchemaUri?: string;
-  hashAlgorithm?: string;
   methodSchemaHash?: string;
 };
 
@@ -169,25 +169,22 @@ export type SurveyDetails = {
   title: string;
   description: string;
   questions: SurveyQuestion[];
-  eligibility?: string[];
-  voteWeighting?: 'StakeBased' | 'CredentialBased';
-  lifecycle?: {
-    startSlot: number;
-    endSlot: number;
-  };
+  roleWeighting: Partial<Record<ResponderRole, WeightingMode>>;
+  endEpoch: number;
 };
 
 export type ProposalSurveyResponse = {
   linked: boolean;
-  actionLifecycle: {
-    startSlot: number;
-    endSlot: number;
-  };
-  surveyRef: SurveyRef | null;
-  computedSurveyHash: string | null;
+  surveyTxId: string | null;
   linkValidation: {
     valid: boolean;
     errors: string[];
+    actionEligibility?: ResponderRole[];
+    linkedRoleWeighting?: Partial<Record<ResponderRole, WeightingMode>> | null;
+    linkedActionId?: {
+      txId: string;
+      govActionIx: number;
+    } | null;
   };
   surveyDetails: SurveyDetails | null;
   surveyDetailsValidation: {
@@ -198,8 +195,6 @@ export type ProposalSurveyResponse = {
 
 export type ProposalSurveyTallyResponse = {
   surveyTxId: string | null;
-  surveyHash: string | null;
-  weightingMode: 'CredentialBased' | 'StakeBased';
   totals: {
     totalSeen: number;
     valid: number;
@@ -207,6 +202,17 @@ export type ProposalSurveyTallyResponse = {
     deduped: number;
     uniqueResponders: number;
   };
-  methodResults: Record<string, unknown>[];
+  roleResults: {
+    responderRole: ResponderRole;
+    weightingMode: WeightingMode;
+    totals: {
+      totalSeen: number;
+      valid: number;
+      invalid: number;
+      deduped: number;
+      uniqueResponders: number;
+    };
+    methodResults: Record<string, unknown>[];
+  }[];
   errors: string[];
 };

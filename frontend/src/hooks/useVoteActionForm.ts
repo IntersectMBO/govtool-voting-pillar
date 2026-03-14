@@ -15,7 +15,7 @@ export interface VoteActionFormValues {
 export type SurveyResponsePayload = {
   specVersion: string;
   surveyTxId: string;
-  surveyHash: string;
+  responderRole: 'DRep' | 'SPO' | 'CC' | 'Stakeholder';
   answers: {
     questionId: string;
     selection?: number[];
