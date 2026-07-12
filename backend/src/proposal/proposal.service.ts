@@ -183,6 +183,7 @@ export class ProposalService {
       prevGovActionIndex:
         parseInt(govActionProposal.prev_gov_action_index) || 0,
       prevGovActionTxHash: govActionProposal.prev_gov_action_tx_hash,
+      metadataJson: govActionProposal.metadata_json,
     };
   }
 }

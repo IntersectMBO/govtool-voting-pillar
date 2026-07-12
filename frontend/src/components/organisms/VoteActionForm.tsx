@@ -12,6 +12,10 @@ import {
 import { formatDisplayDate } from '../../utils';
 import { ProposalData, ProposalVote } from '../../models';
 import { VoteContextModalState, SubmittedVotesModalState } from '../organisms';
+import {
+  Cip179Survey,
+  type Cip179Participation,
+} from '../../cip179/Cip179Survey';
 
 type VoteActionFormProps = {
   setIsVoteSubmitted: Dispatch<SetStateAction<boolean>>;
@@ -44,8 +48,21 @@ export const VoteActionForm = ({
   const [voteContextUrl, setVoteContextUrl] = useState<string | undefined>();
   const [showWholeVoteContext, setShowWholeVoteContext] =
     useState<boolean>(false);
+  const [cip179, setCip179] = useState<Cip179Participation>({
+    participating: false,
+    valid: true,
+    response: null,
+    definition: null,
+  });
 
-  const { voter } = usePillarContext();
+  const {
+    apiUrl,
+    cip179CustomRenderers,
+    cip179MetadatumCodec,
+    dRepID,
+    isCip179Enabled,
+    voter,
+  } = usePillarContext();
   const { voteContextText } = useGetVoteContextTextFromFile(voteContextUrl);
 
   const { isMobile, screenWidth } = useScreenDimension();
@@ -60,7 +77,12 @@ export const VoteActionForm = ({
     setValue,
     vote,
     canVote,
-  } = useVoteActionForm({ previousVote, voteContextHash, voteContextUrl });
+  } = useVoteActionForm({
+    previousVote,
+    voteContextHash,
+    voteContextUrl,
+    cip179,
+  });
 
   const setVoteContextData = (url: string, hash: string | null) => {
     setVoteContextUrl(url);
@@ -340,6 +362,16 @@ export const VoteActionForm = ({
             ? 'Provide new context about your vote'
             : 'Provide context about your vote'}
         </Button>
+        {isCip179Enabled && (
+          <Cip179Survey
+            apiUrl={apiUrl}
+            codec={cip179MetadatumCodec}
+            customRenderers={cip179CustomRenderers}
+            dRepId={dRepID}
+            proposal={proposal}
+            onChange={setCip179}
+          />
+        )}
       </Box>
       <Typography
         sx={{
@@ -366,9 +398,7 @@ export const VoteActionForm = ({
         <Button
           data-testid="vote-button"
           variant="contained"
-          disabled={
-            !vote || previousVote?.vote === vote || (areFormErrors && isDirty)
-          }
+          disabled={!vote || !canVote || (areFormErrors && isDirty)}
           isLoading={isVoteLoading}
           onClick={confirmVote}
           size="extraLarge"

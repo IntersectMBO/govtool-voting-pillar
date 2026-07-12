@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProposalModule } from './proposal/proposal.module';
 import { AdaHolderModule } from './ada-holder/ada-holder.module';
 import { DrepModule } from './drep/drep.module';
+import { SurveyModule } from './survey/survey.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { DrepModule } from './drep/drep.module';
     ProposalModule,
     AdaHolderModule,
     DrepModule,
+    SurveyModule,
   ],
   controllers: [],
   providers: [],

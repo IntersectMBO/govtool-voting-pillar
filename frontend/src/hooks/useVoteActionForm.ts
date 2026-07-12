@@ -3,10 +3,12 @@ import { useForm, useWatch } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import { encodeMetadata, type SurveyResponse } from 'cip-179';
 import { PATHS } from '../consts';
 import { useWalletErrorModal } from '../hooks';
 import { ProposalVote } from '../models';
 import { usePillarContext } from '../context';
+import type { Cip179Participation } from '../cip179/Cip179Survey';
 
 export interface VoteActionFormValues {
   vote: string;
@@ -32,18 +34,21 @@ type Props = {
   previousVote?: ProposalVote;
   voteContextHash?: string;
   voteContextUrl?: string;
+  cip179?: Cip179Participation;
 };
 
 export const useVoteActionForm = ({
   previousVote,
   voteContextHash,
   voteContextUrl,
+  cip179,
 }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const {
     addSuccessAlert,
     buildSignSubmitConwayCertTx,
     buildVote,
+    cip179MetadatumCodec,
     isPendingTransaction,
     useLocation,
     useParams,
@@ -75,7 +80,8 @@ export const useVoteActionForm = ({
     index !== undefined &&
     index !== null &&
     !areFormErrors &&
-    previousVote?.vote !== vote;
+    (previousVote?.vote !== vote || cip179?.participating === true) &&
+    (!cip179?.participating || cip179.valid);
 
   const confirmVote = useCallback(
     async (values: VoteActionFormValues) => {
@@ -96,10 +102,45 @@ export const useVoteActionForm = ({
           urlSubmitValue,
           hashSubmitValue
         );
+        let surveyResponse: SurveyResponse | null = cip179?.response ?? null;
+        if (
+          surveyResponse &&
+          cip179?.definition?.submissionMode.type === 'sealed' &&
+          surveyResponse.answers.type === 'public'
+        ) {
+          const { isQuicknet, sealAnswers } = await import('cip-179/tlock');
+          const mode = cip179.definition.submissionMode;
+          if (!isQuicknet(mode.chainHash)) {
+            throw new Error(
+              'This sealed survey uses an unsupported drand network'
+            );
+          }
+          if (!cip179MetadatumCodec) {
+            throw new Error(
+              'The host application has not configured a metadatum codec'
+            );
+          }
+          const ciphertext = await sealAnswers(
+            cip179MetadatumCodec,
+            surveyResponse.answers.answers,
+            mode.round,
+            mode.paddingSize
+          );
+          surveyResponse = {
+            ...surveyResponse,
+            answers: { type: 'sealed', ciphertext },
+          };
+        }
+        const encodedMetadata = surveyResponse
+          ? encodeMetadata({ type: 'responses', responses: [surveyResponse] })
+          : undefined;
+        const transactionMetadata =
+          encodedMetadata instanceof Map ? encodedMetadata : undefined;
         const result = await buildSignSubmitConwayCertTx?.({
           votingBuilder,
           type: 'vote',
           resourceId: txHash + index,
+          transactionMetadata,
         });
         if (result) {
           addSuccessAlert('Vote submitted');
@@ -126,6 +167,8 @@ export const useVoteActionForm = ({
       addSuccessAlert,
       router,
       openWalletErrorModal,
+      cip179,
+      cip179MetadatumCodec,
     ]
   );
 

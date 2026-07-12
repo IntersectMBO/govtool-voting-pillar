@@ -10,8 +10,11 @@ import {
 } from 'react';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import * as jsonld from 'jsonld';
+import type { MetadatumMap } from 'cip-179';
 
 import { DataActionsBarProvider } from './dataActionsBar';
+import type { CustomQuestionRenderers } from '../cip179/Cip179Survey';
+import type { Cip179MetadatumCodec } from '../cip179/types';
 
 export type VoterInfo = {
   dRepRegisterTxHash: string | null;
@@ -41,6 +44,7 @@ type BuildSignSubmitConwayCertTxArgs = {
   voter?: VoterInfo;
   type: string;
   resourceId: string;
+  transactionMetadata?: MetadatumMap;
 };
 
 type WalletApi = {
@@ -86,10 +90,12 @@ type PillarContextType = {
     body: T,
     context: C,
     bodyCip?: string
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ) => Promise<any>;
   createHash: (json: jsonld.NodeObject) => Promise<string>;
   voter?: VoterInfo;
+  isCip179Enabled: boolean;
+  cip179MetadatumCodec?: Cip179MetadatumCodec;
+  cip179CustomRenderers?: CustomQuestionRenderers;
   useLocation: () => {
     pathname: string;
     search: string;
@@ -132,10 +138,12 @@ export type PillarProviderProps = {
     body: T,
     context: C,
     bodyCip?: string
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ) => Promise<any>;
   createHash: (json: jsonld.NodeObject) => Promise<string>;
   voter?: VoterInfo;
+  isCip179Enabled?: boolean;
+  cip179MetadatumCodec?: Cip179MetadatumCodec;
+  cip179CustomRenderers?: CustomQuestionRenderers;
   routePath?: string;
   useLocation: () => {
     pathname: string;
@@ -174,6 +182,9 @@ export const PillarProvider: FC<PillarProviderProps & PropsWithChildren> = ({
   generateJsonld,
   createHash,
   voter,
+  isCip179Enabled = false,
+  cip179MetadatumCodec,
+  cip179CustomRenderers,
   routePath,
   useLocation,
   useParams,
@@ -193,6 +204,9 @@ export const PillarProvider: FC<PillarProviderProps & PropsWithChildren> = ({
       generateJsonld,
       createHash,
       voter,
+      isCip179Enabled,
+      cip179MetadatumCodec,
+      cip179CustomRenderers,
       routePath,
       useLocation,
       useParams,
@@ -211,6 +225,9 @@ export const PillarProvider: FC<PillarProviderProps & PropsWithChildren> = ({
       generateJsonld,
       createHash,
       voter,
+      isCip179Enabled,
+      cip179MetadatumCodec,
+      cip179CustomRenderers,
       walletApi,
       cExplorerBaseUrl,
       routePath,
