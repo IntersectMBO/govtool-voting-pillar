@@ -158,13 +158,15 @@ export const buildAnswer = (
     case 'rating': {
       if (!Array.isArray(value)) return null;
       try {
+        const ratings = (value as Array<string | null>).flatMap(
+          (rating, optionIndex) =>
+            rating === null ? [] : [{ optionIndex, rating: BigInt(rating) }]
+        );
+        if (!ratings.length) return null;
         return {
           type: 'rating',
           questionIndex,
-          ratings: (value as Array<string | null>).flatMap(
-            (rating, optionIndex) =>
-              rating === null ? [] : [{ optionIndex, rating: BigInt(rating) }]
-          ),
+          ratings,
         };
       } catch {
         return null;
