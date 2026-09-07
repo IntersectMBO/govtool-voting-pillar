@@ -94,9 +94,14 @@ export const decodeDefinition = (
       'Survey definition response does not match the requested reference'
     );
   }
-  const payload = decodePayload(
-    codec.cborToMetadatum(hexToBytes(envelope.payloadCborHex))
-  );
+  const decoded = codec.cborToMetadatum(hexToBytes(envelope.payloadCborHex));
+  // db-sync stores each tx_metadata.bytes row as a singleton metadata map.
+  // Keep accepting an inner payload for hosts that already extract the label.
+  const labelPayload = decoded instanceof Map ? decoded.get(17n) : decoded;
+  if (labelPayload === undefined) {
+    throw new Error('Survey metadata does not contain label 17');
+  }
+  const payload = decodePayload(labelPayload);
   if (payload.type !== 'definitions') {
     throw new Error('Label 17 payload is not a survey definition');
   }
