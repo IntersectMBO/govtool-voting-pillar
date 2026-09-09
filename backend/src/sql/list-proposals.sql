@@ -68,6 +68,7 @@ SELECT DISTINCT ON (gov_action_proposal.id)
     off_chain_vote_gov_action_data.abstract,
     off_chain_vote_gov_action_data.motivation,
     off_chain_vote_gov_action_data.rationale,
+    off_chain_vote_data.json AS metadata_json,
     COALESCE(SUM(ldd_drep.amount) FILTER (WHERE voting_procedure.vote::text = 'Yes'), 0) + (
         CASE WHEN gov_action_proposal.type = 'NoConfidence' THEN
             always_no_confidence_voting_power.amount
@@ -149,6 +150,7 @@ GROUP BY
     off_chain_vote_gov_action_data.abstract,
     off_chain_vote_gov_action_data.motivation,
     off_chain_vote_gov_action_data.rationale,
+    off_chain_vote_data.json,
     vp_by_cc.ccYesVotes,
     vp_by_cc.ccNoVotes,
     vp_by_cc.ccAbstainVotes,

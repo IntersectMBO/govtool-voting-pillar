@@ -113,6 +113,7 @@ export type ProposalDataDTO = {
   references?: string[];
   title?: string;
   protocolParams: EpochParams | null;
+  metadataJson?: Record<string, unknown> | null;
 } & SubmittedVotesData;
 
 export type ProposalData = ProposalDataDTO & {

@@ -61,6 +61,7 @@ export type RawQueryGovernanceActionProposalType = {
   cc_abstain_votes: string;
   prev_gov_action_index: string | null;
   prev_gov_action_tx_hash: string | null;
+  metadata_json: Record<string, unknown> | null;
 };
 
 export type GovernanceActionProposalType = {
@@ -91,4 +92,5 @@ export type GovernanceActionProposalType = {
   ccAbstainVotes: number;
   prevGovActionIndex: number | null;
   prevGovActionTxHash: string | null;
+  metadataJson: Record<string, unknown> | null;
 };

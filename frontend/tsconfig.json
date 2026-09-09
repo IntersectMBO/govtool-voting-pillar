@@ -29,7 +29,10 @@
     /* Path aliases */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      /* TypeScript 4.x does not resolve conditional subpath type exports. */
+      "cip-179/domain": ["node_modules/cip-179/dist/domain/index.d.ts"],
+      "cip-179/tlock": ["node_modules/cip-179/dist/tlock/index.d.ts"]
     }
   },
   "include": ["src", "setupTests.ts"],

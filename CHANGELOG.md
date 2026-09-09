@@ -8,6 +8,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 As a minor extension, we also keep a semantic version for the `UNRELEASED`
 changes.
 
+## [Unreleased]
+
+### Added
+
+- Add CIP-179 linked survey rendering and vote-response submission support
+
+### Fixed
+
+### Changed
+
+### Removed
+
 ## [tag-xxxx](https://github.com/IntersectMBO/govtool-voting-pillar/releases/tag/xxxx) 2024-xx-xx
 
 ### Added

@@ -14,6 +14,12 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   plugins: ['@typescript-eslint', 'react', 'jest', 'prettier'],
+  overrides: [
+    {
+      files: ['**/*.test.ts', '**/*.test.tsx'],
+      parserOptions: { project: './tsconfig.test.json' },
+    },
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     tsconfigRootDir: __dirname,
