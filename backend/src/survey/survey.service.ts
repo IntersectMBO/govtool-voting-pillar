@@ -35,9 +35,13 @@ export class SurveyService {
     if (!/^[0-9a-fA-F]{64}$/.test(txId)) {
       throw new BadRequestException('txId must be a 64-character hex string');
     }
-    if (!Number.isSafeInteger(surveyIndex) || surveyIndex < 0) {
+    if (
+      !Number.isSafeInteger(surveyIndex) ||
+      surveyIndex < 0 ||
+      surveyIndex > 65535
+    ) {
       throw new BadRequestException(
-        'surveyIndex must be a non-negative integer',
+        'surveyIndex must be an integer between 0 and 65535',
       );
     }
 

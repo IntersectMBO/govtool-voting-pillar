@@ -30,12 +30,24 @@ describe('SurveyService', () => {
     await expect(service.getDefinition('not-a-hash', 0)).rejects.toBeInstanceOf(
       BadRequestException,
     );
+    expect(query).not.toHaveBeenCalled();
   });
 
-  it('rejects invalid survey indices', async () => {
-    await expect(service.getDefinition(txId, -1)).rejects.toBeInstanceOf(
-      BadRequestException,
-    );
+  it.each([-1, 1.5, NaN, Infinity, 65536, Number.MAX_SAFE_INTEGER])(
+    'rejects invalid survey index %s before querying',
+    async (index) => {
+      await expect(service.getDefinition(txId, index)).rejects.toBeInstanceOf(
+        BadRequestException,
+      );
+      expect(query).not.toHaveBeenCalled();
+    },
+  );
+
+  it('accepts the maximum uint16 survey index', async () => {
+    query.mockResolvedValue([{ payload_cbor_hex: '820081a0' }]);
+    await expect(service.getDefinition(txId, 65535)).resolves.toMatchObject({
+      surveyIndex: 65535,
+    });
   });
 
   it('returns not found when label 17 is absent', async () => {
